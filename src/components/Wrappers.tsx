@@ -1,14 +1,23 @@
 import React from "react";
 
-const Wrapper = ({ children, className, isMaxWidthChangeRequired="max-w-[1440px]" }: any) => {
+const Wrapper = ({
+    containerClassName = "",
+  bgColor = "bg-white",
+  children,
+  className,
+  isMaxWidthChangeRequired = "max-w-screen-2xl",
+  as: Component = "section",
+}: any) => {
   return (
-    <div
-      className={`mx-auto w-full ${isMaxWidthChangeRequired} px-5 md:px-10 ${
-        className || ""
-      }`}
-    >
-      {children}
-    </div>
+    <Component className={`w-full ${bgColor} ${containerClassName}`}>
+      <div
+        className={`mx-auto w-full ${isMaxWidthChangeRequired} px-5 md:px-10 ${
+          className || ""
+        }`}
+      >
+        {children}
+      </div>
+    </Component>
   );
 };
 
