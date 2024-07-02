@@ -9,74 +9,76 @@ import { FaXTwitter } from "react-icons/fa6";
 import { TbBrandYoutubeFilled } from "react-icons/tb";
 import TextWithLineBreak from "@/utils/TextWithLineBreak";
 import Wrapper from "../Wrappers";
+import { Button } from "../Button";
 
 export default function Footer({ footer }: any) {
   return (
     <Wrapper
       as="footer"
       containerClassName="w-full  text-white"
-      className="pt-5 md:pt-12"
-      bgColor="bg-blue-800"
+      className="pt-5 md:px-16 md:pt-12"
+      bgColor="bg-orange-500"
     >
       {/* NewsLetter Section  */}
-      <div className="flex-center mb-5 flex-col gap-y-1 md:mb-12">
-        <h2 className="text-3xl font-semibold">{footer?.newLetterTitle}</h2>
-        <form action="" className="flex-center w-full gap-x-2">
-          <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Enter your Email Address"
-            className="my-2 w-full max-w-[450px] rounded border border-zinc-500 p-3 pl-4 text-sm outline-none"
-          />
-          <button
-            className="flex-center rounded bg-blue-500 px-8 py-2.5 font-medium text-white hover:bg-blue-600 active:scale-90"
-            type="submit"
-          >
-            Subscribe
-          </button>
-        </form>
+      <div className="mb-5 flex w-full justify-between border-b border-white md:pb-8">
+        <Image
+          src={footer?.logo}
+          alt="logo"
+          className="h-[12vw] max-h-9 w-min object-contain"
+        />
+        <p className="text-wrap">
+          <TextWithLineBreak text={footer?.text} />
+        </p>
       </div>
       {/* Footer links section  */}
-      <div className="grid grid-cols-1 pb-5 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4">
-        <div className="flex flex-col gap-y-2">
-          <h4 className="my-2 text-xl font-medium">{footer?.list1?.title}</h4>
+      <div className="grid grid-cols-1 pb-5 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5">
+        <div className="col-span-1 flex flex-col gap-y-2">
+          <h4 className="my-2 text-xl font-semibold">{footer?.list1?.title}</h4>
           <ul>
             {footer?.list1?.links?.map((d: any, i: number) => (
               <li key={i}>
-                <Link href={d?.href} className="hover:pl-2 hover:text-blue-500">
+                <Link
+                  href={d?.href}
+                  className="hover:pl-2 hover:text-zinc-900 hover:font-medium"
+                >
                   {d?.label}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
-        <div className="flex flex-col gap-y-2">
-          <h4 className="my-2 text-xl font-medium">{footer?.list2?.title}</h4>
+        <div className="col-span-1 flex flex-col gap-y-2">
+          <h4 className="my-2 text-xl font-semibold">{footer?.list2?.title}</h4>
           <ul>
             {footer?.list2?.links?.map((d: any, i: number) => (
               <li key={i}>
-                <Link href={d?.href} className="hover:pl-2 hover:text-blue-500">
+                <Link
+                  href={d?.href}
+                  className="hover:pl-2 hover:text-zinc-900 hover:font-medium"
+                >
                   {d?.label}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
-        <div className="flex flex-col gap-y-2">
-          <h4 className="my-2 text-xl font-medium">{footer?.list3?.title}</h4>
+        <div className="col-span-1 flex flex-col gap-y-2">
+          <h4 className="my-2 text-xl font-semibold">{footer?.list3?.title}</h4>
           <ul>
             {footer?.list3?.links?.map((d: any, i: number) => (
               <li key={i}>
-                <Link href={d?.href} className="hover:pl-2 hover:text-blue-500">
+                <Link
+                  href={d?.href}
+                  className="hover:pl-2 hover:text-zinc-900 hover:font-medium"
+                >
                   {d?.label}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
-        <div className="flex flex-col">
-          <h4 className="my-2 mb-3 text-xl font-medium">Contact Us</h4>
+        <div className="col-span-1 flex flex-col">
+          <h4 className="my-2 mb-3 text-xl font-semibold">Contact Us</h4>
           <p>
             <Link href={`tel:${footer?.contactDetails?.contactNo}`}>
               {footer?.contactDetails?.contactNo}
@@ -87,19 +89,28 @@ export default function Footer({ footer }: any) {
               {footer?.contactDetails.email}
             </Link>
           </p>
-          <h4 className="my-2 text-xl font-medium">Location</h4>
+          <h4 className="my-2 text-xl font-semibold">Location</h4>
           <p>
             <TextWithLineBreak text={footer?.contactDetails?.location} />
           </p>
         </div>
+        <div className="col-span-1 flex flex-col">
+          <h4 className="my-2 mb-3 text-xl font-semibold">{footer?.newLetter?.title}</h4>
+          <p>{footer?.newLetter?.description}</p>
+          <form action="" className="flex flex-col w-full gap-y-4 my-5">
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Enter your Email"
+              className="w-full rounded-full border-none py-4 pl-5 text-sm outline-none"
+            />
+            <Button variant = "black" className="!rounded-full !px-8" type="submit">Subscribe</Button>
+          </form>
+        </div>
       </div>
       {/* copyright  */}
       <div className="flex items-center justify-between border-t border-zinc-400 py-5 max-md:flex-col">
-        <Image
-          src={footer?.logo}
-          alt="logo"
-          className="h-[12vw] max-h-8 w-min object-contain"
-        />
         <p className="text-center text-sm">{footer?.copyrightText}</p>
         {/* Socials  */}
         {footer?.socials && (

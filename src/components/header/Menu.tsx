@@ -4,14 +4,14 @@ import { IoIosArrowDown } from "react-icons/io";
 
 const Menu = ({ navItemsArray }: any) => {
   return (
-    <ul className="hidden items-center gap-x-5 font-medium text-blue-950 md:flex">
+    <ul className="hidden items-center gap-x-5 font-medium text-black md:flex">
       {navItemsArray?.map((item: any) => (
         <li key={item?.id} className="group relative transition-all">
           <Link
             href={item?.href || "#"}
             className="flex cursor-pointer items-center"
           >
-            <span className="font px-1 py-4 transition-all duration-500 hover:text-blue-500">
+            <span className="font px-1 py-4 transition-all hover:scale-105 duration-300 hover:text-orange-500">
               {item?.label}
             </span>
             {item?.subNav && item.subNav?.length !== 0 && (

@@ -1,19 +1,19 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Wrapper, { Wrapper1 } from "@/components/Wrappers";
 import Link from "next/link";
 import Menu from "./Menu";
 import MenuMobile from "./MenuMobile";
-import { BiMenuAltRight } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
-import Image from "next/image";
-// import { useAppDispatch, useAppSelector } from "@/Redux";
-// import { clearAuthState } from "@/Redux/authSlice";
+import { IoLogOutOutline, IoMenu } from "react-icons/io5";
 import { MdOutlinePerson } from "react-icons/md";
-import { useRouter } from "next/navigation";
-import { IoLogOutOutline } from "react-icons/io5";
-// import { LoginSignUpModule } from "../loginSignUpModule/LoginSignUpModule";
 import { RxAvatar } from "react-icons/rx";
-import Wrapper from "../Wrappers";
+import Image from "next/image";
+import { useAppDispatch, useAppSelector } from "@/Redux";
+import { clearAuthState } from "@/Redux/authSlice";
+import { useRouter } from "next/navigation";
+import { LoginSignUpModule } from "../loginSignUpModule/LoginSignUpModule";
+import { Button } from "../Button";
 
 const Header = ({ header }: any) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
@@ -24,7 +24,7 @@ const Header = ({ header }: any) => {
   const controlNavbar = () => {
     if (window.scrollY > 200) {
       if (window.scrollY > lastScrollY && !isMobileMenuOpen) {
-        setShow("-translate-y-[80px]");
+        setShow("-translate-y-[100px]");
       } else {
         setShow("shadow-sm");
       }
@@ -54,12 +54,10 @@ const Header = ({ header }: any) => {
   };
 
   return (
-    <Wrapper
-      as="header" b
-      containerClassName={`sticky top-2 z-50 flex h-20 w-[98%] mx-auto rounded-md items-center justify-between bg-white transition-transform duration-300 md:h-20 ${show}`}
-      className="hidden h-20 items-center justify-between md:flex"
+    <header
+      className={`sticky top-0 z-50 flex h-20 w-full items-center justify-between transition-transform duration-300 md:top-5 md:h-20 ${show}`}
     >
-      <div className="hidden h-20 items-center justify-between md:flex w-full">
+      <Wrapper1 className="mx-5 hidden h-20 items-center justify-between rounded-lg bg-white md:flex">
         {/* Logo with Link */}
         <Link href={header?.href || "/"}>
           <Image
@@ -69,26 +67,29 @@ const Header = ({ header }: any) => {
             className="h-[12vw] max-h-8 w-min object-contain md:h-20"
           />
         </Link>
-        <div className="flex items-center gap-5">
-          {/* Menu */}
-          <Menu navItemsArray={navItems} />
-          <div className="flex items-center gap-3">
-            {/* Sign Up / Sign In  Button */}
-            {/* <LoginSignUpQASection buttonType="SIGN-UP" />
-            <LoginSignUpQASection buttonType="LOG-IN" /> */}
-          </div>
-        </div>
-      </div>
+        {/* Menu */}
+        <Menu navItemsArray={navItems} />
+        {/* Sign Up / Sign In  Button */}
+        {/* <LoginSignUpQASection buttonType="SIGN-UP" /> */}
+        <LoginSignUpQASection buttonType="LOG-IN" />
+      </Wrapper1>
       {/* Mobile Section */}
-      <div className="flex items-center justify-between gap-2 md:hidden">
+      <Wrapper1 className="flex items-center justify-between gap-3 md:hidden">
         {isMobileMenuOpen && (
           <MenuMobile
             navItemsArray={navItems}
             setIsMobileMenuOpen={setIsMobileMenuOpen}
           />
         )}
+        <div className="flex-center relative cursor-pointer rounded-full text-3xl text-blue-950 hover:bg-blue-500/5">
+          {isMobileMenuOpen ? (
+            <VscChromeClose onClick={handleMobileMenu} />
+          ) : (
+            <IoMenu onClick={handleMobileMenu} />
+          )}
+        </div>
         {/* Logo with Link */}
-        <Link href="/">
+        <Link href={header?.href || "/"}>
           <Image
             src={header?.logo}
             alt="logo"
@@ -96,112 +97,103 @@ const Header = ({ header }: any) => {
             className="w-52 object-contain"
           />
         </Link>
-        {/* <div className="flex items-center gap-2">
-          <LoginSignUpQASection buttonType="LOG-IN" />
-          <div className="flex-center relative cursor-pointer rounded-full text-3xl text-blue-950 hover:bg-blue-500/5">
-            {isMobileMenuOpen ? (
-              <VscChromeClose onClick={handleMobileMenu} />
-            ) : (
-              <BiMenuAltRight onClick={handleMobileMenu} />
-            )}
-          </div>
-        </div> */}
-      </div>
-    </Wrapper>
+        <LoginSignUpQASection buttonType="LOG-IN" />
+      </Wrapper1>
+    </header>
   );
 };
 
 export default Header;
 
-// const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
-//   const isUserLoggedIn = useAppSelector((state) => state.auth.authState);
-//   const dispatch = useAppDispatch();
-//   const [showPopUp, setShowPopUp] = useState(false);
-//   const router = useRouter();
-//   const [isLoginModule, setIsLoginModule] = useState(true);
+const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
+  const isUserLoggedIn = useAppSelector((state) => state.auth.authState);
+  const dispatch = useAppDispatch();
+  const [showPopUp, setShowPopUp] = useState(false);
+  const router = useRouter();
+  const [isLoginModule, setIsLoginModule] = useState(true);
 
-//   const openLoginPopup = () => {
-//     setShowPopUp(true);
-//     document.body.style.overflow = "hidden";
-//     setIsLoginModule(true);
-//   };
-//   const openSignUpPopup = () => {
-//     setShowPopUp(true);
-//     document.body.style.overflow = "hidden";
-//     setIsLoginModule(false);
-//   };
+  const openLoginPopup = () => {
+    setShowPopUp(true);
+    document.body.style.overflow = "hidden";
+    setIsLoginModule(true);
+  };
+  const openSignUpPopup = () => {
+    setShowPopUp(true);
+    document.body.style.overflow = "hidden";
+    setIsLoginModule(false);
+  };
 
-//   const closePopup = () => {
-//     setShowPopUp(false);
-//     document.body.style.overflow = "";
-//   };
+  const closePopup = () => {
+    setShowPopUp(false);
+    document.body.style.overflow = "";
+  };
 
-//   const handleLogout = () => {
-//     router.push("/");
-//     dispatch(clearAuthState());
-//   };
+  const handleLogout = () => {
+    router.push("/");
+    dispatch(clearAuthState());
+  };
 
-//   if (buttonType === "LOG-IN") {
-//     return (
-//       <>
-//         <div className="flex items-center gap-4">
-//           {isUserLoggedIn ? (
-//             <div className="group relative">
-//               <RxAvatar className="hover:text-primary text-blue-500 group cursor-pointer text-2xl" />
-//               <div className="absolute right-0 top-6 z-10 hidden w-max rounded-md border border-gray-200 bg-white py-1 text-sm text-zinc-600 group-hover:block">
-//                 <Link
-//                   href={"/profile"}
-//                   className="item-center flex cursor-pointer gap-x-2 px-3 py-1 hover:bg-gray-100"
-//                 >
-//                   <MdOutlinePerson className="mt-0.5" /> Profile
-//                 </Link>
-//                 <div
-//                   className="item-center flex cursor-pointer gap-x-2 px-3 py-1 hover:bg-gray-100"
-//                   onClick={handleLogout}
-//                 >
-//                   <IoLogOutOutline className="mt-0.5" /> Logout
-//                 </div>
-//               </div>
-//             </div>
-//           ) : (
-//             <button
-//               onClick={openLoginPopup}
-//               className="button4 rounded px-10 max-md:!px-2 max-md:!py-1 max-md:!text-sm"
-//             >
-//               LogIn
-//             </button>
-//           )}
-//         </div>
-//         {/* Pop-up Module */}
-//         {showPopUp && (buttonType = "LOG-IN") && (
-//           <LoginSignUpModule
-//             closePopup={closePopup}
-//             isLoginModule={isLoginModule}
-//             setIsLoginModule={setIsLoginModule}
-//           />
-//         )}
-//       </>
-//     );
-//   }
-//   if (buttonType === "SIGN-UP") {
-//     return (
-//       <>
-//         <div className="flex items-center gap-4">
-//           {!isUserLoggedIn && (
-//             <button className="button5" onClick={openSignUpPopup}>
-//               Sign Up
-//             </button>
-//           )}
-//         </div>
-//         {/* Pop-up Module */}
-//         {showPopUp && (buttonType = "SIGN-UP") && (
-//           <LoginSignUpModule
-//             closePopup={closePopup}
-//             isLoginModule={isLoginModule}
-//             setIsLoginModule={setIsLoginModule}
-//           />
-//         )}
-//       </>
-//     );
-//   }
-// };
+  if (buttonType === "LOG-IN") {
+    return (
+      <>
+        <div className="flex items-center gap-4">
+          {isUserLoggedIn ? (
+            <div className="group relative">
+              <RxAvatar className="hover:text-primary group cursor-pointer text-2xl text-orange-500" />
+              <div className="absolute right-0 top-6 z-10 hidden w-max rounded-md border border-gray-200 bg-white py-1 text-sm text-zinc-600 group-hover:block">
+                <Link
+                  href={"/profile"}
+                  className="item-center flex cursor-pointer gap-x-2 px-3 py-1 hover:bg-gray-100"
+                >
+                  <MdOutlinePerson className="mt-0.5" /> Profile
+                </Link>
+                <div
+                  className="item-center flex cursor-pointer gap-x-2 px-3 py-1 hover:bg-gray-100"
+                  onClick={handleLogout}
+                >
+                  <IoLogOutOutline className="mt-0.5" /> Logout
+                </div>
+              </div>
+            </div>
+          ) : (
+            <Button onClick={openLoginPopup} variant="black" className="shadow-lg">
+              LogIn
+            </Button>
+          )}
+        </div>
+        {/* Pop-up Module */}
+        {showPopUp && (buttonType = "LOG-IN") && (
+          <LoginSignUpModule
+            closePopup={closePopup}
+            isLoginModule={isLoginModule}
+            setIsLoginModule={setIsLoginModule}
+          />
+        )}
+      </>
+    );
+  }
+  // if (buttonType === "SIGN-UP") {
+  //   return (
+  //     <>
+  //       <div className="flex items-center gap-4">
+  //         {!isUserLoggedIn && (
+  //           <Button
+  //           variant="blackShadow"
+  //             onClick={openSignUpPopup}
+  //           >
+  //             Sign Up
+  //           </Button>
+  //         )}
+  //       </div>
+  //       {/* Pop-up Module */}
+  //       {showPopUp && (buttonType = "SIGN-UP") && (
+  //         <LoginSignUpModule
+  //           closePopup={closePopup}
+  //           isLoginModule={isLoginModule}
+  //           setIsLoginModule={setIsLoginModule}
+  //         />
+  //       )}
+  //     </>
+  //   );
+  // }
+};

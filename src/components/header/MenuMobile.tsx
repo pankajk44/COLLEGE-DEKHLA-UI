@@ -18,7 +18,7 @@ interface MenuMobileProps {
 
 const MenuMobile: React.FC<MenuMobileProps> = ({ navItemsArray, setIsMobileMenuOpen }) => {
   return (
-    <ul className="absolute left-0 top-20 flex w-full flex-col border-t bg-white text-blue-950 md:hidden">
+    <ul className="absolute left-0 top-20 flex w-full flex-col border-t bg-white text-black text--medium md:hidden">
       {navItemsArray.map((d) => (
         <SingleNavItem
           key={d.id}
@@ -48,7 +48,7 @@ const SingleNavItem: React.FC<SingleNavItemProps> = ({ item, setIsMobileMenuOpen
       <Link
         onClick={toggleItem}
         href={item.href ?? "#"}
-        className="relative px-5 py-3 transition-all border-b border-zinc-200 text-blue-950 hover:bg-blue-500 hover:text-white"
+        className="relative px-5 py-3 transition-all border-b border-zinc-200 text-black hover:bg-orgrane-500 hover:text-white"
       >
         <p className="flex justify-between cursor-pointer items-center gap-2">
           <span>{item.label}</span>

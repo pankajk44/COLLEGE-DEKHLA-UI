@@ -1,4 +1,4 @@
-import { headerLogo } from "@/assets";
+import { footerLogo, headerLogo } from "@/assets";
 
 export const header = {
   logo: headerLogo,
@@ -7,7 +7,7 @@ export const header = {
   navItems: [
     {
       id: 1,
-      label: "Colleges",
+      label: "Explore colleges",
       href: "/colleges",
       subNav: [
         // {
@@ -19,30 +19,25 @@ export const header = {
     },
     {
       id: 2,
-      label: "Courses",
-      href: "/courses",
-      subNav: [],
-    },
-    {
-      id: 3,
       label: "Exams",
       href: "/exams",
       subNav: [],
     },
     {
+      id: 3,
+      label: "Programs",
+      href: "/programs",
+      subNav: [],
+    },
+
+    {
       id: 4,
-      label: "Study Abroad",
-      href: "/study-abroad",
+      label: "Latest News",
+      href: "/news",
       subNav: [],
     },
     {
       id: 5,
-      label: "Latest Updates",
-      href: "/latest-updates",
-      subNav: [],
-    },
-    {
-      id: 6,
       label: "More",
       href: "/more",
       subNav: [],
@@ -50,13 +45,13 @@ export const header = {
   ],
 };
 export const footer = {
-  logo: headerLogo,
-  newLetterTitle: "Subscribe to Our Newsletter!",
+  logo: footerLogo,
+  text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, \\n sed do eiusmod tempor incididunt",
   contactDetails: {
     contactNo: "+1 (999) 888-77-66",
     email: "info@collegedakhla.com",
     location:
-      "#1701, B Tower, World \nTrade Tower, Sector - 16, \nNoida, U.P - 201301",
+      "#1701, B Tower, World \\nTrade Tower, Sector - 16, \\nNoida, U.P - 201301",
   },
   socials: {
     facebook: "https://www.facebook.com/collegedakhla",
@@ -176,4 +171,8 @@ export const footer = {
       },
     ],
   },
+  newLetter:{
+    title: "Subscribe to our newsletter",
+    description: "Subscribe to our newsletter to get latest news and updates.",
+  }
 };

@@ -1,8 +1,8 @@
 import React from "react";
 
 const Wrapper = ({
-    containerClassName = "",
-  bgColor = "bg-white",
+  containerClassName = "",
+  bgColor = "bg-transparent",
   children,
   className,
   isMaxWidthChangeRequired = "max-w-screen-2xl",
@@ -22,3 +22,19 @@ const Wrapper = ({
 };
 
 export default Wrapper;
+
+export const Wrapper1 = ({
+  children,
+  className,
+  isMaxWidthChangeRequired = "max-w-screen-2xl",
+}: any) => {
+  return (
+    <div
+      className={`mx-auto w-full ${isMaxWidthChangeRequired} px-5 md:px-10 ${
+        className || ""
+      }`}
+    >
+      {children}
+    </div>
+  );
+};

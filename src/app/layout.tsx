@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import ReduxProvider from "@/Redux/provider";
+import { ApolloWrapper } from "@/lib/client";
+
 import "./globals.css";
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
@@ -16,11 +19,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-zinc-500">
-        <Header header={header} />
-        {children}
-        <Footer footer={footer} />
-        </body>
+      <body className="bg-orange-50">
+        <ReduxProvider>
+          <ApolloWrapper>
+            <Header header={header} />
+            {children}
+            <Footer footer={footer} />
+          </ApolloWrapper>
+        </ReduxProvider>
+      </body>
     </html>
   );
 }
