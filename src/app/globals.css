@@ -12,4 +12,7 @@ body{
     .flex-center {
       @apply flex items-center justify-center;
     }
+    .redOrangeGradient{
+      @apply bg-gradient-to-r from-red-400 to-orange-300;
+    }
 }

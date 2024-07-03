@@ -74,7 +74,7 @@ const Header = ({ header }: any) => {
         <LoginSignUpQASection buttonType="LOG-IN" />
       </Wrapper1>
       {/* Mobile Section */}
-      <Wrapper1 className="flex items-center justify-between gap-3 md:hidden">
+      <Wrapper1 className="flex items-center justify-between gap-3 md:hidden bg-white h-20">
         {isMobileMenuOpen && (
           <MenuMobile
             navItemsArray={navItems}

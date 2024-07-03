@@ -9,27 +9,42 @@ import Link from "next/link";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsClipboardCheck } from "react-icons/bs";
 import CollegePredictor from "@/components/bannerSections/CollegePredictor";
+import Banner1 from "@/components/bannerSections/Banner1";
+import { banner1, collegePredictor } from "@/data/globalData";
 
 export default function Page() {
   const [searchTerm, setSearchTerm] = useState("IIT Bombay News and Article");
   return (
-    <section className="mt-28 w-full">
+    <section className="mt-[5rem] w-full">
       {newsPage?.notification?.list?.length > 0 && (
         <Notification data={newsPage?.notification?.list} />
       )}
-      <Search searchResult={searchTerm} setSearchResult={searchTerm} />
-      <SearchResult searchResult={searchTerm} data={newsPage?.searchResults} />
-      <CollegePredictor />
+      <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      {newsPage?.searchResults?.length > 0 && (
+        <SearchResult
+          searchResult={searchTerm}
+          data={newsPage?.searchResults}
+        />
+      )}
+      <LatestNewsAndArticles data={newsPage?.news} />
+      <CollegePredictor data={collegePredictor} />
       <MoreNewsSection data={newsPage?.news} />
+      <Banner1 data={banner1} />
     </section>
   );
 }
 
-function Search({ searchTerm, setSearchTerm }: any) {
-  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
+export function Search({ searchTerm, setSearchTerm }: any) {
+  function handleInputChange(event: any) {
     setSearchTerm(event.target.value);
-    console.log(searchTerm);
+    // console.log(searchTerm);
   }
+
+  function handleSubmit() {
+    // console.log(searchTerm);
+    // Add submit logic here
+  }
+
   return (
     <Wrapper
       as="div"
@@ -40,19 +55,19 @@ function Search({ searchTerm, setSearchTerm }: any) {
       <input
         className="w-full pl-5 focus:outline-none max-md:p-3"
         type="text"
-        placeholder="Search for colleges, courses stc."
+        placeholder="Search for colleges, courses etc."
         value={searchTerm}
-        onChange={handleSearch}
+        onChange={handleInputChange}
         min={3}
       />
-      <Button variant="black" className="text-sm" onClick={handleSearch}>
+      <Button variant="black" className="text-sm" onClick={handleSubmit}>
         Submit
       </Button>
     </Wrapper>
   );
 }
 
-function SearchResult({ data, searchResult }: any) {
+export function SearchResult({ data, searchResult }: any) {
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   const categories = ["all", "exam", "college"];
@@ -64,12 +79,52 @@ function SearchResult({ data, searchResult }: any) {
 
   return (
     <Wrapper as="div" className="mb-16">
-      <h2 className="my-5 text-2xl font-bold">{searchResult}</h2>
+      <h2 className="my-5 text-2xl font-bold">
+        Search Results for{" "}
+        <span className="text-orange-500">&quot;{searchResult}&quot;</span>
+      </h2>
       <div className="mb-5 flex gap-6">
         {categories.map((category) => (
           <button
             key={category}
-            className={`rounded-full bg-white px-5 py-2 capitalize ${
+            className={`rounded-full px-5 py-2 capitalize ${
+              selectedCategory === category ? "bg-orange-500" : "bg-white"
+            }`}
+            onClick={() => setSelectedCategory(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+      <ul className="flex flex-col gap-4">
+        {filteredData?.map((item: any) => (
+          <li key={item.id}>
+            <Card1 item={item} />
+          </li>
+        ))}
+      </ul>
+    </Wrapper>
+  );
+}
+
+function LatestNewsAndArticles({ data }: any) {
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
+  const categories = ["all", "exam", "college"];
+
+  const filteredData =
+    selectedCategory === "all"
+      ? data
+      : data?.filter((item: any) => item.category === selectedCategory);
+
+  return (
+    <Wrapper as="div" className="mb-16">
+      <h2 className="my-5 text-2xl font-bold">Latest News and Articles</h2>
+      <div className="mb-5 flex gap-6">
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={`rounded-full px-5 py-2 capitalize ${
               selectedCategory === category ? "bg-orange-500" : "bg-white"
             }`}
             onClick={() => setSelectedCategory(category)}
@@ -146,7 +201,7 @@ function MoreNewsSection({ data }: any) {
     <Wrapper as="main" className="my-10">
       <h2 className="my-5 mb-5 text-2xl font-bold">More News</h2>
       <section className="grid grid-cols-12 gap-4">
-        <article className="col-span-12 md:col-span-9">
+        <article className="col-span-12 lg:col-span-9">
           <ul className="flex flex-col gap-4">
             {data?.map((item: any) => (
               <li key={item?.id}>
@@ -155,10 +210,10 @@ function MoreNewsSection({ data }: any) {
             ))}
           </ul>
         </article>
-        <aside className="col-span-3 flex flex-col gap-4 max-md:hidden">
+        <aside className="col-span-3 flex flex-col gap-4 max-lg:hidden">
           {/* Notification  */}
           <div className="rounded-lg bg-white px-2 pt-5 shadow-lg">
-            <h2 className="mb-4 pb-3 border-b border-zinc-800 text-xl font-bold">
+            <h2 className="mb-4 border-b border-zinc-800 pb-3 text-xl font-bold">
               Notification
             </h2>
             {data?.slice(0, 3)?.map((item: any) => (
@@ -169,7 +224,7 @@ function MoreNewsSection({ data }: any) {
           </div>
           {/* Top Courses  */}
           <div className="rounded-lg bg-white px-2 pt-5 shadow-lg">
-            <h2 className="mb-4 pb-3  border-b border-zinc-800 text-xl font-bold">
+            <h2 className="mb-4 border-b border-zinc-800 pb-3 text-xl font-bold">
               Top Courses
             </h2>
             {data?.slice(0, 3)?.map((item: any) => (
