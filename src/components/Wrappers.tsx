@@ -9,9 +9,9 @@ const Wrapper = ({
   as: Component = "section",
 }: any) => {
   return (
-    <Component className={`w-full ${bgColor} ${containerClassName}`}>
+    <Component className={`w-full px-5 md:px-10 ${bgColor} ${containerClassName}`}>
       <div
-        className={`mx-auto w-full ${isMaxWidthChangeRequired} px-5 md:px-10 ${
+        className={`mx-auto w-full ${isMaxWidthChangeRequired}  ${
           className || ""
         }`}
       >
