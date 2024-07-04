@@ -51,17 +51,39 @@ export default function CollegesSlider({ data }: any) {
         {...swiperOptions}
         className={`mySwiper w-full max-w-fit px-5 ${uniqueId}`}
       >
-        {data?.map((college: any, index: number) => (
-          <>
-            <SwiperSlide key={index} className="mb-12 w-full overflow-hidden rounded-xl border border-zinc-300 bg-white shadow-lg" > {" "} <CollegesCardContent college={college} />{" "} </SwiperSlide>
-            <SwiperSlide key={index} className="mb-12 w-full overflow-hidden rounded-xl border border-zinc-300 bg-white shadow-lg" > {" "} <CollegesCardContent college={college} />{" "} </SwiperSlide>
-            <SwiperSlide key={index} className="mb-12 w-full overflow-hidden rounded-xl border border-zinc-300 bg-white shadow-lg" > {" "} <CollegesCardContent college={college} />{" "} </SwiperSlide>
-            <SwiperSlide key={index} className="mb-12 w-full overflow-hidden rounded-xl border border-zinc-300 bg-white shadow-lg" > {" "} <CollegesCardContent college={college} />{" "} </SwiperSlide>
-            <SwiperSlide key={index} className="mb-12 w-full overflow-hidden rounded-xl border border-zinc-300 bg-white shadow-lg" > {" "} <CollegesCardContent college={college} />{" "} </SwiperSlide>
-            <SwiperSlide key={index} className="mb-12 w-full overflow-hidden rounded-xl border border-zinc-300 bg-white shadow-lg" > {" "} <CollegesCardContent college={college} />{" "} </SwiperSlide>
-            <SwiperSlide key={index} className="mb-12 w-full overflow-hidden rounded-xl border border-zinc-300 bg-white shadow-lg" > {" "} <CollegesCardContent college={college} />{" "} </SwiperSlide>
-          </>
-        ))}
+        {data?.map((college: any, index: number) => {
+          const slide = (
+            <SwiperSlide
+              key={index}
+              className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
+            >
+              {" "}
+              <CollegesCardContent
+                slug={college?.slug}
+                bgImage={college?.bgImage?.url}
+                collegeLogo={college?.collegeLogo}
+                breadCrumb={college?.breadCrumb}
+                city={college?.city}
+                state={college?.state}
+                overallRating={college?.reviewsAndRatings?.overallRating}
+                totalReviews={college?.reviewsAndRatings?.totalReviews}
+                avgFeePerYear={college?.avgFeePerYear}
+                affiliation={college?.affiliation}
+                hightestPackage={college?.hightestPackage}
+                brochureUrl={college?.brochureUrl}
+              />{" "}
+            </SwiperSlide>
+          );
+          return (
+            <>
+              {slide}
+              {slide}
+              {slide}
+              {slide}
+              {slide}
+            </>
+          );
+        })}
       </Swiper>
       {/* Add navigation buttons */}
       <div className={`${uniqueId}-next swiper-button-next`}></div>
@@ -70,24 +92,37 @@ export default function CollegesSlider({ data }: any) {
   );
 }
 
-export const CollegesCardContent = function CollegesCard({ college }: any) {
+export const CollegesCardContent = function CollegesCard({
+  slug,
+  bgImage,
+  collegeLogo,
+  breadCrumb,
+  city,
+  state,
+  overallRating,
+  totalReviews,
+  avgFeePerYear,
+  affiliation,
+  hightestPackage,
+  brochureUrl,
+}: any) {
   return (
     <React.Fragment>
       <div className="relative w-full">
-        {college?.bgImage && (
+        {bgImage && (
           <Image
-            src={college?.bgImage?.url}
-            alt={college?.breadCrumb}
+            src={bgImage}
+            alt={breadCrumb}
             width={800}
             height={800}
-            className="h-[200px] w-full rounded-xl object-cover"
+            className="h-[200px] w-full rounded-t-2xl object-cover"
           />
         )}
         <div className="absolute left-2 top-2 rounded-full bg-white p-1">
-          {college?.collegeLogo && (
+          {collegeLogo && (
             <Image
-              src={college?.collegeLogo?.url}
-              alt={college?.breadCrumb}
+              src={collegeLogo?.url}
+              alt={breadCrumb}
               width={800}
               height={800}
               className="h-10 w-10 object-contain"
@@ -99,43 +134,47 @@ export const CollegesCardContent = function CollegesCard({ college }: any) {
         <div className="flex flex-col gap-4">
           {/* College Name & Location  */}
           <div className="flex items-center justify-between">
-            <h4 className="text-2xl font-bold">{college?.breadCrumb}</h4>
-            <p className="capitalize">{college?.location?.state}</p>
+            <Link href={`/colleges/${slug} || #`}>
+              <h4 className="text-2xl font-bold hover:text-orange-500">
+                {breadCrumb}
+              </h4>
+            </Link>
+            <p className="capitalize">{state}</p>
           </div>
           {/* Rating & Reviews  */}
           <p className="flex items-center gap-2">
             <FaStar className="text-orange-400" />
-            <span>{college?.reviews?.overallRating}/5</span>
-            <span>({college?.reviews?.totalReviews} reviews)</span>
+            <span>{overallRating}/5</span>
+            <span>({totalReviews} reviews)</span>
           </p>
           {/* Fees  */}
           <p className="text-2xl font-bold text-orange-500">
-            <span>INR {`${addCommas(college?.avgFeePerYear)}`}</span>{" "}
+            <span>INR {`${addCommas(avgFeePerYear)}`}</span>{" "}
             <span className="text-sm text-black">(Avg. year fees)</span>{" "}
           </p>
           {/* Affiliations  */}
           <p>
-            {college?.affiliation?.map((item: any, index: number) => (
+            {affiliation?.map((item: any, index: number) => (
               <React.Fragment key={index}>
                 {item}
-                {index < college.affiliation.length - 1 ? ", " : ""}
+                {index < affiliation.length - 1 ? ", " : ""}
               </React.Fragment>
             ))}
           </p>
           {/* Package  */}
           <p className="text-xl font-bold text-orange-500">
-            <span>INR {`${addCommas(college?.hightestPackage)}`}</span>{" "}
+            <span>INR {`${addCommas(hightestPackage)}`}</span>{" "}
             <span className="text-sm text-black">Highest Package</span>
           </p>
         </div>
         {/* Buttons  */}
-        <div className="mt-5 border-t pt-5 border-orange-500 flex justify-between gap-2 max-md:flex-col">
-          <Link href={`/colleges/${college?.slug}`} className="w-full">
+        <div className="mt-5 flex justify-between gap-2 border-t border-orange-500 pt-5 max-md:flex-col">
+          <Link href={`/colleges/${slug} || #`} className="w-full">
             <Button variant="black" className="!w-full text-nowrap !px-2">
               See More
             </Button>
           </Link>
-          <Link href={`/colleges/${college?.slug}`} className="w-full">
+          <Link href={brochureUrl || "#"} className="w-full">
             <Button variant="orange" className="!w-full text-nowrap !px-2">
               Download Brochure
             </Button>
