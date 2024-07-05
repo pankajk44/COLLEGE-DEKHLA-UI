@@ -21,7 +21,7 @@ import c7 from "./collages/c7.jpg";
 import c8 from "./collages/c8.jpg";
 // User
 import user1 from "./user1.png";
-
+import login_bg from "./login-background.png"
 // companies
 import comp1 from "./companies/comp1.png";
 import comp2 from "./companies/comp2.svg";
@@ -46,7 +46,7 @@ export {
 
     mobileBanner, collegeBanner, collegeBanner1, collegeBanner2, collegeBanner3,
 
-    c1, c2, collegeLogo, c3, c4, c5, c6, c7, c8,
+    c1, c2, collegeLogo, c3, c4, c5, c6, c7, c8, login_bg,
 
     examBg1, examBg2, examBg3, examBg4, exam1, examPaper,
 
