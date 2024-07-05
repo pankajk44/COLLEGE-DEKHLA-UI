@@ -131,7 +131,7 @@ export const colleges = [
     affiliation: ["AICTE", "WSCUC"],
     estYear: "1990",
     exam: ["SAT", "ACT"],
-    //  See Below for tabsSections
+    // See in GlobalData
     tabsSections: [],
     // See In CoursesData page
     courses: [],
@@ -145,7 +145,7 @@ export const colleges = [
       { id: 2, url: c1, category: "library" },
       { id: 3, url: c1, category: "buildings" },
     ],
-    // See Below for faqs
+    // See in GlobalData
     faqs: [],
     reviewsAndRatings: {
       totalReviews: "7",
@@ -208,43 +208,8 @@ export const colleges = [
     isTopCollege: true,
     topCollegeSequence: 2,
     lastUpdate: "Nov 17, 2023 14:25 IST",
-    // See newData for News
     news: [],
     brochureUrl: "#",
     collegeCategory: "State",
   },
 ];
-
-export const faqs = [
-  {
-    id: 1,
-    question: "When was the University Established?",
-    answer:
-      "The Indian Institute of Technology, Madras was established in 1961. The institute was founded by the erstwhile Prime Minister, Shri. Venkatesh Iyengar.",
-  },
-  {
-    id: 2,
-    question: "Is the University a Private or Government University",
-    answer:
-      "The Indian Institute of Technology, Madras is a private university. The institute is governed by the Government of India. The institute has a status of Government.",
-  },
-  {
-    id: 3,
-    question: "What is the University Affiliation?",
-    answer:
-      "The Indian Institute of Technology, Madras is affiliated to the University of Madras. The institute is governed by the Government of India. The institute has a status of Government.",
-  },
-  {
-    id: 4,
-    question: "How good is the University",
-    answer:
-      "The Indian Institute of Technology, Madras is a private university. The institute is governed by the Government of India. The institute has a status of Government.",
-  },
-  {
-    id: 5,
-    question: "What courses does the University Offer?",
-    answer:
-      "The Indian Institute of Technology, Madras is a private university. The institute is governed by the Government of India. The institute has a status of Government.",
-  },
-];
-
