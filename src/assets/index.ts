@@ -29,6 +29,14 @@ import comp3 from "./companies/comp3.svg";
 import comp4 from "./companies/comp4.svg";
 import comp5 from "./companies/comp5.svg";
 
+// Exams
+import examBg1 from "./exams/examBg1.png";
+import examBg2 from "./exams/examBg2.png";
+import examBg3 from "./exams/examBg3.png";
+import examBg4 from "./exams/examBg4.png";
+import exam1 from "./exams/exam1.png";
+import examPaper from "./exams/examPaper.png";
+
 export {
     headerLogo, footerLogo,
 
@@ -39,6 +47,8 @@ export {
     mobileBanner, collegeBanner, collegeBanner1, collegeBanner2, collegeBanner3,
 
     c1, c2, collegeLogo, c3, c4, c5, c6, c7, c8,
+
+    examBg1, examBg2, examBg3, examBg4, exam1, examPaper,
 
     comp1, comp2, comp3, comp4, comp5,
 }
