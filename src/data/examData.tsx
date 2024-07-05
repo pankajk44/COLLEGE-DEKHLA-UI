@@ -51,13 +51,13 @@ export const examsPage = {
       "GMAT",
     ],
   },
-  examDataArray: [
+  examData: [
     {
       id: 1,
       logo: exam1,
       bg: examBg1,
       breadCrumb: "JEE ADVANCED 2024",
-      title: "Joint Entrance Exam Advanced (JEE Advanced)2024",
+      examName: "Joint Entrance Exam Advanced (JEE Advanced)2024",
       titleAddition:
         "Exam Dates, Application Form, Syllabus, Exam Pattern, Eligibility, Registration (Apr 21)",
       studentsParticipation: "63,73,884",
