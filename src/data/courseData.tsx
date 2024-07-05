@@ -31,10 +31,10 @@ export const courses = {
   },
   ExaminationLevel: "National",
   courseMode: "Regular",
-  // same as college  faqs
+    // See in GlobalData
   faqs: [],
   new: [],
-  // same as college  tabsSections
+    // See in GlobalData
   tabsSections: [],
   courseSequence: 1,
   lastUpdate: "Nov 17, 2023 14:25 IST",
