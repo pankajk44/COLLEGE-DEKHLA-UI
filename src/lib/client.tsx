@@ -1,5 +1,5 @@
 "use client";
-// import { BASE_GQL_URL } from "@/utils/network/network";
+import { BASE_GQL_URL } from "@/utils/network/network";
 
 import { ApolloLink, HttpLink } from "@apollo/client";
 import {
@@ -11,7 +11,7 @@ import {
 
 function makeClient() {
   const httpLink = new HttpLink({ 
-    uri: "#", 
+    uri: BASE_GQL_URL, 
     fetchOptions: { cache: "no-store" },
   });
 
