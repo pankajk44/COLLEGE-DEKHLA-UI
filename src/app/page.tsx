@@ -1,5 +1,5 @@
 "use client";
-import { getTopColleges } from "@/graphql/collegeQuery/topColleges";
+import { getAllColleges } from "@/graphql/collegeQuery/colleges";
 import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
 
@@ -7,19 +7,19 @@ const Home: React.FC = () => {
   const [start, setStart] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
-  const { data: collegeData, loading, error, fetchMore } = useQuery(getTopColleges, {
-    variables: { start: start, limit: 10 },
+  const { data: collegeData, loading, error, fetchMore } = useQuery(getAllColleges, {
+    variables: { start: start, limit: 1 },
   });
 
   const loadMoreColleges = () => {
     fetchMore({
-      variables: { start: start + 10, limit: 10 },
+      variables: { start: start + 1, limit: 1 },
       updateQuery: (prevResult, { fetchMoreResult }) => {
         if (!fetchMoreResult?.colleges.data.length) {
           setHasMore(false);
           return prevResult;
         }
-        setStart(prev => prev + 10);
+        setStart(prev => prev + 1);
         return {
           colleges: {
             ...fetchMoreResult.colleges,
