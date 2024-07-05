@@ -210,7 +210,7 @@ export const colleges = [
     lastUpdate: "Nov 17, 2023 14:25 IST",
     // See newData for News
     news: [],
-    brochureUrl:"#",
+    brochureUrl: "#",
     collegeCategory: "State",
   },
 ];
@@ -248,103 +248,3 @@ export const faqs = [
   },
 ];
 
-export const tabsSections = [
-  {
-    navItem: "overview",
-    sections: [
-      {
-        id: 1,
-        title: "About IIT Madras",
-        author: {
-          avatar: { url: user1 },
-          name: "Pankaj Kumar",
-          lastUpdated: "MAR 21, 2024 18:39 IST",
-        },
-        article:
-          "<p>JEE Main 2024: NTA has released the JEE Main 2024 session 2 result for paper 2 at jeemain.nta.ac.in. The authority closed the JEE Main 2024 challenge window on May 1, 2024. The provisional JEE Main 2024 answer key for paper 2 has been released on April 30. Candidates can check the JEE Main B.Arch answer key 2024 for session 2 on the official website. Candidates who appeared for the JEE Main exam could raise objections to the answer key from April 30 to May 1. </p>",
-        button: {
-          button1: { text: "Apply Now", link: "#" },
-          button2: { text: "Download Brochure", link: "#" },
-        },
-        importantLinks: {
-          title: "This Story also Contains",
-          links:[
-            {
-              id: 1,
-              title: "Important Links",
-              href: "#",
-            },
-            {
-              id: 2,
-              title: "Important Links",
-              href: "#",
-            },
-            {
-              id: 2,
-              title: "Important Links",
-              href: "#",
-            },
-          ]
-        },
-        banner: {
-          img: { url: c3 },
-          text: "JEE Main 2024: Paper 2 Result (Out), Cut Off, Toppers List, Counselling Dates",
-          href: "#",
-        },
-        table: `
-            <table border="1">
-      <tr>
-        <th>Exams and Events</th>
-        <th>Date</th>
-      </tr>
-      <tr>
-        <td>Last Date to Apply for the Scholarship</td>
-        <td>January 2, 2025</td>
-      </tr>
-      <tr>
-        <td>Interview Dates</td>
-        <td>Between April and June</td>
-      </tr>
-      <tr>
-        <td>Declaration of Selection Results</td>
-        <td>June</td>
-      </tr>
-      <tr>
-        <td>Commencement of the Doctoral Programme</td>
-        <td>In the month of September/October</td>
-      </tr>
-    </table>
-            `,
-        article1:
-          "<p>JEE Main 2024: NTA has released the JEE Main 2024 session 2 result for paper 2 at jeemain.nta.ac.in. The authority closed the JEE Main 2024 challenge window on May 1, 2024. The provisional JEE Main 2024 answer key for paper 2 has been released on April 30. Candidates can check the JEE Main B.Arch answer key 2024 for session 2 on the official website. Candidates who appeared for the JEE Main exam could raise objections to the answer key from April 30 to May 1. </p>",
-        topRecruitersLogos: [
-          { url: comp1 },
-          { url: comp2 },
-          { url: comp3 },
-          { url: comp4 },
-          { url: comp5 },
-        ],
-      },
-    ],
-  },
-  {
-    navItem: "sample papers",
-    sections: [],
-  },
-  {
-    navItem: "cutoff",
-  },
-  {
-    navItem: "application",
-    sections: [],
-  },
-  {
-    navItem: "results",
-  },
-  {
-    navItem: "Exam Pattern",
-  },
-  {
-    navItem: "Preparation Tips",
-  },
-];
