@@ -17,14 +17,17 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   let style = "";
   if (variant === "black") {
-    style = `w-min px-10 py-2 rounded-lg hover:bg-zinc-800 bg-black text-white`;
+    style = `hover:bg-zinc-800 bg-black text-white`;
+  }
+  if (variant === "white") {
+    style = `hover:bg-orange-500 bg-white text-black`;
   }
   if (variant === "orange") {
-    style = `w-min px-10 py-2 rounded-lg hover:bg-orange-300 bg-orange-200 text-orange-500 border border-orange-500`;
+    style = `hover:bg-orange-300 bg-orange-200 text-orange-500 border border-orange-500`;
   }
 
   return (
-    <button className={`${style} ${className} flex-center gap-2`} onClick={onClick} type={type}>
+    <button className={`${style} ${className} w-min px-10 py-2 rounded-lg flex-center active:scale-90 gap-2`} onClick={onClick} type={type}>
       {children}
     </button>
   );

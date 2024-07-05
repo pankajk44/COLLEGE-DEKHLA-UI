@@ -1,39 +1,40 @@
-import React, { useState } from 'react';
-import { IoFilterOutline } from 'react-icons/io5';
+import React, { useState } from "react";
+import { IoFilterOutline } from "react-icons/io5";
 
-export default function SortButton({ handleFilterOptionClick }:any) {
+export default function SortButton({ handleFilterOptionClick }: any) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Function to toggle the dropdown visibility
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   return (
-    <div className="relative group">
-      <div 
-        className={`flex border-2 h-12 items-center px-2 border-blue-500 bg-blue-500 text-white gap-2 rounded-md cursor-pointer group`}
+    <div className="group relative">
+      <div
+        className={`group flex h-12 cursor-pointer items-center gap-2 rounded-xl border-2 border-black bg-black px-2 text-white`}
         onMouseEnter={toggleDropdown} // Show dropdown on hover
       >
-        <span>Sort</span> <IoFilterOutline />
+        <span>Sort</span> <IoFilterOutline className="text-white" />
       </div>
       {/* Conditional rendering based on dropdown state */}
       {isDropdownOpen && (
-        <div className="absolute z-20 top-12 right-0 bg-white border border-gray-200 rounded-md py-1 w-max"
-        onMouseLeave={toggleDropdown} 
+        <div
+          className="absolute right-0 top-12 z-20 w-max rounded-md border border-gray-200 bg-white py-1"
+          onMouseLeave={toggleDropdown}
         >
           <div
-            className="px-3 py-1 hover:bg-gray-100 cursor-pointer"
+            className="cursor-pointer px-3 py-1 hover:bg-gray-100"
             onClick={() => {
               handleFilterOptionClick("a-z");
-              toggleDropdown(); 
+              toggleDropdown();
             }}
           >
             A-Z
           </div>
           <div
-            className="px-3 py-1 hover:bg-gray-100 cursor-pointer"
+            className="cursor-pointer px-3 py-1 hover:bg-gray-100"
             onClick={() => {
               handleFilterOptionClick("reset");
-              toggleDropdown(); 
+              toggleDropdown();
             }}
           >
             Reset

@@ -1,5 +1,5 @@
 "use client";
-import Filter from "@/components/filters/filter1";
+import Filter from "@/components/filters/Filter";
 import React, { useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdClose } from "react-icons/md";
@@ -37,6 +37,7 @@ export default function CollegeFilters({
     string[]
   >([]);
   const [GenderCheckedFilters, setGenderCheckedFilters] = useState<string>("");
+  const [RatingCheckedFilters, setRatingCheckedFilters] = useState<string>("");
   const [RankingCheckedFilters, setRankingCheckedFilters] =
     useState<string>("");
   const [ExamCheckedFilters, setExamCheckedFilters] = useState<string[]>([]);
@@ -182,6 +183,14 @@ export default function CollegeFilters({
     }));
   };
 
+  const handleRatingFilter = (data: any) => {
+    setRatingCheckedFilters(data);
+    setSelectedFilters((prevData: any) => ({
+      ...prevData,
+      rating: data,
+    }));
+  };
+
   // function to remove filters from selected filter
   const handleUnselectFilter = (filter?: string, name?: string) => {
     if (filter === "stream") {
@@ -256,6 +265,12 @@ export default function CollegeFilters({
         ...prevData,
         ranking: "",
       }));
+    } else if (filter === "rating") {
+      setRatingCheckedFilters("");
+      setSelectedFilters((prevData: any) => ({
+        ...prevData,
+        rating: "",
+      }));
     } else if (filter === "examAccepted") {
       setExamCheckedFilters([]);
       setSelectedFilters((prevData: any) => ({
@@ -275,13 +290,13 @@ export default function CollegeFilters({
       >
         <IoIosCloseCircleOutline />
       </button>
-      <h1 className="mb-10 font-medium max-md:mt-0">
+      <h1 className="mb-5 font-medium max-md:mt-0">
         Showing {totalResults} Colleges
       </h1>
-      <div className="w-full rounded border-2 border-zinc-300 bg-white p-5 pb-0 max-md:bg-opacity-95">
-        <h2 className="mb-5 font-medium">Find colleges</h2>
+      <div className="w-full pb-0 max-md:bg-opacity-95">
+        <h2 className="mb-5 font-bold">Search by filters</h2>
         {/* Selected filters display */}
-        <div className="flex flex-wrap items-center gap-1">
+        <div className="flex flex-wrap items-center gap-1 mb-3 max-md:text-white">
           {Object.values(SelectedFilters).some(
             (value) =>
               value !== "" &&
@@ -300,7 +315,7 @@ export default function CollegeFilters({
                 value !== 0 && (
                   <div
                     key={key}
-                    className="flex w-max items-center gap-1 rounded-md border border-blue-500 px-2 py-1 text-xs"
+                    className="flex w-max items-center gap-1 rounded-md border border-orange-500 px-2 py-1 text-xs"
                   >
                     <span>
                       {Math.floor(duration / 12)} years {duration % 12} months
@@ -319,7 +334,7 @@ export default function CollegeFilters({
               (!Array.isArray(value) || value.length !== 0) && (
                 <div
                   key={key}
-                  className="flex w-max items-center gap-1 rounded-md border border-blue-500 px-2 py-1 text-xs"
+                  className="flex w-max items-center gap-1 rounded-md border border-orange-500 px-2 py-1 text-xs"
                 >
                   <span className="max-w-[150px] text-wrap">{value}</span>
                   <button onClick={() => handleUnselectFilter(key, value)}>
@@ -334,7 +349,7 @@ export default function CollegeFilters({
 
         {/* Filters  */}
         <Filter
-          title="STREAM"
+          title="SPECIALIZATION"
           filterList={filterBy?.stream}
           handleFilter={handleStreamFilter}
           checked={StreamCheckedFilters}
@@ -362,6 +377,12 @@ export default function CollegeFilters({
           filterList={filterBy?.city}
           handleFilter={handleCityFilter}
           checked={CityCheckedFilters}
+        />
+        <Filter
+          title="RATING"
+          filterList={filterBy?.rating}
+          handleFilter={handleRatingFilter}
+          checked={RatingCheckedFilters}
         />
         <Filter
           title="COURSE"
