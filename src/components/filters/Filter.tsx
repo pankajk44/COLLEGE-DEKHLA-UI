@@ -31,14 +31,12 @@ const Filter: React.FC<FilterProps> = ({
   }
 
   return (
-    <div
-      className={`w-full ${title === "LEVEL" || title === "EXAM ACCEPTED" ? "" : "border-b"} mb-5 border-zinc-500 pb-5`}
-    >
+    <div className={`mb-5 w-full rounded-2xl bg-white p-5 pb-5 shadow-lg`}>
       <div
         className="flex cursor-pointer items-center justify-between"
         onClick={handleOpen}
       >
-        <span className="font-bold uppercase text-blue-500">{title}</span>
+        <span className="font-bold uppercase text-orange-500">{title}</span>
         <span className="font-light">
           {open ? (
             <IoIosArrowDown className="transition-all duration-300" />
@@ -49,7 +47,7 @@ const Filter: React.FC<FilterProps> = ({
       </div>
       {open && (
         <div>
-          {title !== "COURSE DURATION" &&
+          {/* {title !== "COURSE DURATION" &&
             title !== "AVG FEE PER YEAR" &&
             title !== "PROGRAM TYPE" &&
             title !== "COLLEGE TYPE" &&
@@ -64,12 +62,13 @@ const Filter: React.FC<FilterProps> = ({
                 />
                 <IoIosSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500" />
               </div>
-            )}
+            )} */}
           <div className="h-full max-h-48 overflow-y-auto">
-            {/* STREAM | MODE | LEVEL | STATE | CITY | COURSE | PROGRAM TYPE  */}
-            {(title === "STREAM" ||
+            {/* SPECIALIZATION | MODE | LEVEL | STATE | CITY | COURSE | PROGRAM TYPE  */}
+            {(title === "SPECIALIZATION" ||
               title === "MODE" ||
               title === "LEVEL" ||
+              title === "RATING" ||
               title === "STATE" ||
               title === "CITY" ||
               title === "COURSE" ||
@@ -105,12 +104,13 @@ const Filter: React.FC<FilterProps> = ({
                         className="text-secondary-text hover:text-primary text-base font-medium"
                       >
                         {item}
+                        {title === "RATING" && " Stars"}
                       </label>
                     </div>
                   ))}
                 {!showAll && filterList.length > 5 && (
                   <p
-                    className="cursor-pointer text-right font-medium text-blue-500"
+                    className="cursor-pointer text-right font-medium text-orange-500"
                     onClick={handleViewMore}
                   >
                     See All
@@ -148,13 +148,13 @@ const Filter: React.FC<FilterProps> = ({
                         htmlFor={filter}
                         className="text-secondary-text hover:text-primary text-base font-medium"
                       >
-                        {filter}
+                        {title === "AVG FEE PER YEAR" && "INR "}{filter}{title === "AVG FEE PER YEAR" && " lakh"}
                       </label>
                     </div>
                   ))}
                 {!showAll && filterList.length > 5 && (
                   <p
-                    className="cursor-pointer text-right font-medium text-blue-500"
+                    className="cursor-pointer text-right font-medium text-orange-500"
                     onClick={handleViewMore}
                   >
                     See All
@@ -177,7 +177,7 @@ const Filter: React.FC<FilterProps> = ({
                   className="h-1 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 outline-none"
                   style={{
                     cursor: "pointer",
-                    background: `linear-gradient(to right, rgb(59 130 246) ${checked}%, rgb(229 231 235) ${checked}%)`,
+                    background: `linear-gradient(to right, rgb(249, 115, 22) ${checked}%, rgb(229 231 235) ${checked}%)`,
                   }}
                 />
                 <div className="flex justify-between">
@@ -187,28 +187,6 @@ const Filter: React.FC<FilterProps> = ({
               </div>
             )}
           </div>
-          {title === "AVG FEE PER YEAR" && (
-            <div className="mt-2 flex flex-wrap gap-1">
-              <button
-                className="rounded  border border-blue-500 px-3 py-2 text-blue-500 [flex:1] hover:bg-blue-500 hover:text-white"
-                onClick={() => handleSortAvgFeePerYear("min")}
-              >
-                ₹ Min
-              </button>
-              <button
-                className="rounded border border-blue-500 px-3 py-2 text-blue-500 [flex:1] hover:bg-blue-500 hover:text-white"
-                onClick={() => handleSortAvgFeePerYear("max")}
-              >
-                ₹ Max
-              </button>
-              <button
-                className="rounded bg-blue-500 px-4 py-2 text-white"
-                onClick={() => handleSortAvgFeePerYear("go")}
-              >
-                Go
-              </button>
-            </div>
-          )}
         </div>
       )}
     </div>
