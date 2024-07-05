@@ -64,7 +64,7 @@ export default function CollegeFilteredCard({
           </div>
           {/* Line 2  */}
           <Link href={`/colleges/${slug || "#"}`}>
-            <h1 className="mb-3 text-wrap text-xl font-bold hover:text-orange-500">
+            <h1 className="mb-3 text-wrap text-xl font-bold hover:text-orange-500 cursor-pointer">
               {collegeName}
             </h1>
           </Link>

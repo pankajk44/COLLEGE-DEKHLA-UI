@@ -210,7 +210,8 @@ export const colleges = [
     lastUpdate: "Nov 17, 2023 14:25 IST",
     // See newData for News
     news: [],
-    brochureUrl:"#"
+    brochureUrl:"#",
+    collegeCategory: "State",
   },
 ];
 
