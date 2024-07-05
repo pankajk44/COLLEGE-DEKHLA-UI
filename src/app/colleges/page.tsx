@@ -3,7 +3,7 @@ import Wrapper from "@/components/Wrappers";
 import Banner1 from "@/components/bannerSections/Banner1";
 import CollegeListingBanner from "@/components/bannerSections/CollegeListingBanner";
 import CollegesSlider from "@/components/cardsAndSliders/CollegesSlider";
-import CollegeListSection from "@/components/collegesListingPageSections/collegeListSection/CollegeListSection";
+import CollegeListSection from "@/components/collegesListingPageSections/CollegeListSection";
 import { collegePage, colleges, tabsSections } from "@/data/collegeData";
 import { banner1 } from "@/data/globalData";
 import { addCommas } from "@/utils/customText";

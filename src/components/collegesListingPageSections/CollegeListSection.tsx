@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import CollegeFilters from "./CollegeFilters";
 import { RiSearchLine } from "react-icons/ri";
 import SortButton from "@/components/SortButton";
 import { MdOutlineSort } from "react-icons/md";
@@ -8,6 +7,7 @@ import Wrapper from "@/components/Wrappers";
 import { Button } from "@/components/Button";
 import CollegeFilteredCard from "@/components/cardsAndSliders/CollegeFilteredCard";
 import TopCollegesScroll from "@/components/cardsAndSliders/TopCollegesScroll";
+import CollegeFilters from "./CollegeFilters";
 export default function CollegeListSection({
   data,
   filterBy,
