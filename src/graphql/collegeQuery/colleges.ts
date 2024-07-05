@@ -1,8 +1,23 @@
 import { gql } from "@apollo/client";
 
 export const getAllColleges = gql`
-  query Colleges($start: Int!, $limit: Int!) {
-  colleges(pagination: { start: $start, limit: $limit }, sort: "collegeSequence:asc") {
+  query Colleges(
+  $start: Int!,
+  $limit: Int!,
+  $city: String,
+  $state: String
+) {
+  colleges(
+    pagination: { start: $start, limit: $limit }
+    sort: "collegeSequence:asc"
+    filters: {
+      
+      location: {
+        city: { city: { eq: $city } },
+        state: { state: { eq: $state } }
+      }
+    }
+  ) {
     data {
       id
       attributes {
@@ -26,7 +41,7 @@ export const getAllColleges = gql`
             data {
               id
               attributes {
-                state_name
+                state
               }
             }
           }
@@ -34,7 +49,7 @@ export const getAllColleges = gql`
             data {
               id
               attributes {
-                city_name
+                city
               }
             }
           }
@@ -42,7 +57,7 @@ export const getAllColleges = gql`
             data {
               id
               attributes {
-                country_name
+                country
               }
             }
           }
@@ -51,7 +66,7 @@ export const getAllColleges = gql`
           data {
             id
             attributes {
-              type_name
+              collegeType
             }
           }
         }
@@ -59,7 +74,7 @@ export const getAllColleges = gql`
           data {
             id
             attributes {
-              organization_name
+              organization
             }
           }
         }
@@ -68,7 +83,7 @@ export const getAllColleges = gql`
           data {
             id
             attributes {
-              exam_name
+              examName
             }
           }
         }
