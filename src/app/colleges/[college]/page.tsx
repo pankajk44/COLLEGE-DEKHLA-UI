@@ -1,8 +1,9 @@
 "use client";
 import Banner1 from "@/components/bannerSections/Banner1";
 import CollegeDetailBanner from "@/components/bannerSections/CollegeDetailBanner";
+import PageTabsWithDetail from "@/components/pageTabsWithDetail/PageTabsWithDetail";
 import { collegePage, colleges } from "@/data/collegeData";
-import { banner1 } from "@/data/globalData";
+import { banner1, tabsSections } from "@/data/globalData";
 import React from "react";
 
 export default function page() {
@@ -21,6 +22,7 @@ export default function page() {
         collegeLogo={colleges?.[0]?.collegeLogo?.url}
         collegeCategory={colleges?.[0]?.collegeCategory}
       />
+      <PageTabsWithDetail data={tabsSections} />
       <Banner1 data={banner1} />
     </>
   );
