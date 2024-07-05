@@ -266,26 +266,26 @@ export const tabsSections = [
           button1: { text: "Apply Now", link: "#" },
           button2: { text: "Download Brochure", link: "#" },
         },
-        importantLinks: [
-          {
-            id: 1,
-            title: "Important Links",
-            text: "https://nta.ac.in/",
-            href: "#",
-          },
-          {
-            id: 2,
-            title: "Important Links",
-            text: "https://nta.ac.in/",
-            href: "#",
-          },
-          {
-            id: 2,
-            title: "Important Links",
-            text: "https://nta.ac.in/",
-            href: "#",
-          },
-        ],
+        importantLinks: {
+          title: "This Story also Contains",
+          links:[
+            {
+              id: 1,
+              title: "Important Links",
+              href: "#",
+            },
+            {
+              id: 2,
+              title: "Important Links",
+              href: "#",
+            },
+            {
+              id: 2,
+              title: "Important Links",
+              href: "#",
+            },
+          ]
+        },
         banner: {
           img: { url: c3 },
           text: "JEE Main 2024: Paper 2 Result (Out), Cut Off, Toppers List, Counselling Dates",
