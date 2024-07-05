@@ -73,11 +73,11 @@ export default function ExamFilters({
         ...prevData,
         mode: [],
       }));
-    } else if (filter === "level") {
+    } else if (filter === "category") {
       setLevelCheckedFilters([]);
       setSelectedFilters((prevData: any) => ({
         ...prevData,
-        level: [],
+        category: [],
       }));
     }
   };
@@ -139,8 +139,8 @@ export default function ExamFilters({
           checked={ModeCheckedFilters}
         />
         <Filter
-          title="LEVEL"
-          filterList={filterBy?.level}
+          title="CATEGORY"
+          filterList={filterBy?.category}
           handleFilter={handleLevelFilter}
           checked={LevelCheckedFilters}
         />

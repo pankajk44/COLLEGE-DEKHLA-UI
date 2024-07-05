@@ -17,6 +17,7 @@ export default function Colleges() {
         totalCollegesFound={34643}
       />
       <TopColleges data={colleges} totalCollegesFound={34643} />
+      
       <CollegeListSection
         data={colleges}
         filterBy={collegePage?.filterBy}
