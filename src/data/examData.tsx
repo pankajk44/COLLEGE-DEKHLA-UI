@@ -86,6 +86,7 @@ export const examsPage = {
       new: [],
       // same as college  tabsSections
       tabsSections: [],
+      examSequence:1,
     },
   ],
 };
