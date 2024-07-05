@@ -27,7 +27,7 @@ export const Button: React.FC<ButtonProps> = ({
   }
 
   return (
-    <button className={`${style} ${className} w-min px-10 py-2 rounded-lg flex-center hover:scale-95 gap-2`} onClick={onClick} type={type}>
+    <button className={`${style} ${className} w-min px-10 py-2 rounded-lg flex-center active:scale-90 gap-2`} onClick={onClick} type={type}>
       {children}
     </button>
   );
