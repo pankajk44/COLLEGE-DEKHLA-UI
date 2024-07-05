@@ -1,5 +1,5 @@
 "use client";
-import { logoSmall } from "@/asset";
+// import { logoSmall } from "@/asset";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 // import { ID, UserSubmittedData } from "@/types/global";
 import OtpInput from "react-otp-input";
 import { Input } from "./Input";
+import { ImCross } from "react-icons/im";
 
 export function SignUpContainer({
   setIsLoginModule,
@@ -137,40 +138,55 @@ export function SignUpContainer({
 
   return (
     <div className="sm:relative flex min-h-[90vh] flex-col md:justify-center rounded-b rounded-r p-8 text-black [flex:6] overflow-y-auto">
-      <button
-        className="absolute right-[0.05rem] top-[0.05rem] w-max p-3  text-sm text-blue-500 hover:underline"
+       <button
+        className="absolute right-[0.05rem] top-[0.05rem] w-max p-3  text-lg font-normal text-zinc-600  hover:underline"
         onClick={closePopup}
         type="button"
       >
-        Close
+        <ImCross />
       </button>
-      <h1 className="sm:text-lg font-bold text-zinc-800">
-        Confused with the Admission process to your dream college? Register with
-        us
+      <h1 className="text-2xl font-bold text-zinc-800">
+      To Sign Up,
       </h1>
-
+      <p>Please enter the following details</p>
+      <p className="mt-1 font-semibold text-zinc-600 flex w-full  font-sans text-md leading-normal text-inherit antialiased">
+        Already have an account?
+        <span
+          onClick={() => setIsLoginModule(!isLoginModule)}
+          className="ml-1 block cursor-pointer font-sans  font-bold leading-normal  text-orange-600 antialiased hover:underline"
+        >
+          LogIn Now!
+        </span>
+      </p>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         {isOtp ? (
           <>
             <p className="mt-5">
-              <span>OTP will be sent to </span>
-              <span className="text-xl font-bold text-blue-500">
+              <span>Enter OTP </span>
+              <span className="text-xl font-bold text-orange-500">
                 {userSubmittedData.number}
               </span>
             </p>
             <div className="otp mb-5">
-              <OtpInput
-                inputStyle="OTPInputStyle"
-                inputType="number"
-                value={userOtp}
-                onChange={setUserOtp}
-                numInputs={6}
-                renderSeparator={<span>-</span>}
-                renderInput={(props) => <input {...props} />}
-                shouldAutoFocus
-                placeholder={"______"}
-              />
-            </div>
+  <OtpInput
+    value={userOtp}
+    onChange={setUserOtp}
+    numInputs={6}
+    renderSeparator={<span className="mx-2"></span>}
+    renderInput={(props) => (
+      <input
+        {...props}
+        className="w-12 h-12 text-center text-xl border-2 border-gray-300 rounded-md focus:border-orange-500 focus:outline-none"
+        style={{
+          WebkitAppearance: "none",
+          MozAppearance: "textfield"
+        }}
+      />
+    )}
+    shouldAutoFocus
+    inputType="tel"
+  />
+</div>
           </>
         ) : (
           <>
@@ -186,12 +202,25 @@ export function SignUpContainer({
             )}
             {/* Mobile No.  */}
             <Input
-              label="Mobile No "
-              type="phone"
+              label="Date of Birth"
+              type="date"
               placeholder=" "
-              maxLength={10}
+              // maxLength={10}
+              // {...register("number", {
+              //   required: "Date of Birth No. is required",
+              //   pattern: {
+              //     value: mobileRegex,
+              //     message: "Please enter a valid 10-digit mobile number",
+              //   },
+              // })}
+            />
+            <Input
+              label="Mobile Number"
+              type="Number"
+              placeholder=""
+              // maxLength={10}
               {...register("number", {
-                required: "Mobile No. is required",
+                required: "Date of Birth No. is required",
                 pattern: {
                   value: mobileRegex,
                   message: "Please enter a valid 10-digit mobile number",
@@ -225,7 +254,7 @@ export function SignUpContainer({
               })}
             >
               <option disabled={true} selected={true} value="">
-                Please select Preferred Stream
+                Course
               </option>
               {/* {streamsData?.streams?.data?.map(
                     (stream: any, index: any) => {
@@ -242,13 +271,31 @@ export function SignUpContainer({
             )}
             {/* courseLevel  */}
             <select
-              className="mt-5 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300"
+              className="mt-5  rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300 w-[48%]"
               {...register("courseLevel", {
                 required: "course Level Selection is required",
               })}
             >
               <option disabled={true} selected={true} value="">
-                Please select Preferred Level
+State              </option>
+              {/* {courseLevelData?.courseLevels?.data?.map(
+                    (courseLevel: any, index: any) => {
+                      return (
+                        <option value={courseLevel?.id} key={index}>
+                          {courseLevel?.attributes?.levelName}
+                        </option>
+                      );
+                    },
+                  )} */}
+            </select>
+            <select
+              className="mt-5  rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300 w-[48%] ml-[4%]"
+              {...register("courseLevel", {
+                required: "course Level Selection is required",
+              })}
+            >
+              <option disabled={true} selected={true} value="">
+                City
               </option>
               {/* {courseLevelData?.courseLevels?.data?.map(
                     (courseLevel: any, index: any) => {
@@ -266,7 +313,7 @@ export function SignUpContainer({
               </p>
             )}
             {/* Whatsapp No. Check  */}
-            <div className="mt-5 flex items-center">
+            {/* <div className="mt-5 flex items-center">
               <label className="relative inline-flex cursor-pointer items-center">
                 <input
                   type="checkbox"
@@ -279,39 +326,24 @@ export function SignUpContainer({
               <span className="ml-3 font-sans text-sm leading-normal  text-inherit antialiased">
                 Whatsapp number is the same as provided above
               </span>
-            </div>
+            </div> */}
           </>
         )}
         <button
-          className="mt-5 w-full rounded-lg  bg-blue-500 px-3 py-2 text-white outline-none duration-200 hover:font-bold active:scale-95"
+          className="mt-5 w-full rounded-lg bg-gradient-to-b from-[#FF772B] to-[#fd6107] px-3 py-2 text-white outline-none duration-200 hover:font-bold active:scale-95"
           type="submit"
         >
           {isOtp ? "Sign Up" : "Send OTP"}
         </button>
-        <button className="mt-5 text-sm text-blue-600 hover:underline active:scale-95">
+        <button className="mt-5 text-sm text-orange-600 hover:underline active:scale-95">
           {isOtp && "Resend OTP"}
         </button>
       </form>
 
-      <p className="mt-5 text-center font-sans text-sm leading-normal text-inherit antialiased">
-        By proceeding ahead you expressly agree to the Acchawalacollege{" "}
-        <Link href="#" className=" text-blue-600   hover:underline">
-          Terms & Conditions
-        </Link>{" "}
-        and{" "}
-        <Link href="#" className=" text-blue-600 hover:underline">
-          Privacy Policy
-        </Link>
+      <p className="mt-2 text-center font-sans text-sm leading-normal text-inherit antialiased">
+      Your personal information is secured with us
       </p>
-      <p className="mt-3 flex w-full justify-center text-center font-sans text-sm leading-normal text-inherit antialiased">
-        Already have an account?
-        <p
-          onClick={() => setIsLoginModule(!isLoginModule)}
-          className="ml-1 block cursor-pointer font-sans text-sm font-bold leading-normal  text-blue-600 antialiased hover:underline"
-        >
-          LogIn Now!
-        </p>
-      </p>
+     
       {/* Error Message */}
       {error && <p className="mt-5 text-center text-red-600">{error}</p>}
     </div>

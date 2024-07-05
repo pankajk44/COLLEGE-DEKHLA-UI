@@ -1,5 +1,4 @@
 "use client";
-import { logoSmall } from "@/asset";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,6 +16,7 @@ import { useForm } from "react-hook-form";
 import OtpInput from "react-otp-input";
 import { Input } from "./Input";
 import { FaRegEdit } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
 
 export function SignInContainer({
   setIsLoginModule,
@@ -137,16 +137,20 @@ export function SignInContainer({
   const mobileRegex = /^[0-9]{10}$/;
 
   return (
-    <div className="sm:relative flex min-h-[90vh] flex-col overflow-y-auto rounded-b rounded-r p-8 text-black [flex:6] md:justify-center">
+    <div className="sm:relative flex h-full flex-col  overflow-y-auto  p-6 py-10  text-black [flex:6] md:justify-center">
       <button
-        className="absolute right-[0.05rem] top-[0.05rem] w-max p-3  text-sm text-blue-500 hover:underline"
+        className="absolute right-[0.05rem] top-[0.05rem] w-max p-3  text-lg font-normal text-zinc-600  hover:underline"
         onClick={closePopup}
         type="button"
       >
-        Close
+        <ImCross />
       </button>
-      <h1 className="text-3xl font-bold text-zinc-800">Welcome Back!</h1>
-      <p className="text-sm">Sign in to Access Your Account</p>
+      <h2 className="text-3xl font-semibold max-sm:text-center mb-8">
+        Confused with the Admission process to your dream college? Register with
+        us{" "}
+      </h2>
+      <h3 className="text-xl ">Continue with mobile </h3>
+      <p className="text-xs">You'll receive a 4 digit code to verify next</p>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         {isOtp ? (
           <>
@@ -194,35 +198,45 @@ export function SignInContainer({
             )}
           </>
         )}
-        <button
-          className="mt-5 w-full rounded-lg  bg-blue-500 px-3 py-2 text-white outline-none duration-200 hover:font-bold active:scale-95"
+     
+
+        <div className="mt-5 flex items-center">
+              <label className="relative inline-flex cursor-pointer items-center">
+                <input
+                  type="checkbox"
+                  value=""
+                  className="peer sr-only"
+                  {...register("isWhatsappNo", {})}
+                />
+                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-orange-400 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-orange-300 dark:border-gray-600 dark:bg-orange-600 dark:peer-focus:ring-orange-800"></div>
+              </label>
+              <span className="ml-3 font-sans text-sm leading-normal  text-inherit antialiased">
+              Enable updated & important information on Whatsapp.
+              </span>
+            </div>
+
+            <button
+          className="mt-8 w-full rounded-lg  bg-gradient-to-b from-[#FF772B] to-[#fd6107]  px-3 py-2 text-white outline-none duration-200 hover:font-bold active:scale-95"
           type="submit"
         >
           {isOtp ? "LogIn" : "Send OTP"}
         </button>
-        <button className="mt-5 text-sm text-blue-600 hover:underline active:scale-95">
+        <button className="mt-5 text-smbg-gradient-to-b from-[#FF772B] to-[#fd6107]  hover:underline active:scale-95">
           {isOtp && "Resend OTP"}
         </button>
       </form>
 
-      <p className="mt-10 text-center font-sans text-sm leading-normal text-inherit antialiased">
-        By proceeding ahead you expressly agree to the Acchawalacollege{" "}
-        <Link href="#" className=" text-blue-600   hover:underline">
-          Terms & Conditions
-        </Link>{" "}
-        and{" "}
-        <Link href="#" className=" text-blue-600 hover:underline">
-          Privacy Policy
-        </Link>
+      <p className="mt-2 font-medium text-zinc-600 text-center font-sans text-sm leading-normal text-inherit antialiased">
+      Your personal information is secured with us
       </p>
-      <p className="mt-3 flex w-full justify-center text-center font-sans text-sm leading-normal text-inherit antialiased">
-        Don't have an account?
-        <p
+      <p className="mt-6 font-bold text-base text-zinc-600 w-full  text-left font-sans  leading-normal  antialiased">
+      New on OnlinewalaCollege?
+        <span
           onClick={() => setIsLoginModule(!isLoginModule)}
-          className="ml-1 block cursor-pointer font-sans text-sm font-bold leading-normal  text-blue-600 antialiased hover:underline"
+          className="ml-1 text-orange-500 hover:underline"
         >
           SignUp Now!
-        </p>
+        </span>
       </p>
       {/* Error Message */}
       {error && <p className="mt-5 text-center text-red-600">{error}</p>}
