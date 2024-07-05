@@ -70,7 +70,7 @@ export const exams = [
     studentsParticipation: "63,73,884",
     stream: "Engineering",
     eligibilityLevel: ["B.Sc", "Polytechnic"],
-    mode: "both",
+    mode: "Online",
     category: ["JEE MAIN", "JEE ADVANCED"],
     examDate: "Thu May 30 2024 14:42:25 GMT+0530 (India Standard Time)",
     applicationSubmissionDates: {
