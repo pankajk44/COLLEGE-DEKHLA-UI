@@ -10,14 +10,18 @@ import SortButton from "@/components/SortButton";
 import ExamFilteredCard from "@/components/cardsAndSliders/ExamFilteredCard";
 import { Button } from "../Button";
 import ExamFilters from "./ExamFilters";
-export default function ExamListSection({ examDataArray, filterBy }: any) {
+export default function ExamListSection({ data, filterBy, tabsSections }: any) {
   const [MobileFilter, setMobileFilter] = useState(false);
   const [displayCount, setDisplayCount] = useState(3);
-  const [filteredData, setFilteredData] = useState<any>(examDataArray);
+  const [filteredData, setFilteredData] = useState<any>(data);
   const [SelectedFilters, setSelectedFilters] = useState({
     stream: [] as string[],
     mode: [] as string[],
-    level: [] as string[],
+    eligibilityLevel: [] as string[],
+    examinationLevel: [] as string[],
+    examStatus: [] as string[],
+
+
   });
 
   function handleSearch() {
@@ -30,12 +34,12 @@ export default function ExamListSection({ examDataArray, filterBy }: any) {
 
   const handleFilterOptionClick = (option: any) => {
     if (option === "a-z") {
-      const sortedData: any = [...examDataArray].sort((a: any, b: any) => {
+      const sortedData: any = [...data].sort((a: any, b: any) => {
         return a?.name?.localeCompare(b?.name);
       });
       setFilteredData(sortedData.slice(0, displayCount));
     } else if (option === "reset") {
-      const resetArray: any = [...examDataArray]?.slice(0, displayCount);
+      const resetArray: any = [...data]?.slice(0, displayCount);
       setFilteredData(resetArray);
     }
   };
@@ -54,7 +58,7 @@ export default function ExamListSection({ examDataArray, filterBy }: any) {
           filterBy={filterBy}
           SelectedFilters={SelectedFilters}
           setSelectedFilters={setSelectedFilters}
-          totalResults={examDataArray?.length}
+          totalResults={data?.length}
           mobileFilter={MobileFilter}
           setMobileFilter={setMobileFilter}
         />
@@ -97,12 +101,8 @@ export default function ExamListSection({ examDataArray, filterBy }: any) {
           />
           {/* College List Section  */}
          { filteredData.map((exam: any) => (
-            <ExamFilteredCard key={exam.id} exam={exam} />
+            <ExamFilteredCard key={exam.id} exam={exam} tabsSections={tabsSections} />
           ))}
-          {/* College List Section  */}
-          {/* {filteredData.slice(3, 4).map((exam: any) => (
-            <ExamFilteredCard key={exam.id} exam={exam} />
-          ))} */}
         </main>
       </Wrapper>
     </section>
