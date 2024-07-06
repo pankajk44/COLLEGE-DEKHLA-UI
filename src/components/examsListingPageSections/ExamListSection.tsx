@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { MdOutlineSort } from "react-icons/md";
 
-import ExamFilters from "./ExamFilters";
+// import ExamFilters from "./ExamFilters";
 import Navbar from "./Navbar";
 import Wrapper from "@/components/Wrappers";
 import SortButton from "@/components/SortButton";
 import ExamFilteredCard from "@/components/cardsAndSliders/ExamFilteredCard";
 import { Button } from "../Button";
-export default function ExamListSection({ examDataArray, filterBy, upcomingExams, previousYearPapers, }: any) {
+import ExamFilters from "./ExamFilters";
+export default function ExamListSection({ examDataArray, filterBy }: any) {
   const [MobileFilter, setMobileFilter] = useState(false);
   const [displayCount, setDisplayCount] = useState(3);
   const [filteredData, setFilteredData] = useState<any>(examDataArray);
@@ -95,13 +96,13 @@ export default function ExamListSection({ examDataArray, filterBy, upcomingExams
             onSelect={handleSelect}
           />
           {/* College List Section  */}
-          {filteredData.slice(0, 2).map((exam: any) => (
+         { filteredData.map((exam: any) => (
             <ExamFilteredCard key={exam.id} exam={exam} />
           ))}
           {/* College List Section  */}
-          {filteredData.slice(3, 4).map((exam: any) => (
+          {/* {filteredData.slice(3, 4).map((exam: any) => (
             <ExamFilteredCard key={exam.id} exam={exam} />
-          ))}
+          ))} */}
         </main>
       </Wrapper>
     </section>

@@ -62,112 +62,125 @@ export const footer = {
   },
   copyrightText: "Copyrights © 2024 collegedakhla. All rights reserved.",
   list1: {
-    title: "Quick Links",
+    title: "Products",
     links: [
       {
         id: 1,
-        label: "Home",
+        label: "Feature",
         href: "/",
       },
       {
         id: 2,
+        label: "Pricing",
+        href: "/pricing",
+      },
+      {
+        id: 3,
+        label: "Case Studies",
+        href: "/case-studies",
+      },
+      {
+        id: 4,
+        label: "Reviews",
+        href: "/reviews",
+      },
+      {
+        id: 5,
+        label: "Updates",
+        href: "/updates",
+      },
+      
+    ],
+  },
+  list2: {
+    title: "Company",
+    links: [
+      {
+        id: 1,
         label: "About",
         href: "/about",
       },
       {
-        id: 3,
-        label: "Contact Us",
+        id: 2,
+        label: "Contact us",
         href: "/contact-us",
       },
       {
-        id: 4,
-        label: "Work with Us",
-        href: "/work-with-us",
-      },
-      {
-        id: 5,
-        label: "Testimonials",
-        href: "/testimonials",
-      },
-      {
-        id: 6,
-        label: "Blogs",
-        href: "/blogs",
-      },
-      {
-        id: 7,
-        label: "News",
-        href: "/news",
-      },
-    ],
-  },
-  list2: {
-    title: "Useful Links",
-    links: [
-      {
-        id: 1,
-        label: "Education Loan",
-        href: "/education-loan",
-      },
-      {
-        id: 2,
-        label: "Courses",
-        href: "/courses",
-      },
-      {
         id: 3,
-        label: "MBBS India",
-        href: "/mbbs-india",
+        label: "Careers",
+        href: "/careers",
       },
+      
       {
         id: 4,
-        label: "MBBS Abroad",
-        href: "/mbbs-abroad",
+        label: "Culture",
+        href: "/culture",
       },
       {
         id: 5,
-        label: "Top Para Medical Colleges",
-        href: "/top-para-medical-colleges",
+        label: "Blog",
+        href: "/blog",
       },
-      {
-        id: 6,
-        label: "Top MBA Colleges",
-        href: "/top-mba-colleges",
-      },
-      {
-        id: 7,
-        label: "B.Tech",
-        href: "/b-tech",
-      },
-      {
-        id: 8,
-        label: "Explore Exams",
-        href: "/explore-exams",
-      },
+      
     ],
   },
   list3: {
-    title: "Pages",
+    title: "Support",
     links: [
       {
         id: 1,
-        label: "Application Form",
-        href: "/application-form",
+        label: "Getting started",
+        href: "/getting-started",
       },
       {
         id: 2,
-        label: "Counselling Packages",
-        href: "/counselling-packages",
+        label: "Help center",
+        href: "/help-center",
       },
       {
         id: 3,
-        label: "Study Abroad",
-        href: "/study-abroad",
+        label: "Server status",
+        href: "/server-status",
       },
       {
         id: 4,
-        label: "Latest Updates",
-        href: "/latest-updates",
+        label: "Report a bug",
+        href: "/report-a-bug",
+      },
+      {
+        id: 5,
+        label: "Chat support",
+        href: "/chat-support",
+      },
+    ],
+  },
+  list4: {
+    title: "Downloads",
+    links: [
+      {
+        id: 1,
+        label: "iOS",
+        href: "/",
+      },
+      {
+        id: 2,
+        label: "Android",
+        href: "/",
+      },
+      {
+        id: 3,
+        label: "Mac",
+        href: "/",
+      },
+      {
+        id: 4,
+        label: "Window",
+        href: "/",
+      },
+      {
+        id: 5,
+        label: "Chrome",
+        href: "/",
       },
     ],
   },
