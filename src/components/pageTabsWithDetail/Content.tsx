@@ -3,9 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import useIsMobile from "../customHooks/useIsMobile";
+import { Button } from "../Button";
+import TimelineList from "../TimelineList";
 
 export default function Content({ selectedContent }: any) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
   const isMobile = useIsMobile(1030); // breakpoint
 
   const toggleReadMore = () => {
@@ -17,7 +19,7 @@ export default function Content({ selectedContent }: any) {
       {selectedContent &&
         selectedContent?.sections?.length > 0 &&
         selectedContent?.sections?.map((section: any, index: any) => {
-          const articleLength = section.article?.length || 0;
+          const articleLength = section?.article?.length || 0;
           return (
             <div
               key={index}
@@ -25,24 +27,14 @@ export default function Content({ selectedContent }: any) {
             >
               {/* Title */}
               {section?.title && (
-                <h1 className="title1 mb-8">
-                  {section.title.t1 && (
-                    <span className="text-blue-950/70">{section.title.t1}</span>
-                  )}{" "}
-                  {section.title.t2 && (
-                    <span className="text-blue-950">{section.title.t2}</span>
-                  )}{" "}
-                  {section.title.t3 && (
-                    <span className="text-sky-500">{section.title.t3}</span>
-                  )}{" "}
-                </h1>
+                <h2 className="my-5 text-2xl font-bold">{section?.title}</h2>
               )}
               {/* Author */}
               {section?.author && (
                 <div className="mb-8 flex items-center gap-x-2">
-                  {section.author.avatar && (
+                  {section?.author?.avatar && (
                     <Image
-                      src={section.author.avatar}
+                      src={section?.author?.avatar?.url}
                       alt="avatar"
                       className="h-12 w-12 rounded-full"
                       width={48}
@@ -50,10 +42,10 @@ export default function Content({ selectedContent }: any) {
                     />
                   )}
                   <div>
-                    {section.author.name && (
-                      <p className="font-bold">{section.author.name}</p>
+                    {section?.author?.name && (
+                      <p className="font-bold">{section?.author?.name}</p>
                     )}
-                    {section.author.lastUpdated && (
+                    {section?.author?.lastUpdated && (
                       <p className="font-medium">
                         Last Updated: {section.author.lastUpdated}
                       </p>
@@ -61,42 +53,49 @@ export default function Content({ selectedContent }: any) {
                   </div>
                 </div>
               )}
+              {/* Quote  */}
+              {section?.quote && (
+                <>
+                  <div
+                    className={`mb-5 ml-2 text-wrap border-l-4 border-orange-500 bg-orange-100 py-2 pl-5 text-justify text-lg font-medium text-black ${
+                      isExpanded ? "" : "line-clamp-4"
+                    }`}
+                    dangerouslySetInnerHTML={{ __html: section.quote }}
+                  />
+                </>
+              )}
               {/* Article */}
               {section?.article && (
                 <>
                   <div
-                    className={`dangerouslySetInnerHTMLStyle mb-5 text-justify ${
-                      isExpanded ? "" : "line-clamp-4"
-                    }`}
+                    className={`dangerouslySetInnerHTMLStyle mb-5 text-justify ${isExpanded ? "" : "line-clamp-4"}`}
                     dangerouslySetInnerHTML={{ __html: section.article }}
                   />
-                  {(articleLength > 665 || isMobile) && (
+                  {/* {(articleLength > 665 || isMobile) && (
                     <button
                       onClick={toggleReadMore}
-                      className="relative right-0 mb-5 block w-full text-right font-medium hover:text-blue-500"
+                      className="relative right-0 mb-5 block w-full text-right font-medium hover:text-orange-500"
                     >
                       {isExpanded ? "Show Less" : "Read More"}
                     </button>
-                  )}
+                  )} */}
                 </>
               )}
               {/* Buttons */}
               {section?.button && (
-                <div className="flex gap-x-4 md:max-w-xl">
+                <div className="mb-5 flex gap-2 max-sm:flex-col">
                   {section.button.button1?.text && (
-                    <Link
-                      className="button6 flex-[1]"
-                      href={section.button.button1.link || "#"}
-                    >
-                      {section.button.button1.text}
+                    <Link href={section.button.button1.link || "#"}>
+                      <Button variant="black" className="text-nowrap">
+                        {section.button.button1.text}
+                      </Button>
                     </Link>
                   )}
                   {section.button.button2?.text && (
-                    <Link
-                      className="button7 flex-[1]"
-                      href={section.button.button2.link || "#"}
-                    >
-                      {section.button.button2.text}
+                    <Link href={section.button.button2.link || "#"}>
+                      <Button variant="orange" className="text-nowrap">
+                        {section.button.button2.text}
+                      </Button>
                     </Link>
                   )}
                 </div>
@@ -108,6 +107,52 @@ export default function Content({ selectedContent }: any) {
                   dangerouslySetInnerHTML={{ __html: section?.table }}
                 />
               )}
+              {/* Important Links  */}
+              {section?.importantLinks && (
+                <div>
+                  {section?.title && (
+                    <h2 className="my-5 text-2xl font-bold">
+                      {section?.importantLinks?.title}
+                    </h2>
+                  )}
+                  <ul className="mb-5">
+                    {section?.importantLinks?.links?.map(
+                      (link: any, i: number) => (
+                        <li key={i} className="mb-2 flex font-bold">
+                          <h6 className="text-black">{link.title}:</h6>
+                          <span className="ml-1">
+                            <Link
+                              className="text-blue-950/70 underline hover:text-blue-500"
+                              href={link?.href || "#"}
+                            >
+                              {link?.text}
+                            </Link>
+                          </span>
+                        </li>
+                      ),
+                    )}
+                  </ul>
+                </div>
+              )}
+              {/* banner  */}
+              {section?.banner && (
+                <div className="relative my-5">
+                  <Image
+                    src={section?.banner?.img?.url}
+                    alt="banner"
+                    width={1700}
+                    height={480}
+                    className="h-96 w-full object-cover object-center"
+                  />
+                  <p className="absolute bottom-0 left-0 w-full text-wrap bg-orange-500 bg-opacity-60 px-5 py-3 text-white">
+                    <Link href={section?.banner?.href || "#"}>
+                      {section?.banner?.text}
+                    </Link>
+                  </p>
+                </div>
+              )}
+              {/* Semester  */}
+              {section?.accordion && <TimelineList data={section?.accordion} />}
             </div>
           );
         })}

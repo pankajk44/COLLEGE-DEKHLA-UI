@@ -1,4 +1,13 @@
-import { c3, comp1, comp2, comp3, comp4, comp5, mobileBanner, user1 } from "@/assets";
+import {
+  c3,
+  comp1,
+  comp2,
+  comp3,
+  comp4,
+  comp5,
+  mobileBanner,
+  user1,
+} from "@/assets";
 
 export const banner1 = {
   title: "Get admissions in \\nyour desired College \\nToday!",
@@ -31,8 +40,21 @@ export const tabsSections = [
           name: "Pankaj Kumar",
           lastUpdated: "MAR 21, 2024 18:39 IST",
         },
-        article:
-          "<p>JEE Main 2024: NTA has released the JEE Main 2024 session 2 result for paper 2 at jeemain.nta.ac.in. The authority closed the JEE Main 2024 challenge window on May 1, 2024. The provisional JEE Main 2024 answer key for paper 2 has been released on April 30. Candidates can check the JEE Main B.Arch answer key 2024 for session 2 on the official website. Candidates who appeared for the JEE Main exam could raise objections to the answer key from April 30 to May 1. </p>",
+        quote: `<p>NTA has released the JEE Main 2024 session 2 result for paper 2 at jeemain.nta.ac.in. The authority closed the JEE Main 2024 challenge window on May 1, 2024. The provisional JEE Main 2024 answer key for paper 2 has been released on April 30. Candidates can check the JEE Main B.Arch answer key 2024 for session 2 on the official website.</p>`,
+        article: `
+          <p>JEE Main 2024: NTA has released the JEE Main 2024 session 2 result for paper 2 at jeemain.nta.ac.in. The authority closed the JEE Main 2024 challenge window on May 1, 2024. The provisional JEE Main 2024 answer key for paper 2 has been released on April 30. Candidates can check the JEE Main B.Arch answer key 2024 for session 2 on the official website. Candidates who appeared for the JEE Main exam could raise objections to the answer key from April 30 to May 1. </p>
+          <p class='note my-5'>JEE Main 2024: NTA has released the JEE Main 2024 session 2 result for paper 2 at jeemain.nta.ac.in. The authority closed the JEE Main 2024 challenge window on May 1, 2024. The provisional JEE Main 2024 answer key for paper 2 has been released on April 30. Candidates can check the JEE Main B.Arch answer key 2024 for session 2 on the official website. Candidates who appeared for the JEE Main exam could raise objections to the answer key from April 30 to May 1. </p>
+          <p class='my-5'><strong>Indian Institute of Technologies, National Institute or Technologies and Indian Institutes or Information Technology</strong> are considered to be the best Engineering Colleges in India. Engineering is likewise one of the most logically predominant fields of choice in India. Pretty much every science student has a fantasy to turn into a successful engineer. However, It is not easy for engineering aspirants to select the right engineering college in India. Here Is the following information regarding the Top Engineering Colleges in India for engineering aspirants...</p>
+            <div class="bg-orange my-5">
+            <h6 class="text-xl">This Story also Contains</h6>
+            <ul class='list'>
+            <li>Important Dates</li>
+            <li>Important Dates</li>
+            <li>Important Dates</li>
+            <li>Important Dates</li>
+            </ul>
+            </div>
+          `,
         button: {
           button1: { text: "Apply Now", link: "#" },
           button2: { text: "Download Brochure", link: "#" },
@@ -43,16 +65,19 @@ export const tabsSections = [
             {
               id: 1,
               title: "Important Links",
+              text: "https://nta.ac.in/",
               href: "#",
             },
             {
               id: 2,
               title: "Important Links",
+              text: "https://nta.ac.in/",
               href: "#",
             },
             {
               id: 2,
               title: "Important Links",
+              text: "https://nta.ac.in/",
               href: "#",
             },
           ],
@@ -128,8 +153,6 @@ export const tabsSections = [
             text: "<ul style='list-style-type: circle;'><li>Electrical & Electronics Technology</li><li>Communication Technology</li><li>Computer Technology</ul>",
           },
         ],
-        article1:
-          "<p>JEE Main 2024: NTA has released the JEE Main 2024 session 2 result for paper 2 at jeemain.nta.ac.in. The authority closed the JEE Main 2024 challenge window on May 1, 2024. The provisional JEE Main 2024 answer key for paper 2 has been released on April 30. Candidates can check the JEE Main B.Arch answer key 2024 for session 2 on the official website. Candidates who appeared for the JEE Main exam could raise objections to the answer key from April 30 to May 1. </p>",
         topRecruitersLogos: [
           { url: comp1 },
           { url: comp2 },
@@ -137,6 +160,7 @@ export const tabsSections = [
           { url: comp4 },
           { url: comp5 },
         ],
+        
       },
     ],
   },
@@ -194,4 +218,3 @@ export const faqs = [
       "The Indian Institute of Technology, Madras is a private university. The institute is governed by the Government of India. The institute has a status of Government.",
   },
 ];
-
