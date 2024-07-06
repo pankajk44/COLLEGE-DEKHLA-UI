@@ -67,7 +67,10 @@ const Filter: React.FC<FilterProps> = ({
             {/* SPECIALIZATION | MODE | LEVEL | STATE | CITY | COURSE | PROGRAM TYPE  */}
             {(title === "SPECIALIZATION" ||
               title === "MODE" ||
-              title === "LEVEL" ||
+              title === "EXAM CATEGORY" ||
+              title === "ELIGIBILITY LEVEL" ||
+              title === "EXAMINATION LEVEL" ||
+              title === "EXAM STATUS" ||
               title === "RATING" ||
               title === "STATE" ||
               title === "CITY" ||
