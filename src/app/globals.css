@@ -16,6 +16,51 @@ body {
   .redOrangeGradient {
     @apply bg-gradient-to-r from-red-400 to-orange-300;
   }
+  .dangerouslySetInnerHTMLStyle {
+    @apply w-full text-zinc-800;
+    ul {
+      @apply ml-5;
+    }
+    .note {
+      @apply my-1 w-full text-wrap bg-orange-500 px-2 py-1 text-center text-white;
+    }
+    .list {
+      @apply list-disc pl-5;
+    }
+    /* table  */
+    table {
+      @apply min-w-full table-auto border border-gray-400 text-center;
+      thead {
+        @apply bg-gray-50;
+      }
+      th {
+        @apply bg-orange-500 px-6 py-3 text-lg font-semibold tracking-wider text-white border border-gray-400 text-center;
+      }
+      tbody {
+        @apply divide-x divide-y divide-gray-400 bg-white font-normal;
+      }
+      tbody tr:nth-child(odd) {
+        @apply bg-orange-100;
+      }
+      tr {
+        @apply divide-x divide-gray-400;
+      }
+      td {
+        @apply whitespace-nowrap px-6 py-4;
+      }
+    }
+    .bg-orange {
+      @apply rounded-md bg-orange-200 p-5 text-zinc-800 ;
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        @apply font-bold text-black;
+      }
+    }
+  }
 }
 
 .topColleges {
@@ -86,3 +131,106 @@ body {
   }
 }
 
+
+/* Loading Button Animation  */
+.loadingButton {
+  color: white;
+  padding: 0.7em 1em;
+  padding-left: 0.9em;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.loadingButton span {
+  transition: all 0.3s ease-in-out;
+}
+
+.loadingButton svg {
+  display: block;
+  transform-origin: center center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.loadingButton:hover .svg-wrapper {
+  animation: fly-1 0.6s ease-in-out infinite alternate;
+}
+
+.loadingButton:hover svg {
+  transform: translateX(1.2em) rotate(45deg) scale(1.1);
+}
+
+.loadingButton:hover span {
+  transform: translateX(5em);
+}
+
+.loadingButton:active {
+  transform: scale(0.95);
+}
+
+@keyframes fly-1 {
+  from {
+    transform: translateY(0.1em);
+  }
+
+  to {
+    transform: translateY(-0.1em);
+  }
+}
+/* END Loading Button Animation  */
+
+
+.chat-bubble:before {
+  content: "";
+  position: absolute;
+  top: 0.7rem;
+  right: 100%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-right-color: rgb(113, 113, 122);
+  border-left: 0;
+}
+.chat-bubble:after {
+  content: "";
+  position: absolute;
+  top: 0.4rem;
+  right: calc(100% + 16px);
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 2px solid rgb(171, 171, 171);
+  border-radius: 50%;
+  background-color: white;
+}
+.chat-bubble-active:before {
+  content: "";
+  position: absolute;
+  top: 0.7rem;
+  right: 100%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-right-color: rgb(113, 113, 122);
+  border-left: 0;
+}
+.chat-bubble-active:after {
+  content: "";
+  position: absolute;
+  top: 0.4rem;
+  right: calc(100% + 16px);
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 50%;
+  background-color: rgb(249, 115, 22);
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2),
+    0 4px 6px -4px rgb(0 0 0 / 0.5);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color),
+    0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
