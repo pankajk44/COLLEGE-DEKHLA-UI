@@ -1,13 +1,14 @@
 "use client";
-import { getAllColleges } from "@/graphql/collegeQuery/colleges";
-import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
+import { useQuery } from "@apollo/client";
+import { getAllColleges } from "@/graphql/collegeQuery/colleges";
 
 const Home: React.FC = () => {
   const [start, setStart] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [rating, setRating] = useState("3-4"); 
 
-  const { data: collegeData, loading, error, fetchMore } = useQuery(getAllColleges, {
+  const { data: collegeData, loading, error, fetchMore } = useQuery(getAllColleges(rating), {
     variables: { start: start, limit: 1 },
   });
 
