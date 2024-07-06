@@ -56,6 +56,7 @@ export const newsPage = {
       href: "#",
       text: "The Indian Institute of Technology Kharagpur is known both nationally and internationally for excellence in technical education, basic and applied research, innovation, entrepreneurship and industrial consultancy.",
       timeStamp: "12 June 2024",
+      newsSequence: 1,
     },
     {
       id: 2,
@@ -65,6 +66,7 @@ export const newsPage = {
       href: "#",
       text: "The Indian Institute of Technology Kharagpur is known both nationally and internationally for excellence in technical education, basic and applied research, innovation, entrepreneurship and industrial consultancy.",
       timeStamp: "12 June 2024",
+      newsSequence: 2,
     },
     {
       id: 3,
@@ -74,6 +76,7 @@ export const newsPage = {
       href: "#",
       text: "The Indian Institute of Technology Kharagpur is known both nationally and internationally for excellence in technical education, basic and applied research, innovation, entrepreneurship and industrial consultancy.",
       timeStamp: "12 June 2024",
+      newsSequence: 3,
     },
   ],
 };

@@ -38,4 +38,7 @@ export const courses = {
   tabsSections: [],
   courseSequence: 1,
   lastUpdate: "Nov 17, 2023 14:25 IST",
+  isPopular: true,
+  popularSequence: 1,
+  featuredSequence: 1,
 };
