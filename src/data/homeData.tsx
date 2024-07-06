@@ -15,6 +15,8 @@ export const homePageData = {
   text4: "10000+ Reviews",
   text5: "We are here as a solution to improve people's competence in getting jobs, increasing income, and starting a professional business with quality learning at affordable prices.",
   metricData:{
+    title:"Our Metrics Tell the Story",
+    text:"Our metrics component gives you the inside scoop on your success and helps you stay on top of your game in style.",
     students:50000,
     experts:40,
     newUsers:100000,
@@ -56,7 +58,7 @@ export const homePageData = {
 
 // popular courses according to popularSequence
 // Top colleges according to topCollegeSequence
-// Testimonals
+// Testimonials
 // News  according to newsSequence
 // top Colleges according to featuredSequence
 // CounsellingPackages
