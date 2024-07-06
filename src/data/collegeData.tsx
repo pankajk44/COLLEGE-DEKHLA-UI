@@ -211,5 +211,8 @@ export const colleges = [
     news: [],
     brochureUrl: "#",
     collegeCategory: "State",
+    isPopular: true,
+    popularSequence: 1,
+    featuredSequence: 1,
   },
 ];
