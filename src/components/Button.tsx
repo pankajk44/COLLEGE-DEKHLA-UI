@@ -13,7 +13,7 @@ export const Button: React.FC<ButtonProps> = ({
   className = "",
   children,
   onClick,
-  type = "button" // Default type is "button"
+  type = "button", // Default type is "button"
 }) => {
   let style = "";
   if (variant === "black") {
@@ -27,9 +27,43 @@ export const Button: React.FC<ButtonProps> = ({
   }
 
   return (
-    <button className={`${style} ${className} w-min px-10 py-2 rounded-lg flex-center active:scale-90 gap-2`} onClick={onClick} type={type}>
+    <button
+      className={`${style} ${className} flex-center w-min gap-2 rounded-lg px-10 py-2 active:scale-90`}
+      onClick={onClick}
+      type={type}
+    >
       {children}
     </button>
   );
 };
 
+export const LoadingButton: React.FC<ButtonProps> = ({
+  children,
+  className,
+  onClick,
+  type = "button", // Default type is "button"
+}: any) => {
+  return (
+    <button
+      className={`${className} loadingButton flex-center w-min gap-2 rounded-lg bg-orange-500 px-10 py-2 active:scale-90`}
+      onClick={onClick}
+      type={type}
+    >
+      <p className="svg-wrapper">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+        >
+          <path fill="none" d="M0 0h24v24H0z"></path>
+          <path
+            fill="currentColor"
+            d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
+          ></path>
+        </svg>
+      </p>
+      <span>{children}</span>
+    </button>
+  );
+};
