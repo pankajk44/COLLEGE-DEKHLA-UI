@@ -1,4 +1,6 @@
 import {
+  book1,
+  c1,
   c3,
   comp1,
   comp2,
@@ -160,7 +162,31 @@ export const tabsSections = [
           { url: comp4 },
           { url: comp5 },
         ],
-        
+        separator: true,
+        videoGallery: {
+          title: {
+            t1: "IIT Bombay",
+            t2: "Video",
+            t3: "Gallery",
+          },
+          videos: [
+            { id: 1, category: "general", videoId: "4-YEBaUXUGo" },
+            { id: 2, category: "What students say", videoId: "4-YEBaUXUGo" },
+            { id: 3, category: "What students say", videoId: "4-YEBaUXUGo" },
+          ],
+        },
+        imageGallery: {
+          title: {
+            t1: " IIT Bombay",
+            t2: "Images",
+            t3: "Gallery",
+          },
+          images: [
+            { id: 1, url: c1, category: "hostel" },
+            { id: 2, url: c1, category: "library" },
+            { id: 3, url: c1, category: "buildings" },
+          ],
+        },
       },
     ],
   },
@@ -240,7 +266,7 @@ export const testimonials = {
       id: "2",
       userName: "Aman Sherawat",
       userAvatar: user1,
-      courseName:"B.tech",
+      courseName: "B.tech",
       collegeName: "IIT Delhi",
       star: 5,
       comment:
@@ -251,7 +277,7 @@ export const testimonials = {
       id: "3",
       userName: "Karan Gill",
       userAvatar: user1,
-      courseName:"B.tech",
+      courseName: "B.tech",
       collegeName: "IIT Delhi",
       star: 5,
       comment:
@@ -262,7 +288,7 @@ export const testimonials = {
       id: "4",
       userName: "Aman Gill",
       userAvatar: user1,
-      courseName:"B.tech",
+      courseName: "B.tech",
       collegeName: "IIT Delhi",
       star: 5,
       comment:
@@ -270,11 +296,11 @@ export const testimonials = {
       storyVideoLink: "#",
     },
   ],
-}
+};
 
-export const CounsellingPackages= {
+export const CounsellingPackages = {
   title: "Pick Your Perfect Plan",
-  text:"Find the perfect plan for your business with our flexible pricing options.",
+  text: "Find the perfect plan for your business with our flexible pricing options.",
   CounsellingPackagesCards: [
     {
       id: 1,
@@ -352,4 +378,37 @@ export const CounsellingPackages= {
       },
     },
   ],
-}
+};
+
+export const asideSection = [
+  {
+    videoGallery: {
+      title: {
+        t1: "IIT Bombay",
+        t2: "Video",
+        t3: "Gallery",
+      },
+      videos: [
+        { id: 1, category: "general", videoId: "4-YEBaUXUGo" },
+        { id: 2, category: "What students say", videoId: "4-YEBaUXUGo" },
+        { id: 3, category: "What students say", videoId: "4-YEBaUXUGo" },
+      ],
+    },
+    imageGallery: {
+      title: {
+        t1: " IIT Bombay",
+        t2: "Images",
+        t3: "Gallery",
+      },
+      images: [
+        { id: 1, url: c1, category: "hostel" },
+        { id: 2, url: c1, category: "library" },
+        { id: 3, url: c1, category: "buildings" },
+      ],
+    },
+    banner: {
+      title: "Are You Interested in this College?",
+      brochureUrl: "#",
+    },
+  },
+];

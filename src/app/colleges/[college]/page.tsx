@@ -1,9 +1,11 @@
 "use client";
 import Banner1 from "@/components/bannerSections/Banner1";
 import CollegeDetailBanner from "@/components/bannerSections/CollegeDetailBanner";
+import DetailPageAsideSection from "@/components/DetailPageAsideSection";
 import PageTabsWithDetail from "@/components/pageTabsWithDetail/PageTabsWithDetail";
+import Wrapper from "@/components/Wrappers";
 import { collegePage, colleges } from "@/data/collegeData";
-import { banner1, tabsSections } from "@/data/globalData";
+import { asideSection, banner1, tabsSections } from "@/data/globalData";
 import React from "react";
 
 export default function page() {
@@ -22,7 +24,8 @@ export default function page() {
         collegeLogo={colleges?.[0]?.collegeLogo?.url}
         collegeCategory={colleges?.[0]?.collegeCategory}
       />
-      <PageTabsWithDetail data={tabsSections} />
+
+      <PageTabsWithDetail data={tabsSections} asideData={asideSection} />
       <Banner1 data={banner1} />
     </>
   );
