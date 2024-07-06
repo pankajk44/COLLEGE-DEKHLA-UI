@@ -6,7 +6,7 @@ import { getAllColleges } from "@/graphql/collegeQuery/colleges";
 const Home: React.FC = () => {
   const [start, setStart] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [rating, setRating] = useState("3-4"); 
+  const [rating, setRating] = useState("4-5"); 
 
   const { data: collegeData, loading, error, fetchMore } = useQuery(getAllColleges(rating), {
     variables: { start: start, limit: 1 },
