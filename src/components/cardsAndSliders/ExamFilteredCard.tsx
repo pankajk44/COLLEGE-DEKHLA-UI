@@ -20,10 +20,10 @@ interface Exam {
   brochureUrl: string;
 }
 
-export default function ExamFilteredCard({ exam }: { exam: Exam }) {
+export default function ExamFilteredCard({ exam }:any) {
     return (
       <div className="relative mb-5 w-full rounded-lg shadow-lg bg-white">
-        <div className="flex gap-y-2 p-5 max-lg:flex-wrap">
+        <div className="flex gap-y-2 p-5 max-lg:flex-wrap max-lg:w-full">
           <Image
             src={exam.bg}
             alt={`${exam.examName} banner`}
@@ -88,7 +88,7 @@ export default function ExamFilteredCard({ exam }: { exam: Exam }) {
         </div>
         <div className="flex flex-wrap justify-between gap-y-2 border-t border-zinc-600 p-5">
           <ul className="flex flex-wrap items-center gap-x-4 rounded-md bg-orange-100 px-4 py-1 text-sm text-orange-600">
-            {exam.category.map((item, index) => (
+            {exam.category.map((item :any, index :any) => (
               <React.Fragment key={index}>
                 <Link href="#">
                   <li className="cursor-pointer capitalize hover:underline">

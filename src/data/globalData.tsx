@@ -275,7 +275,7 @@ export const testimonials = {
 export const CounsellingPackages= {
   title: "Pick Your Perfect Plan",
   text:"Find the perfect plan for your business with our flexible pricing options.",
-  CounsellingPackagesCards: [
+  counsellingPackagesCards: [
     {
       id: 1,
       PackageName: "Silver Package",

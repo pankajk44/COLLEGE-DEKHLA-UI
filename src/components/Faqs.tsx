@@ -14,14 +14,14 @@ export default function Faqs({ data, className = "" }: any) {
   return (
       <Wrapper as="section" className="my-10">
         {/* Title  */}
-        {data?.title && (
+        {data?.title?
           <h1 className="title1 mb-8">
             FAQ&apos;s
-          </h1>
-        )}
-        <div className={`flex flex-col gap-4 ${className}`}>
-          {data?.faqsQuestionsAndAnswers?.map((faq: any, index: number) => (
-            <div key={faq.id} className="mb-4 border-b border-zinc-300 pb-2">
+          </h1> :         <h1 className="text-center text-4xl max-sm:my-9 sm:text-5xl my-14 font-bold">Let’s clear some Doubts</h1>
+        }
+        <div className={`flex flex-col gap-4 ${className} lg:px-40`}>
+          {data?.map((faq: any, index: number) => (
+            <div key={faq.id} className="mb-4 shadow-lg rounded-2xl px-6 bg-white py-2 pt-4">
               {faq?.question && (
                 <button
                   onClick={() => toggleFaq(faq.id)}
@@ -44,8 +44,8 @@ export default function Faqs({ data, className = "" }: any) {
                       ? "max-h-96"
                       : "max-h-0 overflow-hidden"
                   }`}
-                >
-                  <p className="text-justify text-zinc-500">
+                ><hr className="my-2"/>
+                  <p className="text-justify text-zinc-500 my-3   ">
                     <TextWithLineBreak text={faq?.answer} />
                   </p>
                 </div>

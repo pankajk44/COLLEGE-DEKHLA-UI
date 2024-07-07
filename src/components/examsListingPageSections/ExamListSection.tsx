@@ -96,7 +96,7 @@ export default function ExamListSection({ examDataArray, filterBy }: any) {
             onSelect={handleSelect}
           />
           {/* College List Section  */}
-         { filteredData.map((exam: any) => (
+         { filteredData.slice(0, 3).map((exam: any) => (
             <ExamFilteredCard key={exam.id} exam={exam} />
           ))}
           {/* College List Section  */}
