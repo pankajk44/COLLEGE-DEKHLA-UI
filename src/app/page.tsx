@@ -2,7 +2,7 @@
 import React from "react";
 import Wrapper from "@/components/Wrappers";
 import { Button } from "@/components/Button";
-import { Search } from "./news/page";
+import  Search  from "./news/page";
 import { homePageData } from "@/data/homeData";
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
@@ -21,7 +21,7 @@ import {
 import { courses } from "@/data/courseData";
 import CollegesSlider from "@/components/cardsAndSliders/CollegesSlider";
 import { collegePage, colleges } from "@/data/collegeData";
-import { testimonials, CounsellingPackages, faqs } from "@/data/globalData";
+import { testimonials, CounsellingPackages, faqs, tabsSections } from "@/data/globalData";
 import { newsPage } from "@/data/newsData";
 import { exams, examsListingPage } from "@/data/examData";
 import ExamFilteredCard from "@/components/cardsAndSliders/ExamFilteredCard";
@@ -89,8 +89,8 @@ export default function Home() {
       {/* explore college */}
       <div className="relative bg-zinc-200 p-3 py-24  md:px-32 lg:px-52 ">
         <div className="bg-orange-200  pb-16">
-          <Link href={"#"} className="w-60">
-            <Button className="w-60 shadow-xl bg-orange-600 text-white px-6 mb-5">
+          <Link href={"#"} className="!w-60">
+            <Button className="!w-60 shadow-xl bg-orange-600 text-white px-6 mb-5">
               Explore colleges
             </Button>
           </Link>
@@ -103,7 +103,7 @@ export default function Home() {
                 <p >See More</p>
               </Link>
             </div> <br className="my-4"/>
-            <ExamFilteredCard exam={exams[0]} />
+            <ExamFilteredCard exam ={exams?.[0]} tabsSections={tabsSections} />
           </div>
         </div>
       </div>
@@ -137,7 +137,26 @@ function HomeBanner({ title, fullData }: any) {
           </h1>
           <p className="text-center text-xl">{title?.text}</p>
           {/* for input type */}
-          <Search />
+          {/* <Search /> */}
+
+          <Wrapper
+        as="div"
+        bgColor="bg-transparent"
+        containerClassName="px-10 py-10"
+        className="!md:pr-2 text-primary-text focus-within:border-secondary-text flex h-12 items-center gap-4 rounded-xl bg-white py-2 !pr-2 shadow-md max-md:mt-5"
+      >
+        <input
+          className="w-full pl-5 focus:outline-none max-md:p-3"
+          type="text"
+          placeholder="Search for colleges, courses etc."
+         
+          min={3}
+        />
+        <Button variant="black" className="text-sm" >
+          Submit
+        </Button>
+      </Wrapper>
+
         </div>
         {/* cards */}
         <div className="flex gap-2 flex-wrap w-full mt-8 max-sm:mt-3 justify-center">
@@ -153,7 +172,7 @@ function HomeBanner({ title, fullData }: any) {
         <h2 className="text-center text-4xl max-sm:my-9 sm:text-5xl my-14 font-bold">
           Popular Courses
         </h2>
-        <HomeSection1Slider data={courses} />
+        <HomeSection1Slider data={courses?.[0]} />
       </div>
     </Wrapper>
   );
@@ -172,7 +191,7 @@ function Section1Card({ data }: Section1CardProps) {
     </div>
   );
 }
-const HomeSection1Slider = ({ data }: any) => {
+const HomeSection1Slider = ({ data }:any) => {
   const uniqueId = "popularCourses123";
 
   const swiperOptions = {
@@ -193,11 +212,6 @@ const HomeSection1Slider = ({ data }: any) => {
     },
   };
 
-  const renderSlide = (className: string) => (
-    <SwiperSlide className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg">
-      <CollegesCardContent text={data.breadCrumb} className={className} />
-    </SwiperSlide>
-  );
 
   return (
     <>
@@ -205,14 +219,16 @@ const HomeSection1Slider = ({ data }: any) => {
         {...swiperOptions}
         className={`mySwiper !relative w-full max-w-fit px-5 ${uniqueId}`}
       >
-        {[
-          "",
-          "text-blue-800",
-          "",
-          "text-blue-800",
-          "",
-          "text-blue-800",
-        ].map((className, idx) => renderSlide(className))}
+        {["", "text-blue-800", "", "text-blue-800", "", "text-blue-800"].map(
+          (className, idx) => (
+            <SwiperSlide
+              key={idx}
+              className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
+            >
+              <CollegesCardContent text={data.breadCrumb} className={className} />
+            </SwiperSlide>
+          )
+        )}
       </Swiper>
       <div
         className={`${uniqueId}-next !absolute !text-2xl bg-white !rounded-full !text-black !bottom-48 p-2 shadow-md !right-2 max-sm:hidden`}
@@ -227,8 +243,9 @@ const HomeSection1Slider = ({ data }: any) => {
     </>
   );
 };
-const CollegesCardContent = function CollegesCard({ text }: any) {
-  return <div className="shadow px-3 py-16 text-center">{text}</div>;
+
+function CollegesCardContent({ text, className}:any){
+  return <div className={`shadow px-3 py-16 text-center ${className}`}>{text}</div>;
 };
 
 // Events function
@@ -374,7 +391,7 @@ const NewsCardSlider = ({ data }: any) => {
             key={news.id}
             className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
           >
-            <NewsCard testimonial={news} />
+            <NewsCard newspart={news} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -392,17 +409,17 @@ const NewsCardSlider = ({ data }: any) => {
   );
 };
 
-function NewsCard({ testimonial }: any) {
+function NewsCard({ newspart }: any) {
   return (
     <div className="w-full p-4">
       <Image
-        src={testimonial?.icon?.url}
+        src={newspart?.icon?.url}
         alt="profile"
         className="w-full rounded-xl"
       />
       <div className="px-4">
-        <p className="my-2">{testimonial?.text}</p>
-        <p className="text-md text-zinc-700">{testimonial?.timeStamp}</p>
+        <p className="my-2">{newspart?.text}</p>
+        <p className="text-md text-zinc-700">{newspart?.timeStamp}</p>
       </div>
     </div>
   );
