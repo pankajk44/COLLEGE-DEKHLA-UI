@@ -80,8 +80,8 @@ function Card2({ item }: any) {
   return (
     <div className="mb-4 flex items-center gap-5 border-b border-zinc-800 pb-3">
       <div className="flex flex-col gap-1">
-        <Link href={item?.href || "#"} className="font-bold">
-          <h6>{item?.title}</h6>
+        <Link  href={`news/${item?.slug }|| #`} className="font-bold cursor-pointer">
+          <h6 className="cursor-pointer">{item?.title}</h6>
         </Link>
         <div className="flex gap-5 text-xs capitalize text-orange-500">
           <p className="flex items-center gap-2">
