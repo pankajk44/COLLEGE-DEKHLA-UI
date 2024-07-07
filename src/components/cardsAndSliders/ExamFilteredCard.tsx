@@ -11,7 +11,7 @@ export default function ExamFilteredCard({ exam, tabsSections }:any) {
     <div className="relative mb-5 w-full rounded-lg bg-white shadow-lg">
       <div className="flex gap-y-2 p-5 max-lg:flex-wrap">
         <Image
-          src={exam.bg}
+          src={exam?.logo?.url}
           alt={`${exam.examName} banner`}
           width={220}
           height={175}
