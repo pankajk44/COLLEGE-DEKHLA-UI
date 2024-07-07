@@ -111,7 +111,7 @@ const Filter: React.FC<FilterProps> = ({
                       </label>
                     </div>
                   ))}
-                {!showAll && filterList.length > 5 && (
+                {!showAll && filterList?.length > 5 && (
                   <p
                     className="cursor-pointer text-right font-medium text-orange-500"
                     onClick={handleViewMore}

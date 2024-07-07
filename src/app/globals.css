@@ -16,6 +16,9 @@ body {
   .redOrangeGradient {
     @apply bg-gradient-to-r from-red-400 to-orange-300;
   }
+  .orangeRedDownGradient {
+    @apply bg-gradient-to-r from-orange-300 to-red-400;
+  }
   .dangerouslySetInnerHTMLStyle {
     @apply w-full text-zinc-800;
     ul {
