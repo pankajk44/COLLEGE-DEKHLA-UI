@@ -78,6 +78,16 @@ export const newsPage = {
       timeStamp: "12 June 2024",
       newsSequence: 3,
     },
+    {
+      id: 4,
+      icon: {url:book1},
+      category: "exam",
+      title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
+      href: "#",
+      text: "The Indian Institute of Technology Kharagpur is known both nationally and internationally for excellence in technical education, basic and applied research, innovation, entrepreneurship and industrial consultancy.",
+      timeStamp: "12 June 2024",
+      newsSequence: 3,
+    },
   ],
 };
 

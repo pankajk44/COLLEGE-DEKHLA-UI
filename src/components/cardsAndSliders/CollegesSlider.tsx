@@ -12,12 +12,12 @@ import Link from "next/link";
 import { FaStar } from "react-icons/fa";
 import { addCommas } from "@/utils/customText";
 
-export default function CollegesSlider({ data }: any) {
+export default function CollegesSlider({ data , mainscreen, spaceBetween}: any) {
   const uniqueId = "college123";
 
   const swiperOptions = {
     slidesPerView: 1,
-    spaceBetween: 10,
+    spaceBetween: spaceBetween || 10,
     pagination: {
       clickable: true,
       // dynamicBullets: true,
@@ -40,7 +40,7 @@ export default function CollegesSlider({ data }: any) {
         slidesPerView: 3,
       },
       1024: {
-        slidesPerView: 4,
+        slidesPerView: mainscreen || 4,
       },
     },
   };
