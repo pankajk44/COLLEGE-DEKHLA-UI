@@ -26,17 +26,9 @@ export default function ExamDetailBanner({
     <Wrapper
       as="section"
       containerClassName="mt-[4rem] px-5"
-      className="relative overflow-hidden rounded-2xl !px-0 text-white md:!px-0"
+      className=" rounded-2xl  text-white flex items-center justify-between bg-orange-200 p-8 px-8"
     >
-      {/* Bg Image  */}
-      <Image
-        src={bgImage}
-        alt="banner"
-        width={1200}
-        height={500}
-        className="h-60 w-full object-cover"
-      />
-      <div className="absolute left-0 top-0 flex h-full w-full items-center justify-between bg-black bg-opacity-50 p-8 px-8">
+      <div className="">
         {/* Left Side  */}
         <div className="flex flex-[8] justify-center gap-5">
           <div className="w-min rounded-2xl bg-white p-2">
