@@ -9,14 +9,14 @@ import React from "react";
 export default function ExamDetailsPage() {
   return (
     <>
-      {/* <ExamDetailBanner
+      <ExamDetailBanner
         breadCrumb={exams?.[0]?.breadCrumb}
         examName={exams?.[0]?.examName}
         titleAddition={exams?.[0]?.titleAddition}
         examLogo={exams?.[0]?.logo?.url}
         brochureUrl={exams?.[0]?.brochureUrl}
         lastUpdate={exams?.[0]?.lastUpdate}
-      /> */}
+      />
       <PageTabsWithDetail data={tabsSections} asideData={asideSection} />
       <Banner1 data={banner1} />
     </>

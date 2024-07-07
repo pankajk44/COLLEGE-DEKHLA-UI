@@ -118,7 +118,25 @@ export default function CollegeListSection({
           <TopCollegesScroll data={topColleges} />
           {/* Next College List Section  */}
           {filteredData.slice(3).map((college: any) => (
-            <CollegeFilteredCard key={college.id} college={college} />
+            <CollegeFilteredCard 
+            key={college.id}
+            slug={college?.slug}
+            bgImage={college?.bgImage?.url}
+            city={college?.location?.city}
+            state={college?.location?.state}
+            overallRating={college?.reviewsAndRatings?.overallRating}
+            totalReviews={college?.reviewsAndRatings?.totalReviews}
+            avgFeePerYear={college?.avgFeePerYear}
+            affiliation={college?.affiliation}
+            hightestPackage={college?.hightestPackage}
+            brochureUrl={college?.brochureUrl}
+            collegeType={college?.collegeType}
+            collegeName={college?.collegeName}
+            avgPackage={college?.avgPackage}
+            exam={college?.exam}
+            description={college?.description}
+            tabsSections={tabsSections}
+            />
           ))}
         </main>
       </Wrapper>
