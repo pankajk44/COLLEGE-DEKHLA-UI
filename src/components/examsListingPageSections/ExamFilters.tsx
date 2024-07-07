@@ -13,11 +13,11 @@ export default function ExamFilters({
   setMobileFilter,
 }: any) {
   // Filter Checked
-  const [StreamCheckedFilters, setStreamCheckedFilters] = useState<string[]>(
-    [],
-  );
+  const [StreamCheckedFilters, setStreamCheckedFilters] = useState<string[]>( [], );
   const [ModeCheckedFilters, setModeCheckedFilters] = useState<string[]>([]);
-  const [LevelCheckedFilters, setLevelCheckedFilters] = useState<string[]>([]);
+  const [EligibilityLevelCheckedFilters, setEligibilityLevelCheckedFilters] = useState<string[]>([]);
+  const [ExaminationLevelCheckedFilters, setExaminationLevelCheckedFilters] = useState<string[]>([]);
+  const [ExamStatusCheckedFilters, setExamStatusCheckedFilters] = useState< string[] >([]);
 
   // handleFilter functions
   const handleStreamFilter = (data: string) => {
@@ -46,13 +46,39 @@ export default function ExamFilters({
     }));
   };
 
-  const handleLevelFilter = (data: string) => {
+  const handleEligibilityLevelFilter = (data: string) => {
     // Toggle the selection
-    const updatedSelection = LevelCheckedFilters.includes(data)
-      ? LevelCheckedFilters.filter((item) => item !== data)
-      : [...LevelCheckedFilters, data];
+    const updatedSelection = EligibilityLevelCheckedFilters.includes(data)
+      ? EligibilityLevelCheckedFilters.filter((item) => item !== data)
+      : [...EligibilityLevelCheckedFilters, data];
 
-    setLevelCheckedFilters(updatedSelection);
+    setEligibilityLevelCheckedFilters(updatedSelection);
+    setSelectedFilters((prevData: any) => ({
+      ...prevData,
+      level: updatedSelection,
+    }));
+  };
+
+  const handleExaminationLevelFilter = (data: string) => {
+    // Toggle the selection
+    const updatedSelection = ExaminationLevelCheckedFilters.includes(data)
+      ? ExaminationLevelCheckedFilters.filter((item) => item !== data)
+      : [...ExaminationLevelCheckedFilters, data];
+
+    setExaminationLevelCheckedFilters(updatedSelection);
+    setSelectedFilters((prevData: any) => ({
+      ...prevData,
+      level: updatedSelection,
+    }));
+  };
+
+  const handleExamStatusFilter = (data: string) => {
+    // Toggle the selection
+    const updatedSelection = ExamStatusCheckedFilters.includes(data)
+      ? ExamStatusCheckedFilters.filter((item) => item !== data)
+      : [...ExamStatusCheckedFilters, data];
+
+    setExamStatusCheckedFilters(updatedSelection);
     setSelectedFilters((prevData: any) => ({
       ...prevData,
       level: updatedSelection,
@@ -63,18 +89,27 @@ export default function ExamFilters({
   const handleUnselectFilter = (filter?: string) => {
     if (filter === "stream") {
       setStreamCheckedFilters([]);
-      setSelectedFilters((prevData: any) => ({
-        ...prevData,
-        stream: [],
-      }));
+      setSelectedFilters((prevData: any) => ({ ...prevData, stream: [] }));
     } else if (filter === "mode") {
       setModeCheckedFilters([]);
       setSelectedFilters((prevData: any) => ({
         ...prevData,
         mode: [],
       }));
-    } else if (filter === "category") {
-      setLevelCheckedFilters([]);
+    } else if (filter === "eligibilityLevel") {
+      setEligibilityLevelCheckedFilters([]);
+      setSelectedFilters((prevData: any) => ({
+        ...prevData,
+        category: [],
+      }));
+    } else if (filter === "examinationLevel") {
+      setExaminationLevelCheckedFilters([]);
+      setSelectedFilters((prevData: any) => ({
+        ...prevData,
+        category: [],
+      }));
+    } else if (filter === "examStatus") {
+      setExamStatusCheckedFilters([]);
       setSelectedFilters((prevData: any) => ({
         ...prevData,
         category: [],
@@ -91,13 +126,11 @@ export default function ExamFilters({
       >
         <IoIosCloseCircleOutline />
       </button>
-      <h1 className="mb-10 font-medium">
-        Showing {totalResults} Results
-      </h1>
-      <div className="w-full rounded border-2 border-zinc-300 bg-white p-5 pb-0 max-md:bg-opacity-95">
+      <h1 className="mb-10 font-medium">Showing {totalResults} Results</h1>
+      <div className="w-full pb-0 max-md:bg-opacity-95">
         <h2 className="mb-5 font-medium">Find Exam</h2>
         {/* Selected filters display */}
-        <div className="flex flex-wrap items-center gap-1">
+        <div className="flex flex-wrap items-center gap-1 mb-3 max-md:text-white">
           {Object.values(SelectedFilters).some(
             (value) =>
               value !== "" && (!Array.isArray(value) || value.length !== 0),
@@ -112,7 +145,7 @@ export default function ExamFilters({
               (!Array.isArray(value) || value.length !== 0) && (
                 <div
                   key={key}
-                  className="flex w-max items-center gap-1 rounded-md border border-blue-500 px-2 py-1 text-xs"
+                  className="flex w-max items-center gap-1 rounded-md border border-orange-500 px-2 py-1 text-xs"
                 >
                   <span className="max-w-[150px] text-wrap">{value}</span>
                   <button onClick={() => handleUnselectFilter(key)}>
@@ -127,7 +160,7 @@ export default function ExamFilters({
 
         {/* Filters  */}
         <Filter
-          title="STREAM"
+          title="SPECIALIZATION"
           filterList={filterBy?.stream}
           handleFilter={handleStreamFilter}
           checked={StreamCheckedFilters}
@@ -139,10 +172,22 @@ export default function ExamFilters({
           checked={ModeCheckedFilters}
         />
         <Filter
-          title="CATEGORY"
-          filterList={filterBy?.category}
-          handleFilter={handleLevelFilter}
-          checked={LevelCheckedFilters}
+          title="ELIGIBILITY LEVEL"
+          filterList={filterBy?.eligibilityLevel}
+          handleFilter={handleEligibilityLevelFilter}
+          checked={EligibilityLevelCheckedFilters}
+        />
+        <Filter
+          title="EXAMINATION LEVEL"
+          filterList={filterBy?.examinationLevel}
+          handleFilter={handleExaminationLevelFilter}
+          checked={ExaminationLevelCheckedFilters}
+        />
+        <Filter
+          title="EXAM STATUS"
+          filterList={filterBy?.examStatus}
+          handleFilter={handleExamStatusFilter}
+          checked={ExamStatusCheckedFilters}
         />
       </div>
     </aside>

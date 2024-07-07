@@ -55,7 +55,7 @@ export default function Navbar({ category, onSelect, selectedNav }: any) {
             <button
               className={`px-5 py-1 border  rounded-s-full rounded-e-full text-nowrap ${
                 selectedNav === index
-                  ? " border-blue-500 text-blue-500 bg-blue-100"
+                  ? " border-orange-500 text-orange-500 bg-orange-100"
                   : "border-zinc-400 text-zinc-500 bg-zinc-100"
               }`}
               onClick={() => onSelect(index)}
@@ -67,7 +67,7 @@ export default function Navbar({ category, onSelect, selectedNav }: any) {
       </ul>
       {showLeftButton && (
         <button
-          className="absolute left-1 top-1/2 transform -translate-y-1/2 rounded-full bg-blue-500 opacity-60 hover:opacity-100 p-1"
+          className="absolute left-1 top-1/2 transform -translate-y-1/2 rounded-full bg-orange-500 opacity-60 hover:opacity-100 p-1"
           onClick={handleScrollLeft}
         >
           <TiChevronLeft className="text-3xl text-white" />
@@ -75,7 +75,7 @@ export default function Navbar({ category, onSelect, selectedNav }: any) {
       )}
       {showRightButton && (
         <button
-          className="absolute right-1 top-1/2 transform -translate-y-1/2 rounded-full bg-blue-500 opacity-60 hover:opacity-100 p-1"
+          className="absolute right-1 top-1/2 transform -translate-y-1/2 rounded-full bg-orange-500 opacity-60 hover:opacity-100 p-1"
           onClick={handleScrollRight}
         >
           <TiChevronRight className="text-3xl text-white" />

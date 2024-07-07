@@ -135,16 +135,6 @@ export const colleges = [
     tabsSections: [],
     // See In CoursesData page
     courses: [],
-    videoGallery: [
-      { id: 1, title: "Video 1", videoId: "4-YEBaUXUGo" },
-      { id: 2, title: "Video 2", videoId: "4-YEBaUXUGo" },
-      { id: 3, title: "Video 3", videoId: "4-YEBaUXUGo" },
-    ],
-    imageGallery: [
-      { id: 1, url: c1, category: "hostel" },
-      { id: 2, url: c1, category: "library" },
-      { id: 3, url: c1, category: "buildings" },
-    ],
     // See in GlobalData
     faqs: [],
     reviewsAndRatings: {
@@ -211,5 +201,8 @@ export const colleges = [
     news: [],
     brochureUrl: "#",
     collegeCategory: "State",
+    isPopular: true,
+    popularSequence: 1,
+    featuredSequence: 1,
   },
 ];

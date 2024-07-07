@@ -1,4 +1,6 @@
 import {
+  book1,
+  c1,
   c3,
   comp1,
   comp2,
@@ -160,7 +162,31 @@ export const tabsSections = [
           { url: comp4 },
           { url: comp5 },
         ],
-        
+        separator: true,
+        videoGallery: {
+          title: {
+            t1: "IIT Bombay",
+            t2: "Video",
+            t3: "Gallery",
+          },
+          videos: [
+            { id: 1, category: "general", videoId: "4-YEBaUXUGo" },
+            { id: 2, category: "What students say", videoId: "4-YEBaUXUGo" },
+            { id: 3, category: "What students say", videoId: "4-YEBaUXUGo" },
+          ],
+        },
+        imageGallery: {
+          title: {
+            t1: " IIT Bombay",
+            t2: "Images",
+            t3: "Gallery",
+          },
+          images: [
+            { id: 1, url: c1, category: "hostel" },
+            { id: 2, url: c1, category: "library" },
+            { id: 3, url: c1, category: "buildings" },
+          ],
+        },
       },
     ],
   },
@@ -216,5 +242,173 @@ export const faqs = [
     question: "What courses does the University Offer?",
     answer:
       "The Indian Institute of Technology, Madras is a private university. The institute is governed by the Government of India. The institute has a status of Government.",
+  },
+];
+
+export const testimonials = {
+  title: {
+    t1: "What students say",
+    t2: "About Us",
+  },
+  text1: "Discover Success Stories \nfrom Our Satisfied Students",
+  testimonials: [
+    {
+      id: "1",
+      userName: "Pankaj",
+      userAvatar: user1,
+      college: "MBA, IIM Ahmedabad",
+      star: 5,
+      comment:
+        "Thanks to the guidance I received from this platform, I not only found the perfect college but also gained invaluable insights into the admission process. Highly recommended!",
+      storyVideoLink: "#",
+    },
+    {
+      id: "2",
+      userName: "Aman Sherawat",
+      userAvatar: user1,
+      courseName: "B.tech",
+      collegeName: "IIT Delhi",
+      star: 5,
+      comment:
+        "I was overwhelmed with options until I came across this website. The personalized counseling helped me narrow down my choices and make informed decisions.",
+      storyVideoLink: "#",
+    },
+    {
+      id: "3",
+      userName: "Karan Gill",
+      userAvatar: user1,
+      courseName: "B.tech",
+      collegeName: "IIT Delhi",
+      star: 5,
+      comment:
+        "I was overwhelmed with options until I came across this website. The personalized counseling helped me narrow down my choices and make informed decisions.",
+      storyVideoLink: "#",
+    },
+    {
+      id: "4",
+      userName: "Aman Gill",
+      userAvatar: user1,
+      courseName: "B.tech",
+      collegeName: "IIT Delhi",
+      star: 5,
+      comment:
+        "I was overwhelmed with options until I came across this website. The personalized counseling helped me narrow down my choices and make informed decisions.",
+      storyVideoLink: "#",
+    },
+  ],
+};
+
+export const CounsellingPackages = {
+  title: "Pick Your Perfect Plan",
+  text: "Find the perfect plan for your business with our flexible pricing options.",
+  CounsellingPackagesCards: [
+    {
+      id: 1,
+      PackageName: "Silver Package",
+      isPopular: false,
+      price: 11000,
+      text: "Essential guidance to kickstart \nyour journey",
+      lists: [
+        {
+          isInclude: true,
+          text: "Personal Counsellor",
+        },
+        {
+          isInclude: true,
+          text: "Admission Procedure",
+        },
+        {
+          isInclude: true,
+          text: "Lowest Package Seats",
+        },
+      ],
+      button: {
+        text: "Get Started",
+        href: "#",
+      },
+    },
+    {
+      id: 2,
+      PackageName: "Gold Package",
+      isPopular: true,
+      price: 25000,
+      text: "Comprehensive support tailored \nto your ambitions",
+      lists: [
+        {
+          isInclude: true,
+          text: "Personal Counsellor",
+        },
+        {
+          isInclude: true,
+          text: "Admission Procedure",
+        },
+        {
+          isInclude: true,
+          text: "Lowest Package Seats",
+        },
+      ],
+      button: {
+        text: "Get Started",
+        href: "#",
+      },
+    },
+    {
+      id: 3,
+      PackageName: "Diamond Package",
+      isPopular: false,
+      price: 55000,
+      text1: "Unmatched assistance for your \nacademic aspirations",
+      lists: [
+        {
+          isInclude: true,
+          text: "Personal Counsellor",
+        },
+        {
+          isInclude: true,
+          text: "Admission Procedure",
+        },
+        {
+          isInclude: true,
+          text: "Lowest Package Seats",
+        },
+      ],
+      button: {
+        text: "Get Started",
+        href: "#",
+      },
+    },
+  ],
+};
+
+export const asideSection = [
+  {
+    videoGallery: {
+      title: {
+        t1: "IIT Bombay",
+        t2: "Video",
+        t3: "Gallery",
+      },
+      videos: [
+        { id: 1, category: "general", videoId: "4-YEBaUXUGo" },
+        { id: 2, category: "What students say", videoId: "4-YEBaUXUGo" },
+        { id: 3, category: "What students say", videoId: "4-YEBaUXUGo" },
+      ],
+    },
+    imageGallery: {
+      title: {
+        t1: " IIT Bombay",
+        t2: "Images",
+        t3: "Gallery",
+      },
+      images: [
+        { id: 1, url: c1, category: "hostel" },
+        { id: 2, url: c1, category: "library" },
+        { id: 3, url: c1, category: "buildings" },
+      ],
+    },
+    banner: {
+      title: "Are You Interested in this College?",
+      brochureUrl: "#",
+    },
   },
 ];

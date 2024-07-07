@@ -20,7 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
     style = `hover:bg-zinc-800 bg-black text-white`;
   }
   if (variant === "white") {
-    style = `hover:bg-orange-500 bg-white text-black`;
+    style = `hover:bg-zinc-200 bg-white text-black`;
   }
   if (variant === "orange") {
     style = `hover:bg-orange-300 bg-orange-200 text-orange-500 border border-orange-500`;

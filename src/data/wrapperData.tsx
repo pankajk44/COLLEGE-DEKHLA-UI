@@ -3,7 +3,6 @@ import { footerLogo, headerLogo } from "@/assets";
 export const header = {
   logo: headerLogo,
   href: "/",
-
   navItems: [
     {
       id: 1,
@@ -26,7 +25,7 @@ export const header = {
     {
       id: 3,
       label: "Programs",
-      href: "/programs",
+      href: "/courses",
       subNav: [],
     },
 
