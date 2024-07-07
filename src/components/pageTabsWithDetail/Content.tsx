@@ -6,6 +6,8 @@ import useIsMobile from "../customHooks/useIsMobile";
 import { Button } from "../Button";
 import TimelineList from "../TimelineList";
 import YoutubeVideo from "../youtubeVideo";
+import { StarRating } from "../StarRating";
+import { FaStar } from "react-icons/fa";
 
 export default function Content({ selectedContent }: any) {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -248,6 +250,10 @@ export default function Content({ selectedContent }: any) {
                 <div className="my-5 h-0.5 w-full bg-zinc-300"></div>
               )}
               {/* =================================================== */}
+              {/* Review  */}
+              {section?.reviewsAndRatings && (
+                <ReviewsAndRatingsSection data={section?.reviewsAndRatings} />
+              )}
             </div>
           );
         })}
@@ -257,4 +263,92 @@ export default function Content({ selectedContent }: any) {
 
 function RelatedCourses() {
   return <div></div>;
+}
+
+function ReviewsAndRatingsSection({ data }: any) {
+  return (
+    <div className="space-y-5">
+      <div className="my-5 flex items-center justify-center gap-5 max-md:flex-col">
+        {/* Overall Rating Section  */}
+        <div className="flex-center flex-col rounded-2xl bg-orange-200 p-5">
+          <h2 className="text-7xl font-semibold">{data?.overallRating}</h2>
+          <div>
+            <StarRating
+              rating={data?.overallRating}
+              className="gap-2 text-lg text-orange-500"
+            />
+          </div>
+          <p>{data?.totalReviews} Reviews</p>
+        </div>
+        {/* Rating according to number  */}
+        <div className="space-y-2">
+          <div className="flex items-center gap-3">
+            <p className="flex items-center gap-2 font-semibold">
+              5 <FaStar className="text-orange-500" />
+            </p>
+            <ProgressBar value={"90"} />
+            <p>(90%)</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <p className="flex items-center gap-2 font-semibold">
+              4 <FaStar className="text-orange-500" />
+            </p>
+            <ProgressBar value={"73"} />
+            <p>(73%)</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <p className="flex items-center gap-2 font-semibold">
+              3 <FaStar className="text-orange-500" />
+            </p>
+            <ProgressBar value={"44"} />
+            <p>(44%)</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <p className="flex items-center gap-2 font-semibold">
+              2 <FaStar className="text-orange-500" />
+            </p>
+            <ProgressBar value={"75"} />
+            <p>(75%)</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <p className="flex items-center gap-2 font-semibold">
+              1 <FaStar className="text-orange-500" />
+            </p>
+            <ProgressBar value={"30"} />
+            <p>(30%)</p>
+          </div>
+        </div>
+      </div>
+      <div className="flex overflow-x-auto gap-5 justify-center text-center">
+        {data?.individualReviews?.map((review: any, index: number) => (
+          <div key={index} className="flex-center flex-col">
+            <div className="flex-center rounded-lg bg-orange-300 p-2">
+              <Image
+                src={review?.icon?.url}
+                alt="icon"
+                width={50}
+                height={50}
+              />
+            </div>
+            <p>{review?.title}</p>
+            <p className="flex items-center gap-2">
+              {review?.rating} <FaStar className="text-orange-500" />
+            </p>
+            <p className="text-nowrap">based on ({review?.basedOn} )</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ProgressBar({ value }: any) {
+  return (
+    <div className="h-2 min-w-60 rounded-full bg-orange-200">
+      <div
+        className={`h-2 rounded-full bg-orange-500`}
+        style={{ width: `${value}%` }}
+      ></div>
+    </div>
+  );
 }
