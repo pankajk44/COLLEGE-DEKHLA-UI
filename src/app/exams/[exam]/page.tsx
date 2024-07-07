@@ -1,20 +1,24 @@
-import React from 'react'
-import { examsListingPage, exams } from "@/data/examData";
-import Image from 'next/image';
-
+"use client";
+import Banner1 from "@/components/bannerSections/Banner1";
+import ExamDetailBanner from "@/components/bannerSections/ExamDetailBanner";
+import PageTabsWithDetail from "@/components/pageTabsWithDetail/PageTabsWithDetail";
+import { exams } from "@/data/examData";
+import { asideSection, banner1, tabsSections } from "@/data/globalData";
+import React from "react";
 
 export default function ExamDetailsPage() {
   return (
-    <div className='text-[500px]'>page</div>
-  )
-}
-
-
-
-function ExamDetailBanner(){
-  <div className='rounded-2xl bg-white p-3 opacity-30'>
-    <div className='rounded-2xl bg-[#FFDFC1] p-6'>
-
-    </div>
-  </div>
+    <>
+      <ExamDetailBanner
+        breadCrumb={exams?.[0]?.breadCrumb}
+        examName={exams?.[0]?.examName}
+        titleAddition={exams?.[0]?.titleAddition}
+        examLogo={exams?.[0]?.logo?.url}
+        brochureUrl={exams?.[0]?.brochureUrl}
+        lastUpdate={exams?.[0]?.lastUpdate}
+      />
+      <PageTabsWithDetail data={tabsSections} asideData={asideSection} />
+      <Banner1 data={banner1} />
+    </>
+  );
 }

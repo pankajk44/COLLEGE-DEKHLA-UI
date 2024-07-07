@@ -67,7 +67,10 @@ const Filter: React.FC<FilterProps> = ({
             {/* SPECIALIZATION | MODE | LEVEL | STATE | CITY | COURSE | PROGRAM TYPE  */}
             {(title === "SPECIALIZATION" ||
               title === "MODE" ||
-              title === "LEVEL" ||
+              title === "EXAM CATEGORY" ||
+              title === "ELIGIBILITY LEVEL" ||
+              title === "EXAMINATION LEVEL" ||
+              title === "EXAM STATUS" ||
               title === "RATING" ||
               title === "STATE" ||
               title === "CITY" ||
@@ -108,7 +111,7 @@ const Filter: React.FC<FilterProps> = ({
                       </label>
                     </div>
                   ))}
-                {!showAll && filterList.length > 5 && (
+                {!showAll && filterList?.length > 5 && (
                   <p
                     className="cursor-pointer text-right font-medium text-orange-500"
                     onClick={handleViewMore}

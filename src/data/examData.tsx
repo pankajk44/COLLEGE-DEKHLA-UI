@@ -4,8 +4,8 @@ import {
   examBg2,
   examBg3,
   examBg4,
-  examPaper,
   user1,
+  examPaper,
 } from "@/assets";
 
 export const examsListingPage = {
@@ -14,7 +14,7 @@ export const examsListingPage = {
       { url: examBg4 },
       { url: examBg1 },
       { url: examBg2 },
-      { url: examBg4 },
+      { url: examBg3},
     ],
   },
   filterBy: {
@@ -27,16 +27,6 @@ export const examsListingPage = {
       "art & humanities",
     ],
     mode: ["online", "offline", "both"],
-    eligibilityLevel: [
-      "B.Sc",
-      "BA",
-      "B.Com",
-      "B.Tech",
-      "Polytechnic",
-      "M.Sc",
-      "PhD",
-      "BCA",
-    ],
     category: [
       "JEE MAIN",
       "NEET",
@@ -50,7 +40,18 @@ export const examsListingPage = {
       "IELTS",
       "GMAT",
     ],
-    ExaminationLevel: ["National", "State", "International", "NRI", "Other"],
+    eligibilityLevel: [
+      "B.Sc",
+      "BA",
+      "B.Com",
+      "B.Tech",
+      "Polytechnic",
+      "M.Sc",
+      "PhD",
+      "BCA",
+    ],
+
+    examinationLevel: ["National", "State", "International", "NRI", "Other"],
     examStatus: ["Upcoming exams", "Ongoing", "Closed"],
   },
 };
@@ -59,8 +60,7 @@ export const exams = [
   {
     id: 1,
     slug: "/jee-advanced-2024",
-    logo: exam1,
-    bg: examBg1,
+    logo: {url:exam1},
     breadCrumb: "JEE ADVANCED 2024",
     examName: "Joint Entrance Exam Advanced (JEE Advanced)2024",
     description:

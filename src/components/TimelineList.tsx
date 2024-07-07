@@ -8,7 +8,7 @@ export default function TimelineList({ data }: any) {
     setIsOpen(isOpen === id ? null : id);
   };
   return (
-    <div className="pt-5 flex w-full gap-x-3 items-stretch">
+    <div className="pt-5 flex w-full gap-x-3 items-stretch mb-5">
       <div className=" mx-4 w-[2px] border-r-2 border-zinc-500"></div>
       <div className="w-full flex flex-col gap-4  pt-0">
         {data?.map((item: any, index: number) => (
@@ -30,7 +30,7 @@ export default function TimelineList({ data }: any) {
                 {item?.title}
               </span>
               <IoIosArrowDown
-                className={`flex-center transform rounded-full bg-orange-500 p-1 text-2xl text-white transition-transform ${
+                className={`flex-center transform rounded-full bg-orange-500 p-1 text-2xl text-zinc-600 transition-transform ${
                   isOpen === item.id || (index === 0 && isOpen === null)
                     ? "rotate-180"
                     : ""
