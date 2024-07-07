@@ -150,7 +150,7 @@ export function SignInContainer({
         us{" "}
       </h2>
       <h3 className="text-xl ">Continue with mobile </h3>
-      <p className="text-xs">You'll receive a 4 digit code to verify next</p>
+      <p className="text-xs">You&apos;ll receive a 4 digit code to verify next</p>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         {isOtp ? (
           <>
