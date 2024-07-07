@@ -46,3 +46,5 @@ function TopColleges({ data, totalCollegesFound }: any) {
     </Wrapper>
   );
 }
+
+
