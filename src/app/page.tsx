@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Wrapper from "@/components/Wrappers";
 import { Button } from "@/components/Button";
-import  Search  from "./news/page";
+import Search from "./news/page";
 import { homePageData } from "@/data/homeData";
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
@@ -12,24 +12,24 @@ import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  FaAngleLeft,
-  FaAngleRight,
-  FaCheck,
-  FaStar,
-} from "react-icons/fa";
+import { FaAngleLeft, FaAngleRight, FaCheck, FaStar } from "react-icons/fa";
 import { courses } from "@/data/courseData";
 import CollegesSlider from "@/components/cardsAndSliders/CollegesSlider";
 import { collegePage, colleges } from "@/data/collegeData";
-import { testimonials, CounsellingPackages, faqs, tabsSections } from "@/data/globalData";
+import {
+  testimonials,
+  CounsellingPackages,
+  faqs,
+  tabsSections,
+  banner1,
+} from "@/data/globalData";
 import { newsPage } from "@/data/newsData";
 import { exams, examsListingPage } from "@/data/examData";
 import ExamFilteredCard from "@/components/cardsAndSliders/ExamFilteredCard";
 import { ImCross } from "react-icons/im";
 import Faqs from "@/components/Faqs";
-import { useQuery } from "@apollo/client";
-import { getAllColleges } from "@/graphql/collegeQuery/colleges";
-
+import { from } from "@apollo/client";
+import Banner1 from "@/components/bannerSections/Banner1";
 
 const Home: React.FC = () => {
   // const [start, setStart] = useState(0);
@@ -92,7 +92,6 @@ const Home: React.FC = () => {
   // console.log("collegeData", collegeData);
 
   
-
   return (
     <>
       <HomeBanner
@@ -117,7 +116,7 @@ const Home: React.FC = () => {
           <CollegesSlider data={colleges} mainscreen={3} spaceBetween={30} />
         </div>
         <div className="flex-center w-full my-6">
-          <Link href={"#"} >
+          <Link href={"#"}>
             <Button variant="white" className="!w-48 shadow-xl px-6">
               View More
             </Button>
@@ -142,7 +141,7 @@ const Home: React.FC = () => {
         </h2>
         <NewsCardSlider data={newsPage?.news} />
         <div className="flex-center w-full my-6">
-          <Link href={"#"} >
+          <Link href={"#"}>
             <Button variant="white" className="!w-48 shadow-xl px-6">
               View More
             </Button>
@@ -164,30 +163,29 @@ const Home: React.FC = () => {
                 href={"#"}
                 className="block float-right text-orange-500 font-bold text-xl "
               >
-                <p >See More</p>
+                <p>See More</p>
               </Link>
-            </div> <br className="my-4"/>
-            <ExamFilteredCard exam ={exams?.[0]} tabsSections={tabsSections} />
+            </div>{" "}
+            <br className="my-4" />
+            <ExamFilteredCard exam={exams?.[0]} tabsSections={tabsSections} />
           </div>
         </div>
       </div>
 
       {/* metric data */}
-      <MetricsCard data = {homePageData?.metricData}/>
+      <MetricsCard data={homePageData?.metricData} />
 
       {/* packages part */}
-      <PackageCard data = {CounsellingPackages}/>
+      <PackageCard data={CounsellingPackages} />
 
-{/* faqs */}
-<Faqs data={faqs}/>
+      {/* faqs */}
+      <Faqs data={faqs} />
 
-{/* final creative section */}
-{/* <LastSection/> */}
+      {/* final creative section */}
+      <LastSection />
     </>
   );
 }
-
-
 
 function HomeBanner({ title, fullData }: any) {
   return (
@@ -204,23 +202,21 @@ function HomeBanner({ title, fullData }: any) {
           {/* <Search /> */}
 
           <Wrapper
-        as="div"
-        bgColor="bg-transparent"
-        containerClassName="px-10 py-10"
-        className="!md:pr-2 text-primary-text focus-within:border-secondary-text flex h-12 items-center gap-4 rounded-xl bg-white py-2 !pr-2 shadow-md max-md:mt-5"
-      >
-        <input
-          className="w-full pl-5 focus:outline-none max-md:p-3"
-          type="text"
-          placeholder="Search for colleges, courses etc."
-         
-          min={3}
-        />
-        <Button variant="black" className="text-sm" >
-          Submit
-        </Button>
-      </Wrapper>
-
+            as="div"
+            bgColor="bg-transparent"
+            containerClassName="px-10 py-10"
+            className="!md:pr-2 text-primary-text focus-within:border-secondary-text flex h-12 items-center gap-4 rounded-xl bg-white py-2 !pr-2 shadow-md max-md:mt-5"
+          >
+            <input
+              className="w-full pl-5 focus:outline-none max-md:p-3"
+              type="text"
+              placeholder="Search for colleges, courses etc."
+              min={3}
+            />
+            <Button variant="black" className="text-sm">
+              Submit
+            </Button>
+          </Wrapper>
         </div>
         {/* cards */}
         <div className="flex gap-2 flex-wrap w-full mt-8 max-sm:mt-3 justify-center">
@@ -255,7 +251,7 @@ function Section1Card({ data }: Section1CardProps) {
     </div>
   );
 }
-const HomeSection1Slider = ({ data }:any) => {
+const HomeSection1Slider = ({ data }: any) => {
   const uniqueId = "popularCourses123";
 
   const swiperOptions = {
@@ -276,12 +272,11 @@ const HomeSection1Slider = ({ data }:any) => {
     },
   };
 
-
   return (
     <>
       <Swiper
         {...swiperOptions}
-        className={`mySwiper !relative w-full max-w-fit px-5 ${uniqueId}`}
+        className={`mySwiper !relative w-full max-w-fit px-5 ${uniqueId} topColleges `}
       >
         {["", "text-blue-800", "", "text-blue-800", "", "text-blue-800"].map(
           (className, idx) => (
@@ -289,18 +284,21 @@ const HomeSection1Slider = ({ data }:any) => {
               key={idx}
               className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
             >
-              <CollegesCardContent text={data.breadCrumb} className={className} />
+              <CollegesCardContent
+                text={data.breadCrumb}
+                className={className}
+              />
             </SwiperSlide>
           )
         )}
       </Swiper>
       <div
-        className={`${uniqueId}-next !absolute !text-2xl bg-white !rounded-full !text-black !bottom-48 p-2 shadow-md !right-2 max-sm:hidden`}
+        className={`${uniqueId}-next !absolute !text-2xl bg-white !rounded-full !text-black !bottom-48 p-2 shadow-md !right-0 max-sm:hidden`}
       >
         <FaAngleRight />
       </div>
       <div
-        className={`${uniqueId}-prev !absolute !text-2xl bg-white !text-black !rounded-full p-2 shadow-md !bottom-48 max-sm:hidden !left-2`}
+        className={`${uniqueId}-prev !absolute !text-2xl bg-white !text-black !rounded-full p-2 shadow-md !bottom-48 max-sm:hidden !left-0`}
       >
         <FaAngleLeft />
       </div>
@@ -308,9 +306,11 @@ const HomeSection1Slider = ({ data }:any) => {
   );
 };
 
-function CollegesCardContent({ text, className}:any){
-  return <div className={`shadow px-3 py-16 text-center ${className}`}>{text}</div>;
-};
+function CollegesCardContent({ text, className }: any) {
+  return (
+    <div className={`shadow px-3 py-16 text-center ${className}`}>{text}</div>
+  );
+}
 
 // Events function
 
@@ -368,7 +368,7 @@ const TestimonialSlider = ({ data }: any) => {
     <>
       <Swiper
         {...swiperOptions}
-        className={`mySwiper !relative w-full max-w-fit px-5`}
+        className={`mySwiper !relative w-full max-w-fit px-5 topColleges `}
       >
         {data.map((comments: { id: React.Key | null | undefined }) => (
           <SwiperSlide
@@ -380,12 +380,12 @@ const TestimonialSlider = ({ data }: any) => {
         ))}
       </Swiper>
       <div
-        className={`${uniqueId}-next !absolute !text-2xl bg-white !rounded-full !text-black !bottom-48 p-2 shadow-md !right-2 max-sm:hidden`}
+        className={`${uniqueId}-next !absolute !text-2xl bg-white !rounded-full !text-black !bottom-48 p-2 shadow-md !right-10 max-sm:hidden`}
       >
         <FaAngleRight />
       </div>
       <div
-        className={`${uniqueId}-prev !absolute !text-2xl bg-white !text-black !rounded-full p-2 shadow-md !bottom-48 max-sm:hidden !left-2`}
+        className={`${uniqueId}-prev !absolute !text-2xl bg-white !text-black !rounded-full p-2 shadow-md !bottom-48 max-sm:hidden !left-10`}
       >
         <FaAngleLeft />
       </div>
@@ -448,7 +448,7 @@ const NewsCardSlider = ({ data }: any) => {
     <>
       <Swiper
         {...swiperOptions}
-        className={`mySwiper !relative w-full max-w-fit px-5`}
+        className={`mySwiper !relative w-full max-w-fit px-5 topColleges `}
       >
         {data.map((news: { id: React.Key | null | undefined }) => (
           <SwiperSlide
@@ -460,12 +460,12 @@ const NewsCardSlider = ({ data }: any) => {
         ))}
       </Swiper>
       <div
-        className={`${uniqueId}-next !absolute !text-2xl bg-white !rounded-full !text-black !bottom-48 p-2 shadow-md !right-2 max-sm:hidden`}
+        className={`${uniqueId}-next !absolute !text-2xl bg-white !rounded-full !text-black !bottom-1/2 p-2 shadow-md !right-10 max-sm:hidden`}
       >
         <FaAngleRight />
       </div>
       <div
-        className={`${uniqueId}-prev !absolute !text-2xl bg-white !text-black !rounded-full p-2 shadow-md !bottom-48 max-sm:hidden !left-2`}
+        className={`${uniqueId}-prev !absolute !text-2xl bg-white !text-black !rounded-full p-2 shadow-md !bottom-1/2 max-sm:hidden !left-10`}
       >
         <FaAngleLeft />
       </div>
@@ -494,8 +494,8 @@ function MetricsCard({ data }: any) {
   return (
     <div className="w-full flex-center p-4 pb-14">
       <div className="max-w-[750px] w-full">
-      <h2 className="text-center text-4xl max-sm:my-9 sm:text-5xl my-14 font-bold">
-      {data?.title}
+        <h2 className="text-center text-4xl max-sm:my-9 sm:text-5xl my-14 font-bold">
+          {data?.title}
         </h2>
         <p className="text-center text-xl mb-11"> {data?.text}</p>
         <div className="flex flex-wrap gap-3 justify-center items-stretch">
@@ -506,21 +506,23 @@ function MetricsCard({ data }: any) {
           <div className="py-8 px-6 border-b-2 border-orange-500 w-[48%] lg:w-[23%] bg-white shadow-xl">
             <h3 className="font-bold text-2xl">{data?.experts}+</h3>
             <p>Unbiased Experts</p>
-          </div><div className="py-8 px-6 border-b-2 border-orange-500 w-[48%] lg:w-[23%] bg-white shadow-xl">
+          </div>
+          <div className="py-8 px-6 border-b-2 border-orange-500 w-[48%] lg:w-[23%] bg-white shadow-xl">
             <h3 className="font-bold text-2xl">{data?.newUsers}+</h3>
             <p>New users joined Anima</p>
-          </div><div className="py-8 px-6 border-b-2 border-orange-500 w-[48%] lg:w-[23%] bg-white shadow-xl">
+          </div>
+          <div className="py-8 px-6 border-b-2 border-orange-500 w-[48%] lg:w-[23%] bg-white shadow-xl">
             <h3 className="font-bold text-2xl">{data?.teams}+</h3>
             <p>Teams used Anima</p>
           </div>
         </div>
-        </div>
+      </div>
     </div>
   );
 }
 
 // package card
-function PackageCard({ data }:any) {
+function PackageCard({ data }: any) {
   return (
     <div className="w-full p-4 pb-14 bg-zinc-200">
       <div className="w-full">
@@ -529,7 +531,7 @@ function PackageCard({ data }:any) {
         </h2>
         <p className="text-center text-xl mb-11">{data?.text}</p>
         <div className="flex flex-wrap gap-4 justify-center items-stretch">
-          {data?.counsellingPackagesCards?.map((packageData: { id: any; }) => (
+          {data?.counsellingPackagesCards?.map((packageData: { id: any }) => (
             <PackageContentCard key={packageData.id} data={packageData} />
           ))}
         </div>
@@ -538,18 +540,32 @@ function PackageCard({ data }:any) {
   );
 }
 
-function PackageContentCard({ data }:any) {
+function PackageContentCard({ data }: any) {
   return (
-    <div className={`w-full sm:w-[27%] md:pb-20 pt-6 rounded-xl shadow relative p-5 ${data?.isPopular ? 'text-white bg-orange-500' : 'text-black bg-white'}`}>
+    <div
+      className={`w-full sm:w-[27%] md:pb-20 pt-6 rounded-xl shadow relative p-5 ${
+        data?.isPopular ? "text-white bg-orange-500" : "text-black bg-white"
+      }`}
+    >
       <p className="mb-2">{data?.PackageName}</p>
-      <h3 className="text-4xl font-bold">{data?.price} <span className="text-xl">/month</span></h3>
-      <p className="my-2" >{data?.text}</p>
+      <h3 className="text-4xl font-bold">
+        {data?.price} <span className="text-xl">/month</span>
+      </h3>
+      <p className="my-2">{data?.text}</p>
       {data?.lists?.map((list: any) => (
         <p key={list.id} className="flex items-center font-bold">
-          {list?.isInclude ? <FaCheck className="mr-3" /> : <ImCross className="mr-3" />} {list?.text}
+          {list?.isInclude ? (
+            <FaCheck className="mr-3" />
+          ) : (
+            <ImCross className="mr-3" />
+          )}{" "}
+          {list?.text}
         </p>
       ))}
-      <Link href="#" className="block my-2 md:absolute bottom-2 lg:!w-[91%] md:!w-[87%] w-full mt-2">
+      <Link
+        href="#"
+        className="block my-2 md:absolute bottom-2 lg:!w-[91%] md:!w-[87%] w-full mt-2"
+      >
         <Button variant="black" className="!w-full">
           Get Started
         </Button>
@@ -557,24 +573,57 @@ function PackageContentCard({ data }:any) {
     </div>
   );
 }
-function LastSection(){
-  return(
-    <Wrapper className="!relative">
-    {/* <div className="absolute top-0 left-0 w-full h-full min-h-[100vh] bg-gradient-to-b from-[#FF8900] via-[#FFA93C] via-[#873D7C] via-[#00BBFF] to-[#AADBFF] opacity-60 max-sm:bg-[length:100%_100%]"></div> */}
-    
-    <div className="z-20 relative w-full h-full flex items-center justify-center flex-col p-24 max-sm:p-4">
-      <div className="max-w-[740px] text-center">
-        <h1 className="text-5xl font-bold mb-4 text-center max-sm:text-3xl max-sm:mb-2">
+function LastSection() {
+  return (
+    <div className="!relative flex flex-col justify-center items-center p-11 ">
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_bottom,transparent,transparent,transparent,transparent,transparent,transparent,#AADBFF,#00BBFF,#873D7C,#FFA93C,#FF8900,transparent,transparent,transparent,transparent,transparent,transparent,transparent,transparent,transparent,transparent,transparent,transparent,transparent,transparent,transparent,transparent,transparent,transparent)] bg-[position:50%_25%] bg-[size:420%_130%] bg-no-repeat opacity-60 max-sm:bg-[size:590%_60%]"></div>
+
+      <div className="max-w-[840px] w-full flex flex-col justify-center items-center text-center bg-white bg-opacity-35 z-20 backdrop-filter backdrop-blur-lg rounded-2xl shadow md:mb-28 mb-8 p-4">
+        <h1 className="text-3xl font-bold mb-4 text-center max-sm:text-3xl max-sm:mb-2">
           More than 1000+ Colleges
         </h1>
-        <p className="text-center text-xl">Start your college Discovery...</p>
-        {/* for input type */}
-        {/* <Search /> */}
+        <p className="text-center text-xl mb-9">
+          Start your college Discovery...
+        </p>
+
+        <div className="flex justify-between mb-5 w-full p-6 max-sm:mb-0 max-sm:p-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Image
+              key={i}
+              src={homePageData?.collegeLogos?.[0].image?.url}
+              alt={`College Logo ${i + 1}`}
+              className="w-11 h-11 max-sm:w-9 max-sm:h-9"
+            />
+          ))}
+        </div>
+
+        <div className="flex justify-around mb-5 w-[85%] p-6 max-sm:mb-0 max-sm:p-3">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Image
+              key={i}
+              src={homePageData?.collegeLogos?.[0].image?.url}
+              alt={`College Logo ${i + 1}`}
+              className="w-11 h-11 max-sm:w-9 max-sm:h-9"
+            />
+          ))}
+        </div>
+
+        <div className="flex justify-around mb-5 w-[70%] p-6 max-sm:mb-0 max-sm:p-3">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Image
+              key={i}
+              src={homePageData?.collegeLogos?.[0].image?.url}
+              alt={`College Logo ${i + 1}`}
+              className="w-11 h-11 max-sm:w-9 max-sm:h-9"
+            />
+          ))}
+        </div>
       </div>
-      {/* cards */}
+      <div className="!z-40">
+      <Banner1 data={banner1} />
+      </div>
     </div>
-  </Wrapper>
-  )
+  );
 }
 
 export default Home;
