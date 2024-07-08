@@ -5,7 +5,7 @@ import { MdOutlineSort } from "react-icons/md";
 
 // import ExamFilters from "./ExamFilters";
 import Navbar from "./Navbar";
-import Wrapper from "@/components/Wrappers";
+import Wrapper, { Wrapper1 } from "@/components/Wrappers";
 import SortButton from "@/components/SortButton";
 import ExamFilteredCard from "@/components/cardsAndSliders/ExamFilteredCard";
 import { Button } from "../Button";
@@ -52,7 +52,7 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
 
   return (
     <section id="collegeList" className="my-5 w-full pb-5">
-      <Wrapper className="flex flex-col md:flex-row">
+      <Wrapper className=" flex gap-6 justify-between flex-col md:flex-row">
         {/* Aside College Filter Section  */}
         <ExamFilters
           filterBy={filterBy}
@@ -63,7 +63,7 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
           setMobileFilter={setMobileFilter}
         />
         {/* main Exam Search and List Section  */}
-        <main className="flex w-full flex-col p-5 pt-0  md:min-w-[550px] md:[flex:8]">
+        <main className="flex w-full flex-col py-5 pt-0  md:min-w-[550px] md:[flex:8]">
           {/* Search and Sort Section  */}
           <div className="relative mb-4 flex items-stretch gap-4 max-md:flex-col">
           <div className="text-primary-text focus-within:border-secondary-text flex h-12 flex-1 items-center rounded-xl border border-zinc-200 bg-white px-2 shadow-md">

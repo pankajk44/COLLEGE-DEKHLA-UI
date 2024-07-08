@@ -13,8 +13,8 @@ export default function PageTabsWithDetail({ data, asideData }: any) {
   };
   return (
     <Wrapper
-      containerClassName="my-5 p-5"
-      className="flex w-full flex-col p-5 pt-0"
+      containerClassName="my-5 "
+      className="flex w-full flex-col  pt-0"
     >
       <Navbar
         navItems={data}
