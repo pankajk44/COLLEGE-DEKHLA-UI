@@ -118,7 +118,7 @@ export default function ExamFilters({
   };
   return (
     <aside
-      className={`min-w-[300px] px-3 [flex:2] max-md:bg-black max-md:bg-opacity-80  ${mobileFilter ? "fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll pr-[20%]" : "max-md:hidden"}`}
+      className={`min-w-[300px] [flex:2] max-md:bg-black max-md:bg-opacity-80  ${mobileFilter ? "fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll pr-[20%]" : "max-md:hidden"}`}
     >
       <button
         className="fixed right-5 top-24 text-3xl text-white md:hidden"
