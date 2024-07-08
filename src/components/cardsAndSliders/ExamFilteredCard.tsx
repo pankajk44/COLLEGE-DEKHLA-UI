@@ -15,7 +15,7 @@ export default function ExamFilteredCard({ exam, tabsSections }:any) {
           alt={`${exam.examName} banner`}
           width={220}
           height={175}
-          className="h-[175px] w-[220px] rounded-md object-cover max-lg:w-full"
+          className="h-[175px] w-[220px] rounded-md object-contain max-lg:w-full"
         />
         <div className="md:px-5">
           <Link href={`/exams/${exam.slug || ""}`}>

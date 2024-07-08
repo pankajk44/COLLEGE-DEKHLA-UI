@@ -21,7 +21,6 @@ export default function CollegeFilteredCard({
   avgFeePerYear,
   affiliation,
   brochureUrl,
-
   collegeType,
   collegeName,
   avgPackage,
