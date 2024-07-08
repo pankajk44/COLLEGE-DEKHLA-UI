@@ -137,20 +137,22 @@ export function SignInContainer({
   const mobileRegex = /^[0-9]{10}$/;
 
   return (
-    <div className="sm:relative flex h-full flex-col  overflow-y-auto  p-6 py-10  text-black [flex:6] md:justify-center">
+    <div className="flex h-full flex-col overflow-y-auto p-6 py-10 text-black [flex:6] sm:relative md:justify-center">
       <button
-        className="absolute right-[0.05rem] top-[0.05rem] w-max p-3  text-lg font-normal text-zinc-600  hover:underline"
+        className="absolute right-[0.05rem] top-[0.05rem] w-max p-3 text-lg font-normal text-zinc-600 hover:underline"
         onClick={closePopup}
         type="button"
       >
         <ImCross />
       </button>
-      <h2 className="text-3xl font-semibold max-sm:text-center mb-8">
+      <h2 className="mb-8 text-3xl font-semibold max-sm:text-center">
         Confused with the Admission process to your dream college? Register with
         us{" "}
       </h2>
-      <h3 className="text-xl ">Continue with mobile </h3>
-      <p className="text-xs">You&apos;ll receive a 4 digit code to verify next</p>
+      <h3 className="text-xl">Continue with mobile </h3>
+      <p className="text-xs">
+        You&apos;ll receive a 4 digit code to verify next
+      </p>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         {isOtp ? (
           <>
@@ -198,42 +200,41 @@ export function SignInContainer({
             )}
           </>
         )}
-     
 
         <div className="mt-5 flex items-center">
-              <label className="relative inline-flex cursor-pointer items-center">
-                <input
-                  type="checkbox"
-                  value=""
-                  className="peer sr-only"
-                  {...register("isWhatsappNo", {})}
-                />
-                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-orange-400 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-orange-300 dark:border-gray-600 dark:bg-orange-600 dark:peer-focus:ring-orange-800"></div>
-              </label>
-              <span className="ml-3 font-sans text-sm leading-normal  text-inherit antialiased">
-              Enable updated & important information on Whatsapp.
-              </span>
-            </div>
+          <label className="relative inline-flex cursor-pointer items-center">
+            <input
+              type="checkbox"
+              value=""
+              className="peer sr-only"
+              {...register("isWhatsappNo", {})}
+            />
+            <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-orange-400 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-orange-300 dark:border-gray-600 dark:bg-orange-600 dark:peer-focus:ring-orange-800"></div>
+          </label>
+          <span className="ml-3 font-sans text-sm leading-normal text-inherit antialiased">
+            Enable updated & important information on Whatsapp.
+          </span>
+        </div>
 
-            <button
-          className="mt-8 w-full rounded-lg  bg-gradient-to-b from-[#FF772B] to-[#fd6107]  px-3 py-2 text-white outline-none duration-200 hover:font-bold active:scale-95"
+        <button
+          className="mt-8 w-full rounded-lg bg-gradient-to-b from-[#FF772B] to-[#fd6107] px-3 py-2 text-white outline-none duration-200 hover:font-bold active:scale-95"
           type="submit"
         >
           {isOtp ? "LogIn" : "Send OTP"}
         </button>
-        <button className="mt-5 text-smbg-gradient-to-b from-[#FF772B] to-[#fd6107]  hover:underline active:scale-95">
+        <button className="text-smbg-gradient-to-b mt-5 from-[#FF772B] to-[#fd6107] hover:underline active:scale-95">
           {isOtp && "Resend OTP"}
         </button>
       </form>
 
-      <p className="mt-2 font-medium text-zinc-600 text-center font-sans text-sm leading-normal text-inherit antialiased">
-      Your personal information is secured with us
+      <p className="mt-2 text-center font-sans text-sm font-medium leading-normal text-inherit text-zinc-600 antialiased">
+        Your personal information is secured with us
       </p>
-      <p className="mt-6 font-bold text-base text-zinc-600 w-full  text-left font-sans  leading-normal  antialiased">
-      New on OnlinewalaCollege?
+      <p className="mt-6 w-full text-left font-sans text-base font-bold leading-normal text-zinc-600 antialiased">
+        New on OnlinewalaCollege?
         <span
           onClick={() => setIsLoginModule(!isLoginModule)}
-          className="ml-1 text-orange-500 hover:underline"
+          className="ml-1 cursor-pointer text-orange-500 hover:underline"
         >
           SignUp Now!
         </span>
