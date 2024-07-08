@@ -1,4 +1,4 @@
-import { book1 } from "@/assets";
+import { book1, c1, c2, c3 } from "@/assets";
 import { timeStamp } from "console";
 
 export const newsPage = {
@@ -22,6 +22,7 @@ export const newsPage = {
     {
       id: 1,
       icon: {url:book1},
+      bgImage:{url:c1},
       category: "exam",
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
       slug: "#",
@@ -31,6 +32,7 @@ export const newsPage = {
     {
       id: 2,
       icon: {url:book1},
+      bgImage:{url:c2},
       category: "college",
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
       slug: "#",
@@ -40,6 +42,7 @@ export const newsPage = {
     {
       id: 3,
       icon: {url:book1},
+      bgImage:{url:c3},
       category: "exam",
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
       slug: "#",
@@ -51,6 +54,7 @@ export const newsPage = {
     {
       id: 1,
       icon: {url:book1},
+      bgImage:{url:c1},
       category: "exam",
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
       slug: "#",
@@ -61,6 +65,7 @@ export const newsPage = {
     {
       id: 2,
       icon: {url:book1},
+      bgImage:{url:c2},
       category: "college",
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
       slug: "#",
@@ -71,6 +76,7 @@ export const newsPage = {
     {
       id: 3,
       icon: {url:book1},
+      bgImage:{url:c3},
       category: "exam",
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
       slug: "#",
@@ -81,6 +87,7 @@ export const newsPage = {
     {
       id: 4,
       icon: {url:book1},
+      bgImage:{url:c1},
       category: "exam",
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
       href: "#",
