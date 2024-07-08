@@ -47,7 +47,7 @@ export default function CourseListSection({
   };
   return (
     <section id="collegeList" className="my-5 w-full pb-5">
-      <Wrapper className="flex flex-col md:flex-row">
+      <Wrapper className="flex gap-5 justify-between flex-col md:flex-row">
         {/* Aside College Filter Section  */}
         <CourseFilters
           filterBy={filterBy}
@@ -58,7 +58,7 @@ export default function CourseListSection({
           setMobileFilter={setMobileFilter}
         />
         {/* main Course Search and List Section  */}
-        <main className="flex w-full flex-col p-5 pt-0 md:min-w-[550px] md:[flex:8]">
+        <main className="flex w-full flex-col py-5 pt-0 md:min-w-[550px] md:[flex:8]">
           {/* Search and Sort Section  */}
           <div className="relative mb-4 flex items-stretch gap-4 max-md:flex-col">
             <div className="text-primary-text focus-within:border-secondary-text flex h-12 flex-1 items-center rounded-xl border border-zinc-200 bg-white px-2 shadow-md">
