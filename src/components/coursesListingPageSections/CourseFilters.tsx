@@ -53,7 +53,7 @@ export default function CourseFilters({
 
   return (
     <aside
-      className={`min-w-[300px] px-3 flex-2 max-md:bg-black max-md:bg-opacity-80 ${
+      className={`min-w-[300px]  flex-2 max-md:bg-black max-md:bg-opacity-80 ${
         mobileFilter ? "fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll pr-[20%]" : "max-md:hidden"
       }`}
     >
