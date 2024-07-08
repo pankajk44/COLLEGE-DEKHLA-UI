@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-orange-50">
+      <body className="bg-orange-50 ">
         <ReduxProvider>
           <ApolloWrapper>
             <Header header={header} />

@@ -10,11 +10,50 @@ body {
 }
 
 @layer utilities {
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+   /* thin-scrollbar */
+    /* width */
+    .thin-scrollbar::-webkit-scrollbar {
+      width: 6px;
+     
+    }
+    
+    /* Track */
+    .thin-scrollbar::-webkit-scrollbar-track {
+      background: #adadad;
+      border-radius: 5px;
+    }
+    
+    /* Handle */
+    .thin-scrollbar::-webkit-scrollbar-thumb {
+      background: orange;
+      border-radius: 2px;
+    }
+    
+    /* Handle on hover */
+    .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: transparent;
+    }
+
+
+
   .flex-center {
     @apply flex items-center justify-center;
   }
   .redOrangeGradient {
     @apply bg-gradient-to-r from-red-400 to-orange-300;
+  }
+  .orangeRedDownGradient {
+    @apply bg-gradient-to-r from-orange-300 to-red-400;
   }
   .dangerouslySetInnerHTMLStyle {
     @apply w-full text-zinc-800;
@@ -62,6 +101,61 @@ body {
     }
   }
 }
+
+
+
+
+
+
+
+
+.custom-y-axis-label {
+  transform: rotate(-90deg) translateY(25px) !important; /* Adjust rotation and translation as needed */
+  transform-origin: 419px 135px !important; /* Adjust origin point for rotation */
+  font: bold;
+}
+
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 8px;
+   
+    height: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #adadad;
+    border-radius: 5px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: orange;
+    border-radius: 5px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(255, 153, 0);
+  }
+
+  @media(max-width: 640px){
+    ::-webkit-scrollbar {
+     height: 0px;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
 
 .topColleges {
   .swiper-button-next,

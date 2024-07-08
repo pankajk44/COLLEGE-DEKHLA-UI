@@ -44,18 +44,19 @@ export default function Navbar({ navItems, onSelect, selectedIndex }: any) {
   }, []);
 
   return (
-    <nav className="relative w-full border-b border-zinc-300 text-zinc-700">
+    <nav className="relative w-full border-b border-zinc-400 text-black">
       <ul
-        className="flex space-x-6 overflow-x-hidden pt-1"
+        className="flex gap-x-8 overflow-x-hidden pt-1"
         ref={scrollContainerRef}
         onScroll={handleScroll}
       >
         {navItems.map((item: any, index: number) => (
+          <>
           <li key={index}>
             <button
               className={`text-nowrap py-5 capitalize ${
                 selectedIndex === index
-                  ? "rounded border-b-4 border-orange-950 text-orange-500"
+                  ? "border-b-4 border-black text-orange-500 text-lg duration-100"
                   : ""
               }`}
               onClick={() => onSelect(index)}
@@ -63,6 +64,7 @@ export default function Navbar({ navItems, onSelect, selectedIndex }: any) {
               {item.navItem}
             </button>
           </li>
+          </>
         ))}
       </ul>
       {showLeftButton && (

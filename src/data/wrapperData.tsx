@@ -25,7 +25,7 @@ export const header = {
     {
       id: 3,
       label: "Programs",
-      href: "/programs",
+      href: "/courses",
       subNav: [],
     },
 
