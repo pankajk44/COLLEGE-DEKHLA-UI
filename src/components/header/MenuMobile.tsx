@@ -1,10 +1,11 @@
+// MenuMobile.tsx
 import React, { useState } from "react";
 import Link from "next/link";
 import { BsChevronDown } from "react-icons/bs";
 import Image from "next/image";
 
 interface NavItem {
-  id: number;
+  id: number | string;
   label: string;
   href: string;
   subNav?: NavItem[];
@@ -14,17 +15,29 @@ interface NavItem {
 interface MenuMobileProps {
   navItemsArray: NavItem[];
   setIsMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  activeItemId: string | null;
+  onItemClick: (itemId: string, href: string) => void;  // Update this line
 }
 
-const MenuMobile: React.FC<MenuMobileProps> = ({ navItemsArray, setIsMobileMenuOpen }) => {
+const MenuMobile: React.FC<MenuMobileProps> = ({ 
+  navItemsArray, 
+  setIsMobileMenuOpen, 
+  activeItemId, 
+  onItemClick 
+}) => {
   return (
-    <ul className="absolute left-0 top-20 flex w-full flex-col border-t bg-white text-black text--medium md:hidden">
-      {navItemsArray.map((d) => (
-        <SingleNavItem
-          key={d.id}
-          item={d}
-          setIsMobileMenuOpen={setIsMobileMenuOpen}
-        />
+    <ul className="w-full flex flex-col bg-white">
+      {navItemsArray.map((item) => (
+        <li key={item.id}>
+          <Link
+            href={item.href}
+            className={`block px-4 py-2 ${activeItemId === item.id.toString() ? 'text-orange-500' : ''}`}
+            onClick={() => onItemClick(item.id.toString(), item.href)}
+          >
+            {item.label}
+          </Link>
+          {/* Render subnav items if any */}
+        </li>
       ))}
     </ul>
   );
@@ -33,31 +46,35 @@ const MenuMobile: React.FC<MenuMobileProps> = ({ navItemsArray, setIsMobileMenuO
 interface SingleNavItemProps {
   item: NavItem;
   setIsMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  activeItemId: string | null;
+  onItemClick: (itemId: string, href: string) => void;  // Update this line
 }
 
-const SingleNavItem: React.FC<SingleNavItemProps> = ({ item, setIsMobileMenuOpen }) => {
+const SingleNavItem: React.FC<SingleNavItemProps> = ({ 
+  item, 
+  setIsMobileMenuOpen, 
+  activeItemId, 
+  onItemClick 
+}) => {
   const [isItemOpen, setItemOpen] = useState(false);
 
   const toggleItem = () => {
     setItemOpen(!isItemOpen);
-    setIsMobileMenuOpen((prev) => !prev);
+    onItemClick(item.id.toString(), item.href);  // Update this line
   };
+
+  // ... rest of the component remains the same
+
+  
 
   return (
     <>
       <Link
         onClick={toggleItem}
         href={item.href ?? "#"}
-        className="relative px-5 py-3 transition-all border-b border-zinc-200 text-black hover:bg-orgrane-500 hover:text-white"
+        className={`relative px-5 py-3 transition-all border-b border-zinc-200 hover:bg-orange-500 hover:text-white ${activeItemId === item.id.toString() ? 'text-orange-500' : 'text-black'}`}
       >
-        <p className="flex justify-between cursor-pointer items-center gap-2">
-          <span>{item.label}</span>
-          {item.subNav && item.subNav.length !== 0 && (
-            <BsChevronDown
-              className={`text-xs transition-all ${isItemOpen ? "rotate-180" : ""}`}
-            />
-          )}
-        </p>
+        {/* ... */}
       </Link>
 
       {isItemOpen && item.subNav && item.subNav.length !== 0 && (
@@ -66,12 +83,10 @@ const SingleNavItem: React.FC<SingleNavItemProps> = ({ item, setIsMobileMenuOpen
             <Link
               key={i}
               href={ch.href ?? "#"}
-              className="flex cursor-pointer items-center py-1 pl-6 pr-8 text-blue-950 hover:bg-blue-500 hover:text-white"
+              className={`flex cursor-pointer items-center py-1 pl-6 pr-8 hover:bg-orange-500 hover:text-white ${activeItemId === ch.id.toString() ? 'text-orange-500' : 'text-blue-950'}`}
+              onClick={() => onItemClick(ch.id.toString(), ch.href)}  // Update this line
             >
-              {ch.iconImage && (
-                <Image src={ch.iconImage} alt="item-icon" width={20} height={20} />
-              )}
-              <span className="whitespace-nowrap pl-3">{ch.label}</span>
+              {/* ... */}
             </Link>
           ))}
         </div>

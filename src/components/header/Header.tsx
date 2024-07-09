@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import Wrapper, { Wrapper1 } from "@/components/Wrappers";
 import Link from "next/link";
@@ -11,7 +12,7 @@ import { RxAvatar } from "react-icons/rx";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/Redux";
 import { clearAuthState } from "@/Redux/authSlice";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { LoginSignUpModule } from "../loginSignUpModule/LoginSignUpModule";
 import { Button } from "../Button";
 
@@ -20,30 +21,52 @@ const Header = ({ header }: any) => {
   const [show, setShow] = useState<string>("translate-y-0");
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   const [navItems, setNavItems] = useState<any[]>([]);
-
-  const controlNavbar = () => {
-    if (window.scrollY > 200) {
-      if (window.scrollY > lastScrollY && !isMobileMenuOpen) {
-        setShow("-translate-y-[100px]");
-      } else {
-        setShow("shadow-sm");
-      }
-    } else {
-      setShow("translate-y-0");
-    }
-    setLastScrollY(window.scrollY);
+  const [activeItemId, setActiveItemId] = useState<string | null>(null);
+  
+  const pathname = usePathname();
+  const router = useRouter();
+  const getBasePath = (url: string) => {
+    const urlSegments = url.split('/');
+    return `/${urlSegments[1]}`;
   };
-
-  useEffect(() => {
-    window.addEventListener("scroll", controlNavbar);
-    return () => {
-      window.removeEventListener("scroll", controlNavbar);
-    };
-  }, [lastScrollY, isMobileMenuOpen]);
 
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    const activeItem = navItems.find(item => item.href === getBasePath(pathname)) ||
+                       navItems.find(item => item.subNav?.some((subItem: { href: string; }) => subItem.href === getBasePath(pathname)));
+    if (activeItem) {
+      setActiveItemId(activeItem.id.toString());
+    } else {
+      setActiveItemId(null);
+    }
+  }, [pathname, navItems]);
+
+  const controlNavbar = () => {
+    if (typeof window !== 'undefined') {
+      if (window.scrollY > 200) {
+        if (window.scrollY > lastScrollY && !isMobileMenuOpen) {
+          setShow("-translate-y-[100px]");
+        } else {
+          setShow("shadow-sm");
+        }
+      } else {
+        setShow("translate-y-0");
+      }
+      setLastScrollY(window.scrollY);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener("scroll", controlNavbar);
+      return () => {
+        window.removeEventListener("scroll", controlNavbar);
+      };
+    }
+  }, [lastScrollY, isMobileMenuOpen]);
 
   const fetchCategories = async () => {
     setNavItems(header?.navItems || []);
@@ -51,6 +74,12 @@ const Header = ({ header }: any) => {
 
   const handleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleNavItemClick = (itemId: string, href: string) => {
+    setActiveItemId(itemId);
+    setIsMobileMenuOpen(false);
+    router.push(href);
   };
 
   return (
@@ -64,23 +93,20 @@ const Header = ({ header }: any) => {
             src={header?.logo}
             alt="logo"
             height={100}
+            width={100}
             className="h-[12vw] max-h-8 w-min object-contain md:h-20"
           />
         </Link>
         {/* Menu */}
-        <Menu navItemsArray={navItems} />
-        {/* Sign Up / Sign In  Button */}
-        {/* <LoginSignUpQASection buttonType="SIGN-UP" /> */}
+        <Menu 
+          navItemsArray={navItems} 
+          activeItemId={activeItemId} 
+          onItemClick={handleNavItemClick} 
+        />
         <LoginSignUpQASection buttonType="LOG-IN" />
       </Wrapper1>
       {/* Mobile Section */}
-      <Wrapper1 className="flex items-center justify-between gap-3 md:hidden bg-white h-20">
-        {isMobileMenuOpen && (
-          <MenuMobile
-            navItemsArray={navItems}
-            setIsMobileMenuOpen={setIsMobileMenuOpen}
-          />
-        )}
+      <Wrapper1 className="flex items-center justify-between gap-3 md:hidden bg-white h-20 w-full">
         <div className="flex-center relative cursor-pointer rounded-full text-3xl text-blue-950 hover:bg-blue-500/5">
           {isMobileMenuOpen ? (
             <VscChromeClose onClick={handleMobileMenu} />
@@ -94,16 +120,29 @@ const Header = ({ header }: any) => {
             src={header?.logo}
             alt="logo"
             height={100}
+            width={100}
             className="w-52 object-contain"
           />
         </Link>
         <LoginSignUpQASection buttonType="LOG-IN" />
       </Wrapper1>
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="absolute left-0 top-20 w-full md:hidden">
+          <MenuMobile
+            navItemsArray={navItems}
+            setIsMobileMenuOpen={setIsMobileMenuOpen}
+            activeItemId={activeItemId}
+            onItemClick={handleNavItemClick}
+          />
+        </div>
+      )}
     </header>
   );
 };
 
 export default Header;
+
 
 const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
   const isUserLoggedIn = useAppSelector((state) => state.auth.authState);
@@ -116,11 +155,6 @@ const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
     setShowPopUp(true);
     document.body.style.overflow = "hidden";
     setIsLoginModule(true);
-  };
-  const openSignUpPopup = () => {
-    setShowPopUp(true);
-    document.body.style.overflow = "hidden";
-    setIsLoginModule(false);
   };
 
   const closePopup = () => {
@@ -162,7 +196,7 @@ const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
           )}
         </div>
         {/* Pop-up Module */}
-        {showPopUp && (buttonType = "LOG-IN") && (
+        {showPopUp && (
           <LoginSignUpModule
             closePopup={closePopup}
             isLoginModule={isLoginModule}
@@ -172,28 +206,5 @@ const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
       </>
     );
   }
-  // if (buttonType === "SIGN-UP") {
-  //   return (
-  //     <>
-  //       <div className="flex items-center gap-4">
-  //         {!isUserLoggedIn && (
-  //           <Button
-  //           variant="blackShadow"
-  //             onClick={openSignUpPopup}
-  //           >
-  //             Sign Up
-  //           </Button>
-  //         )}
-  //       </div>
-  //       {/* Pop-up Module */}
-  //       {showPopUp && (buttonType = "SIGN-UP") && (
-  //         <LoginSignUpModule
-  //           closePopup={closePopup}
-  //           isLoginModule={isLoginModule}
-  //           setIsLoginModule={setIsLoginModule}
-  //         />
-  //       )}
-  //     </>
-  //   );
-  // }
+  return null;
 };
