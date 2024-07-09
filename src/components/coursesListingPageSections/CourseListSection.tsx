@@ -47,7 +47,7 @@ export default function CourseListSection({
   };
   return (
     <section id="collegeList" className="my-5 w-full pb-5">
-      <Wrapper className="flex gap-5 justify-between flex-col md:flex-row">
+      <Wrapper className="flex flex-col justify-between gap-5 md:flex-row">
         {/* Aside College Filter Section  */}
         <CourseFilters
           filterBy={filterBy}
@@ -70,17 +70,17 @@ export default function CourseListSection({
                 onChange={handleSearch}
               />
             </div>
-            <div className="flex gap-4">
-              {/* sort button  */}
+            <div className="bottom-0 left-0 right-0 flex justify-end gap-4 border-orange-300 bg-white max-md:fixed max-md:z-40 max-md:w-full max-md:justify-between max-md:border-t max-md:p-3">
+              {/* Sort button  */}
               <SortButton handleFilterOptionClick={handleFilterOptionClick} />
               {/* Filter Button  */}
               <div
-                className="hidden max-md:block"
+                className="hidden max-md:block max-md:w-full max-md:flex-[1]"
                 onClick={() => setMobileFilter((prev) => !prev)}
               >
                 <Button
                   variant="orange"
-                  className="group flex h-12 cursor-pointer items-center gap-2 !rounded-xl !px-2"
+                  className="group flex h-12 cursor-pointer items-center gap-2 !rounded-xl !px-2 max-md:!w-full"
                 >
                   <span>Filter</span>
                   <MdOutlineSort />
@@ -89,20 +89,20 @@ export default function CourseListSection({
             </div>
           </div>
           {/* College List Section  */}
-          { filteredData?.map((course: any) => (
-            <CourseFilteredCard 
-            key={course?.id} 
-            slug={course?.slug}
-            bgImage={course?.bgImage?.url}
-            courseName={course?.courseName}
-            courseType={course?.courseType}
-            totalColleges={course?.totalColleges}
-            duration= {course?.duration}
-            description={course?.description}
-            avgFeesFrom={course?.avgFees?.from}
-            avgFeesTo={course?.avgFees?.to}
-            ExaminationLevel={course?.ExaminationLevel}
-            tabsSections={tabsSections}            
+          {filteredData?.map((course: any) => (
+            <CourseFilteredCard
+              key={course?.id}
+              slug={course?.slug}
+              bgImage={course?.bgImage?.url}
+              courseName={course?.courseName}
+              courseType={course?.courseType}
+              totalColleges={course?.totalColleges}
+              duration={course?.duration}
+              description={course?.description}
+              avgFeesFrom={course?.avgFees?.from}
+              avgFeesTo={course?.avgFees?.to}
+              ExaminationLevel={course?.ExaminationLevel}
+              tabsSections={tabsSections}
             />
           ))}
         </main>

@@ -13,11 +13,17 @@ export default function ExamFilters({
   setMobileFilter,
 }: any) {
   // Filter Checked
-  const [StreamCheckedFilters, setStreamCheckedFilters] = useState<string[]>( [], );
+  const [StreamCheckedFilters, setStreamCheckedFilters] = useState<string[]>(
+    [],
+  );
   const [ModeCheckedFilters, setModeCheckedFilters] = useState<string[]>([]);
-  const [EligibilityLevelCheckedFilters, setEligibilityLevelCheckedFilters] = useState<string[]>([]);
-  const [ExaminationLevelCheckedFilters, setExaminationLevelCheckedFilters] = useState<string[]>([]);
-  const [ExamStatusCheckedFilters, setExamStatusCheckedFilters] = useState< string[] >([]);
+  const [EligibilityLevelCheckedFilters, setEligibilityLevelCheckedFilters] =
+    useState<string[]>([]);
+  const [ExaminationLevelCheckedFilters, setExaminationLevelCheckedFilters] =
+    useState<string[]>([]);
+  const [ExamStatusCheckedFilters, setExamStatusCheckedFilters] = useState<
+    string[]
+  >([]);
 
   // handleFilter functions
   const handleStreamFilter = (data: string) => {
@@ -118,19 +124,19 @@ export default function ExamFilters({
   };
   return (
     <aside
-      className={`min-w-[300px] [flex:2] max-md:bg-black max-md:bg-opacity-80  ${mobileFilter ? "fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll pr-[20%]" : "max-md:hidden"}`}
+      className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20 ${mobileFilter ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll" : "max-md:hidden"}`}
     >
-      <button
+      {/* <button
         className="fixed right-5 top-24 text-3xl text-white md:hidden"
         onClick={() => setMobileFilter(false)}
       >
         <IoIosCloseCircleOutline />
-      </button>
+      </button> */}
       <h1 className="mb-10 font-medium">Showing {totalResults} Results</h1>
       <div className="w-full pb-0 max-md:bg-opacity-95">
         <h2 className="mb-5 font-medium">Find Exam</h2>
         {/* Selected filters display */}
-        <div className="flex flex-wrap items-center gap-1 mb-3 max-md:text-white">
+        <div className="mb-3 flex flex-wrap items-center gap-1 max-md:text-white">
           {Object.values(SelectedFilters).some(
             (value) =>
               value !== "" && (!Array.isArray(value) || value.length !== 0),

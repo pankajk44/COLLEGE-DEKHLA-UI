@@ -415,7 +415,7 @@ body {
 .backgroundGradient1 {
   background: rgb(255, 169, 60);
   background: radial-gradient(
-    circle,
+    circle at bottom,
     rgba(255, 169, 60, 0) 0%,
     rgba(255, 169, 60, 0) 0%,
     rgba(255, 169, 60, 0) 0%,
@@ -431,9 +431,70 @@ body {
     rgba(255, 169, 60, 0) 100%,
     rgba(255, 169, 60, 0) 100%,
     rgba(255, 169, 60, 0) 100%,
-    rgba(255, 169, 60, 0) 100%
+    rgba(255, 169, 60, 0) 20%,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent
   );
-  background-size: 110%;
-  background-position: 50% 10%;
+  background-size: 100% 100%;
+  background-position: center bottom;
   background-repeat: no-repeat;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.slide-in {
+  animation: slideInFromLeft 0.5s ease-out forwards;
+}
+
+.slide-out {
+  animation: slideOutToLeft 0.5s ease-out forwards;
 }
