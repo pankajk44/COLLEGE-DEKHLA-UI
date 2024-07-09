@@ -20,8 +20,6 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
     eligibilityLevel: [] as string[],
     examinationLevel: [] as string[],
     examStatus: [] as string[],
-
-
   });
 
   function handleSearch() {
@@ -44,7 +42,7 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
     }
   };
 
-  // Navbar 
+  // Navbar
   const [selectedIndex, setSelectedIndex] = useState(0);
   const handleSelect = (index: any) => {
     setSelectedIndex(index);
@@ -52,7 +50,7 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
 
   return (
     <section id="collegeList" className="my-5 w-full pb-5">
-      <Wrapper className=" flex gap-6 justify-between flex-col md:flex-row">
+      <Wrapper className="flex flex-col justify-between gap-6 md:flex-row">
         {/* Aside College Filter Section  */}
         <ExamFilters
           filterBy={filterBy}
@@ -63,11 +61,11 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
           setMobileFilter={setMobileFilter}
         />
         {/* main Exam Search and List Section  */}
-        <main className="flex w-full flex-col py-5 pt-0  md:min-w-[550px] md:[flex:8]">
+        <main className="flex w-full flex-col py-5 pt-0 md:min-w-[550px] md:[flex:8]">
           {/* Search and Sort Section  */}
           <div className="relative mb-4 flex items-stretch gap-4 max-md:flex-col">
-          <div className="text-primary-text focus-within:border-secondary-text flex h-12 flex-1 items-center rounded-xl border border-zinc-200 bg-white px-2 shadow-md">
-          <RiSearchLine className="text-orange-500" />
+            <div className="text-primary-text focus-within:border-secondary-text flex h-12 flex-1 items-center rounded-xl border border-zinc-200 bg-white px-2 shadow-md">
+              <RiSearchLine className="text-orange-500" />
               <input
                 className="w-full pl-5 focus:outline-none max-md:p-3"
                 type="text"
@@ -75,17 +73,17 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
                 onChange={handleSearch}
               />
             </div>
-            <div className="flex gap-4">
-              {/* sort button  */}
+            <div className="bottom-0 left-0 right-0 flex justify-end gap-4 border-orange-300 bg-white max-md:fixed max-md:z-40 max-md:w-full max-md:justify-between max-md:border-t max-md:p-3">
+              {/* Sort button  */}
               <SortButton handleFilterOptionClick={handleFilterOptionClick} />
               {/* Filter Button  */}
               <div
-                className="hidden max-md:block"
+                className="hidden max-md:block max-md:w-full max-md:flex-[1]"
                 onClick={() => setMobileFilter((prev) => !prev)}
               >
                 <Button
                   variant="orange"
-                  className="group flex h-12 cursor-pointer items-center gap-2 !rounded-xl !px-2"
+                  className="group flex h-12 cursor-pointer items-center gap-2 !rounded-xl !px-2 max-md:!w-full"
                 >
                   <span>Filter</span>
                   <MdOutlineSort />
@@ -100,8 +98,12 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
             onSelect={handleSelect}
           />
           {/* College List Section  */}
-         { filteredData.map((exam: any) => (
-            <ExamFilteredCard key={exam.id} exam={exam} tabsSections={tabsSections} />
+          {filteredData.map((exam: any) => (
+            <ExamFilteredCard
+              key={exam.id}
+              exam={exam}
+              tabsSections={tabsSections}
+            />
           ))}
         </main>
       </Wrapper>
