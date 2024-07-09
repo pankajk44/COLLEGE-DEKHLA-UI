@@ -285,7 +285,7 @@ export default function CollegeFilters({
       className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20 ${mobileFilter ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll" : "max-md:hidden"}`}
     >
       {/* <button
-        className="fixed right-5 top-24 text-3xl text-white md:hidden"
+        className="!fixed !right-5 !top-24 !z-50 text-3xl text-white bg-black"
         onClick={() => setMobileFilter(false)}
       >
         <IoIosCloseCircleOutline />
