@@ -4,13 +4,8 @@ import Wrapper from "@/components/Wrappers";
 import { Button } from "@/components/Button";
 import { homePageData } from "@/data/homeData";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  animate,
-  AnimatePresence,
-  motion,
-  useMotionValue,
-} from "framer-motion";
-
+import { animate, motion, useMotionValue } from "framer-motion";
+import { book1 } from "@/assets";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
@@ -19,10 +14,10 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import Image from "next/image";
 import useMeasure from "react-use-measure";
 import Link from "next/link";
-import { FaAngleLeft, FaAngleRight, FaCheck, FaStar } from "react-icons/fa";
+import { FaCheck, FaStar } from "react-icons/fa";
 import { courses } from "@/data/courseData";
 import CollegesSlider from "@/components/cardsAndSliders/CollegesSlider";
-import { collegePage, colleges } from "@/data/collegeData";
+import { colleges } from "@/data/collegeData";
 import {
   testimonials,
   CounsellingPackages,
@@ -31,12 +26,9 @@ import {
   banner1,
 } from "@/data/globalData";
 import { newsPage } from "@/data/newsData";
-import { exams, examsListingPage } from "@/data/examData";
-import ExamFilteredCard from "@/components/cardsAndSliders/ExamFilteredCard";
 import { ImCross } from "react-icons/im";
 import Faqs from "@/components/Faqs";
 import Banner1 from "@/components/bannerSections/Banner1";
-import { Span } from "next/dist/trace";
 import TextWithLineBreak, {
   TextWithoutLineBreak,
 } from "@/utils/TextWithLineBreak";
@@ -48,7 +40,7 @@ import { GiBookCover } from "react-icons/gi";
 
 export default function Home() {
   return (
-    <>
+    <section className="backgroundGradient relative !mt-0 w-full">
       <HomeBanner
         title={homePageData?.heroSection?.title}
         text={homePageData?.heroSection?.text}
@@ -146,7 +138,7 @@ export default function Home() {
 
       {/* final creative section */}
       <LastSection />
-    </>
+    </section>
   );
 }
 
@@ -154,9 +146,9 @@ function HomeBanner({ title, text, text1, text2, text3, text4, text5 }: any) {
   const isMobile = useIsMobile(750);
   return (
     <Wrapper
-      as="section"
-      containerClassName="pt-[11rem] pb-5 md:pt-[9rem] px-5 !mt-[-80px]"
-      bgColor="backgroundGradient"
+      as="div"
+      containerClassName="pt-[11rem] pb-5 md:pt-[9rem] px-5"
+      bgColor=""
       className="text-center text-black"
     >
       {/* Banner Title  */}
@@ -229,7 +221,7 @@ function HomeBanner({ title, text, text1, text2, text3, text4, text5 }: any) {
       <h2 className="mb-5 text-center text-3xl font-bold sm:text-5xl md:mb-10">
         Popular Courses
       </h2>
-      <PopularCoursescard data={courses?.[0]} />
+      <PopularCoursesCard data={courses?.[0]} />
     </Wrapper>
   );
 }
@@ -246,7 +238,7 @@ function Card({ data }: any) {
   );
 }
 // popular courses
-function PopularCoursescard(data: any) {
+function PopularCoursesCard(data: any) {
   return (
     <div className="mb-4 flex w-full flex-wrap justify-center gap-6 p-4 max-sm:gap-2">
       {[data?.[0], data?.[0], data?.[0], data?.[0], data?.[0], data?.[0]].map(
@@ -372,15 +364,15 @@ const FeaturedCollegeSlider = () => {
 function CollegesCardContent({ text }: any) {
   return (
     <Link href={"/courses"}>
-      <div className="flex-center hover:mix-blend-color-saturation h-full w-[160px] flex-col gap-5 rounded-2xl bg-white p-5 text-center transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
-        {/* <Image
-          src={headerLogo}
+      <div className="flex-center hover:mix-blend-color-saturation hover:!border-3 h-full w-[200px] flex-col gap-5 rounded-2xl border-white bg-white p-5 text-center shadow-xl transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
+        <Image
+          src={book1}
           alt="image"
-          width={200}
-          height={200}
+          width={70}
+          height={70}
           className="w-38 h-auto object-contain"
-        /> */}
-        <GiBookCover className="text-5xl" />
+        />
+        {/* <GiBookCover className="text-6xl" /> */}
         <p className="text-center text-lg font-semibold">
           <TextWithLineBreak text={courses?.[0].breadCrumb} />
         </p>
@@ -394,10 +386,28 @@ function Events({ data }: { data: any[] }) {
   return (
     <Wrapper>
       <div className="flex flex-wrap justify-around">
-        {data?.slice(0, 2)?.map((event) => (
+        {data?.slice(0, 3)?.map((event) => (
           <div
             key={event?.id}
-            className="w-[35%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
+            className="w-[29%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
+          >
+            {/* Event content here */}
+            <Image src={event?.image} alt={"event"} className="h-auto w-full" />
+            <div className="p-4">
+              <p className="mb-3 text-2xl">{event.text}</p>
+
+              <Link href={event?.href || "#"} className="w-full">
+                <Button variant="black" className="!w-full">
+                  Attend Now
+                </Button>
+              </Link>
+            </div>
+          </div>
+        ))}
+        {data?.slice(0, 1)?.map((event) => (
+          <div
+            key={event?.id}
+            className="w-[29%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
           >
             {/* Event content here */}
             <Image src={event?.image} alt={"event"} className="h-auto w-full" />
@@ -643,7 +653,7 @@ function PackageContentCard({ data }: any) {
 }
 function LastSection() {
   return (
-    <div className="!relative flex flex-col items-center justify-center py-11">
+    <div className="!relative flex flex-col items-center justify-center py-11 pt-0">
       {/* <div className="z-20 mb-8 flex w-full max-w-screen-xl flex-col items-center justify-center rounded-2xl bg-white bg-opacity-35 p-5 text-center shadow backdrop-blur-lg backdrop-filter md:mb-28">
         <h1 className="mb-4 text-center text-3xl font-bold max-sm:mb-2 max-sm:text-3xl">
           More than 1000+ Colleges
@@ -774,7 +784,7 @@ const PartnersCard: React.FC<CardProps> = ({ image }) => {
 
   return (
     <motion.div
-      className="relative my-4 flex h-[150px] min-w-max items-center justify-center overflow-hidden rounded-xl py-5"
+      className="relative flex h-[150px] min-w-max items-center justify-center overflow-hidden rounded-xl"
       onHoverStart={() => setShowOverlay(true)}
       onHoverEnd={() => setShowOverlay(false)}
     >

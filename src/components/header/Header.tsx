@@ -22,11 +22,11 @@ const Header = ({ header }: any) => {
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   const [navItems, setNavItems] = useState<any[]>([]);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
-  
+
   const pathname = usePathname();
   const router = useRouter();
   const getBasePath = (url: string) => {
-    const urlSegments = url.split('/');
+    const urlSegments = url.split("/");
     return `/${urlSegments[1]}`;
   };
 
@@ -35,8 +35,13 @@ const Header = ({ header }: any) => {
   }, []);
 
   useEffect(() => {
-    const activeItem = navItems.find(item => item.href === getBasePath(pathname)) ||
-                       navItems.find(item => item.subNav?.some((subItem: { href: string; }) => subItem.href === getBasePath(pathname)));
+    const activeItem =
+      navItems.find((item) => item.href === getBasePath(pathname)) ||
+      navItems.find((item) =>
+        item.subNav?.some(
+          (subItem: { href: string }) => subItem.href === getBasePath(pathname),
+        ),
+      );
     if (activeItem) {
       setActiveItemId(activeItem.id.toString());
     } else {
@@ -45,7 +50,7 @@ const Header = ({ header }: any) => {
   }, [pathname, navItems]);
 
   const controlNavbar = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       if (window.scrollY > 200) {
         if (window.scrollY > lastScrollY && !isMobileMenuOpen) {
           setShow("-translate-y-[100px]");
@@ -60,7 +65,7 @@ const Header = ({ header }: any) => {
   };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       window.addEventListener("scroll", controlNavbar);
       return () => {
         window.removeEventListener("scroll", controlNavbar);
@@ -84,9 +89,9 @@ const Header = ({ header }: any) => {
 
   return (
     <header
-      className={`sticky top-0 z-50 flex h-20 w-full items-center justify-between transition-transform duration-300 md:top-5 md:h-20 ${show}`}
+      className={`fixed top-0 z-50 flex h-20 w-full items-center justify-between transition-transform duration-300 md:top-5 md:h-20 ${show} md:px-5`}
     >
-      <Wrapper1 className="mx-5 hidden h-20 items-center justify-between rounded-lg bg-white md:flex">
+      <Wrapper1 className="hidden h-20 items-center justify-between rounded-lg bg-white md:flex">
         {/* Logo with Link */}
         <Link href={header?.href || "/"}>
           <Image
@@ -98,15 +103,15 @@ const Header = ({ header }: any) => {
           />
         </Link>
         {/* Menu */}
-        <Menu 
-          navItemsArray={navItems} 
-          activeItemId={activeItemId} 
-          onItemClick={handleNavItemClick} 
+        <Menu
+          navItemsArray={navItems}
+          activeItemId={activeItemId}
+          onItemClick={handleNavItemClick}
         />
         <LoginSignUpQASection buttonType="LOG-IN" />
       </Wrapper1>
       {/* Mobile Section */}
-      <Wrapper1 className="flex items-center justify-between gap-3 md:hidden bg-white h-20 w-full">
+      <Wrapper1 className="flex h-20 w-full items-center justify-between gap-3 bg-white md:hidden">
         <div className="flex-center relative cursor-pointer rounded-full text-3xl text-blue-950 hover:bg-blue-500/5">
           {isMobileMenuOpen ? (
             <VscChromeClose onClick={handleMobileMenu} />
@@ -142,7 +147,6 @@ const Header = ({ header }: any) => {
 };
 
 export default Header;
-
 
 const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
   const isUserLoggedIn = useAppSelector((state) => state.auth.authState);
@@ -190,7 +194,11 @@ const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
               </div>
             </div>
           ) : (
-            <Button onClick={openLoginPopup} variant="black" className="shadow-lg">
+            <Button
+              onClick={openLoginPopup}
+              variant="black"
+              className="shadow-lg"
+            >
               LogIn
             </Button>
           )}
