@@ -1,15 +1,23 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Wrapper from "@/components/Wrappers";
 import { Button } from "@/components/Button";
 import { homePageData } from "@/data/homeData";
 import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  animate,
+  AnimatePresence,
+  motion,
+  useMotionValue,
+} from "framer-motion";
+
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import Image from "next/image";
+import useMeasure from "react-use-measure";
 import Link from "next/link";
 import { FaAngleLeft, FaAngleRight, FaCheck, FaStar } from "react-icons/fa";
 import { courses } from "@/data/courseData";
@@ -36,6 +44,7 @@ import useIsMobile from "@/components/customHooks/useIsMobile";
 import { headerLogo } from "@/assets";
 import CollegeFilteredCard from "@/components/cardsAndSliders/CollegeFilteredCard";
 import formatFees, { formatRupee } from "@/utils/customText";
+import { GiBookCover } from "react-icons/gi";
 
 export default function Home() {
   return (
@@ -109,7 +118,7 @@ export default function Home() {
       >
         <Link href={"/colleges/1"} className="max-w-min">
           <Button variant="black" className="text-nowrap shadow-xl">
-            Featured College
+            Featured Colleges
           </Button>
         </Link>
         <div className="flex-center flex-col py-5 md:px-14">
@@ -118,32 +127,11 @@ export default function Home() {
               href={"/colleges"}
               className="max-w-min font-bold text-orange-500 hover:text-blue-500 hover:underline"
             >
-              <span className="mr-1 text-nowrap">See All</span>
+              <span className="mr-2 text-nowrap">See All</span>
             </Link>
           </p>
-          {colleges
-            ?.slice(0, 1)
-            .map((college: any) => (
-              <CollegeFilteredCard
-                key={college.id}
-                slug={college?.slug}
-                bgImage={college?.bgImage?.url}
-                city={college?.location?.city}
-                state={college?.location?.state}
-                overallRating={college?.reviewsAndRatings?.overallRating}
-                totalReviews={college?.reviewsAndRatings?.totalReviews}
-                avgFeePerYear={college?.avgFeePerYear}
-                affiliation={college?.affiliation}
-                hightestPackage={college?.hightestPackage}
-                brochureUrl={college?.brochureUrl}
-                collegeType={college?.collegeType}
-                collegeName={college?.collegeName}
-                avgPackage={college?.avgPackage}
-                exam={college?.exam}
-                description={college?.description}
-                tabsSections={tabsSections}
-              />
-            ))}
+
+          <FeaturedCollegeSlider />
         </div>
       </Wrapper>
 
@@ -241,7 +229,7 @@ function HomeBanner({ title, text, text1, text2, text3, text4, text5 }: any) {
       <h2 className="mb-5 text-center text-3xl font-bold sm:text-5xl md:mb-10">
         Popular Courses
       </h2>
-      <PopularCoursesSlider data={courses?.[0]} />
+      <PopularCoursescard data={courses?.[0]} />
     </Wrapper>
   );
 }
@@ -257,8 +245,20 @@ function Card({ data }: any) {
     </div>
   );
 }
-const PopularCoursesSlider = ({ data }: any) => {
-  const uniqueId = "popularCourses123";
+// popular courses
+function PopularCoursescard(data: any) {
+  return (
+    <div className="mb-4 flex w-full flex-wrap justify-center gap-6 p-4 max-sm:gap-2">
+      {[data?.[0], data?.[0], data?.[0], data?.[0], data?.[0], data?.[0]].map(
+        (item: any, index: number) => (
+          <CollegesCardContent key={index} text={data?.breadCrumb} />
+        ),
+      )}
+    </div>
+  );
+}
+const FeaturedCollegeSlider = () => {
+  const uniqueId = "featured123";
   const swiperOptions = {
     slidesPerView: 1,
     spaceBetween: 30,
@@ -272,8 +272,9 @@ const PopularCoursesSlider = ({ data }: any) => {
     modules: [Autoplay, Pagination, Navigation],
     breakpoints: {
       640: { slidesPerView: 1 },
-      768: { slidesPerView: 3 },
-      1024: { slidesPerView: 4 },
+      768: { slidesPerView: 1 },
+      1024: { slidesPerView: 1 },
+      1800: { slidesPerView: 1 },
     },
   };
 
@@ -281,18 +282,86 @@ const PopularCoursesSlider = ({ data }: any) => {
     <div className="CoursesSlider relative w-full">
       <Swiper
         {...swiperOptions}
-        className={`mySwiper relative w-full max-w-fit px-5 ${uniqueId} topColleges`}
+        className={`relative w-full px-5 ${uniqueId} `}
       >
-        {[data?.[0], data?.[0], data?.[0], data?.[0], data?.[0]].map(
-          (item: any, index: number) => (
-            <SwiperSlide
-              key={index}
-              className="mb-12 w-full overflow-hidden rounded-2xl bg-white bg-opacity-50 p-2"
-            >
-              <CollegesCardContent text={data?.breadCrumb} />
-            </SwiperSlide>
-          ),
-        )}
+        {colleges?.slice(0, 1).map((college: any) => (
+          <SwiperSlide
+            key={college.id}
+            className="mb-12 w-full overflow-hidden rounded-2xl p-2"
+          >
+            <CollegeFilteredCard
+              key={college.id}
+              slug={college?.slug}
+              bgImage={college?.bgImage?.url}
+              city={college?.location?.city}
+              state={college?.location?.state}
+              overallRating={college?.reviewsAndRatings?.overallRating}
+              totalReviews={college?.reviewsAndRatings?.totalReviews}
+              avgFeePerYear={college?.avgFeePerYear}
+              affiliation={college?.affiliation}
+              hightestPackage={college?.hightestPackage}
+              brochureUrl={college?.brochureUrl}
+              collegeType={college?.collegeType}
+              collegeName={college?.collegeName}
+              avgPackage={college?.avgPackage}
+              exam={college?.exam}
+              description={college?.description}
+              tabsSections={tabsSections}
+            />{" "}
+          </SwiperSlide>
+        ))}
+        {colleges?.slice(0, 1).map((college: any) => (
+          <SwiperSlide
+            key={college.id}
+            className="mb-12 w-full overflow-hidden rounded-2xl p-2"
+          >
+            <CollegeFilteredCard
+              key={college.id}
+              slug={college?.slug}
+              bgImage={college?.bgImage?.url}
+              city={college?.location?.city}
+              state={college?.location?.state}
+              overallRating={college?.reviewsAndRatings?.overallRating}
+              totalReviews={college?.reviewsAndRatings?.totalReviews}
+              avgFeePerYear={college?.avgFeePerYear}
+              affiliation={college?.affiliation}
+              hightestPackage={college?.hightestPackage}
+              brochureUrl={college?.brochureUrl}
+              collegeType={college?.collegeType}
+              collegeName={college?.collegeName}
+              avgPackage={college?.avgPackage}
+              exam={college?.exam}
+              description={college?.description}
+              tabsSections={tabsSections}
+            />{" "}
+          </SwiperSlide>
+        ))}
+        {colleges?.slice(0, 1).map((college: any) => (
+          <SwiperSlide
+            key={college.id}
+            className="mb-12 w-full overflow-hidden rounded-2xl p-2"
+          >
+            <CollegeFilteredCard
+              key={college.id}
+              slug={college?.slug}
+              bgImage={college?.bgImage?.url}
+              city={college?.location?.city}
+              state={college?.location?.state}
+              overallRating={college?.reviewsAndRatings?.overallRating}
+              totalReviews={college?.reviewsAndRatings?.totalReviews}
+              avgFeePerYear={college?.avgFeePerYear}
+              affiliation={college?.affiliation}
+              hightestPackage={college?.hightestPackage}
+              brochureUrl={college?.brochureUrl}
+              collegeType={college?.collegeType}
+              collegeName={college?.collegeName}
+              avgPackage={college?.avgPackage}
+              exam={college?.exam}
+              description={college?.description}
+              tabsSections={tabsSections}
+            />{" "}
+          </SwiperSlide>
+        ))}
       </Swiper>
       <div className={`${uniqueId}-next swiper-button-next`}></div>
       <div className={`${uniqueId}-prev swiper-button-prev`}></div>
@@ -303,16 +372,17 @@ const PopularCoursesSlider = ({ data }: any) => {
 function CollegesCardContent({ text }: any) {
   return (
     <Link href={"/courses"}>
-      <div className="flex-center hover:mix-blend-color-saturation h-full w-full flex-col gap-5 rounded-2xl bg-white p-5 text-center transition-all duration-300 hover:bg-orange-500">
-        <Image
+      <div className="flex-center hover:mix-blend-color-saturation h-full w-[160px] flex-col gap-5 rounded-2xl bg-white p-5 text-center transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
+        {/* <Image
           src={headerLogo}
           alt="image"
           width={200}
           height={200}
           className="w-38 h-auto object-contain"
-        />
+        /> */}
+        <GiBookCover className="text-5xl" />
         <p className="text-center text-lg font-semibold">
-          <TextWithLineBreak text={text} />
+          <TextWithLineBreak text={courses?.[0].breadCrumb} />
         </p>
       </div>
     </Link>
@@ -573,8 +643,8 @@ function PackageContentCard({ data }: any) {
 }
 function LastSection() {
   return (
-    <div className="backgroundGradient1 !relative flex flex-col items-center justify-center p-11">
-      <div className="z-20 mb-8 flex w-full max-w-screen-xl flex-col items-center justify-center rounded-2xl bg-white bg-opacity-35 p-5 text-center shadow backdrop-blur-lg backdrop-filter md:mb-28">
+    <div className="!relative flex flex-col items-center justify-center py-11">
+      {/* <div className="z-20 mb-8 flex w-full max-w-screen-xl flex-col items-center justify-center rounded-2xl bg-white bg-opacity-35 p-5 text-center shadow backdrop-blur-lg backdrop-filter md:mb-28">
         <h1 className="mb-4 text-center text-3xl font-bold max-sm:mb-2 max-sm:text-3xl">
           More than 1000+ Colleges
         </h1>
@@ -614,8 +684,130 @@ function LastSection() {
             />
           ))}
         </div>
-      </div>
+      </div> */}
+
+      <CompaniesScrollSlideShow image={[headerLogo]} />
       <Banner1 data={banner1} />
     </div>
   );
 }
+
+// partner cards
+interface CompaniesScrollSlideShowProps {
+  image: string[];
+}
+
+const FAST_DURATION = 5;
+const SLOW_DURATION = 75;
+
+const CompaniesScrollSlideShow: React.FC<CompaniesScrollSlideShowProps> = ({
+  image,
+}) => {
+  const [duration, setDuration] = useState(FAST_DURATION);
+  const [ref, { width }] = useMeasure();
+  const xTranslation = useMotionValue(0);
+  const [mustFinish, setMustFinish] = useState(false);
+  const [rerender, setRerender] = useState(false);
+
+  useEffect(() => {
+    let controls;
+    let finalPosition = -width / 2 - 8;
+
+    if (mustFinish) {
+      controls = animate(xTranslation, [xTranslation.get(), finalPosition], {
+        ease: "linear",
+        duration: duration * (1 - xTranslation.get() / finalPosition),
+        onComplete: () => {
+          setMustFinish(false);
+          setRerender(!rerender);
+        },
+      });
+    } else {
+      controls = animate(xTranslation, [0, finalPosition], {
+        ease: "linear",
+        duration: duration,
+        repeat: Infinity,
+        repeatType: "loop",
+        repeatDelay: 0,
+      });
+    }
+
+    return controls?.stop;
+  }, [rerender, xTranslation, duration, width, mustFinish]);
+
+  return (
+    <section className="mx-auto w-full">
+      <div className="relative overflow-x-hidden">
+        {/* <div className="absolute left-0 top-0 z-10 h-full w-20 bg-gradient-to-r from-gray-100 to-transparent"></div>
+        <div className="absolute right-0 top-0 z-10 h-full w-20 bg-gradient-to-r from-transparent to-gray-100"></div> */}
+        <motion.div
+          className="mx-auto flex max-w-[1440px] gap-8"
+          style={{ x: xTranslation }}
+          ref={ref}
+          onHoverStart={() => {
+            setMustFinish(true);
+            setDuration(SLOW_DURATION);
+          }}
+          onHoverEnd={() => {
+            setMustFinish(true);
+            setDuration(FAST_DURATION);
+          }}
+        >
+          {[...image, ...image, ...image, ...image, ...image, ...image].map(
+            (item, idx) => (
+              <PartnersCard image={item} key={idx} />
+            ),
+          )}
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+// partner cards component
+interface CardProps {
+  image: string;
+}
+
+const PartnersCard: React.FC<CardProps> = ({ image }) => {
+  const [showOverlay, setShowOverlay] = useState(false);
+
+  return (
+    <motion.div
+      className="relative my-4 flex h-[150px] min-w-max items-center justify-center overflow-hidden rounded-xl py-5"
+      onHoverStart={() => setShowOverlay(true)}
+      onHoverEnd={() => setShowOverlay(false)}
+    >
+      {/* Hover overlay */}
+      {/* <AnimatePresence>
+        {showOverlay && (
+          <motion.div
+            className="absolute left-0 top-0 bottom-0 right-0 z-10 flex justify-center items-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="absolute bg-black pointer-events-none opacity-50 h-full w-full" />
+            <motion.h1
+              className="bg-white font-semibold text-sm z-10 px-3 py-2 rounded-full flex items-center gap-[0.5ch] hover:opacity-75"
+              initial={{ y: 10 }}
+              animate={{ y: 0 }}
+              exit={{ y: 10 }}
+            >
+              <span>Explore Now</span>
+            </motion.h1>
+          </motion.div>
+        )}
+      </AnimatePresence> */}
+      {image && (
+        <Image
+          src={image}
+          alt="image"
+          width={250}
+          height={250}
+          className="h-full max-h-16 w-full object-contain"
+        />
+      )}
+    </motion.div>
+  );
+};

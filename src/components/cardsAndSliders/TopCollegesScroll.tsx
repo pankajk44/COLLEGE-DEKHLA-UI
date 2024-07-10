@@ -58,7 +58,7 @@ export default function TopCollegesScroll({ data }: any) {
             const slide = (
               <div
               key={index}
-              className="min-w-96 overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-md max-md:min-w-[280px] p-1"
+              className="min-w-96 overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-md max-sm:min-w-full p-1"
             >
               <CollegesCardContent
                 slug={college?.slug}
