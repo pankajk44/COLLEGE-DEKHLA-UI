@@ -374,42 +374,36 @@ body {
 }
 
 .backgroundGradient {
+  /* background: radial-gradient(
+    circle at 50% 0%,
+    rgba(255, 171, 61, 0.51),
+    rgba(255, 171, 61, 0.52),
+    rgba(171, 220, 255, 0.46),
+    #00bbff80,
+    rgba(80, 97, 179, 0.53),
+    rgba(252, 72, 0, 0.53),
+    #ffa93c,
+    rgba(255, 136, 0, 0.52)
+  ); */
   background-image: radial-gradient(
-    circle at center 20px,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    #aadcffac,
-    #00bbffb4,
-    #ac5ea296,
-    #ffaa3c94,
-    #ff8800a2,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent
+    circle at 50% 0%,
+    rgba(255, 171, 61, 0.51),
+    rgba(255, 171, 61, 0.52),
+    rgba(171, 220, 255, 0.46),
+    rgba(0, 187, 255, 0.5),
+    rgba(80, 97, 179, 0.53),
+    rgba(252, 72, 0, 0.53),
+    rgb(255, 169, 60),
+    rgba(255, 136, 0, 0.52)
   );
-  background-size: 400%;
-  background-position: 50%;
+  background-position-x: initial;
+  background-position-y: initial;
+  background-size: 100%;
   background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
 }
 
 .backgroundGradient1 {
@@ -432,26 +426,6 @@ body {
     rgba(255, 169, 60, 0) 100%,
     rgba(255, 169, 60, 0) 100%,
     rgba(255, 169, 60, 0) 20%,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
-    transparent,
     transparent,
     transparent,
     transparent,
