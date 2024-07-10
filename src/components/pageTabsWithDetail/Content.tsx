@@ -268,9 +268,9 @@ function RelatedCourses() {
 function ReviewsAndRatingsSection({ data }: any) {
   return (
     <div className="space-y-5">
-      <div className="my-5 flex items-center justify-center gap-5 max-md:flex-col">
+      <div className="my-5 flex items-center justify-around gap-16 max-md:flex-col !h-auto">
         {/* Overall Rating Section  */}
-        <div className="flex-center flex-col rounded-2xl bg-orange-200 p-5">
+        <div className="flex-center flex-col rounded-2xl bg-orange-200 p-5 sm:px-12">
           <h2 className="text-7xl font-semibold">{data?.overallRating}</h2>
           <div>
             <StarRating
@@ -281,46 +281,46 @@ function ReviewsAndRatingsSection({ data }: any) {
           <p>{data?.totalReviews} Reviews</p>
         </div>
         {/* Rating according to number  */}
-        <div className="space-y-2">
-          <div className="flex items-center gap-3">
-            <p className="flex items-center gap-2 font-semibold">
+        <div className="space-y-2 w-1/2 !h-auto">
+          <div className="flex items-center gap-3  !my-3">
+            <p className="flex items-center gap-2 font-semibold text-2xl mr-2">
               5 <FaStar className="text-orange-500" />
             </p>
             <ProgressBar value={"90"} />
-            <p>(90%)</p>
+            <p className="text-xl ml-2">(90%)</p>
           </div>
-          <div className="flex items-center gap-3">
-            <p className="flex items-center gap-2 font-semibold">
+          <div className="flex items-center gap-3 !my-3">
+            <p className="flex items-center gap-2 font-semibold text-2xl mr-2">
               4 <FaStar className="text-orange-500" />
             </p>
             <ProgressBar value={"73"} />
-            <p>(73%)</p>
+            <p className="text-xl ml-2">(73%)</p>
           </div>
-          <div className="flex items-center gap-3">
-            <p className="flex items-center gap-2 font-semibold">
+          <div className="flex items-center gap-3 !my-3">
+            <p className="flex items-center gap-2 font-semibold text-2xl mr-2">
               3 <FaStar className="text-orange-500" />
             </p>
             <ProgressBar value={"44"} />
-            <p>(44%)</p>
+            <p className="text-xl ml-2">(44%)</p>
           </div>
-          <div className="flex items-center gap-3">
-            <p className="flex items-center gap-2 font-semibold">
+          <div className="flex items-center gap-3 !my-3">
+            <p className="flex items-center gap-2 font-semibold text-2xl mr-2">
               2 <FaStar className="text-orange-500" />
-            </p>
+            </p >
             <ProgressBar value={"75"} />
-            <p>(75%)</p>
+            <p className="text-xl ml-2">(75%)</p>
           </div>
-          <div className="flex items-center gap-3">
-            <p className="flex items-center gap-2 font-semibold">
+          <div className="flex items-center justify-between gap-3 !my-3">
+            <p className="flex items-center gap-2 font-semibold text-2xl mr-2">
               1 <FaStar className="text-orange-500" />
             </p>
             <ProgressBar value={"30"} />
-            <p>(30%)</p>
+            <p className="text-xl ml-2">(30%)</p>
           </div>
         </div>
       </div>
-      <div className="flex overflow-x-auto gap-5 justify-center text-center">
-        {data?.individualReviews?.map((review: any, index: number) => (
+      <div className="flex overflow-x-auto gap-3 justify-between text-center my-5 sm:!mt-14">
+        {data?.individualReviews?.slice(0, 5).map((review: any, index: number) => (
           <div key={index} className="flex-center flex-col">
             <div className="flex-center rounded-lg bg-orange-300 p-2">
               <Image
@@ -334,7 +334,7 @@ function ReviewsAndRatingsSection({ data }: any) {
             <p className="flex items-center gap-2">
               {review?.rating} <FaStar className="text-orange-500" />
             </p>
-            <p className="text-nowrap">based on ({review?.basedOn} )</p>
+            {/* <p className="text-nowrap">based on ({review?.basedOn} )</p> */}
           </div>
         ))}
       </div>
@@ -344,9 +344,9 @@ function ReviewsAndRatingsSection({ data }: any) {
 
 function ProgressBar({ value }: any) {
   return (
-    <div className="h-2 min-w-60 rounded-full bg-orange-200">
+    <div className="h-3 min-w-60 w-full rounded-full bg-orange-200">
       <div
-        className={`h-2 rounded-full bg-orange-500`}
+        className={`h-3 rounded-full bg-orange-500`}
         style={{ width: `${value}%` }}
       ></div>
     </div>

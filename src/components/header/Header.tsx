@@ -84,7 +84,7 @@ const Header = ({ header }: any) => {
 
   return (
     <header
-      className={`sticky top-0 z-50 flex h-20 w-full items-center justify-between transition-transform duration-300 md:top-5 md:h-20 ${show}`}
+      className={`sticky top-0 z-50 flex h-20 w-auto items-center justify-between transition-transform duration-300 md:top-5 md:h-20 ${show} md:mx-5`}
     >
       <Wrapper1 className="mx-5 hidden h-20 items-center justify-between rounded-lg bg-white md:flex">
         {/* Logo with Link */}
