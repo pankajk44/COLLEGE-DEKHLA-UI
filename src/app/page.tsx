@@ -4,7 +4,12 @@ import Wrapper from "@/components/Wrappers";
 import { Button } from "@/components/Button";
 import { homePageData } from "@/data/homeData";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { animate, AnimatePresence, motion, useMotionValue } from "framer-motion";
+import {
+  animate,
+  AnimatePresence,
+  motion,
+  useMotionValue,
+} from "framer-motion";
 
 // Import Swiper styles
 import "swiper/css";
@@ -125,11 +130,8 @@ export default function Home() {
               <span className="mr-2 text-nowrap">See All</span>
             </Link>
           </p>
-       
 
-           < FeaturedCollegeSlider />
-            
-        
+          <FeaturedCollegeSlider />
         </div>
       </Wrapper>
 
@@ -246,11 +248,11 @@ function Card({ data }: any) {
 // popular courses
 function PopularCoursescard(data: any) {
   return (
-    <div className="flex gap-6 flex-wrap w-full justify-center p-4 mb-4 max-sm:gap-2">
+    <div className="mb-4 flex w-full flex-wrap justify-center gap-6 p-4 max-sm:gap-2">
       {[data?.[0], data?.[0], data?.[0], data?.[0], data?.[0], data?.[0]].map(
         (item: any, index: number) => (
-          <CollegesCardContent text={data?.breadCrumb} />
-        )
+          <CollegesCardContent key={index} text={data?.breadCrumb} />
+        ),
       )}
     </div>
   );
@@ -280,40 +282,14 @@ const FeaturedCollegeSlider = () => {
     <div className="CoursesSlider relative w-full">
       <Swiper
         {...swiperOptions}
-        className={` relative w-full  px-5 ${uniqueId} `}
+        className={`relative w-full px-5 ${uniqueId} `}
       >
-   {colleges?.slice(0, 1).map((college: any) => (          
-            <SwiperSlide
-              key={college.id}
-              className="mb-12 w-full overflow-hidden rounded-2xl p-2"
-            >
-<CollegeFilteredCard
-              key={college.id}
-              slug={college?.slug}
-              bgImage={college?.bgImage?.url}
-              city={college?.location?.city}
-              state={college?.location?.state}
-              overallRating={college?.reviewsAndRatings?.overallRating}
-              totalReviews={college?.reviewsAndRatings?.totalReviews}
-              avgFeePerYear={college?.avgFeePerYear}
-              affiliation={college?.affiliation}
-              hightestPackage={college?.hightestPackage}
-              brochureUrl={college?.brochureUrl}
-              collegeType={college?.collegeType}
-              collegeName={college?.collegeName}
-              avgPackage={college?.avgPackage}
-              exam={college?.exam}
-              description={college?.description}
-              tabsSections={tabsSections}
-            />            </SwiperSlide>
-          ),
-        )}
-        {colleges?.slice(0, 1).map((college: any) => (          
-            <SwiperSlide
-              key={college.id}
-              className="mb-12 w-full overflow-hidden rounded-2xl  p-2"
-            >
-<CollegeFilteredCard
+        {colleges?.slice(0, 1).map((college: any) => (
+          <SwiperSlide
+            key={college.id}
+            className="mb-12 w-full overflow-hidden rounded-2xl p-2"
+          >
+            <CollegeFilteredCard
               key={college.id}
               slug={college?.slug}
               bgImage={college?.bgImage?.url}
@@ -331,15 +307,15 @@ const FeaturedCollegeSlider = () => {
               exam={college?.exam}
               description={college?.description}
               tabsSections={tabsSections}
-            />            </SwiperSlide>
-          ),
-        )}
-        {colleges?.slice(0, 1).map((college: any) => (          
-            <SwiperSlide
-              key={college.id}
-              className="mb-12 w-full overflow-hidden rounded-2xl  p-2"
-            >
-<CollegeFilteredCard
+            />{" "}
+          </SwiperSlide>
+        ))}
+        {colleges?.slice(0, 1).map((college: any) => (
+          <SwiperSlide
+            key={college.id}
+            className="mb-12 w-full overflow-hidden rounded-2xl p-2"
+          >
+            <CollegeFilteredCard
               key={college.id}
               slug={college?.slug}
               bgImage={college?.bgImage?.url}
@@ -357,9 +333,35 @@ const FeaturedCollegeSlider = () => {
               exam={college?.exam}
               description={college?.description}
               tabsSections={tabsSections}
-            />            </SwiperSlide>
-          ),
-        )}
+            />{" "}
+          </SwiperSlide>
+        ))}
+        {colleges?.slice(0, 1).map((college: any) => (
+          <SwiperSlide
+            key={college.id}
+            className="mb-12 w-full overflow-hidden rounded-2xl p-2"
+          >
+            <CollegeFilteredCard
+              key={college.id}
+              slug={college?.slug}
+              bgImage={college?.bgImage?.url}
+              city={college?.location?.city}
+              state={college?.location?.state}
+              overallRating={college?.reviewsAndRatings?.overallRating}
+              totalReviews={college?.reviewsAndRatings?.totalReviews}
+              avgFeePerYear={college?.avgFeePerYear}
+              affiliation={college?.affiliation}
+              hightestPackage={college?.hightestPackage}
+              brochureUrl={college?.brochureUrl}
+              collegeType={college?.collegeType}
+              collegeName={college?.collegeName}
+              avgPackage={college?.avgPackage}
+              exam={college?.exam}
+              description={college?.description}
+              tabsSections={tabsSections}
+            />{" "}
+          </SwiperSlide>
+        ))}
       </Swiper>
       <div className={`${uniqueId}-next swiper-button-next`}></div>
       <div className={`${uniqueId}-prev swiper-button-prev`}></div>
@@ -370,7 +372,7 @@ const FeaturedCollegeSlider = () => {
 function CollegesCardContent({ text }: any) {
   return (
     <Link href={"/courses"}>
-      <div className="flex-center w-[160px] hover:mix-blend-color-saturation h-full  flex-col gap-5 max-sm:w-[140px] rounded-2xl bg-white p-5 text-center transition-all duration-300 hover:bg-orange-500 hover:!text-white">
+      <div className="flex-center hover:mix-blend-color-saturation h-full w-[160px] flex-col gap-5 rounded-2xl bg-white p-5 text-center transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
         {/* <Image
           src={headerLogo}
           alt="image"
@@ -378,7 +380,7 @@ function CollegesCardContent({ text }: any) {
           height={200}
           className="w-38 h-auto object-contain"
         /> */}
-        <GiBookCover className="text-5xl"/>
+        <GiBookCover className="text-5xl" />
         <p className="text-center text-lg font-semibold">
           <TextWithLineBreak text={courses?.[0].breadCrumb} />
         </p>
@@ -641,7 +643,7 @@ function PackageContentCard({ data }: any) {
 }
 function LastSection() {
   return (
-    <div className=" !relative flex flex-col items-center justify-center py-11">
+    <div className="!relative flex flex-col items-center justify-center py-11">
       {/* <div className="z-20 mb-8 flex w-full max-w-screen-xl flex-col items-center justify-center rounded-2xl bg-white bg-opacity-35 p-5 text-center shadow backdrop-blur-lg backdrop-filter md:mb-28">
         <h1 className="mb-4 text-center text-3xl font-bold max-sm:mb-2 max-sm:text-3xl">
           More than 1000+ Colleges
@@ -684,7 +686,7 @@ function LastSection() {
         </div>
       </div> */}
 
-<CompaniesScrollSlideShow image={[headerLogo]}/>
+      <CompaniesScrollSlideShow image={[headerLogo]} />
       <Banner1 data={banner1} />
     </div>
   );
@@ -698,7 +700,9 @@ interface CompaniesScrollSlideShowProps {
 const FAST_DURATION = 5;
 const SLOW_DURATION = 75;
 
-const CompaniesScrollSlideShow: React.FC<CompaniesScrollSlideShowProps> = ({ image }) => {
+const CompaniesScrollSlideShow: React.FC<CompaniesScrollSlideShowProps> = ({
+  image,
+}) => {
   const [duration, setDuration] = useState(FAST_DURATION);
   const [ref, { width }] = useMeasure();
   const xTranslation = useMotionValue(0);
@@ -749,9 +753,11 @@ const CompaniesScrollSlideShow: React.FC<CompaniesScrollSlideShowProps> = ({ ima
             setDuration(FAST_DURATION);
           }}
         >
-          {[...image, ...image, ...image, ...image, ...image, ...image].map((item, idx) => (
-            <PartnersCard image={item} key={idx} />
-          ))}
+          {[...image, ...image, ...image, ...image, ...image, ...image].map(
+            (item, idx) => (
+              <PartnersCard image={item} key={idx} />
+            ),
+          )}
         </motion.div>
       </div>
     </section>
@@ -768,7 +774,7 @@ const PartnersCard: React.FC<CardProps> = ({ image }) => {
 
   return (
     <motion.div
-      className="relative overflow-hidden h-[150px] min-w-max rounded-xl flex justify-center items-center py-5 my-4"
+      className="relative my-4 flex h-[150px] min-w-max items-center justify-center overflow-hidden rounded-xl py-5"
       onHoverStart={() => setShowOverlay(true)}
       onHoverEnd={() => setShowOverlay(false)}
     >
@@ -793,8 +799,15 @@ const PartnersCard: React.FC<CardProps> = ({ image }) => {
           </motion.div>
         )}
       </AnimatePresence> */}
-      {image && <Image src={image} alt="image" width={250} height={250} className="w-full max-h-16 h-full object-contain" />}
+      {image && (
+        <Image
+          src={image}
+          alt="image"
+          width={250}
+          height={250}
+          className="h-full max-h-16 w-full object-contain"
+        />
+      )}
     </motion.div>
   );
 };
-
