@@ -6,11 +6,10 @@ import { homePageData } from "@/data/homeData";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
   animate,
-  AnimatePresence,
   motion,
   useMotionValue,
 } from "framer-motion";
-
+import { book1 } from "@/assets";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
@@ -19,10 +18,10 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import Image from "next/image";
 import useMeasure from "react-use-measure";
 import Link from "next/link";
-import { FaAngleLeft, FaAngleRight, FaCheck, FaStar } from "react-icons/fa";
+import {  FaCheck, FaStar } from "react-icons/fa";
 import { courses } from "@/data/courseData";
 import CollegesSlider from "@/components/cardsAndSliders/CollegesSlider";
-import { collegePage, colleges } from "@/data/collegeData";
+import {  colleges } from "@/data/collegeData";
 import {
   testimonials,
   CounsellingPackages,
@@ -31,12 +30,9 @@ import {
   banner1,
 } from "@/data/globalData";
 import { newsPage } from "@/data/newsData";
-import { exams, examsListingPage } from "@/data/examData";
-import ExamFilteredCard from "@/components/cardsAndSliders/ExamFilteredCard";
 import { ImCross } from "react-icons/im";
 import Faqs from "@/components/Faqs";
 import Banner1 from "@/components/bannerSections/Banner1";
-import { Span } from "next/dist/trace";
 import TextWithLineBreak, {
   TextWithoutLineBreak,
 } from "@/utils/TextWithLineBreak";
@@ -372,15 +368,15 @@ const FeaturedCollegeSlider = () => {
 function CollegesCardContent({ text }: any) {
   return (
     <Link href={"/courses"}>
-      <div className="flex-center hover:mix-blend-color-saturation h-full w-[160px] flex-col gap-5 rounded-2xl bg-white p-5 text-center transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
-        {/* <Image
-          src={headerLogo}
+      <div className="flex-center hover:mix-blend-color-saturation h-full w-[200px] flex-col gap-5 rounded-2xl border-white hover:!border-3 bg-white p-5 text-center transition-all shadow-xl duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
+        <Image
+          src={book1}
           alt="image"
-          width={200}
-          height={200}
+          width={70}
+          height={70}
           className="w-38 h-auto object-contain"
-        /> */}
-        <GiBookCover className="text-5xl" />
+        />
+        {/* <GiBookCover className="text-6xl" /> */}
         <p className="text-center text-lg font-semibold">
           <TextWithLineBreak text={courses?.[0].breadCrumb} />
         </p>
@@ -394,10 +390,28 @@ function Events({ data }: { data: any[] }) {
   return (
     <Wrapper>
       <div className="flex flex-wrap justify-around">
-        {data?.slice(0, 2)?.map((event) => (
+        {data?.slice(0, 3)?.map((event) => (
           <div
             key={event?.id}
-            className="w-[35%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
+            className="w-[29%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
+          >
+            {/* Event content here */}
+            <Image src={event?.image} alt={"event"} className="h-auto w-full" />
+            <div className="p-4">
+              <p className="mb-3 text-2xl">{event.text}</p>
+
+              <Link href={event?.href || "#"} className="w-full">
+                <Button variant="black" className="!w-full">
+                  Attend Now
+                </Button>
+              </Link>
+            </div>
+          </div>
+        ))}
+        {data?.slice(0, 1)?.map((event) => (
+          <div
+            key={event?.id}
+            className="w-[29%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
           >
             {/* Event content here */}
             <Image src={event?.image} alt={"event"} className="h-auto w-full" />
