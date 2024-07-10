@@ -4,11 +4,7 @@ import Wrapper from "@/components/Wrappers";
 import { Button } from "@/components/Button";
 import { homePageData } from "@/data/homeData";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  animate,
-  motion,
-  useMotionValue,
-} from "framer-motion";
+import { animate, motion, useMotionValue } from "framer-motion";
 import { book1 } from "@/assets";
 // Import Swiper styles
 import "swiper/css";
@@ -18,10 +14,10 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import Image from "next/image";
 import useMeasure from "react-use-measure";
 import Link from "next/link";
-import {  FaCheck, FaStar } from "react-icons/fa";
+import { FaCheck, FaStar } from "react-icons/fa";
 import { courses } from "@/data/courseData";
 import CollegesSlider from "@/components/cardsAndSliders/CollegesSlider";
-import {  colleges } from "@/data/collegeData";
+import { colleges } from "@/data/collegeData";
 import {
   testimonials,
   CounsellingPackages,
@@ -225,7 +221,7 @@ function HomeBanner({ title, text, text1, text2, text3, text4, text5 }: any) {
       <h2 className="mb-5 text-center text-3xl font-bold sm:text-5xl md:mb-10">
         Popular Courses
       </h2>
-      <PopularCoursescard data={courses?.[0]} />
+      <PopularCoursesCard data={courses?.[0]} />
     </Wrapper>
   );
 }
@@ -242,7 +238,7 @@ function Card({ data }: any) {
   );
 }
 // popular courses
-function PopularCoursescard(data: any) {
+function PopularCoursesCard(data: any) {
   return (
     <div className="mb-4 flex w-full flex-wrap justify-center gap-6 p-4 max-sm:gap-2">
       {[data?.[0], data?.[0], data?.[0], data?.[0], data?.[0], data?.[0]].map(
@@ -368,7 +364,7 @@ const FeaturedCollegeSlider = () => {
 function CollegesCardContent({ text }: any) {
   return (
     <Link href={"/courses"}>
-      <div className="flex-center hover:mix-blend-color-saturation h-full w-[200px] flex-col gap-5 rounded-2xl border-white hover:!border-3 bg-white p-5 text-center transition-all shadow-xl duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
+      <div className="flex-center hover:mix-blend-color-saturation hover:!border-3 h-full w-[200px] flex-col gap-5 rounded-2xl border-white bg-white p-5 text-center shadow-xl transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
         <Image
           src={book1}
           alt="image"
@@ -657,7 +653,7 @@ function PackageContentCard({ data }: any) {
 }
 function LastSection() {
   return (
-    <div className="!relative flex flex-col items-center justify-center py-11">
+    <div className="!relative flex flex-col items-center justify-center py-11 pt-0">
       {/* <div className="z-20 mb-8 flex w-full max-w-screen-xl flex-col items-center justify-center rounded-2xl bg-white bg-opacity-35 p-5 text-center shadow backdrop-blur-lg backdrop-filter md:mb-28">
         <h1 className="mb-4 text-center text-3xl font-bold max-sm:mb-2 max-sm:text-3xl">
           More than 1000+ Colleges
@@ -788,7 +784,7 @@ const PartnersCard: React.FC<CardProps> = ({ image }) => {
 
   return (
     <motion.div
-      className="relative my-4 flex h-[150px] min-w-max items-center justify-center overflow-hidden rounded-xl py-5"
+      className="relative flex h-[150px] min-w-max items-center justify-center overflow-hidden rounded-xl"
       onHoverStart={() => setShowOverlay(true)}
       onHoverEnd={() => setShowOverlay(false)}
     >
