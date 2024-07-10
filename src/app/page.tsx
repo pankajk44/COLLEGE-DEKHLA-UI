@@ -48,7 +48,7 @@ import { GiBookCover } from "react-icons/gi";
 
 export default function Home() {
   return (
-    <>
+    <section className="backgroundGradient relative !mt-0 w-full">
       <HomeBanner
         title={homePageData?.heroSection?.title}
         text={homePageData?.heroSection?.text}
@@ -146,7 +146,7 @@ export default function Home() {
 
       {/* final creative section */}
       <LastSection />
-    </>
+    </section>
   );
 }
 
@@ -154,9 +154,9 @@ function HomeBanner({ title, text, text1, text2, text3, text4, text5 }: any) {
   const isMobile = useIsMobile(750);
   return (
     <Wrapper
-      as="section"
-      containerClassName="pt-[11rem] pb-5 md:pt-[9rem] px-5 !mt-[-80px]"
-      bgColor="backgroundGradient"
+      as="div"
+      containerClassName="pt-[11rem] pb-5 md:pt-[9rem] px-5"
+      bgColor=""
       className="text-center text-black"
     >
       {/* Banner Title  */}
