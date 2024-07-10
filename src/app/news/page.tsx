@@ -18,7 +18,7 @@ import { Search } from "@/components/newsSections/Search";
 export default function Page() {
   const [searchTerm, setSearchTerm] = useState("IIT Bombay News and Article");
   return (
-    <section className="mt-[5rem] w-full">
+    <section className="w-full pt-32 max-md:pt-28">
       {newsPage?.notification?.list?.length > 0 && (
         <Notification data={newsPage?.notification?.list} />
       )}
@@ -36,8 +36,6 @@ export default function Page() {
     </section>
   );
 }
-
-
 
 function LatestNewsAndArticles({ data }: any) {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -80,8 +78,13 @@ function Card2({ item }: any) {
   return (
     <div className="mb-4 flex items-center gap-5 border-b border-zinc-800 pb-3">
       <div className="flex flex-col gap-1">
-        <Link  href={`news/${item?.slug }|| #`} className="font-bold cursor-pointer">
-          <h6 className="cursor-pointer">{item?.title}</h6>
+        <Link
+          href={`news/${item?.slug}|| #`}
+          className="cursor-pointer font-bold"
+        >
+          <h6 className="cursor-pointer hover:text-orange-500">
+            {item?.title}
+          </h6>
         </Link>
         <div className="flex gap-5 text-xs capitalize text-orange-500">
           <p className="flex items-center gap-2">

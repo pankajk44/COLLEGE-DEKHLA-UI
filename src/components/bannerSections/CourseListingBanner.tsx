@@ -3,11 +3,15 @@ import React from "react";
 import Wrapper from "../Wrappers";
 import { addCommas } from "@/utils/customText";
 
-export default function CourseListingBanner({ title, bgImg, totalCoursesFound }: any) {
+export default function CourseListingBanner({
+  title,
+  bgImg,
+  totalCoursesFound,
+}: any) {
   return (
     <Wrapper
       as="section"
-      containerClassName="mt-[4rem] px-5"
+      containerClassName="mt-32 max-md:mt-28 px-5"
       className="relative overflow-hidden rounded-2xl !px-0 md:!px-0"
     >
       {/* Bg Image  */}

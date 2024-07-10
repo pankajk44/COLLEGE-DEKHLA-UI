@@ -26,7 +26,7 @@ export default function CollegeDetailBanner({
   return (
     <Wrapper
       as="section"
-      containerClassName="mt-[4rem] px-5"
+      containerClassName="mt-32 max-md:mt-28 px-5"
       className="relative overflow-hidden rounded-2xl !px-0 text-white md:!px-0"
     >
       {/* Bg Image  */}
@@ -87,13 +87,16 @@ export default function CollegeDetailBanner({
         </div>
         {/* Right Side  */}
         <div className="flex-center flex-[4] flex-col gap-4 max-md:hidden">
-          <h2 className="text-3xl font-bold flex gap-2">{overallRating} <StarRating className="text-white gap-2" rating={overallRating} /></h2>
+          <h2 className="flex gap-2 text-3xl font-bold">
+            {overallRating}{" "}
+            <StarRating className="gap-2 text-white" rating={overallRating} />
+          </h2>
           <p className="text-xl">({totalReviews} reviews)</p>
           <Link href={brochureUrl || "#"}>
-          <Button variant="white" className="text-nowrap">
-            <span>Download Brochure</span>
-            <HiOutlineDownload />
-          </Button>
+            <Button variant="white" className="text-nowrap">
+              <span>Download Brochure</span>
+              <HiOutlineDownload />
+            </Button>
           </Link>
         </div>
       </div>

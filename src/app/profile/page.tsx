@@ -37,7 +37,7 @@ function Profile() {
   };
 
   return (
-    <section className="backgroundGradient1 h-screen w-full pt-14">
+    <section className="backgroundGradient h-screen w-full">
       {/* Banner  */}
       <ProfileBanner userName={"Pankaj Prajapati"} avatar={user1} />
       {/* Tab Section  */}
@@ -81,6 +81,7 @@ function ProfileBanner({ userName, avatar }: any) {
   return (
     <Wrapper
       as="div"
+      containerClassName="mt-32 max-md:mt-28"
       className="flex-center rounded-2xl bg-white bg-opacity-50 p-3"
     >
       <div className="redOrangeGradient flex h-full w-full items-center gap-5 rounded-2xl p-5 max-sm:flex-col">
@@ -98,8 +99,9 @@ function ProfileBanner({ userName, avatar }: any) {
           <h1 className="text-3xl font-bold md:text-5xl">
             Welcome, {userName}
           </h1>
-          <p className="flex items-center gap-2 text-nowrap text-zinc-800 ">
-            <FaEdit className="text-xl" /><span>Edit your Profile</span>
+          <p className="flex items-center gap-2 text-nowrap text-zinc-800">
+            <FaEdit className="text-xl" />
+            <span>Edit your Profile</span>
           </p>
         </div>
       </div>
