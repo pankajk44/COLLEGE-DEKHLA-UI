@@ -22,61 +22,67 @@ export default function ExamDetailBanner({
   return (
     <Wrapper
       as="section"
-      containerClassName="mt-[4rem] px-5"
-      className="orangeRedDownGradient rounded-2xl p-8 shadow-lg space-y-4"
+      containerClassName="mt-32 max-md:mt-28 px-5"
+      className="orangeRedDownGradient space-y-4 rounded-2xl p-8 shadow-lg"
     >
       {/* Upper Side  */}
       <p className="text-zinc-600">
         Home &gt; Exams &gt;{" "}
         <span className="text-orange-500">{breadCrumb}</span>
       </p>
-      <div className="flex max-md:flex-col max-md:flex-col-reverse gap-5">
+      <div className="flex gap-5 max-md:flex-col max-md:flex-col-reverse">
         {/* Left Side  */}
-        <div className="flex gap-5 items-center">
-            <h2 className="text-3xl font-bold md:text-4xl md:pt-2">
-              {examName} : {titleAddition}
-            </h2>
+        <div className="flex items-center gap-5">
+          <h2 className="text-3xl font-bold md:pt-2 md:text-4xl">
+            {examName} : {titleAddition}
+          </h2>
         </div>
         {/* Right Side  */}
-          <div className="w-min rounded-2xl bg-white p-2">
-            <Image
-              src={examLogo}
-              alt="banner"
-              width={500}
-              height={500}
-              className="min-h-40 min-w-40 object-contain"
-            />
-          </div>
+        <div className="w-min rounded-2xl bg-white p-2">
+          <Image
+            src={examLogo}
+            alt="banner"
+            width={500}
+            height={500}
+            className="min-h-40 min-w-40 object-contain"
+          />
+        </div>
       </div>
-        {/* Down Side  */}
-        <div className="flex max-md:flex-col flex-wrap items-center justify-between">
+      {/* Down Side  */}
+      <div className="flex flex-wrap items-center justify-between max-md:flex-col">
+        <p className="flex items-center gap-2">
+          <FaClockRotateLeft className="text-xl" />
+          <span>Updated on {lastUpdate}</span>
+        </p>
+        <div className="flex flex-wrap gap-5">
           <p className="flex items-center gap-2">
-            <FaClockRotateLeft className="text-xl" />
-            <span>Updated on {lastUpdate}</span>
+            <MdOutlineFileDownload className="text-xl" />
+            <span>Save</span>
           </p>
-          <div className="flex flex-wrap gap-5">
-            <p className="flex items-center gap-2">
-              <MdOutlineFileDownload className="text-xl" />
-              <span>Save</span>
-            </p>
-            <p className="flex items-center gap-2">
-              <AiOutlineQuestionCircle className="text-xl" />
-              <span>Ask</span>
-            </p>
-            <div className="flex gap-5 flex-wrap max-md:flex-col">
+          <p className="flex items-center gap-2">
+            <AiOutlineQuestionCircle className="text-xl" />
+            <span>Ask</span>
+          </p>
+          <div className="flex flex-wrap gap-5 max-md:flex-col">
             <Link href={brochureUrl || "#"}>
-              <Button variant="white" className="text-nowrap shadow-lg !max-md:w-full">
+              <Button
+                variant="white"
+                className="!max-md:w-full text-nowrap shadow-lg"
+              >
                 <span>Download Brochure</span>
                 <HiOutlineDownload />
               </Button>
             </Link>
-              <Button variant="black" className="text-nowrap shadow-lg !max-md:w-full">
-                <span>Register</span>
-                <HiOutlineDownload />
-              </Button>
-            </div>
+            <Button
+              variant="black"
+              className="!max-md:w-full text-nowrap shadow-lg"
+            >
+              <span>Register</span>
+              <HiOutlineDownload />
+            </Button>
           </div>
         </div>
+      </div>
     </Wrapper>
   );
 }
