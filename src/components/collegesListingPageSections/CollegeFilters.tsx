@@ -284,12 +284,12 @@ export default function CollegeFilters({
     <aside
       className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20 ${mobileFilter ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll" : "max-md:hidden"}`}
     >
-      {/* <button
-        className="fixed right-5 top-24 text-3xl text-white md:hidden"
+      <button
+        className="!fixed !right-5 !top-24 !z-50 text-4xl text-black hover:text-orange-500 md:hidden"
         onClick={() => setMobileFilter(false)}
       >
         <IoIosCloseCircleOutline />
-      </button> */}
+      </button>
       <h1 className="mb-5 font-medium">Showing {totalResults} Colleges</h1>
       <div className="w-full pb-0 max-md:bg-opacity-95">
         <h2 className="mb-5 font-bold">Search by filters</h2>
