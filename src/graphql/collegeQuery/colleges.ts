@@ -44,7 +44,7 @@ export function getAllColleges(rating: any, avgFeePerYear: any, ranking: any) {
   const ratingFilterStr = ratingFilter(rating);
   const avgFeePerYearFilterStr = avgFeePerYearFilter(avgFeePerYear);
   return gql`
-    query Colleges(
+    query getAllColleges(
       $start: Int!
       $limit: Int!
       $city: String
@@ -54,7 +54,8 @@ export function getAllColleges(rating: any, avgFeePerYear: any, ranking: any) {
       $gender: String
       $examName: String
       $course: String
-    {
+      $specialization: String
+)  {
       colleges(
         pagination: { start: $start, limit: $limit }
         sort: "collegeSequence:asc"
@@ -69,7 +70,9 @@ export function getAllColleges(rating: any, avgFeePerYear: any, ranking: any) {
           courses: {
             examName: { examName: { eq: $examName } }
             courseName: { courseName: { eq: $course } }
+            specialization: { specialization:{eq: $specialization}}
           }
+          
         }
       ) {
         data {
@@ -125,7 +128,7 @@ export function getAllColleges(rating: any, avgFeePerYear: any, ranking: any) {
               }
             }
 
-            affiliation {
+             affiliation{
               data {
                 id
                 attributes {

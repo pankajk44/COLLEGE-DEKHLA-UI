@@ -1,8 +1,13 @@
 import { gql } from "@apollo/client";
 
 export const getAllCourses = gql`
-  query {
-  courses {
+  query getAllCourses($mode: String, $duration: Long) {
+  courses(
+    filters: {
+      courseMode: { courseMode: { eq: $mode } }
+      duration: { duration: { eq: $duration } }
+    }
+  ) {
     data {
       id
       attributes {
