@@ -2,47 +2,62 @@ import { gql } from "@apollo/client";
 
 export const getAllCourses = gql`
   query {
-    courses {
-      data {
-        id
-        attributes {
-          slug
-          breadCrumb
-          courseName
-          description
-          duration {
-            data {
-              id
-              attributes {
-                duration
-              }
+  courses {
+    data {
+      id
+      attributes {
+        slug
+        bgImage {
+          data {
+            id
+            attributes {
+              alternativeText
+              width
+              height
+              url
             }
           }
-          avgFees {
-            from
-            to
-          }
-          ExaminationLevel {
-            data {
-              id
-              attributes {
-                ExaminationLevel
-              }
+        }
+        courseType {
+          data {
+            id
+            attributes {
+              collegeType
             }
           }
-          courseMode {
-            data {
-              id
-              attributes {
-                courseMode
-              }
+        }
+        description
+        duration {
+          data {
+            id
+            attributes {
+              duration
             }
           }
-          tabsSections {
-            navItem
+        }
+        avgFees {
+          from
+          to
+        }
+        courseLevel {
+          data {
+            id
+            attributes {
+              courseLevel
+            }
+          }
+        }
+        navbars {
+          data {
+            id
+            attributes {
+              navItem
+            }
           }
         }
       }
     }
   }
+}
+
 `;

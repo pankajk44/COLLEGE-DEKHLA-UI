@@ -1,17 +1,17 @@
 import { gql } from "@apollo/client";
 
 export const getAllColleges = gql`
-query{
-    exams{
-      data{
+  query {
+    exams(filters: { slug: { notNull: true } }) {
+      data {
         id
-        attributes{
-          examName
+        attributes {
+          slug
           description
-          bg{
-            data{
+          bg {
+            data {
               id
-              attributes{
+              attributes {
                 alternativeText
                 width
                 height
@@ -19,36 +19,53 @@ query{
               }
             }
           }
-          examDate
-          mode{
-            data{
+          examDate {
+            startDate
+            endDate
+          }
+          mode {
+            data {
               id
-              attributes{
+              attributes {
                 examMode
               }
             }
           }
-          ExaminationLevel{
-            data{
+          ExaminationLevel {
+            data {
               id
-              attributes{
+              attributes {
                 ExaminationLevel
               }
             }
           }
-          tabsSections{
-            id
-            navItem
+          navbars {
+            data {
+              id
+              attributes {
+                navItem
+              }
+            }
           }
-          brochureUrl
-          applicationSubmissionDates{
+          brochureFile {
+            data {
+              id
+              attributes {
+                name
+                alternativeText
+                ext
+                mime
+                size
+                url
+              }
+            }
+          }
+          applicationSubmissionDates {
             startDate
             endDate
           }
-          
         }
       }
     }
   }
-
-  `;
+`;

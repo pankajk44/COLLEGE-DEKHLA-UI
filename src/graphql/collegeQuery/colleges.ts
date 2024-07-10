@@ -52,15 +52,12 @@ export function getAllColleges(rating: any, avgFeePerYear: any, ranking: any) {
       $collegeType: String
       $affiliation: String
       $gender: String
-      $exams: String
-      $programType: String
+      $examName: String
       $course: String
-      $courseDuration: Long
-      $ranking: Long
-    ) {
+    {
       colleges(
         pagination: { start: $start, limit: $limit }
-        sort: "topCollegeSequence:asc"
+        sort: "collegeSequence:asc"
         filters: {
           college_type: { collegeType: { eq: $collegeType } }
           location: {
@@ -69,22 +66,10 @@ export function getAllColleges(rating: any, avgFeePerYear: any, ranking: any) {
           }
           affiliation: { organization: { eq: $affiliation } }
           genderAccepted: { gender: { eq: $gender } }
-          exams: { examName: { eq: $exams } }
-          studyMode: { studyMode: { eq: $programType } }
-          topCollegeSequence: { lte: $ranking }
-          course: {
-            courseName: { eq: $course }
-            duration: { duration: { eq: $courseDuration } }
+          courses: {
+            examName: { examName: { eq: $examName } }
+            courseName: { courseName: { eq: $course } }
           }
-          reviewsAndRatings: {
-            overallRating: {
-              ${ratingFilterStr}
-            }
-          }
-          avgFeePerYear: {
-            ${avgFeePerYearFilterStr}
-          }
-          
         }
       ) {
         data {
@@ -92,7 +77,7 @@ export function getAllColleges(rating: any, avgFeePerYear: any, ranking: any) {
           attributes {
             slug
             breadCrumb
-            collegeLogo {
+            bgImage {
               data {
                 id
                 attributes {
@@ -139,6 +124,7 @@ export function getAllColleges(rating: any, avgFeePerYear: any, ranking: any) {
                 }
               }
             }
+
             affiliation {
               data {
                 id
@@ -147,47 +133,66 @@ export function getAllColleges(rating: any, avgFeePerYear: any, ranking: any) {
                 }
               }
             }
-            estYear
-            exams {
+            avgPackage
+            hightestPackage
+            brochureFile {
               data {
                 id
                 attributes {
-                  examName
+                  name
+                  alternativeText
+                  caption
+                  ext
+                  mime
+                  size
+                  url
                 }
               }
             }
-            tabsSections {
-              id
-              navItem
-            }
-            avgFeePerYear
-            avgFeePerSem
-            avgPackage
-            hightestPackage
-            reviewsAndRatings {
-              totalReviews
-              overallRating
-            }
-            collegeSequence
-            isTopCollege
-            topCollegeSequence
-            brochureUrl
-            course {
+            navbars {
               data {
                 id
                 attributes {
-                  courseName
-                  duration {
-                    data {
-                      id
-                      attributes {
-                        duration
-                      }
-                    }
+                  navItem
+                }
+              }
+            }
+            CollegeReviewsAndRatings {
+              id
+              Academics {
+                rating
+              }
+              Faculty {
+                rating
+              }
+              Infrastructure {
+                rating
+              }
+              SocialLife {
+                rating
+              }
+              Placement {
+                rating
+              }
+            }
+            courses {
+              courseFee
+              courseFeeLabel
+              examName {
+                data {
+                  id
+                  attributes {
+                    examName
                   }
                 }
               }
             }
+
+            isFeatured
+            featuredSequence
+            collegeSequence
+            isTopCollege
+            topCollegeSequence
           }
         }
       }
