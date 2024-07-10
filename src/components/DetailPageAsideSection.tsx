@@ -71,7 +71,6 @@ function Banner({ data }: any) {
   return (
     <div className="flex-center w-full flex-col rounded-2xl bg-white p-5 text-center">
       <h2 className="mb-5 text-xl">{data?.title}</h2>
-      <Button variant="black" className="text-nowrap"></Button>
       <Button variant="white" className="text-nowrap shadow-lg">
         Apply Now
       </Button>
