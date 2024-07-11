@@ -1,11 +1,7 @@
 import React from "react";
-import Profile from "./Profile";
+import Profile from "./profileForm/Profile";
 
-const TabContent = ({
-  activeTab,
-  setMobileMenu,
-  mobileMenu,
-}: any) => {
+const TabContent = ({ activeTab, setMobileMenu, mobileMenu }: any) => {
   return (
     <>
       {/* Render components based on activeTab */}
