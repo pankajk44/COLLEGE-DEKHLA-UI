@@ -35,12 +35,6 @@ export const header = {
       href: "/news",
       subNav: [],
     },
-    {
-      id: 5,
-      label: "More",
-      href: "/more",
-      subNav: [],
-    },
   ],
 };
 export const footer = {
@@ -88,7 +82,6 @@ export const footer = {
         label: "Updates",
         href: "/updates",
       },
-      
     ],
   },
   list2: {
@@ -109,7 +102,7 @@ export const footer = {
         label: "Careers",
         href: "/careers",
       },
-      
+
       {
         id: 4,
         label: "Culture",
@@ -120,7 +113,6 @@ export const footer = {
         label: "Blog",
         href: "/blog",
       },
-      
     ],
   },
   list3: {
@@ -183,8 +175,8 @@ export const footer = {
       },
     ],
   },
-  newLetter:{
+  newLetter: {
     title: "Subscribe to our newsletter",
     description: "Subscribe to our newsletter to get latest news and updates.",
-  }
+  },
 };
