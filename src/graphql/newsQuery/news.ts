@@ -1,58 +1,35 @@
 import { gql } from "@apollo/client";
 
 export const getAllNews = gql`
-  query {
-    news {
-      data {
-        id
-        attributes {
-          notification {
+  query getAllNews($college: String) {
+  news(filters: { college: { breadCrumb: { eq: $college } } }) {
+    data {
+      id
+      attributes {
+        icon {
+          data {
             id
-            list {
-              date
-              text
-              href
+            attributes {
+              url
             }
-          }
-          searchResults {
-            id
-            icon {
-              data {
-                id
-                attributes {
-                  alternativeText
-                  width
-                  height
-                  url
-                }
-              }
-            }
-            category
-            href
-            text
-            timeStamp
-          }
-          news {
-            id
-            icon {
-              data {
-                id
-                attributes {
-                  alternativeText
-                  width
-                  height
-                  url
-                }
-              }
-            }
-            category
-            title
-            href
-            text
-            timeStamp
           }
         }
+        title
+        excerpt
+        category {
+          data {
+            id
+            attributes {
+              category
+            }
+          }
+        }
+        timeStamp
+        slug
+        newsSequence
       }
     }
   }
+}
+
 `;
