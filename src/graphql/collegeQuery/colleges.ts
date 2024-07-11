@@ -202,3 +202,5 @@ export function getAllColleges(rating: any, avgFeePerYear: any, ranking: any) {
     }
   `;
 }
+
+
