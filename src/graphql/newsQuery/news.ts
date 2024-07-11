@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const getAllNews = gql`
-  query getAllNews {
-  news {
+  query getAllNews($college: String) {
+  news(filters: { college: { breadCrumb: { eq: $college } } }) {
     data {
       id
       attributes {
@@ -16,10 +16,10 @@ export const getAllNews = gql`
         }
         title
         excerpt
-        category{
-          data{
+        category {
+          data {
             id
-            attributes{
+            attributes {
               category
             }
           }
@@ -31,4 +31,5 @@ export const getAllNews = gql`
     }
   }
 }
+
 `;
