@@ -16,7 +16,7 @@ function Profile() {
   const tab = searchParams.get("tab");
 
   const [mobileMenu, setMobileMenu] = useState(false);
-  const [activeTab, setActiveTab] = useState(tab || "Dashboard");
+  const [activeTab, setActiveTab] = useState(tab || "Profile");
 
   useEffect(() => {
     if (
@@ -37,13 +37,13 @@ function Profile() {
   };
 
   return (
-    <section className="backgroundGradient h-screen w-full">
+    <section className="backgroundGradient max-md:mp-28 w-full pt-32">
       {/* Banner  */}
       <ProfileBanner userName={"Pankaj Prajapati"} avatar={user1} />
       {/* Tab Section  */}
       <Wrapper
         as="div"
-        containerClassName="mt-10"
+        containerClassName="mt-8 pb-8"
         className="relative grid grid-cols-12 gap-5"
       >
         <aside
@@ -81,7 +81,6 @@ function ProfileBanner({ userName, avatar }: any) {
   return (
     <Wrapper
       as="div"
-      containerClassName="mt-32 max-md:mt-28"
       className="flex-center rounded-2xl bg-white bg-opacity-50 p-3"
     >
       <div className="redOrangeGradient flex h-full w-full items-center gap-5 rounded-2xl p-5 max-sm:flex-col">
