@@ -1,8 +1,10 @@
 import { gql } from "@apollo/client";
 
 export const getCollegeDetails = gql`
-  query getCollegeDetails($navItem: String) {
-    colleges(filters: { navbars: { navItem: { eq: $navItem } } }) {
+  query getCollegeDetails($ID: ID!, $navItem: String) {
+    colleges(
+      filters: { id: { eq: $ID }, navbars: { navItem: { eq: $navItem } } }
+    ) {
       data {
         id
         attributes {

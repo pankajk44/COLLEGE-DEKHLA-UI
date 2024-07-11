@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const getNewsDetails = gql`
-  query getNewsDetails {
-    news {
+  query getNewsDetails($ID: ID!) {
+    news(filters: { id: { eq: $ID } }) {
       data {
         id
         attributes {
