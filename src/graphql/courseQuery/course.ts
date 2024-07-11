@@ -71,3 +71,29 @@ export const getAllCourses = gql`
     }
   }
 `;
+
+export const getAllModes = gql`
+  query getAllModes {
+    courseModes {
+      data {
+        id
+        attributes {
+          courseMode
+        }
+      }
+    }
+  }
+`;
+
+export const getAllDurations = gql`
+  query getAllDurations {
+    durations {
+      data {
+        id
+        attributes {
+          duration
+        }
+      }
+    }
+  }
+`;
