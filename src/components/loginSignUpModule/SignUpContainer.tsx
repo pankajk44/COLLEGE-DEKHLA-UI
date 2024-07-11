@@ -137,23 +137,21 @@ export function SignUpContainer({
   const mobileRegex = /^[0-9]{10}$/;
 
   return (
-    <div className="sm:relative flex min-h-[90vh] flex-col md:justify-center rounded-b rounded-r p-8 text-black [flex:6] overflow-y-auto">
-       <button
-        className="absolute right-[0.05rem] top-[0.05rem] w-max p-3  text-lg font-normal text-zinc-600  hover:underline"
+    <div className="flex min-h-[90vh] flex-col overflow-y-auto rounded-b rounded-r p-8 text-black [flex:6] sm:relative md:justify-center">
+      <button
+        className="absolute right-[0.05rem] top-[0.05rem] w-max p-3 text-lg font-normal text-zinc-600 hover:underline"
         onClick={closePopup}
         type="button"
       >
         <ImCross />
       </button>
-      <h1 className="text-2xl font-bold text-zinc-800">
-      To Sign Up,
-      </h1>
+      <h1 className="text-2xl font-bold text-zinc-800">To Sign Up,</h1>
       <p>Please enter the following details</p>
-      <p className="mt-1 font-semibold text-zinc-600 flex w-full  font-sans text-md leading-normal text-inherit antialiased">
+      <p className="text-md mt-1 flex w-full font-sans font-semibold leading-normal text-inherit text-zinc-600 antialiased">
         Already have an account?
         <span
           onClick={() => setIsLoginModule(!isLoginModule)}
-          className="ml-1 block cursor-pointer font-sans  font-bold leading-normal  text-orange-600 antialiased hover:underline"
+          className="ml-1 block cursor-pointer font-sans font-bold leading-normal text-orange-600 antialiased hover:underline"
         >
           LogIn Now!
         </span>
@@ -168,25 +166,25 @@ export function SignUpContainer({
               </span>
             </p>
             <div className="otp mb-5">
-  <OtpInput
-    value={userOtp}
-    onChange={setUserOtp}
-    numInputs={6}
-    renderSeparator={<span className="mx-2"></span>}
-    renderInput={(props) => (
-      <input
-        {...props}
-        className="w-12 h-12 text-center text-xl border-2 border-gray-300 rounded-md focus:border-orange-500 focus:outline-none"
-        style={{
-          WebkitAppearance: "none",
-          MozAppearance: "textfield"
-        }}
-      />
-    )}
-    shouldAutoFocus
-    inputType="tel"
-  />
-</div>
+              <OtpInput
+                value={userOtp}
+                onChange={setUserOtp}
+                numInputs={6}
+                renderSeparator={<span className="mx-2"></span>}
+                renderInput={(props) => (
+                  <input
+                    {...props}
+                    className="h-12 w-12 rounded-md border-2 border-gray-300 text-center text-xl focus:border-orange-500 focus:outline-none"
+                    style={{
+                      WebkitAppearance: "none",
+                      MozAppearance: "textfield",
+                    }}
+                  />
+                )}
+                shouldAutoFocus
+                inputType="tel"
+              />
+            </div>
           </>
         ) : (
           <>
@@ -205,13 +203,8 @@ export function SignUpContainer({
               label="Date of Birth"
               type="date"
               placeholder=" "
-              // maxLength={10}
-              // {...register("number", {
-              //   required: "Date of Birth No. is required",
-              //   pattern: {
-              //     value: mobileRegex,
-              //     message: "Please enter a valid 10-digit mobile number",
-              //   },
+              // {...register("dob", {
+              //   required: "Date of Birth is required",
               // })}
             />
             <Input
@@ -271,13 +264,14 @@ export function SignUpContainer({
             )}
             {/* courseLevel  */}
             <select
-              className="mt-5  rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300 w-[48%]"
+              className="mt-5 w-[48%] rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300"
               {...register("courseLevel", {
                 required: "course Level Selection is required",
               })}
             >
               <option disabled={true} selected={true} value="">
-State              </option>
+                State{" "}
+              </option>
               {/* {courseLevelData?.courseLevels?.data?.map(
                     (courseLevel: any, index: any) => {
                       return (
@@ -289,7 +283,7 @@ State              </option>
                   )} */}
             </select>
             <select
-              className="mt-5  rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300 w-[48%] ml-[4%]"
+              className="ml-[4%] mt-5 w-[48%] rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300"
               {...register("courseLevel", {
                 required: "course Level Selection is required",
               })}
@@ -341,9 +335,9 @@ State              </option>
       </form>
 
       <p className="mt-2 text-center font-sans text-sm leading-normal text-inherit antialiased">
-      Your personal information is secured with us
+        Your personal information is secured with us
       </p>
-     
+
       {/* Error Message */}
       {error && <p className="mt-5 text-center text-red-600">{error}</p>}
     </div>

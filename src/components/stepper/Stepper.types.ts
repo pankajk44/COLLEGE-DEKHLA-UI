@@ -34,5 +34,9 @@ export declare type StepperProps = {
   progressBarClassName?: string;
   contentBoxClassName?: string;
   allowClickControl?: boolean;
-  stepItem?: any
+  stepItem?: any;
+  stepItemsContent?: any;
+  // active?: number;
+  // setActive?: (step: number) => void;
+  nextButtonState?: boolean;
 };
