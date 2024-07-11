@@ -9,7 +9,7 @@ export const getAllCourses = gql`
     courses(
       sort: "breadCrumb"
       filters: {
-        courseName: { eq: $searchByCourseName }
+        courseName: { containsi: $searchByCourseName }
         courseMode: { courseMode: { eq: $mode } }
         duration: { duration: { eq: $duration } }
       }
@@ -18,6 +18,8 @@ export const getAllCourses = gql`
         id
         attributes {
           slug
+          courseName
+          courseSequence
           bgImage {
             data {
               id
@@ -66,6 +68,28 @@ export const getAllCourses = gql`
               }
             }
           }
+        }
+      }
+    }
+  }
+
+  query getAllModes {
+    courseModes {
+      data {
+        id
+        attributes {
+          courseMode
+        }
+      }
+    }
+  }
+
+  query getAllDurations {
+    durations {
+      data {
+        id
+        attributes {
+          duration
         }
       }
     }
