@@ -1,4 +1,4 @@
 export const BASE_URL =
-  "https://collegedakhaladev-cms-jdvd5.ondigitalocean.app";
+  "https://admin.collegedakhla.com/";
 export const BASE_GQL_URL =
-  "https://collegedakhaladev-cms-jdvd5.ondigitalocean.app/graphql";
+  "https://admin.collegedakhla.com/graphql";

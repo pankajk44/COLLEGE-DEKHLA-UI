@@ -98,6 +98,8 @@ export default function Home() {
 
   // console.log("collegeData", collegeData);
 
+
+  
   return (
     <section className="backgroundGradient relative !mt-0 w-full">
       <HomeBanner
