@@ -21,7 +21,6 @@ export default function CollegeFilteredCard({
   avgFeePerYear,
   affiliation,
   brochureUrl,
-
   collegeType,
   collegeName,
   avgPackage,
@@ -30,7 +29,7 @@ export default function CollegeFilteredCard({
   tabsSections,
 }: any) {
   return (
-    <div className="relative mb-5 w-full rounded-lg shadow-lg bg-white">
+    <div className="relative mb-5 w-full rounded-lg shadow-xl bg-white">
       {/* Div 1 */}
       <div className="flex gap-y-2 p-5 max-lg:flex-wrap">
         <Image

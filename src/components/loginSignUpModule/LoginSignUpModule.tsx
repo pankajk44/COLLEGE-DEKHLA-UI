@@ -23,54 +23,51 @@ export function LoginSignUpModule({
 
   return (
     <section
-      className="fixed left-0 top-0 flex h-screen w-full items-center justify-center max-sm:mt-20 bg-zinc-950 bg-opacity-70 z-10"
+      className="fixed -top-5 left-0 z-50 flex h-screen w-full items-center justify-center bg-zinc-950 bg-opacity-70 max-sm:mt-20"
       onClick={handleOverlayClick}
     >
       {/* Module  */}
-      <div
-        className="relative z-10 max-sm:min-h-[100vh] max-sm:pt-20 flex max-sm:flex-col max-sm:items-center w-full h-auto rounded-3xl bg-white shadow-lg md:max-w-[960px] overflow-y-auto border-8  border-white max-sm:rounded-none justify-center"
-             >
-      
+      <div className="relative z-10 flex h-max w-full justify-center overflow-y-auto rounded-3xl border-8 border-white bg-white shadow-lg max-sm:h-full max-sm:min-h-[100vh] max-sm:flex-col max-sm:items-center max-sm:rounded-none max-sm:pt-20 md:max-w-[960px]">
         {/* Left Side */}
         <Image
-    src={login_bg}
-    layout="fill"
-    objectFit="cover"
-    alt="Background"
-    className=" !relative !w-1/3 !h-auto object-cover object-center max-sm:hidden rounded-s-3xl"
-    />
-        <div className="flex-center  h-full absolute top-0 left-0 max-sm:hidden flex-col p-5 bg-gradient-to-t from-[#ff90299f] to-[#ac5300a1] bg-center bg-cover w-1/3 rounded-s-3xl ">
-          <div className="flex-center sm:mb-10 flex-col text-center">
+          src={login_bg}
+          layout="fill"
+          objectFit="cover"
+          alt="Background"
+          className="!relative !h-auto !w-1/3 rounded-s-3xl object-cover object-center max-sm:hidden"
+        />
+        <div className="flex-center absolute left-0 top-0 h-full w-1/3 flex-col rounded-s-3xl bg-gradient-to-t from-[#ff90299f] to-[#ac5300a1] bg-cover bg-center p-5 max-sm:hidden">
+          <div className="flex-center flex-col text-center sm:mb-10">
             <Image
               src={headerLogo}
               alt="logo"
               width={100}
-              className="h-16 w-full object-contain "
+              className="h-16 w-full object-contain"
             />
           </div>
-          <ul className="ml-5 flex  flex-col gap-y-2 text-sm max-sm:hidden text-white list-none">
+          <ul className="ml-5 flex list-none flex-col gap-y-2 text-sm text-white max-sm:hidden">
             <li className="flex items-center">
-              <FaCircleCheck className="text-green-800 bg-white rounded-full mr-2" />
+              <FaCircleCheck className="mr-2 rounded-full bg-white text-green-800" />
               Personal Counsellor
             </li>
             <li className="flex items-center">
-              <FaCircleCheck className="text-green-800 bg-white rounded-full mr-2" />
+              <FaCircleCheck className="mr-2 rounded-full bg-white text-green-800" />
               Admission Assistance
             </li>
             <li className="flex items-center">
-              <FaCircleCheck className="text-green-800 bg-white rounded-full mr-2" />
+              <FaCircleCheck className="mr-2 rounded-full bg-white text-green-800" />
               Lowest Package Seats
             </li>
             <li className="flex items-center">
-              <FaCircleCheck className="text-green-800 bg-white rounded-full mr-2" />
+              <FaCircleCheck className="mr-2 rounded-full bg-white text-green-800" />
               Expert Guidance
             </li>
             <li className="flex items-center">
-              <FaCircleCheck className="text-green-800 bg-white rounded-full mr-2" />
+              <FaCircleCheck className="mr-2 rounded-full bg-white text-green-800" />
               MCI/NTA Updates
             </li>
             <li className="flex items-center">
-              <FaCircleCheck className="text-green-800 bg-white rounded-full mr-2" />
+              <FaCircleCheck className="mr-2 rounded-full bg-white text-green-800" />
               Fees Negotiation
             </li>
           </ul>

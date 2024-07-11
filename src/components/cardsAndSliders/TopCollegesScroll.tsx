@@ -43,22 +43,22 @@ export default function TopCollegesScroll({ data }: any) {
   }, []);
 
   return (
-    <div className="relative my-16 max-w-max rounded-2xl bg-orange-500 py-10 pl-1 sm:pl-5 shadow-lg">
-      <h1 className="max-sm:pl-5  pb-6 text-3xl font-bold text-white">
+    <div className="relative my-16 max-w-max rounded-2xl bg-orange-500 py-10 px-1 sm:px-5 shadow-lg">
+      <h1 className="max-sm:px-5  pb-6 text-3xl font-bold text-white">
         Discover Top colleges in<br /> <span className="text-black">Engineering</span>{" "}
         category
       </h1>
       
       <div
-        className="flex w-full gap-6 overflow-x-hidden md:pr-5"
-        ref={scrollContainerRef}
-        onScroll={handleScroll}
+        className="flex w-full gap-6 overflow-x-auto md:px-5"
+        // ref={scrollContainerRef}
+        // onScroll={handleScroll}
       >
         {data?.map((college: any, index: number) => {
             const slide = (
               <div
               key={index}
-              className="min-w-96 overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-md max-md:min-w-[325px] p-1"
+              className="min-w-96 overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-md max-sm:min-w-full p-1"
             >
               <CollegesCardContent
                 slug={college?.slug}
@@ -83,7 +83,7 @@ export default function TopCollegesScroll({ data }: any) {
             )
         })}
       </div>
-      {showLeftButton && (
+      {/* {showLeftButton && (
         <button
           className="absolute right-24 top-6 rounded-full bg-white p-3 max-md:opacity-60 max-md:hover:opacity-60"
           onClick={handleScrollLeft}
@@ -93,12 +93,12 @@ export default function TopCollegesScroll({ data }: any) {
       )}
       {showRightButton && (
         <button
-          className="absolute right-5 top-6 rounded-full bg-white p-3"
+          className="absolute right-5 top-6 rounded-full bg-white p-3 max-md:opacity-60 max-md:hover:opacity-60"
           onClick={handleScrollRight}
         >
           <TiChevronRight className="text-3xl text-black" />
         </button>
-      )}
+      )} */}
     </div>
   );
 }

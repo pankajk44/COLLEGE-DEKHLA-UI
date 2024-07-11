@@ -11,8 +11,13 @@ import { Button } from "../Button";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa";
 import { addCommas } from "@/utils/customText";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
-export default function CollegesSlider({ data , mainscreen, spaceBetween}: any) {
+export default function CollegesSlider({
+  data,
+  mainscreen,
+  spaceBetween,
+}: any) {
   const uniqueId = "college123";
 
   const swiperOptions = {
@@ -37,9 +42,12 @@ export default function CollegesSlider({ data , mainscreen, spaceBetween}: any) 
         slidesPerView: 1,
       },
       768: {
-        slidesPerView: 3,
+        slidesPerView: 2,
       },
       1024: {
+        slidesPerView: 3,
+      },
+      1260: {
         slidesPerView: mainscreen || 4,
       },
     },
@@ -86,8 +94,8 @@ export default function CollegesSlider({ data , mainscreen, spaceBetween}: any) 
         })}
       </Swiper>
       {/* Add navigation buttons */}
-      <div className={`${uniqueId}-next swiper-button-next`}></div>
-      <div className={`${uniqueId}-prev swiper-button-prev`}></div>
+      <div className={`${uniqueId}-next swiper-button-next !top-[34%]`}></div>
+      <div className={`${uniqueId}-prev swiper-button-prev !top-[34%]`}></div>
     </>
   );
 }

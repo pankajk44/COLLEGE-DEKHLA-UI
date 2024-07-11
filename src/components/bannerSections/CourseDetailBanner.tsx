@@ -5,7 +5,11 @@ import { FaClockRotateLeft } from "react-icons/fa6";
 import { Button } from "../Button";
 import { HiOutlineDownload } from "react-icons/hi";
 import Link from "next/link";
-import { MdOutlineFileDownload, MdOutlineLocalPhone, MdOutlineMoney } from "react-icons/md";
+import {
+  MdOutlineFileDownload,
+  MdOutlineLocalPhone,
+  MdOutlineMoney,
+} from "react-icons/md";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import formatFees from "@/utils/customText";
 
@@ -20,7 +24,7 @@ export default function CourseDetailBanner({
   return (
     <Wrapper
       as="section"
-      containerClassName="mt-[4rem] px-5"
+      containerClassName="mt-32 px-5"
       className="orangeRedDownGradient space-y-4 rounded-2xl p-8 shadow-lg"
     >
       {/* Upper Side  */}

@@ -11,13 +11,13 @@ export default function Page() {
   const [searchTerm, setSearchTerm] = useState("IIT Bombay News and Article");
 
   return (
-    <section className="mt-[5rem] w-full">
+    <section className="w-full pt-32 max-md:pt-28">
       {newsPage?.notification?.list?.length > 0 && (
         <Notification data={newsPage.notification.list} />
       )}
       <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       {newsPage?.searchResults?.length > 0 && (
-        <SearchResult data={newsPage.searchResults} searchTerm={searchTerm}  />
+        <SearchResult data={newsPage?.searchResults} searchTerm={searchTerm} />
       )}
       <Banner1 data={banner1} />
     </section>

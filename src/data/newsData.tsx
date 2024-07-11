@@ -1,4 +1,4 @@
-import { book1 } from "@/assets";
+import { book1, c1, c2, c3 } from "@/assets";
 import { timeStamp } from "console";
 
 export const newsPage = {
@@ -21,7 +21,8 @@ export const newsPage = {
   searchResults: [
     {
       id: 1,
-      icon: {url:book1},
+      icon: { url: book1 },
+      bgImage: { url: c1 },
       category: "exam",
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
       slug: "#",
@@ -30,7 +31,8 @@ export const newsPage = {
     },
     {
       id: 2,
-      icon: {url:book1},
+      icon: { url: book1 },
+      bgImage: { url: c2 },
       category: "college",
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
       slug: "#",
@@ -39,7 +41,8 @@ export const newsPage = {
     },
     {
       id: 3,
-      icon: {url:book1},
+      icon: { url: book1 },
+      bgImage: { url: c3 },
       category: "exam",
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
       slug: "#",
@@ -48,19 +51,29 @@ export const newsPage = {
     },
   ],
   news: [
+    // use below news for schema
     {
       id: 1,
-      icon: {url:book1},
-      category: "exam",
+      icon: { url: book1 },
+      bgImage: { url: c1 },
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
-      slug: "#",
       text: "The Indian Institute of Technology Kharagpur is known both nationally and internationally for excellence in technical education, basic and applied research, innovation, entrepreneurship and industrial consultancy.",
+      article: {
+        writerAvatar: { url: book1 },
+        writerName: "Nitin",
+        //use k-editor for content
+        content:
+          "The Indian Institute of Technology Kharagpur is known both nationally and in",
+      },
+      category: "exam",
+      slug: "#",
       timeStamp: "12 June 2024",
       newsSequence: 1,
     },
     {
       id: 2,
-      icon: {url:book1},
+      icon: { url: book1 },
+      bgImage: { url: c2 },
       category: "college",
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
       slug: "#",
@@ -70,7 +83,8 @@ export const newsPage = {
     },
     {
       id: 3,
-      icon: {url:book1},
+      icon: { url: book1 },
+      bgImage: { url: c3 },
       category: "exam",
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
       slug: "#",
@@ -80,7 +94,8 @@ export const newsPage = {
     },
     {
       id: 4,
-      icon: {url:book1},
+      icon: { url: book1 },
+      bgImage: { url: c1 },
       category: "exam",
       title: "CAT Diversity at IIM: Benefits for Non-Engineers and Female",
       href: "#",
@@ -90,5 +105,3 @@ export const newsPage = {
     },
   ],
 };
-
-
