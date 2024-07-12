@@ -96,15 +96,27 @@ export default function Content({ selectedContent }: any) {
               {section?.button && (
                 <div className="mb-5 flex gap-2 max-sm:flex-col">
                   {section.button.button1?.text && (
-                    <Link href={section.button.button1.link || "#"}>
-                      <Button variant="black" className="text-nowrap">
+                    <Link
+                      href={section.button.button1.link || "#"}
+                      className="max-sm:w-full"
+                    >
+                      <Button
+                        variant="black"
+                        className="text-nowrap max-sm:!w-full"
+                      >
                         {section.button.button1.text}
                       </Button>
                     </Link>
                   )}
                   {section.button.button2?.text && (
-                    <Link href={section.button.button2.link || "#"}>
-                      <Button variant="orange" className="text-nowrap">
+                    <Link
+                      href={section.button.button2.link || "#"}
+                      className="max-sm:w-full"
+                    >
+                      <Button
+                        variant="orange"
+                        className="text-nowrap max-sm:!w-full"
+                      >
                         {section.button.button2.text}
                       </Button>
                     </Link>
@@ -268,7 +280,7 @@ function RelatedCourses() {
 function ReviewsAndRatingsSection({ data }: any) {
   return (
     <div className="space-y-5">
-      <div className="my-5 flex !h-auto items-center justify-around gap-16 max-md:flex-col">
+      <div className="my-5 flex !h-auto items-center justify-around gap-16 max-md:mt-9 max-md:flex-col max-md:gap-5">
         {/* Overall Rating Section  */}
         <div className="flex-center flex-col rounded-2xl bg-orange-200 p-5 sm:px-12">
           <h2 className="text-7xl font-semibold">{data?.overallRating}</h2>
@@ -281,7 +293,7 @@ function ReviewsAndRatingsSection({ data }: any) {
           <p>{data?.totalReviews} Reviews</p>
         </div>
         {/* Rating according to number  */}
-        <div className="!h-auto w-1/2 space-y-2">
+        <div className="!h-auto w-1/2 space-y-2 max-sm:mb-3 max-sm:w-full">
           <div className="!my-3 flex items-center gap-3">
             <p className="mr-2 flex items-center gap-2 text-2xl font-semibold">
               5 <FaStar className="text-orange-500" />
@@ -319,11 +331,11 @@ function ReviewsAndRatingsSection({ data }: any) {
           </div>
         </div>
       </div>
-      <div className="my-5 flex justify-between gap-3 overflow-x-auto text-center sm:!mt-14">
+      <div className="my-5 flex items-stretch justify-between gap-5 overflow-x-auto text-center sm:!mt-14">
         {data?.individualReviews
           ?.slice(0, 5)
           .map((review: any, index: number) => (
-            <div key={index} className="flex-center flex-col">
+            <div key={index} className="flex-center min-w-28 flex-col">
               <div className="flex-center rounded-lg bg-orange-300 p-2">
                 <Image
                   src={review?.icon?.url}
@@ -346,7 +358,7 @@ function ReviewsAndRatingsSection({ data }: any) {
 
 function ProgressBar({ value }: any) {
   return (
-    <div className="h-3 w-full min-w-60 rounded-full bg-orange-200">
+    <div className="h-3 w-full min-w-20 rounded-full bg-orange-200">
       <div
         className={`h-3 rounded-full bg-orange-500`}
         style={{ width: `${value}%` }}
