@@ -10,14 +10,14 @@ export default function CourseFilters({
   totalResults,
   mobileFilter,
   setMobileFilter,
+  ModeCheckedFilters,
+  setModeCheckedFilters,
+  CourseCheckedDurationFilters,
+  setCourseCheckedDurationFilters,
 }: any) {
-  const [ModeCheckedFilters, setModeCheckedFilters] = useState<string[]>([]);
-  const [CourseCheckedDurationFilters, setCourseCheckedDurationFilters] =
-    useState<number>(0);
-
   const handleModeFilter = (data: string) => {
     const updatedSelection = ModeCheckedFilters.includes(data)
-      ? ModeCheckedFilters.filter((item) => item !== data)
+      ? ModeCheckedFilters.filter((item: any) => item !== data)
       : [...ModeCheckedFilters, data];
 
     setModeCheckedFilters(updatedSelection);
@@ -63,7 +63,7 @@ export default function CourseFilters({
       </button> */}
       <h1 className="mb-10 font-medium">Showing {totalResults} Results</h1>
       <div className="w-full pb-0 max-md:bg-opacity-95">
-        <h2 className="mb-5 font-medium">Find Exam</h2>
+        <h2 className="mb-5 font-medium capitalize">Find Exam</h2>
         <div className="mb-3 flex flex-wrap items-center gap-1 max-md:text-white">
           {Object.values(SelectedFilters).some(
             (value) =>
