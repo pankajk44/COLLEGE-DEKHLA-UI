@@ -16,6 +16,7 @@ type Props = {
 };
 export default function CourseDetailPage({ params }: Props) {
   const courseId = params?.course;
+  console.log("Course Id: ", courseId);
   // Query
   const {
     loading,
