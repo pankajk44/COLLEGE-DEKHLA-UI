@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { MdOutlineSort } from "react-icons/md";
 import Wrapper from "@/components/Wrappers";
@@ -7,6 +7,9 @@ import SortButton from "@/components/SortButton";
 import { Button } from "../Button";
 import CourseFilters from "./CourseFilters";
 import CourseFilteredCard from "../cardsAndSliders/CourseFilteredCard";
+
+import { getAllCourses } from "@/graphql/courseQuery/course";
+import { useQuery } from "@apollo/client";
 export default function CourseListSection({
   data,
   filterBy,
@@ -14,15 +17,69 @@ export default function CourseListSection({
 }: any) {
   const [MobileFilter, setMobileFilter] = useState(false);
   const [displayCount, setDisplayCount] = useState(3);
-  const [filteredData, setFilteredData] = useState<any>(data);
+  const [filteredData, setFilteredData] = useState<any>();
   const [SelectedFilters, setSelectedFilters] = useState({
     mode: [] as string[],
     courseDuration: 0,
   });
+  const [searchValue, setSearchValue] = useState("");
+  // for Query
+  const [ModeCheckedFilters, setModeCheckedFilters] = useState<string[]>([]);
+  const [CourseCheckedDurationFilters, setCourseCheckedDurationFilters] =
+    useState<number>(0);
+  const mode = "Regular";
+  const duration = 4;
+  const {
+    data: courseData,
+    refetch,
+    loading,
+    error,
+  } = useQuery(getAllCourses, {
+    variables: {
+      // mode: ModeCheckedFilters,
+      // duration: CourseCheckedDurationFilters,
+      // searchByCourseName: searchValue,
+    },
+  });
 
-  function handleSearch() {
-    // search operation
+  useEffect(() => {
+    if (courseData) {
+      console.log("courseData:", courseData?.courses?.data);
+      setFilteredData(courseData?.courses?.data);
+    }
+  }, [courseData]);
+
+  useEffect(() => {
+    refetch({ mode, duration, searchValue });
+  }, [mode, duration, refetch, searchValue]);
+
+  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
+    const searchTerm = event.target.value.toLowerCase();
+    // const filtered = courseData?.courses?.data?.filter((course: any) =>
+    //   course?.attributes?.courseName?.toLowerCase().includes(searchTerm),
+    // );
+    setSearchValue(searchTerm);
   }
+
+  console.log("filteredData:", filteredData);
+  // useEffect(() => {
+  //   console.log("courseData:", courseData?.courses?.data[0]);
+  //   if (searchValue?.trim() === "") {
+  //     setFilteredData(courseData?.courses?.data);
+  //   }
+  //   else {
+  //     const filtered = courseData?.courses?.data.filter((filter: any) =>
+  //       filter.attributes.name
+  //         .toLowerCase()
+  //         .includes(searchValue.toLowerCase()),
+  //     );
+  //     setFilteredData(filtered);
+  //   }
+  // }, [courseData]);
+
+  useEffect(() => {
+    refetch({ mode, duration });
+  }, [mode, duration, refetch]);
 
   const handleMobileFilter = () => {
     setMobileFilter((pre) => !pre);
@@ -45,6 +102,7 @@ export default function CourseListSection({
   const handleSelect = (index: any) => {
     setSelectedIndex(index);
   };
+
   return (
     <section id="collegeList" className="my-5 w-full pb-5">
       <Wrapper className="flex flex-col justify-between gap-5 md:flex-row">
@@ -56,6 +114,11 @@ export default function CourseListSection({
           totalResults={data?.length}
           mobileFilter={MobileFilter}
           setMobileFilter={setMobileFilter}
+          // For query
+          ModeCheckedFilters={ModeCheckedFilters}
+          setModeCheckedFilters={setModeCheckedFilters}
+          CourseCheckedDurationFilters={CourseCheckedDurationFilters}
+          setCourseCheckedDurationFilters={setCourseCheckedDurationFilters}
         />
         {/* main Course Search and List Section  */}
         <main className="flex w-full flex-col py-5 pt-0 md:min-w-[550px] md:[flex:8]">
@@ -92,17 +155,21 @@ export default function CourseListSection({
           {filteredData?.map((course: any) => (
             <CourseFilteredCard
               key={course?.id}
-              slug={course?.slug}
-              bgImage={course?.bgImage?.url}
-              courseName={course?.courseName}
-              courseType={course?.courseType}
+              slug={course?.attributes?.slug}
+              bgImage={course?.attributes?.bgImage?.data?.attributes?.url}
+              courseName={course?.attributes?.courseName}
+              courseType={
+                course?.attributes?.courseType?.data?.attributes?.collegeType
+              }
               totalColleges={course?.totalColleges}
-              duration={course?.duration}
-              description={course?.description}
-              avgFeesFrom={course?.avgFees?.from}
-              avgFeesTo={course?.avgFees?.to}
-              ExaminationLevel={course?.ExaminationLevel}
-              tabsSections={tabsSections}
+              duration={
+                course?.attributes?.duration?.data?.attributes?.duration
+              }
+              description={course?.attributes?.description}
+              avgFeesFrom={course?.attributes?.avgFees?.from}
+              avgFeesTo={course?.attributes?.avgFees?.to}
+              // courseLevel={course?.attributes?.courseLevel}
+              tabsSections={course?.attributes?.navbars?.data}
             />
           ))}
         </main>

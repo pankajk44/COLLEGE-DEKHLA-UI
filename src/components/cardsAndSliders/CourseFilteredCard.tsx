@@ -16,7 +16,7 @@ export default function CourseFilteredCard({
   description,
   avgFeesFrom,
   avgFeesTo,
-  ExaminationLevel,
+  courseLevel,
   tabsSections,
 }: any) {
   return (
@@ -25,6 +25,8 @@ export default function CourseFilteredCard({
       <div className="flex gap-y-2 p-5 max-lg:flex-wrap">
         <Image
           src={bgImage}
+          width={500}
+          height={500}
           alt="collage"
           className="h-[175px] w-[220px] rounded-md max-lg:w-full"
         />
@@ -64,7 +66,7 @@ export default function CourseFilteredCard({
             <div className="flex flex-col">
               <div className="flex items-center gap-x-2">
                 <RiBookletLine className="text-3xl text-blue-500" />
-                <p className="font-semibold">{ExaminationLevel} Level</p>
+                <p className="font-semibold">{courseLevel} Level</p>
               </div>
             </div>
             {/* item 3  */}
@@ -97,7 +99,7 @@ export default function CourseFilteredCard({
                   key={index}
                   className="cursor-pointer capitalize hover:underline"
                 >
-                  {item?.navItem}
+                  {item?.attributes?.navItem}
                 </li>
               </Link>
               {index !== tabsSections?.length - 1 && <li>|</li>}
