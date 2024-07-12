@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const getCollegeDetails = gql`
-  query getCollegeDetails($ID: ID!, $navItem: String) {
-    colleges(
+export const getCourseDetails = gql`
+  query getCourseDetails($ID: ID!, $navItem: String) {
+    courses(
       filters: { id: { eq: $ID }, navbars: { navItem: { eq: $navItem } } }
     ) {
       data {
@@ -10,57 +10,9 @@ export const getCollegeDetails = gql`
         attributes {
           slug
           breadCrumb
-          collegeLogo {
-            data {
-              id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
-          bgImage {
-            data {
-              id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
-          collegeName
+          courseName
           description
-          location {
-            state {
-              data {
-                id
-                attributes {
-                  state
-                }
-              }
-            }
-            city {
-              data {
-                id
-                attributes {
-                  city
-                }
-              }
-            }
-            country {
-              data {
-                id
-                attributes {
-                  country
-                }
-              }
-            }
-          }
-          college_type {
+          courseType {
             data {
               id
               attributes {
@@ -68,24 +20,39 @@ export const getCollegeDetails = gql`
               }
             }
           }
-          affiliation {
+          duration {
             data {
               id
               attributes {
-                organization
+                duration
               }
             }
           }
-          estYear
-          courses {
-            examName {
-              data {
-                id
-                attributes {
-                  examName
-                  slug
-                  description
-                }
+          avgFees {
+            from
+            to
+          }
+          courseMode {
+            data {
+              id
+              attributes {
+                courseMode
+              }
+            }
+          }
+          courseSequence
+          news {
+            data {
+              attributes {
+                excerpt
+              }
+            }
+          }
+          navbars {
+            data {
+              id
+              attributes {
+                navItem
               }
             }
           }
@@ -95,6 +62,22 @@ export const getCollegeDetails = gql`
             video {
               id
               videoId
+            }
+          }
+          courseLevel {
+            data {
+              id
+              attributes {
+                courseLevel
+              }
+            }
+          }
+          streams {
+            data {
+              id
+              attributes {
+                stream
+              }
             }
           }
           imageGallery {
@@ -112,132 +95,35 @@ export const getCollegeDetails = gql`
               }
             }
           }
-          campusSize
-          noOfFaculty
-          noOfStudents
-          avgPackage
-          hightestPackage
-          genderAccepted {
-            data {
-              id
-              attributes {
-                gender
-              }
+          CourseReviewsAndRatings {
+            id
+            userName
+            overall {
+              description
             }
-          }
-          news {
-            data {
-              id
-              attributes {
-                icon {
-                  data {
-                    id
-                    attributes {
-                      alternativeText
-                      width
-                      height
-                      url
-                    }
-                  }
-                }
-                bgImage {
-                  data {
-                    id
-                    attributes {
-                      alternativeText
-                      width
-                      height
-                      url
-                    }
-                  }
-                }
-                title
-                excerpt
-                category {
-                  data {
-                    id
-                    attributes {
-                      category
-                    }
-                  }
-                }
-                slug
-                timeStamp
-              }
+            CourseContent {
+              rating
+              description
             }
-          }
-          navbars {
-            data {
-              id
-              attributes {
-                navItem
-              }
+            TeachingQuality {
+              rating
+              description
             }
-          }
-          courses {
-            examName {
-              data {
-                id
-                attributes {
-                  examName
-                }
-              }
+            LearningResources {
+              rating
+              description
             }
-            courseFee
-            courseFeeLabel
-            courseName {
-              data {
-                id
-                attributes {
-                  courseName
-                }
-              }
+            IndustryRelevance {
+              rating
+              description
             }
-          }
-          brochureFile {
-            data {
-              id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
-          streams {
-            data {
-              id
-              attributes {
-                stream
-              }
+            CareerProspects {
+              rating
+              description
             }
           }
           PageData {
             ... on ComponentCommonTextEditor {
-              id
-              heading
-              headingIcon {
-                data {
-                  id
-                  attributes {
-                    width
-                    height
-                    url
-                  }
-                }
-              }
-
-              navItem {
-                data {
-                  id
-                  attributes {
-                    navItem
-                  }
-                }
-              }
-            }
-            ... on ComponentCommonCoursesComponent {
               id
               heading
               headingIcon {
@@ -283,29 +169,6 @@ export const getCollegeDetails = gql`
               }
             }
             ... on ComponentCommonGalleryComponent {
-              id
-              heading
-              headingIcon {
-                data {
-                  id
-                  attributes {
-                    width
-                    height
-                    url
-                  }
-                }
-              }
-              text
-              navItem {
-                data {
-                  id
-                  attributes {
-                    navItem
-                  }
-                }
-              }
-            }
-            ... on ComponentCommonFacilitiesComponent {
               id
               heading
               headingIcon {
@@ -377,7 +240,6 @@ export const getCollegeDetails = gql`
                 }
               }
             }
-
             ... on ComponentCommonVideoComponent {
               id
               heading
@@ -448,7 +310,6 @@ export const getCollegeDetails = gql`
                 }
               }
             }
-
             ... on ComponentCommonNewsComponent {
               id
               heading
@@ -469,6 +330,17 @@ export const getCollegeDetails = gql`
                     navItem
                   }
                 }
+              }
+            }
+          }
+          bgImage {
+            data {
+              id
+              attributes {
+                alternativeText
+                width
+                height
+                url
               }
             }
           }

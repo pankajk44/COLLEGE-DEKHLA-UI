@@ -1,12 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { MdOutlineSort } from "react-icons/md";
 import Wrapper from "@/components/Wrappers";
 import SortButton from "@/components/SortButton";
-import { Button } from "../Button";
+import { Button, LoadingButton } from "../Button";
 import CourseFilters from "./CourseFilters";
 import CourseFilteredCard from "../cardsAndSliders/CourseFilteredCard";
+
+import { getAllCourses } from "@/graphql/courseQuery/course";
+import { useQuery } from "@apollo/client";
 export default function CourseListSection({
   data,
   filterBy,
@@ -14,14 +17,55 @@ export default function CourseListSection({
 }: any) {
   const [MobileFilter, setMobileFilter] = useState(false);
   const [displayCount, setDisplayCount] = useState(3);
-  const [filteredData, setFilteredData] = useState<any>(data);
+  const [filteredData, setFilteredData] = useState<any>();
   const [SelectedFilters, setSelectedFilters] = useState({
     mode: [] as string[],
     courseDuration: 0,
   });
+  // used for Query
+  const [searchValue, setSearchValue] = useState("");
+  const [ModeCheckedFilters, setModeCheckedFilters] = useState<string[]>([]);
+  const [CourseCheckedDurationFilters, setCourseCheckedDurationFilters] =
+    useState<number>(96);
+  const [pageNo, SetPageNo] = useState(1);
+  const [sortingParameter, setSortingParameter] = useState("courseSequence");
 
-  function handleSearch() {
-    // search operation
+  // Query
+  const {
+    data: courseData,
+    loading,
+    error,
+  } = useQuery(getAllCourses, {
+    variables: {
+      searchByCourseName: searchValue,
+      modes: ModeCheckedFilters?.length ? ModeCheckedFilters : undefined,
+      duration: CourseCheckedDurationFilters,
+      sortingParameter: sortingParameter,
+      page: pageNo,
+      pageSize: 1,
+    },
+  });
+  useEffect(() => {
+    if (courseData) {
+      setSortingParameter("courseSequence");
+      if (pageNo === 1) {
+        setFilteredData(courseData?.courses?.data);
+      } else {
+        setFilteredData((prevData: any) => [
+          ...prevData,
+          ...courseData?.courses?.data,
+        ]);
+      }
+    }
+  }, [courseData, searchValue, ModeCheckedFilters, sortingParameter, pageNo]);
+
+  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
+    const searchTerm = event?.target?.value?.toLowerCase()?.trim();
+    if (searchTerm.length >= 3) {
+      setSearchValue(searchTerm);
+    } else {
+      setSearchValue("");
+    }
   }
 
   const handleMobileFilter = () => {
@@ -30,21 +74,16 @@ export default function CourseListSection({
 
   const handleFilterOptionClick = (option: any) => {
     if (option === "a-z") {
-      const sortedData: any = [...data].sort((a: any, b: any) => {
-        return a?.name?.localeCompare(b?.name);
-      });
-      setFilteredData(sortedData.slice(0, displayCount));
+      setSortingParameter("courseName");
     } else if (option === "reset") {
-      const resetArray: any = [...data]?.slice(0, displayCount);
-      setFilteredData(resetArray);
+      setSortingParameter("courseSequence");
     }
   };
 
-  // Navbar
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const handleSelect = (index: any) => {
-    setSelectedIndex(index);
+  const handleLoadMore = () => {
+    SetPageNo((prev) => prev + 1);
   };
+
   return (
     <section id="collegeList" className="my-5 w-full pb-5">
       <Wrapper className="flex flex-col justify-between gap-5 md:flex-row">
@@ -53,9 +92,14 @@ export default function CourseListSection({
           filterBy={filterBy}
           SelectedFilters={SelectedFilters}
           setSelectedFilters={setSelectedFilters}
-          totalResults={data?.length}
+          totalResults={courseData?.courses?.meta?.pagination?.total}
           mobileFilter={MobileFilter}
           setMobileFilter={setMobileFilter}
+          // For query
+          ModeCheckedFilters={ModeCheckedFilters}
+          setModeCheckedFilters={setModeCheckedFilters}
+          CourseCheckedDurationFilters={CourseCheckedDurationFilters}
+          setCourseCheckedDurationFilters={setCourseCheckedDurationFilters}
         />
         {/* main Course Search and List Section  */}
         <main className="flex w-full flex-col py-5 pt-0 md:min-w-[550px] md:[flex:8]">
@@ -92,19 +136,33 @@ export default function CourseListSection({
           {filteredData?.map((course: any) => (
             <CourseFilteredCard
               key={course?.id}
-              slug={course?.slug}
-              bgImage={course?.bgImage?.url}
-              courseName={course?.courseName}
-              courseType={course?.courseType}
+              slug={course?.attributes?.slug}
+              bgImage={course?.attributes?.bgImage?.data?.attributes?.url}
+              courseName={course?.attributes?.courseName}
+              courseType={
+                course?.attributes?.courseType?.data?.attributes?.collegeType
+              }
               totalColleges={course?.totalColleges}
-              duration={course?.duration}
-              description={course?.description}
-              avgFeesFrom={course?.avgFees?.from}
-              avgFeesTo={course?.avgFees?.to}
-              ExaminationLevel={course?.ExaminationLevel}
-              tabsSections={tabsSections}
+              duration={
+                course?.attributes?.duration?.data?.attributes?.duration
+              }
+              description={course?.attributes?.description}
+              avgFeesFrom={course?.attributes?.avgFees?.from}
+              avgFeesTo={course?.attributes?.avgFees?.to}
+              courseLevel={course?.attributes?.courseLevel?.data?.map(
+                (value: any) => value?.attributes?.courseLevel,
+              )}
+              tabsSections={course?.attributes?.navbars?.data?.map(
+                (value: any) => value?.attributes?.navItem,
+              )}
             />
           ))}
+          {courseData?.courses?.meta?.pagination?.total >
+            filteredData?.length && (
+            <LoadingButton onClick={handleLoadMore} className="mx-auto">
+              Load More
+            </LoadingButton>
+          )}
         </main>
       </Wrapper>
     </section>

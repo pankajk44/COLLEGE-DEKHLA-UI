@@ -6,6 +6,7 @@ import { addCommas } from "@/utils/customText";
 export default function CourseListingBanner({
   title,
   bgImg,
+  imgArray,
   totalCoursesFound,
 }: any) {
   return (
@@ -16,7 +17,7 @@ export default function CourseListingBanner({
     >
       {/* Bg Image  */}
       <Image
-        src={bgImg?.[0]?.url}
+        src={bgImg}
         alt="banner"
         width={1200}
         height={500}
@@ -26,13 +27,13 @@ export default function CourseListingBanner({
         {/* Left Side  */}
         <div className="flex flex-col justify-center text-white">
           <h2 className="mb-4 text-3xl font-bold md:text-5xl">{title}</h2>
-          <p className="text-lg font-medium md:text-xl">{`Found ${addCommas(totalCoursesFound)} courses`}</p>
+          <p className="text-lg font-medium md:text-xl">{`Total ${addCommas(totalCoursesFound)} courses Found`}</p>
         </div>
         {/* Right Side  */}
         <div className="flex justify-end gap-4 max-md:hidden">
           <div className="w-max rounded-2xl bg-white bg-opacity-30 bg-clip-padding p-3 backdrop-blur-sm backdrop-filter">
             <Image
-              src={bgImg?.[1]?.url}
+              src={imgArray?.[0]}
               alt="banner"
               width={1200}
               height={500}
@@ -41,7 +42,7 @@ export default function CourseListingBanner({
           </div>
           <div className="w-max rounded-2xl bg-white bg-opacity-30 bg-clip-padding p-3 backdrop-blur-sm backdrop-filter">
             <Image
-              src={bgImg?.[2]?.url}
+              src={imgArray?.[1]}
               alt="banner"
               width={1200}
               height={500}
@@ -50,7 +51,7 @@ export default function CourseListingBanner({
           </div>
           <div className="w-max rounded-2xl bg-white bg-opacity-30 bg-clip-padding p-3 backdrop-blur-sm backdrop-filter max-lg:hidden">
             <Image
-              src={bgImg?.[3]?.url}
+              src={imgArray?.[2]}
               alt="banner"
               width={1200}
               height={500}

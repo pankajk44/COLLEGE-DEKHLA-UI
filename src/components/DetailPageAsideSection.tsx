@@ -70,12 +70,12 @@ function PhotoGallery({ data }: any) {
 function Banner({ data }: any) {
   return (
     <div className="flex-center w-full flex-col rounded-2xl bg-white p-5 text-center">
-      <h2 className="mb-5 text-xl">{data?.title}</h2>
-      <Button variant="white" className="text-nowrap shadow-lg mb-4">
+      <h2 className="mb-3 text-xl">{data?.title}</h2>
+      <Button variant="white" className="text-nowrap shadow-lg mb-3 !w-full">
         Apply Now
       </Button>
-      <Link href={data?.brochureUrl} className="max-md:w-full">
-        <Button variant="black" className="text-nowrap shadow-lg">
+      <Link href={data?.brochureUrl} className="!w-full">
+        <Button variant="black" className="text-nowrap shadow-lg !w-full">
           <span>Download Brochure</span>
           <HiOutlineDownload />
         </Button>

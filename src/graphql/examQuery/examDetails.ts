@@ -1,96 +1,94 @@
 import { gql } from "@apollo/client";
 
-export const getCollegeDetails = gql`
-  query getCollegeDetails($ID: ID!, $navItem: String) {
-    colleges(
+export const getExamDetails = gql`
+  query getExamDetails($ID: ID!, $navItem: String) {
+    exams(
       filters: { id: { eq: $ID }, navbars: { navItem: { eq: $navItem } } }
     ) {
       data {
         id
         attributes {
-          slug
-          breadCrumb
-          collegeLogo {
+          logo {
             data {
-              id
               attributes {
-                alternativeText
-                width
-                height
                 url
               }
             }
           }
-          bgImage {
+          bg {
             data {
-              id
               attributes {
-                alternativeText
-                width
-                height
                 url
               }
             }
           }
-          collegeName
-          description
-          location {
-            state {
-              data {
-                id
-                attributes {
-                  state
-                }
-              }
-            }
-            city {
-              data {
-                id
-                attributes {
-                  city
-                }
-              }
-            }
-            country {
-              data {
-                id
-                attributes {
-                  country
-                }
+          examName
+          stream {
+            data {
+              attributes {
+                stream
               }
             }
           }
-          college_type {
+          eligibilityLevel {
             data {
               id
               attributes {
-                collegeType
+                eligibilityLevel
               }
             }
           }
-          affiliation {
+          mode {
             data {
-              id
               attributes {
-                organization
+                examMode
               }
             }
           }
-          estYear
-          courses {
-            examName {
-              data {
-                id
-                attributes {
-                  examName
-                  slug
-                  description
-                }
+          category {
+            data {
+              attributes {
+                category
+              }
+            }
+          }
+          examDate {
+            startDate
+            endDate
+          }
+          applicationSubmissionDates {
+            startDate
+            endDate
+          }
+          ExaminationLevel {
+            data {
+              attributes {
+                ExaminationLevel
+              }
+            }
+          }
+          news {
+            data {
+              attributes {
+                title
+              }
+            }
+          }
+          navbars {
+            data {
+              attributes {
+                navItem
+              }
+            }
+          }
+          brochureFile {
+            data {
+              attributes {
+                url
               }
             }
           }
           videoGallery {
-            id
             category
             video {
               id
@@ -98,146 +96,43 @@ export const getCollegeDetails = gql`
             }
           }
           imageGallery {
-            id
             category
             images {
               data {
-                id
                 attributes {
-                  alternativeText
-                  width
-                  height
                   url
                 }
               }
             }
           }
-          campusSize
-          noOfFaculty
-          noOfStudents
-          avgPackage
-          hightestPackage
-          genderAccepted {
-            data {
-              id
-              attributes {
-                gender
-              }
+          ExamReviewsAndRatings {
+            userName
+            overall {
+              description
             }
-          }
-          news {
-            data {
-              id
-              attributes {
-                icon {
-                  data {
-                    id
-                    attributes {
-                      alternativeText
-                      width
-                      height
-                      url
-                    }
-                  }
-                }
-                bgImage {
-                  data {
-                    id
-                    attributes {
-                      alternativeText
-                      width
-                      height
-                      url
-                    }
-                  }
-                }
-                title
-                excerpt
-                category {
-                  data {
-                    id
-                    attributes {
-                      category
-                    }
-                  }
-                }
-                slug
-                timeStamp
-              }
+            DifficultyLevel {
+              rating
+              description
             }
-          }
-          navbars {
-            data {
-              id
-              attributes {
-                navItem
-              }
+            SyllabusCoverage {
+              rating
+              description
             }
-          }
-          courses {
-            examName {
-              data {
-                id
-                attributes {
-                  examName
-                }
-              }
+            ExamPattern {
+              rating
+              description
             }
-            courseFee
-            courseFeeLabel
-            courseName {
-              data {
-                id
-                attributes {
-                  courseName
-                }
-              }
+            PreparationResources {
+              rating
+              description
             }
-          }
-          brochureFile {
-            data {
-              id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
-          streams {
-            data {
-              id
-              attributes {
-                stream
-              }
+            FairnessandTransparency {
+              rating
+              description
             }
           }
           PageData {
             ... on ComponentCommonTextEditor {
-              id
-              heading
-              headingIcon {
-                data {
-                  id
-                  attributes {
-                    width
-                    height
-                    url
-                  }
-                }
-              }
-
-              navItem {
-                data {
-                  id
-                  attributes {
-                    navItem
-                  }
-                }
-              }
-            }
-            ... on ComponentCommonCoursesComponent {
               id
               heading
               headingIcon {
@@ -283,29 +178,6 @@ export const getCollegeDetails = gql`
               }
             }
             ... on ComponentCommonGalleryComponent {
-              id
-              heading
-              headingIcon {
-                data {
-                  id
-                  attributes {
-                    width
-                    height
-                    url
-                  }
-                }
-              }
-              text
-              navItem {
-                data {
-                  id
-                  attributes {
-                    navItem
-                  }
-                }
-              }
-            }
-            ... on ComponentCommonFacilitiesComponent {
               id
               heading
               headingIcon {
@@ -377,7 +249,6 @@ export const getCollegeDetails = gql`
                 }
               }
             }
-
             ... on ComponentCommonVideoComponent {
               id
               heading
@@ -448,7 +319,6 @@ export const getCollegeDetails = gql`
                 }
               }
             }
-
             ... on ComponentCommonNewsComponent {
               id
               heading

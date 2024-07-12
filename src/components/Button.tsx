@@ -59,7 +59,7 @@ export const LoadingButton = ({
 }: any) => {
   return (
     <button
-      className={`${className} loadingButton flex-center w-min gap-2 rounded-lg bg-orange-500 px-10 py-2 active:scale-90 ${disabled ? "cursor-not-allowed bg-orange-300" : ""}`}
+      className={`${className} loadingButton flex-center w-min gap-2 text-nowrap rounded bg-orange-500 px-14 py-2 active:scale-90 ${disabled ? "cursor-not-allowed bg-orange-300" : ""}`}
       onClick={onClick}
       type={type}
       {...props}

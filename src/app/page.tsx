@@ -39,6 +39,67 @@ import formatFees, { formatRupee } from "@/utils/customText";
 import { GiBookCover } from "react-icons/gi";
 
 export default function Home() {
+  // const [start, setStart] = useState(0);
+  // const [hasMore, setHasMore] = useState(true);
+  // const [rating, setRating] = useState("4-5");
+  // const [avgFeePerYear, setAvgFeePerYear] = useState("100000-300000");
+  // const [ranking, setRanking] = useState(10);
+
+  // const { data: collegeData, loading, error, fetchMore, refetch } = useQuery(
+  //   getAllColleges(rating, avgFeePerYear, ranking),
+  //   {
+  //     variables: { start: start, limit: ranking },
+  //   }
+  // );
+
+  // const loadMoreColleges = () => {
+  //   fetchMore({
+  //     variables: { start: start + ranking, limit: ranking },
+  //     updateQuery: (prevResult, { fetchMoreResult }) => {
+  //       if (!fetchMoreResult?.colleges.data.length) {
+  //         setHasMore(false);
+  //         return prevResult;
+  //       }
+  //       setStart((prev) => prev + ranking);
+  //       return {
+  //         colleges: {
+  //           ...fetchMoreResult.colleges,
+  //           data: [
+  //             ...prevResult.colleges.data,
+  //             ...fetchMoreResult.colleges.data,
+  //           ],
+  //         },
+  //       };
+  //     },
+  //   });
+  // };
+
+  // const handleRatingChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setRating(event.target.value);
+  //   setStart(0);
+  //   refetch({ start: 0, limit: ranking });
+  // };
+
+  // const handleAvgFeePerYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setAvgFeePerYear(event.target.value);
+  //   setStart(0);
+  //   refetch({ start: 0, limit: ranking });
+  // };
+
+  // const handleRankingChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const selectedRanking = parseInt(event.target.value, 10);
+  //   setRanking(selectedRanking);
+  //   setStart(0);
+  //   refetch({ start: 0, limit: selectedRanking });
+  // };
+
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>Error: {error.message}</p>;
+
+  // console.log("collegeData", collegeData);
+
+
+  
   return (
     <section className="backgroundGradient relative !mt-0 w-full">
       <HomeBanner
