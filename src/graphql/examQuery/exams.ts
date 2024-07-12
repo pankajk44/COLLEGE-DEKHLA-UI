@@ -22,12 +22,16 @@ export const getAllExams = gql`
       }
       pagination: { page: $page, pageSize: $pageSize }
     ) {
+      meta {
+        pagination {
+          total
+        }
+      }
       data {
         id
         attributes {
           slug
           description
-
           bg {
             data {
               id
@@ -141,6 +145,39 @@ export const getAllExamSortingParameters = gql`
         attributes {
           breadCrumb
           examSequence
+        }
+      }
+    }
+  }
+`;
+
+export const getExamListingPageBanner = gql`
+  query getExamListingPageBanner {
+    exams {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    examListingPages {
+      data {
+        attributes {
+          bgImg {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          title
+          photos {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
         }
       }
     }

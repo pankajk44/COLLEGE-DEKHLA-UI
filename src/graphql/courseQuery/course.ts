@@ -18,6 +18,11 @@ export const getAllCourses = gql`
       }
       pagination: { page: $page, pageSize: $pageSize }
     ) {
+      meta {
+        pagination {
+          total
+        }
+      }
       data {
         id
         attributes {
@@ -108,6 +113,40 @@ export const getAllCourseSortingParameters = gql`
           courseSequence
           breadCrumb
           popularSequence
+        }
+      }
+    }
+  }
+`;
+
+export const getCourseListingPageBanner = gql`
+  query getCourseListingPageBanner {
+    courses {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    courseListingPages {
+      data {
+        id
+        attributes {
+          bgImg {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          title
+          photos {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
         }
       }
     }

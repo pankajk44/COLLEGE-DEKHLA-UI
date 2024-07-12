@@ -55,7 +55,7 @@ export function getAllColleges() {
       $examName: String
       $course: String
       $specialization: String
-)  {
+    ) {
       colleges(
         pagination: { start: $start, limit: $limit }
         sort: "collegeSequence:asc"
@@ -70,11 +70,15 @@ export function getAllColleges() {
           courses: {
             examName: { examName: { eq: $examName } }
             courseName: { courseName: { eq: $course } }
-            specialization: { specialization:{eq: $specialization}}
+            specialization: { specialization: { eq: $specialization } }
           }
-          
         }
       ) {
+        meta {
+          pagination {
+            total
+          }
+        }
         data {
           id
           attributes {
@@ -127,8 +131,7 @@ export function getAllColleges() {
                 }
               }
             }
-
-             affiliation{
+            affiliation {
               data {
                 id
                 attributes {
@@ -190,7 +193,6 @@ export function getAllColleges() {
                 }
               }
             }
-
             isFeatured
             featuredSequence
             collegeSequence
@@ -202,5 +204,3 @@ export function getAllColleges() {
     }
   `;
 }
-
-
