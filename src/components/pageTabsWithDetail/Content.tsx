@@ -8,6 +8,7 @@ import TimelineList from "../TimelineList";
 import YoutubeVideo from "../youtubeVideo";
 import { StarRating } from "../StarRating";
 import { FaStar } from "react-icons/fa";
+import Faqs, { FaqsForDetailPage } from "../Faqs";
 
 export default function Content({ selectedContent }: any) {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -17,7 +18,7 @@ export default function Content({ selectedContent }: any) {
   // };
 
   return (
-    <>
+    <div className="w-full md:[flex:8]">
       {selectedContent &&
         selectedContent?.sections?.length > 0 &&
         selectedContent?.sections?.map((section: any, index: any) => {
@@ -34,11 +35,11 @@ export default function Content({ selectedContent }: any) {
           return (
             <div
               key={index}
-              className="mt-5 w-full rounded-2xl bg-white p-5 md:min-w-[550px] md:[flex:8]"
+              className="mt-5 w-full rounded-2xl bg-white p-5 md:min-w-[550px]"
             >
               {/* Title */}
-              {section?.title && (
-                <h2 className="my-5 text-2xl font-bold">{section?.title}</h2>
+              {section?.heading && (
+                <h2 className="my-5 text-2xl font-bold">{section?.heading}</h2>
               )}
               {/* Author */}
               {section?.author && (
@@ -242,15 +243,15 @@ export default function Content({ selectedContent }: any) {
                         {category}
                       </h3>
                       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-3 md:grid-cols-4">
-                        {groupedVideos[category].map(
-                          (video: any, i: number) => (
+                        {groupedVideos[category].map((video: any, i: number) =>
+                          video?.videoId ? (
                             <YoutubeVideo
                               videoId={video?.videoId}
                               width={"100%"}
                               height={"200"}
                               key={i}
                             />
-                          ),
+                          ) : null,
                         )}
                       </div>
                     </div>
@@ -261,15 +262,18 @@ export default function Content({ selectedContent }: any) {
               {section?.separator === true && (
                 <div className="my-5 h-0.5 w-full bg-zinc-300"></div>
               )}
-              {/* =================================================== */}
               {/* Review  */}
               {section?.reviewsAndRatings && (
                 <ReviewsAndRatingsSection data={section?.reviewsAndRatings} />
               )}
+              {/* FAQ  */}
+              {section?.Questions && (
+                <FaqsForDetailPage data={section?.Questions} />
+              )}
             </div>
           );
         })}
-    </>
+    </div>
   );
 }
 

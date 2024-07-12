@@ -42,7 +42,7 @@ export default function CourseListSection({
       duration: CourseCheckedDurationFilters,
       sortingParameter: sortingParameter,
       page: pageNo,
-      pageSize: 1,
+      pageSize: 10,
     },
   });
   useEffect(() => {
@@ -136,6 +136,7 @@ export default function CourseListSection({
           {filteredData?.map((course: any) => (
             <CourseFilteredCard
               key={course?.id}
+              id={course?.id}
               slug={course?.attributes?.slug}
               bgImage={course?.attributes?.bgImage?.data?.attributes?.url}
               courseName={course?.attributes?.courseName}
