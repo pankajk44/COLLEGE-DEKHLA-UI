@@ -1,21 +1,42 @@
 "use client";
 import Wrapper from "@/components/Wrappers";
-import React, { useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Content from "./Content";
 import DetailPageAsideSection from "../DetailPageAsideSection";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export default function PageTabsWithDetail({ data, asideData }: any) {
+export function PageTabsWithDetailWrapperContent({
+  data,
+  asideData,
+  slug,
+}: any) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("tab");
+
+  useEffect(() => {
+    if (typeof tab === "string") {
+      // Check if tab is a string
+      const index = data.findIndex(
+        (item: any) => item.navItem.toLowerCase() === tab.toLowerCase(),
+      );
+      if (index !== -1) {
+        setSelectedIndex(index);
+      }
+    }
+  }, [tab, data]);
 
   const handleSelect = (index: any) => {
     setSelectedIndex(index);
+    // Update the URL with the selected tab
+    const selectedTab = data[index].navItem.toLowerCase();
+    router.push(`/courses/${slug}?tab=${encodeURIComponent(selectedTab)}`); // Adjust the URL as necessary
   };
+
   return (
-    <Wrapper
-      containerClassName="my-5 "
-      className="flex w-full flex-col  pt-0"
-    >
+    <Wrapper containerClassName="my-5 " className="flex w-full flex-col pt-0">
       <Navbar
         navItems={data}
         onSelect={handleSelect}
@@ -26,5 +47,17 @@ export default function PageTabsWithDetail({ data, asideData }: any) {
         <DetailPageAsideSection data={asideData} />
       </main>
     </Wrapper>
+  );
+}
+
+export default function PageTabsWithDetail({ data, asideData, slug }: any) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PageTabsWithDetailWrapperContent
+        data={data}
+        asideData={asideData}
+        slug={slug}
+      />
+    </Suspense>
   );
 }
