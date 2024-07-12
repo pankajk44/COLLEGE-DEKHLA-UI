@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const getExamDetails = gql`
   query getExamDetails($ID: ID!) {
-    exams(filters: { id: { eq: $ID } }) {
+  exam(id: $ID) {
       data {
         id
         attributes {
