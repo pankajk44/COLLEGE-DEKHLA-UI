@@ -4,7 +4,7 @@ import { RiSearchLine } from "react-icons/ri";
 import { MdOutlineSort } from "react-icons/md";
 import Wrapper from "@/components/Wrappers";
 import SortButton from "@/components/SortButton";
-import { Button } from "../Button";
+import { Button, LoadingButton } from "../Button";
 import CourseFilters from "./CourseFilters";
 import CourseFilteredCard from "../cardsAndSliders/CourseFilteredCard";
 
@@ -22,64 +22,51 @@ export default function CourseListSection({
     mode: [] as string[],
     courseDuration: 0,
   });
+  // used for Query
   const [searchValue, setSearchValue] = useState("");
-  // for Query
   const [ModeCheckedFilters, setModeCheckedFilters] = useState<string[]>([]);
   const [CourseCheckedDurationFilters, setCourseCheckedDurationFilters] =
-    useState<number>(0);
-  // const mode = "Regular";
-  // const duration = 4;
+    useState<number>(96);
+  const [pageNo, SetPageNo] = useState(1);
+  const [sortingParameter, setSortingParameter] = useState("courseSequence");
+
+  // Query
   const {
     data: courseData,
-    refetch,
     loading,
     error,
   } = useQuery(getAllCourses, {
     variables: {
-      // mode: ModeCheckedFilters,
-      // duration: CourseCheckedDurationFilters,
-      // searchByCourseName: searchValue,
+      searchByCourseName: searchValue,
+      modes: ModeCheckedFilters?.length ? ModeCheckedFilters : undefined,
+      duration: CourseCheckedDurationFilters,
+      sortingParameter: sortingParameter,
+      page: pageNo,
+      pageSize: 10,
     },
   });
-
   useEffect(() => {
     if (courseData) {
-      console.log("courseData:", courseData?.courses?.data);
-      setFilteredData(courseData?.courses?.data);
+      setSortingParameter("courseSequence");
+      if (pageNo === 1) {
+        setFilteredData(courseData?.courses?.data);
+      } else {
+        setFilteredData((prevData: any) => [
+          ...prevData,
+          ...courseData?.courses?.data,
+        ]);
+      }
     }
-  }, [courseData]);
-
-  // useEffect(() => {
-  //   refetch({ mode, duration, searchValue });
-  // }, [mode, duration, refetch, searchValue]);
+  }, [courseData, searchValue, ModeCheckedFilters, sortingParameter, pageNo]);
 
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
-    const searchTerm = event.target.value.toLowerCase();
-    // const filtered = courseData?.courses?.data?.filter((course: any) =>
-    //   course?.attributes?.courseName?.toLowerCase().includes(searchTerm),
-    // );
-    setSearchValue(searchTerm);
+    const searchTerm = event?.target?.value?.toLowerCase()?.trim();
+    if (searchTerm.length >= 3) {
+      setSearchValue(searchTerm);
+    } else {
+      setSearchValue("");
+    }
   }
-
-  console.log("filteredData:", filteredData);
-  // useEffect(() => {
-  //   console.log("courseData:", courseData?.courses?.data[0]);
-  //   if (searchValue?.trim() === "") {
-  //     setFilteredData(courseData?.courses?.data);
-  //   }
-  //   else {
-  //     const filtered = courseData?.courses?.data.filter((filter: any) =>
-  //       filter.attributes.name
-  //         .toLowerCase()
-  //         .includes(searchValue.toLowerCase()),
-  //     );
-  //     setFilteredData(filtered);
-  //   }
-  // }, [courseData]);
-
-  // useEffect(() => {
-  //   refetch({ mode, duration });
-  // }, [mode, duration, refetch]);
 
   const handleMobileFilter = () => {
     setMobileFilter((pre) => !pre);
@@ -87,20 +74,14 @@ export default function CourseListSection({
 
   const handleFilterOptionClick = (option: any) => {
     if (option === "a-z") {
-      const sortedData: any = [...data].sort((a: any, b: any) => {
-        return a?.name?.localeCompare(b?.name);
-      });
-      setFilteredData(sortedData.slice(0, displayCount));
+      setSortingParameter("courseName");
     } else if (option === "reset") {
-      const resetArray: any = [...data]?.slice(0, displayCount);
-      setFilteredData(resetArray);
+      setSortingParameter("courseSequence");
     }
   };
 
-  // Navbar
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const handleSelect = (index: any) => {
-    setSelectedIndex(index);
+  const handleLoadMore = () => {
+    SetPageNo((prev) => prev + 1);
   };
 
   return (
@@ -111,7 +92,7 @@ export default function CourseListSection({
           filterBy={filterBy}
           SelectedFilters={SelectedFilters}
           setSelectedFilters={setSelectedFilters}
-          totalResults={data?.length}
+          totalResults={courseData?.courses?.meta?.pagination?.total}
           mobileFilter={MobileFilter}
           setMobileFilter={setMobileFilter}
           // For query
@@ -155,6 +136,7 @@ export default function CourseListSection({
           {filteredData?.map((course: any) => (
             <CourseFilteredCard
               key={course?.id}
+              id={course?.id}
               slug={course?.attributes?.slug}
               bgImage={course?.attributes?.bgImage?.data?.attributes?.url}
               courseName={course?.attributes?.courseName}
@@ -168,10 +150,20 @@ export default function CourseListSection({
               description={course?.attributes?.description}
               avgFeesFrom={course?.attributes?.avgFees?.from}
               avgFeesTo={course?.attributes?.avgFees?.to}
-              // courseLevel={course?.attributes?.courseLevel}
-              tabsSections={course?.attributes?.navbars?.data}
+              courseLevel={course?.attributes?.courseLevel?.data?.map(
+                (value: any) => value?.attributes?.courseLevel,
+              )}
+              tabsSections={course?.attributes?.navbars?.data?.map(
+                (value: any) => value?.attributes?.navItem,
+              )}
             />
           ))}
+          {courseData?.courses?.meta?.pagination?.total >
+            filteredData?.length && (
+            <LoadingButton onClick={handleLoadMore} className="mx-auto">
+              Load More
+            </LoadingButton>
+          )}
         </main>
       </Wrapper>
     </section>
