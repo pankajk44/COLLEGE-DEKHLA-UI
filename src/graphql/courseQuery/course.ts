@@ -2,31 +2,31 @@ import { gql } from "@apollo/client";
 
 export const getAllCourses = gql`
   query getAllCourses(
+    $sortingParameter: [String]
     $mode: String
     $duration: Long
     $searchByCourseName: String
+    $page: Int
+    $pageSize: Int
   ) {
     courses(
-      sort: "breadCrumb"
+      sort: $sortingParameter
       filters: {
         courseName: { containsi: $searchByCourseName }
         courseMode: { courseMode: { eq: $mode } }
         duration: { duration: { eq: $duration } }
       }
+      pagination: { page: $page, pageSize: $pageSize }
     ) {
       data {
         id
         attributes {
           slug
           courseName
-          courseSequence
           bgImage {
             data {
               id
               attributes {
-                alternativeText
-                width
-                height
                 url
               }
             }
@@ -72,28 +72,6 @@ export const getAllCourses = gql`
       }
     }
   }
-
-  query getAllModes {
-    courseModes {
-      data {
-        id
-        attributes {
-          courseMode
-        }
-      }
-    }
-  }
-
-  query getAllDurations {
-    durations {
-      data {
-        id
-        attributes {
-          duration
-        }
-      }
-    }
-  }
 `;
 
 export const getAllModes = gql`
@@ -116,6 +94,20 @@ export const getAllDurations = gql`
         id
         attributes {
           duration
+        }
+      }
+    }
+  }
+`;
+
+export const getAllSortingParameters = gql`
+  query getAllSortingParameters {
+    courses {
+      data {
+        attributes {
+          courseSequence
+          breadCrumb
+          popularSequence
         }
       }
     }
