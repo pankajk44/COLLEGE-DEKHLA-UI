@@ -1,70 +1,154 @@
 import { gql } from "@apollo/client";
 
 export const getAllCourses = gql`
-  query getAllCourses($mode: String, $duration: Long) {
-  courses(
-    sort: "courseName"
-    filters: {
-      courseMode: { courseMode: { eq: $mode } }
-      duration: { duration: { eq: $duration } }
-    }
+  query getAllCourses(
+    $sortingParameter: [String]
+    $modes: [String]
+    $duration: Long
+    $searchByCourseName: String
+    $page: Int
+    $pageSize: Int
   ) {
-    data {
-      id
-      attributes {
-        slug
-        bgImage {
-          data {
-            id
-            attributes {
-              alternativeText
-              width
-              height
-              url
+    courses(
+      sort: $sortingParameter
+      filters: {
+        courseName: { containsi: $searchByCourseName }
+        courseMode: { courseMode: { in: $modes } }
+        duration: { duration: { lte: $duration } }
+      }
+      pagination: { page: $page, pageSize: $pageSize }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+      data {
+        id
+        attributes {
+          slug
+          courseName
+          bgImage {
+            data {
+              id
+              attributes {
+                url
+              }
             }
           }
-        }
-        courseType {
-          data {
-            id
-            attributes {
-              collegeType
+          courseType {
+            data {
+              id
+              attributes {
+                collegeType
+              }
             }
           }
-        }
-        description
-        duration {
-          data {
-            id
-            attributes {
-              duration
+          description
+          duration {
+            data {
+              id
+              attributes {
+                duration
+              }
             }
           }
-        }
-        avgFees {
-          from
-          to
-        }
-        courseLevel {
-          data {
-            id
-            attributes {
-              courseLevel
+          avgFees {
+            from
+            to
+          }
+          courseLevel {
+            data {
+              id
+              attributes {
+                courseLevel
+              }
             }
           }
-        }
-        navbars {
-          data {
-            id
-            attributes {
-              navItem
+          navbars {
+            data {
+              id
+              attributes {
+                navItem
+              }
             }
           }
         }
       }
     }
   }
-}
+`;
 
+export const getAllModes = gql`
+  query getAllModes {
+    courseModes {
+      data {
+        id
+        attributes {
+          courseMode
+        }
+      }
+    }
+  }
+`;
 
+export const getAllDurations = gql`
+  query getAllDurations {
+    durations {
+      data {
+        id
+        attributes {
+          duration
+        }
+      }
+    }
+  }
+`;
+
+export const getAllCourseSortingParameters = gql`
+  query getAllCourseSortingParameters {
+    courses {
+      data {
+        attributes {
+          courseSequence
+          breadCrumb
+          popularSequence
+        }
+      }
+    }
+  }
+`;
+
+export const getCourseListingPageBanner = gql`
+  query getCourseListingPageBanner {
+    courses {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    courseListingPages {
+      data {
+        id
+        attributes {
+          bgImg {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          title
+          photos {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 `;

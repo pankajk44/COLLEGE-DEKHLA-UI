@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 
+import { getAllModes } from "@/graphql/courseQuery/course";
+import { useQuery } from "@apollo/client";
+import { AnyARecord } from "dns";
 export default function CourseFilters({
   filterBy,
   SelectedFilters,
@@ -10,14 +13,24 @@ export default function CourseFilters({
   totalResults,
   mobileFilter,
   setMobileFilter,
+  ModeCheckedFilters,
+  setModeCheckedFilters,
+  CourseCheckedDurationFilters,
+  setCourseCheckedDurationFilters,
 }: any) {
-  const [ModeCheckedFilters, setModeCheckedFilters] = useState<string[]>([]);
-  const [CourseCheckedDurationFilters, setCourseCheckedDurationFilters] =
-    useState<number>(0);
+  const { data: modes, refetch, loading, error } = useQuery(getAllModes);
+
+  // console.log(modes?.courseModes?.data, "modes");
+  // filtering all modes Name form query
+  const modesFilteredFromQueryArray = modes?.courseModes?.data
+    ? modes?.courseModes?.data?.map(
+        (courseMode: any) => courseMode?.attributes?.courseMode,
+      )
+    : [];
 
   const handleModeFilter = (data: string) => {
     const updatedSelection = ModeCheckedFilters.includes(data)
-      ? ModeCheckedFilters.filter((item) => item !== data)
+      ? ModeCheckedFilters.filter((item: any) => item !== data)
       : [...ModeCheckedFilters, data];
 
     setModeCheckedFilters(updatedSelection);
@@ -55,15 +68,14 @@ export default function CourseFilters({
     <aside
       className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20 ${mobileFilter ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll" : "max-md:hidden"}`}
     >
-     <button
+      <button
         className="!fixed !right-5 !top-24 !z-50 text-4xl text-black hover:text-orange-500 md:hidden"
         onClick={() => setMobileFilter(false)}
       >
         <IoIosCloseCircleOutline />
       </button>
-      <h1 className="mb-10 font-medium">Showing {totalResults} Results</h1>
+      <h1 className="mb-7 font-medium">Found {totalResults} Results</h1>
       <div className="w-full pb-0 max-md:bg-opacity-95">
-        <h2 className="mb-5 font-medium">Find Exam</h2>
         <div className="mb-3 flex flex-wrap items-center gap-1 max-md:text-white">
           {Object.values(SelectedFilters).some(
             (value) =>
@@ -112,7 +124,7 @@ export default function CourseFilters({
         </div>
         <Filter
           title="MODE"
-          filterList={filterBy?.courseMode}
+          filterList={modesFilteredFromQueryArray}
           handleFilter={handleModeFilter}
           checked={ModeCheckedFilters}
         />
