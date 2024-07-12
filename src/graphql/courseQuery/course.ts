@@ -23,7 +23,6 @@ export const getAllCourses = gql`
         attributes {
           slug
           courseName
-          courseSequence
           bgImage {
             data {
               id
@@ -73,28 +72,6 @@ export const getAllCourses = gql`
       }
     }
   }
-
-  query getAllModes {
-    courseModes {
-      data {
-        id
-        attributes {
-          courseMode
-        }
-      }
-    }
-  }
-
-  query getAllDurations {
-    durations {
-      data {
-        id
-        attributes {
-          duration
-        }
-      }
-    }
-  }
 `;
 
 export const getAllModes = gql`
@@ -123,8 +100,8 @@ export const getAllDurations = gql`
   }
 `;
 
-export const getAllSortingParameters = gql`
-  query getAllSortingParameters {
+export const getAllCourseSortingParameters = gql`
+  query getAllCourseSortingParameters {
     courses {
       data {
         attributes {

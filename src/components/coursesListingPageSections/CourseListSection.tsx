@@ -27,8 +27,8 @@ export default function CourseListSection({
   const [ModeCheckedFilters, setModeCheckedFilters] = useState<string[]>([]);
   const [CourseCheckedDurationFilters, setCourseCheckedDurationFilters] =
     useState<number>(0);
-  const mode = "Regular";
-  const duration = 4;
+  // const mode = "Regular";
+  // const duration = 4;
   const {
     data: courseData,
     refetch,
@@ -49,9 +49,9 @@ export default function CourseListSection({
     }
   }, [courseData]);
 
-  useEffect(() => {
-    refetch({ mode, duration, searchValue });
-  }, [mode, duration, refetch, searchValue]);
+  // useEffect(() => {
+  //   refetch({ mode, duration, searchValue });
+  // }, [mode, duration, refetch, searchValue]);
 
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
     const searchTerm = event.target.value.toLowerCase();
@@ -77,9 +77,9 @@ export default function CourseListSection({
   //   }
   // }, [courseData]);
 
-  useEffect(() => {
-    refetch({ mode, duration });
-  }, [mode, duration, refetch]);
+  // useEffect(() => {
+  //   refetch({ mode, duration });
+  // }, [mode, duration, refetch]);
 
   const handleMobileFilter = () => {
     setMobileFilter((pre) => !pre);
