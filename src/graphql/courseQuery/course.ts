@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 export const getAllCourses = gql`
   query getAllCourses(
     $sortingParameter: [String]
-    $mode: String
+    $modes: [String]
     $duration: Long
     $searchByCourseName: String
     $page: Int
@@ -13,17 +13,21 @@ export const getAllCourses = gql`
       sort: $sortingParameter
       filters: {
         courseName: { containsi: $searchByCourseName }
-        courseMode: { courseMode: { eq: $mode } }
-        duration: { duration: { eq: $duration } }
+        courseMode: { courseMode: { in: $modes } }
+        duration: { duration: { lte: $duration } }
       }
       pagination: { page: $page, pageSize: $pageSize }
     ) {
+      meta {
+        pagination {
+          total
+        }
+      }
       data {
         id
         attributes {
           slug
           courseName
-          courseSequence
           bgImage {
             data {
               id
@@ -73,28 +77,6 @@ export const getAllCourses = gql`
       }
     }
   }
-
-  query getAllModes {
-    courseModes {
-      data {
-        id
-        attributes {
-          courseMode
-        }
-      }
-    }
-  }
-
-  query getAllDurations {
-    durations {
-      data {
-        id
-        attributes {
-          duration
-        }
-      }
-    }
-  }
 `;
 
 export const getAllModes = gql`
@@ -123,14 +105,48 @@ export const getAllDurations = gql`
   }
 `;
 
-export const getAllSortingParameters = gql`
-  query getAllSortingParameters {
+export const getAllCourseSortingParameters = gql`
+  query getAllCourseSortingParameters {
     courses {
       data {
         attributes {
           courseSequence
           breadCrumb
           popularSequence
+        }
+      }
+    }
+  }
+`;
+
+export const getCourseListingPageBanner = gql`
+  query getCourseListingPageBanner {
+    courses {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    courseListingPages {
+      data {
+        id
+        attributes {
+          bgImg {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          title
+          photos {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
         }
       }
     }

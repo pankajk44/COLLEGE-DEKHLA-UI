@@ -43,7 +43,9 @@ export default function CourseFilteredCard({
             <div className="flex gap-x-10 gap-y-5">
               <div>
                 <p className="text-xs text-zinc-400">Average Duration</p>
-                <p className="font-semibold"> {duration} Years </p>
+                <p className="font-semibold">
+                  {Math.floor(duration / 12)} Years
+                </p>
               </div>
               <div>
                 <p className="text-xs text-zinc-400">Average Fees</p>
@@ -66,7 +68,14 @@ export default function CourseFilteredCard({
             <div className="flex flex-col">
               <div className="flex items-center gap-x-2">
                 <RiBookletLine className="text-3xl text-blue-500" />
-                <p className="font-semibold">{courseLevel} Level</p>
+                <p className="font-semibold">
+                  {courseLevel?.map((item: any, index: number) => (
+                    <React.Fragment key={index}>
+                      {index > 0 && ", "}
+                      {item} Level
+                    </React.Fragment>
+                  ))}
+                </p>
               </div>
             </div>
             {/* item 3  */}
@@ -99,7 +108,7 @@ export default function CourseFilteredCard({
                   key={index}
                   className="cursor-pointer capitalize hover:underline"
                 >
-                  {item?.attributes?.navItem}
+                  {item}
                 </li>
               </Link>
               {index !== tabsSections?.length - 1 && <li>|</li>}
