@@ -33,28 +33,30 @@ export default function ExamDetailBanner({
       <div className="flex gap-5 max-md:flex-col max-md:flex-col-reverse">
         {/* Left Side  */}
         <div className="flex items-center gap-5">
-          <h2 className="text-3xl font-bold md:pt-2 md:text-4xl">
+          <h2 className="text-3xl font-bold md:pt-2 md:text-4xl max-sm:text-center">
             {examName} : {titleAddition}
           </h2>
         </div>
         {/* Right Side  */}
-        <div className="w-min rounded-2xl bg-white p-2">
-          <Image
-            src={examLogo}
-            alt="banner"
-            width={500}
-            height={500}
-            className="min-h-40 min-w-40 object-contain"
-          />
+        <div className="w-full flex justify-center h-auto items-center">
+          <div className="w-min rounded-2xl bg-white p-2 ">
+            <Image
+              src={examLogo}
+              alt="banner"
+              width={500}
+              height={500}
+              className="min-h-40 min-w-40 object-contain"
+            />
+          </div>
         </div>
       </div>
       {/* Down Side  */}
-      <div className="flex flex-wrap items-center justify-between max-md:flex-col">
+      <div className="flex flex-wrap items-center justify-between ">
         <p className="flex items-center gap-2">
           <FaClockRotateLeft className="text-xl" />
           <span>Updated on {lastUpdate}</span>
         </p>
-        <div className="flex flex-wrap gap-5">
+        <div className="flex flex-wrap gap-5 max-md:w-full">
           <p className="flex items-center gap-2">
             <MdOutlineFileDownload className="text-xl" />
             <span>Save</span>
@@ -63,11 +65,11 @@ export default function ExamDetailBanner({
             <AiOutlineQuestionCircle className="text-xl" />
             <span>Ask</span>
           </p>
-          <div className="flex flex-wrap gap-5 max-md:flex-col">
-            <Link href={brochureUrl || "#"}>
+          <div className="flex flex-wrap gap-5 max-md:!w-full">
+            <Link href={brochureUrl || "#"} className="max-md:w-[48%] max-sm:!w-full">
               <Button
                 variant="white"
-                className="!max-md:w-full text-nowrap shadow-lg"
+                className="max-md:w-[100%] max-sm:!w-full text-nowrap shadow-lg"
               >
                 <span>Download Brochure</span>
                 <HiOutlineDownload />
@@ -75,7 +77,7 @@ export default function ExamDetailBanner({
             </Link>
             <Button
               variant="black"
-              className="!max-md:w-full text-nowrap shadow-lg"
+              className=" text-nowrap shadow-lg max-md:w-[48%] max-sm:!w-full"
             >
               <span>Register</span>
               <HiOutlineDownload />
