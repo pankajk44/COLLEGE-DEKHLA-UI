@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 export const getAllCourses = gql`
   query getAllCourses(
     $sortingParameter: [String]
-    $mode: String
+    $modes: [String]
     $duration: Long
     $searchByCourseName: String
     $page: Int
@@ -13,8 +13,8 @@ export const getAllCourses = gql`
       sort: $sortingParameter
       filters: {
         courseName: { containsi: $searchByCourseName }
-        courseMode: { courseMode: { eq: $mode } }
-        duration: { duration: { eq: $duration } }
+        courseMode: { courseMode: { in: $modes } }
+        duration: { duration: { lte: $duration } }
       }
       pagination: { page: $page, pageSize: $pageSize }
     ) {

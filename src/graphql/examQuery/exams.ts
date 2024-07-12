@@ -3,10 +3,10 @@ import { gql } from "@apollo/client";
 export const getAllExams = gql`
   query getAllExams(
     $searchByExamName: String
-    $mode: String
-    $eligibilityLevel: String
-    $ExaminationLevel: String
-    $specialization: String
+    $modes: [String]
+    $eligibilityLevel: [String]
+    $ExaminationLevel: [String]
+    $specializations: [String]
     $examSortingParameter: [String]
     $page: Int
     $pageSize: Int
@@ -15,10 +15,10 @@ export const getAllExams = gql`
       sort: $examSortingParameter
       filters: {
         breadCrumb: { containsi: $searchByExamName }
-        specialization: { specialization: { eq: $specialization } }
-        ExaminationLevel: { ExaminationLevel: { eq: $ExaminationLevel } }
-        eligibilityLevel: { eligibilityLevel: { eq: $eligibilityLevel } }
-        mode: { examMode: { eq: $mode } }
+        specialization: { specialization: { in: $specializations } }
+        ExaminationLevel: { ExaminationLevel: { in: $ExaminationLevel } }
+        eligibilityLevel: { eligibilityLevel: { in: $eligibilityLevel } }
+        mode: { examMode: { in: $modes } }
       }
       pagination: { page: $page, pageSize: $pageSize }
     ) {
