@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const getAllColleges = gql`
+export const getAllExams = gql`
   query getAllExams(
   $mode: String
   $eligibilityLevel: String
