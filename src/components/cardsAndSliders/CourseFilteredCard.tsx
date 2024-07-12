@@ -7,6 +7,7 @@ import formatFees, { formatDate } from "@/utils/customText";
 import { FaBuildingColumns } from "react-icons/fa6";
 
 export default function CourseFilteredCard({
+  id,
   slug,
   bgImage,
   courseName,
@@ -32,7 +33,7 @@ export default function CourseFilteredCard({
         />
         <div className="md:px-5">
           {/* Line 1  */}
-          <Link href={`/courses/${slug || "#"}`}>
+          <Link href={id ? `/courses/${id}` : `#`}>
             <h1 className="mb-3 cursor-pointer text-wrap text-xl font-bold hover:text-orange-500">
               {courseName}
             </h1>
@@ -91,7 +92,7 @@ export default function CourseFilteredCard({
             <p className="line-clamp-2 text-wrap text-sm [flex:11]">
               <span className="line-clamp-2 text-justify">{description}</span>
               <span className="text-orange-500 hover:underline">
-                <Link href={`/course/${slug} || '#'}`}>Read More</Link>
+                <Link href={`/courses/${id} || #`}>Read More</Link>
               </span>
             </p>
           </div>
@@ -103,7 +104,7 @@ export default function CourseFilteredCard({
         <ul className="flex flex-wrap items-center gap-x-4 rounded-md bg-orange-100 px-4 py-1 text-sm text-orange-600">
           {tabsSections?.slice(0, 5)?.map((item: any, index: number) => (
             <React.Fragment key={index}>
-              <Link href="#">
+              <Link href={id ? `/courses/${id}?navItem=${item}` : `#`}>
                 <li
                   key={index}
                   className="cursor-pointer capitalize hover:underline"
@@ -115,7 +116,7 @@ export default function CourseFilteredCard({
             </React.Fragment>
           ))}
           {tabsSections?.length > 5 && (
-            <Link href={`/course/${slug} || "#"}`}>
+            <Link href={id ? `/courses/${id}` : `#`}>
               <li className="cursor-pointer capitalize hover:underline">
                 more
               </li>
@@ -124,11 +125,13 @@ export default function CourseFilteredCard({
         </ul>
         {/* buttons  */}
         <div className="flex gap-2 max-md:w-full max-md:flex-col">
-          <Button variant="black" className="!w-full text-nowrap shadow-lg">
-            View Details
-          </Button>
+          <Link href={id ? `/courses/${id}` : `#`}>
+            <Button variant="black" className="!w-full text-nowrap shadow-lg">
+              View Details
+            </Button>
+          </Link>
           <Button variant="white" className="!w-full text-nowrap shadow-lg">
-            Follow
+            Save
           </Button>
         </div>
       </div>

@@ -242,15 +242,15 @@ export default function Content({ selectedContent }: any) {
                         {category}
                       </h3>
                       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-3 md:grid-cols-4">
-                        {groupedVideos[category].map(
-                          (video: any, i: number) => (
+                        {groupedVideos[category].map((video: any, i: number) =>
+                          video?.videoId ? (
                             <YoutubeVideo
                               videoId={video?.videoId}
                               width={"100%"}
                               height={"200"}
                               key={i}
                             />
-                          ),
+                          ) : null,
                         )}
                       </div>
                     </div>

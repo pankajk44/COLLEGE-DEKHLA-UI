@@ -170,9 +170,9 @@ export const tabsSections = [
             t3: "Gallery",
           },
           videos: [
-            { id: 1, category: "general", videoId: "4-YEBaUXUGo" },
-            { id: 2, category: "What students say", videoId: "4-YEBaUXUGo" },
-            { id: 3, category: "What students say", videoId: "4-YEBaUXUGo" },
+            { id: 1, category: "general", videoId: "" },
+            { id: 2, category: "What students say", videoId: "" },
+            { id: 3, category: "What students say", videoId: "" },
           ],
         },
         imageGallery: {
@@ -193,43 +193,43 @@ export const tabsSections = [
           individualReviews: [
             {
               title: "College Infrastructure",
-              icon: {url:book1},
+              icon: { url: book1 },
               rating: "4.5",
               basedOn: "456",
             },
             {
               title: "Academics & Faculty",
-              icon: {url:book1},
+              icon: { url: book1 },
               rating: "3",
               basedOn: "456",
             },
             {
               title: "Facilities",
-              icon: {url:book1},
+              icon: { url: book1 },
               rating: "4.5",
               basedOn: "456",
             },
             {
               title: "Placements & Internships",
-              icon: {url:book1},
+              icon: { url: book1 },
               rating: "4.5",
               basedOn: "456",
             },
             {
               title: "Fees & Scholarships",
-              icon: {url:book1},
+              icon: { url: book1 },
               rating: "3",
               basedOn: "456",
             },
             {
               title: "Crowd & Campus Life",
-              icon: {url:book1},
+              icon: { url: book1 },
               rating: "2",
               basedOn: "456",
             },
             {
               title: "Overall Experience",
-              icon: {url:book1},
+              icon: { url: book1 },
               rating: "4.5",
               basedOn: "456",
             },
@@ -348,7 +348,7 @@ export const testimonials = {
 
 export const CounsellingPackages = {
   title: "Pick Your Perfect Plan",
-  text:"Find the perfect plan for your business with our flexible pricing options.",
+  text: "Find the perfect plan for your business with our flexible pricing options.",
   counsellingPackagesCards: [
     {
       id: 1,
