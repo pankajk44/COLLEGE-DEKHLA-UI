@@ -12,11 +12,10 @@ import { getAllCourses } from "@/graphql/courseQuery/course";
 import { useQuery } from "@apollo/client";
 export default function CourseListSection({
   data,
-  filterBy,
+  // filterBy,
   tabsSections,
 }: any) {
   const [MobileFilter, setMobileFilter] = useState(false);
-  const [displayCount, setDisplayCount] = useState(3);
   const [filteredData, setFilteredData] = useState<any>();
   const [SelectedFilters, setSelectedFilters] = useState({
     mode: [] as string[],
@@ -26,7 +25,7 @@ export default function CourseListSection({
   const [searchValue, setSearchValue] = useState("");
   const [ModeCheckedFilters, setModeCheckedFilters] = useState<string[]>([]);
   const [CourseCheckedDurationFilters, setCourseCheckedDurationFilters] =
-    useState<number>(96);
+    useState<number>();
   const [pageNo, SetPageNo] = useState(1);
   const [sortingParameter, setSortingParameter] = useState("courseSequence");
 
@@ -89,7 +88,7 @@ export default function CourseListSection({
       <Wrapper className="flex flex-col justify-between gap-5 md:flex-row">
         {/* Aside College Filter Section  */}
         <CourseFilters
-          filterBy={filterBy}
+          // filterBy={filterBy}
           SelectedFilters={SelectedFilters}
           setSelectedFilters={setSelectedFilters}
           totalResults={courseData?.courses?.meta?.pagination?.total}
@@ -145,7 +144,8 @@ export default function CourseListSection({
               }
               totalColleges={course?.totalColleges}
               duration={
-                course?.attributes?.duration?.data?.attributes?.duration
+                course?.attributes?.duration?.data?.attributes?.duration ||
+                "N/A"
               }
               description={course?.attributes?.description}
               avgFeesFrom={course?.attributes?.avgFees?.from}

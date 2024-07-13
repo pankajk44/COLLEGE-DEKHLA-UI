@@ -2,10 +2,10 @@ import { gql } from "@apollo/client";
 
 export const getAllCourses = gql`
   query getAllCourses(
-    $sortingParameter: [String]
-    $modes: [String]
-    $duration: Long
     $searchByCourseName: String
+    $modes: [String]
+    $sortingParameter: [String]
+    $duration: Long
     $page: Int
     $pageSize: Int
   ) {
