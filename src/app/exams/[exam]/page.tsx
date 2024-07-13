@@ -4,9 +4,42 @@ import ExamDetailBanner from "@/components/bannerSections/ExamDetailBanner";
 import PageTabsWithDetail from "@/components/pageTabsWithDetail/PageTabsWithDetail";
 import { exams } from "@/data/examData";
 import { asideSection, banner1, tabsSections } from "@/data/globalData";
-import React from "react";
+import { getExamDetails } from "@/graphql/examQuery/examDetails";
+import { convertQueryDataToTabSections } from "@/utils/customText";
+import { useQuery } from "@apollo/client";
+import React, { useEffect } from "react";
 
-export default function ExamDetailsPage() {
+type Props = {
+  params: {
+    exam: String;
+  };
+};
+
+export default function ExamDetailsPage({ params }: Props) {
+  const [tabSelectionArray, setTabSelectionArray] = React.useState<any>([]);
+  const examId = params?.exam;
+  // Query
+  const {
+    loading,
+    error,
+    data: examData,
+  } = useQuery(getExamDetails, {
+    variables: { ID: examId },
+  });
+
+  useEffect(() => {
+    // console.log("Exam Details: ", examData);
+
+    if (examData?.exam?.data?.attributes?.PageData) {
+      const convertedData: any = convertQueryDataToTabSections(
+        examData?.exam?.data?.attributes?.PageData,
+      );
+      setTabSelectionArray(convertedData);
+    }
+  }, [examData]);
+
+  // console.log("tabSelectionArray", tabSelectionArray);
+
   return (
     <>
       <ExamDetailBanner
@@ -17,7 +50,11 @@ export default function ExamDetailsPage() {
         brochureUrl={exams?.[0]?.brochureUrl}
         lastUpdate={exams?.[0]?.lastUpdate}
       />
-      <PageTabsWithDetail data={tabsSections} asideData={asideSection} />
+      <PageTabsWithDetail
+        data={tabSelectionArray}
+        asideData={asideSection}
+        slug={examId}
+      />
       <Banner1 data={banner1} />
     </>
   );

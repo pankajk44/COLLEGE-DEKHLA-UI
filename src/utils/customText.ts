@@ -44,3 +44,29 @@ export function getDate(dateString: string) {
 
     return (`${day}-${month}-${year}`);
 }
+
+export function convertQueryDataToTabSections(queryData: any): any {
+    const tabSectionsMap: { [key: string]: any } = {};
+
+    // Iterate over each item in queryData
+    queryData.forEach((item: any) => {
+        const navItem = item?.navItem?.data?.attributes?.navItem;
+        if (!navItem) {
+            // Skip this item if it doesn't contain navItem
+            return;
+        }
+
+        const { navItem: _, ...sectionData } = item;
+
+        // Initialize the navItem in the map if it doesn't exist
+        if (!tabSectionsMap[navItem]) {
+            tabSectionsMap[navItem] = { navItem: navItem, sections: [] };
+        }
+
+        // Add the section data to the respective navItem's sections array
+        tabSectionsMap[navItem].sections.push(sectionData);
+    });
+
+    // Convert the map to an array
+    return Object.values(tabSectionsMap);
+}

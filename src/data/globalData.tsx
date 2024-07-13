@@ -39,11 +39,14 @@ export const tabsSections = [
         title: "About IIT Madras",
         author: {
           avatar: { url: user1 },
+          designation: "Director, IIT Madras",
           name: "Pankaj Kumar",
           lastUpdated: "MAR 21, 2024 18:39 IST",
         },
+        // Text Editor
         quote: `<p>NTA has released the JEE Main 2024 session 2 result for paper 2 at jeemain.nta.ac.in. The authority closed the JEE Main 2024 challenge window on May 1, 2024. The provisional JEE Main 2024 answer key for paper 2 has been released on April 30. Candidates can check the JEE Main B.Arch answer key 2024 for session 2 on the official website.</p>`,
-        article: `
+        // Text Editor
+        textEditor: `
           <p>JEE Main 2024: NTA has released the JEE Main 2024 session 2 result for paper 2 at jeemain.nta.ac.in. The authority closed the JEE Main 2024 challenge window on May 1, 2024. The provisional JEE Main 2024 answer key for paper 2 has been released on April 30. Candidates can check the JEE Main B.Arch answer key 2024 for session 2 on the official website. Candidates who appeared for the JEE Main exam could raise objections to the answer key from April 30 to May 1. </p>
           <p class='note my-5'>JEE Main 2024: NTA has released the JEE Main 2024 session 2 result for paper 2 at jeemain.nta.ac.in. The authority closed the JEE Main 2024 challenge window on May 1, 2024. The provisional JEE Main 2024 answer key for paper 2 has been released on April 30. Candidates can check the JEE Main B.Arch answer key 2024 for session 2 on the official website. Candidates who appeared for the JEE Main exam could raise objections to the answer key from April 30 to May 1. </p>
           <p class='my-5'><strong>Indian Institute of Technologies, National Institute or Technologies and Indian Institutes or Information Technology</strong> are considered to be the best Engineering Colleges in India. Engineering is likewise one of the most logically predominant fields of choice in India. Pretty much every science student has a fantasy to turn into a successful engineer. However, It is not easy for engineering aspirants to select the right engineering college in India. Here Is the following information regarding the Top Engineering Colleges in India for engineering aspirants...</p>
@@ -58,8 +61,8 @@ export const tabsSections = [
             </div>
           `,
         button: {
-          button1: { text: "Apply Now", link: "#" },
-          button2: { text: "Download Brochure", link: "#" },
+          button1: { text: "Apply Now", href: "#" },
+          button2: { text: "Download Brochure", href: "#" },
         },
         importantLinks: {
           title: "This Story also Contains",

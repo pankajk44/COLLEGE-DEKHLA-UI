@@ -34,15 +34,17 @@ function VideoGallery({ data }: any) {
       <h2 className="mb-5 text-xl">Videos</h2>
       {data
         ?.slice(0, 3)
-        ?.map((item: any, index: number) => (
-          <YoutubeVideo
-            key={index}
-            videoId={item?.videoId}
-            width={"100%"}
-            height={"200"}
-            className="mb-5 rounded-xl"
-          />
-        ))}
+        ?.map((item: any, index: number) =>
+          item?.videoId ? (
+            <YoutubeVideo
+              key={index}
+              videoId={item.videoId}
+              width={"100%"}
+              height={"200"}
+              className="mb-5 rounded-xl"
+            />
+          ) : null,
+        )}
     </div>
   );
 }
@@ -71,11 +73,11 @@ function Banner({ data }: any) {
   return (
     <div className="flex-center w-full flex-col rounded-2xl bg-white p-5 text-center">
       <h2 className="mb-3 text-xl">{data?.title}</h2>
-      <Button variant="white" className="text-nowrap shadow-lg mb-3 !w-full">
+      <Button variant="white" className="mb-3 !w-full text-nowrap shadow-lg">
         Apply Now
       </Button>
       <Link href={data?.brochureUrl} className="!w-full">
-        <Button variant="black" className="text-nowrap shadow-lg !w-full">
+        <Button variant="black" className="!w-full text-nowrap shadow-lg">
           <span>Download Brochure</span>
           <HiOutlineDownload />
         </Button>

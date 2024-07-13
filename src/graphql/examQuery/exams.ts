@@ -1,79 +1,186 @@
 import { gql } from "@apollo/client";
 
-export const getAllColleges = gql`
+export const getAllExams = gql`
   query getAllExams(
-  $mode: String
-  $eligibilityLevel: String
-  $ExaminationLevel: String
-  $specialization: String
-) {
-  exams(
-    filters: {
-      specialization: { specialization:{ eq: $specialization}}
-      ExaminationLevel: { ExaminationLevel: { eq: $ExaminationLevel } }
-      eligibilityLevel: { eligibilityLevel: { eq: $eligibilityLevel } }
-      mode: { examMode: { eq: $mode } }
-    }
+    $searchByExamName: String
+    $modes: [String]
+    $examSortingParameter: [String]
+    $eligibilityLevels: [String]
+    $ExaminationLevels: [String]
+    $streams: [String]
+    $page: Int
+    $pageSize: Int
   ) {
-    data {
-      id
-      attributes {
-        slug
-        description
-        bg {
-          data {
-            id
-            attributes {
-              alternativeText
-              width
-              height
-              url
+    exams(
+      sort: $examSortingParameter
+      filters: {
+        examName: { containsi: $searchByExamName }
+        streams: { stream: { in: $streams } }
+        ExaminationLevel: { ExaminationLevel: { in: $ExaminationLevels } }
+        eligibilityLevel: { eligibilityLevel: { in: $eligibilityLevels } }
+        mode: { examMode: { in: $modes } }
+      }
+      pagination: { page: $page, pageSize: $pageSize }
+    ) {
+      meta {
+        pagination {
+          total
+        }
+      }
+      data {
+        id
+        attributes {
+          slug
+          description
+          examName
+          bg {
+            data {
+              id
+              attributes {
+                alternativeText
+                width
+                height
+                url
+              }
             }
           }
-        }
-        examDate {
-          startDate
-          endDate
-        }
-        mode {
-          data {
-            id
-            attributes {
-              examMode
+          examDate {
+            startDate
+            endDate
+          }
+          mode {
+            data {
+              id
+              attributes {
+                examMode
+              }
             }
           }
-        }
-        ExaminationLevel {
-          data {
-            id
-            attributes {
-              ExaminationLevel
+          ExaminationLevel {
+            data {
+              id
+              attributes {
+                ExaminationLevel
+              }
             }
           }
-        }
-        navbars {
-          data {
-            id
-            attributes {
-              navItem
+          navbars {
+            data {
+              id
+              attributes {
+                navItem
+              }
             }
           }
-        }
-        brochureFile {
-          data {
-            id
-            attributes {
-              url
+          brochureFile {
+            data {
+              id
+              attributes {
+                url
+              }
             }
           }
-        }
-        applicationSubmissionDates {
-          startDate
-          endDate
+          applicationSubmissionDates {
+            startDate
+            endDate
+          }
         }
       }
     }
   }
-}
+`;
 
+export const getAllStreams = gql`
+  query getAllStreams {
+    streams {
+      data {
+        attributes {
+          stream
+        }
+      }
+    }
+  }
+`;
+
+export const getAllExaminationLevels = gql`
+  query getAllExaminationLevels {
+    examinationLevels {
+      data {
+        attributes {
+          ExaminationLevel
+        }
+      }
+    }
+  }
+`;
+
+export const getAllEligibilityLevels = gql`
+  query getAllEligibilityLevels {
+    eligibilityLevels {
+      data {
+        attributes {
+          eligibilityLevel
+        }
+      }
+    }
+  }
+`;
+
+export const getAllExamModes = gql`
+  query getAllExamModes {
+    examModes {
+      data {
+        id
+        attributes {
+          examMode
+        }
+      }
+    }
+  }
+`;
+
+export const getAllExamSortingParameters = gql`
+  query getAllExamSortingParameters {
+    exams {
+      data {
+        attributes {
+          breadCrumb
+          examSequence
+        }
+      }
+    }
+  }
+`;
+
+export const getExamListingPageBanner = gql`
+  query getExamListingPageBanner {
+    exams {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
+    examListingPages {
+      data {
+        attributes {
+          bgImg {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          title
+          photos {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 `;

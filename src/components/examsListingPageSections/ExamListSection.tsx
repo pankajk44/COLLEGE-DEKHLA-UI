@@ -1,29 +1,95 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { MdOutlineSort } from "react-icons/md";
 
-// import ExamFilters from "./ExamFilters";
 import Navbar from "./Navbar";
 import Wrapper, { Wrapper1 } from "@/components/Wrappers";
 import SortButton from "@/components/SortButton";
 import ExamFilteredCard from "@/components/cardsAndSliders/ExamFilteredCard";
-import { Button } from "../Button";
+import { Button, LoadingButton } from "../Button";
 import ExamFilters from "./ExamFilters";
+
+import { useQuery } from "@apollo/client";
+import { getAllExams } from "@/graphql/examQuery/exams";
 export default function ExamListSection({ data, filterBy, tabsSections }: any) {
   const [MobileFilter, setMobileFilter] = useState(false);
-  const [displayCount, setDisplayCount] = useState(3);
-  const [filteredData, setFilteredData] = useState<any>(data);
+  const [filteredData, setFilteredData] = useState<any>();
   const [SelectedFilters, setSelectedFilters] = useState({
     stream: [] as string[],
     mode: [] as string[],
     eligibilityLevel: [] as string[],
     examinationLevel: [] as string[],
-    examStatus: [] as string[],
+  });
+  // used for Query
+  const [searchValue, setSearchValue] = useState("");
+  const [StreamCheckedFilters, setStreamCheckedFilters] = useState<string[]>(
+    [],
+  );
+  const [ModeCheckedFilters, setModeCheckedFilters] = useState<string[]>([]);
+  const [EligibilityLevelCheckedFilters, setEligibilityLevelCheckedFilters] =
+    useState<string[]>([]);
+  const [ExaminationLevelCheckedFilters, setExaminationLevelCheckedFilters] =
+    useState<string[]>([]);
+  const [pageNo, SetPageNo] = useState(1);
+  const [sortingParameter, setSortingParameter] = useState("examSequence");
+
+  // Query
+  const {
+    data: examData,
+    loading,
+    error,
+  } = useQuery(getAllExams, {
+    variables: {
+      searchByExamName: searchValue,
+      modes: ModeCheckedFilters?.length ? ModeCheckedFilters : undefined,
+      specializations: StreamCheckedFilters?.length
+        ? StreamCheckedFilters
+        : undefined,
+      ExaminationLevels: ExaminationLevelCheckedFilters?.length
+        ? ExaminationLevelCheckedFilters
+        : undefined,
+      eligibilityLevels: EligibilityLevelCheckedFilters?.length
+        ? EligibilityLevelCheckedFilters
+        : undefined,
+      sortingParameter: sortingParameter,
+      page: pageNo,
+      pageSize: 10,
+    },
   });
 
-  function handleSearch() {
-    // search operation
+  useEffect(() => {
+    // console.log(examData?.exams?.data, "examData");
+    if (examData) {
+      // setSortingParameter("examSequence");
+      if (pageNo === 1) {
+        setFilteredData(examData?.exams?.data);
+      } else {
+        setFilteredData((prevData: any) => [
+          ...prevData,
+          ...examData?.exams?.data,
+        ]);
+      }
+    }
+  }, [
+    examData,
+    searchValue,
+    ModeCheckedFilters,
+    StreamCheckedFilters,
+    ExaminationLevelCheckedFilters,
+    EligibilityLevelCheckedFilters,
+    sortingParameter,
+    pageNo,
+  ]);
+
+  // console.log(filteredData, "filteredData");
+  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
+    const searchTerm = event?.target?.value?.toLowerCase()?.trim();
+    if (searchTerm.length >= 3) {
+      setSearchValue(searchTerm);
+    } else {
+      setSearchValue("");
+    }
   }
 
   const handleMobileFilter = () => {
@@ -32,13 +98,9 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
 
   const handleFilterOptionClick = (option: any) => {
     if (option === "a-z") {
-      const sortedData: any = [...data].sort((a: any, b: any) => {
-        return a?.name?.localeCompare(b?.name);
-      });
-      setFilteredData(sortedData.slice(0, displayCount));
+      setSortingParameter("examName");
     } else if (option === "reset") {
-      const resetArray: any = [...data]?.slice(0, displayCount);
-      setFilteredData(resetArray);
+      setSortingParameter("examSequence");
     }
   };
 
@@ -48,17 +110,30 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
     setSelectedIndex(index);
   };
 
+  const handleLoadMore = () => {
+    SetPageNo((prev) => prev + 1);
+  };
+
   return (
     <section id="collegeList" className="my-5 w-full pb-5">
       <Wrapper className="flex flex-col justify-between gap-6 md:flex-row">
         {/* Aside College Filter Section  */}
         <ExamFilters
-          filterBy={filterBy}
+          // filterBy={filterBy}
           SelectedFilters={SelectedFilters}
           setSelectedFilters={setSelectedFilters}
           totalResults={data?.length}
           mobileFilter={MobileFilter}
           setMobileFilter={setMobileFilter}
+          // For query
+          StreamCheckedFilters={StreamCheckedFilters}
+          setStreamCheckedFilters={setStreamCheckedFilters}
+          ModeCheckedFilters={ModeCheckedFilters}
+          setModeCheckedFilters={setModeCheckedFilters}
+          EligibilityLevelCheckedFilters={EligibilityLevelCheckedFilters}
+          setEligibilityLevelCheckedFilters={setEligibilityLevelCheckedFilters}
+          ExaminationLevelCheckedFilters={ExaminationLevelCheckedFilters}
+          setExaminationLevelCheckedFilters={setExaminationLevelCheckedFilters}
         />
         {/* main Exam Search and List Section  */}
         <main className="flex w-full flex-col py-5 pt-0 md:min-w-[550px] md:[flex:8]">
@@ -98,13 +173,38 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
             onSelect={handleSelect}
           />
           {/* College List Section  */}
-          {filteredData.map((exam: any) => (
+          {filteredData?.map((exam: any) => (
             <ExamFilteredCard
-              key={exam.id}
-              exam={exam}
-              tabsSections={tabsSections}
+              key={exam?.id}
+              id={exam?.id}
+              slug={exam?.attributes?.slug}
+              logo={exam?.attributes?.bg?.data?.attributes?.url}
+              examName={exam?.attributes?.examName}
+              applicationSubmissionStartDate={
+                exam?.attributes?.applicationSubmissionDates?.startDate
+              }
+              applicationSubmissionEndDate={
+                exam?.attributes?.applicationSubmissionDates?.endDate
+              }
+              mode={exam?.attributes?.examMode}
+              examinationLevel={
+                exam?.attributes?.examinationLevel?.data?.attributes
+                  ?.ExaminationLevel
+              }
+              description={exam?.attributes?.description}
+              brochureFile={
+                exam?.attributes?.brochureFile?.data?.[0]?.attributes?.url
+              }
+              tabsSections={exam?.attributes?.navbars?.data?.map(
+                (value: any) => value?.attributes?.navItem,
+              )}
             />
           ))}
+          {examData?.exams?.meta?.pagination?.total > filteredData?.length && (
+            <LoadingButton onClick={handleLoadMore} className="mx-auto">
+              Load More
+            </LoadingButton>
+          )}
         </main>
       </Wrapper>
     </section>

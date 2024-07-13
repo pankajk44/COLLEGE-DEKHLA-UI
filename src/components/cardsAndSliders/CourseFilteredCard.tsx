@@ -104,7 +104,11 @@ export default function CourseFilteredCard({
         <ul className="flex flex-wrap items-center gap-x-4 rounded-md bg-orange-100 px-4 py-1 text-sm text-orange-600">
           {tabsSections?.slice(0, 5)?.map((item: any, index: number) => (
             <React.Fragment key={index}>
-              <Link href={id ? `/courses/${id}?navItem=${item}` : `#`}>
+              <Link
+                href={
+                  id ? `/courses/${id}?tab=${encodeURIComponent(item)}` : `#`
+                }
+              >
                 <li
                   key={index}
                   className="cursor-pointer capitalize hover:underline"

@@ -8,6 +8,8 @@ import TimelineList from "../TimelineList";
 import YoutubeVideo from "../youtubeVideo";
 import { StarRating } from "../StarRating";
 import { FaStar } from "react-icons/fa";
+import Faqs, { FaqsForDetailPage } from "../Faqs";
+import { formatDate } from "@/utils/customText";
 
 export default function Content({ selectedContent }: any) {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -17,7 +19,7 @@ export default function Content({ selectedContent }: any) {
   // };
 
   return (
-    <>
+    <div className="w-full md:[flex:8]">
       {selectedContent &&
         selectedContent?.sections?.length > 0 &&
         selectedContent?.sections?.map((section: any, index: any) => {
@@ -34,33 +36,49 @@ export default function Content({ selectedContent }: any) {
           return (
             <div
               key={index}
-              className="mt-5 w-full rounded-2xl bg-white p-5 md:min-w-[550px] md:[flex:8]"
+              className="mt-5 w-full rounded-2xl bg-white p-5 md:min-w-[550px]"
             >
               {/* Title */}
-              {section?.title && (
-                <h2 className="my-5 text-2xl font-bold">{section?.title}</h2>
+              {section?.heading && (
+                <h2 className="my-5 text-2xl font-bold">{section?.heading}</h2>
               )}
               {/* Author */}
-              {section?.author && (
+              {section?.author && section?.author?.data?.attributes?.name && (
                 <div className="mb-8 flex items-center gap-x-2">
-                  {section?.author?.avatar && (
+                  {section?.author?.data?.attributes?.avatar?.data?.attributes
+                    ?.url && (
                     <Image
-                      src={section?.author?.avatar?.url}
+                      src={
+                        section?.author?.data?.attributes?.avatar?.data
+                          ?.attributes?.url
+                      }
                       alt="avatar"
-                      className="h-12 w-12 rounded-full"
+                      className="h-16 w-16 rounded-full"
                       width={48}
                       height={48}
                     />
                   )}
-                  <div>
-                    {section?.author?.name && (
-                      <p className="font-bold">{section?.author?.name}</p>
-                    )}
-                    {section?.author?.lastUpdated && (
-                      <p className="font-medium">
-                        Last Updated: {section.author.lastUpdated}
+                  <div className="flex flex-col gap-2">
+                    {section?.author?.data?.attributes?.name && (
+                      <p className="text-3xl font-bold text-orange-500">
+                        {section?.author?.data?.attributes?.name}
                       </p>
                     )}
+                    <div className="flex items-center gap-2 text-zinc-500">
+                      {section?.author?.data?.attributes?.designation && (
+                        <p className="font-bold">
+                          {section?.author?.data?.attributes?.designation} |
+                        </p>
+                      )}
+                      {section?.author?.data?.attributes?.updatedAt && (
+                        <p className="font-medium">
+                          Last Updated:{" "}
+                          {formatDate(
+                            section?.author?.data?.attributes?.updatedAt,
+                          )}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
@@ -68,19 +86,19 @@ export default function Content({ selectedContent }: any) {
               {section?.quote && (
                 <>
                   <div
-                    className={`my-2 mb-5 text-wrap border-l-4 border-orange-500 py-2 pl-5 text-justify text-lg font-medium text-black ${
+                    className={`my-2 mb-5 text-wrap border-l-4 border-orange-500 py-2 pl-5 text-justify text-lg font-medium italic text-black ${
                       isExpanded ? "" : "line-clamp-4"
                     }`}
-                    dangerouslySetInnerHTML={{ __html: section.quote }}
+                    dangerouslySetInnerHTML={{ __html: section?.quote }}
                   />
                 </>
               )}
-              {/* Article */}
-              {section?.article && (
+              {/* EditorText */}
+              {section?.editorText && (
                 <>
                   <div
                     className={`dangerouslySetInnerHTMLStyle mb-5 text-justify ${isExpanded ? "" : "line-clamp-4"}`}
-                    dangerouslySetInnerHTML={{ __html: section.article }}
+                    dangerouslySetInnerHTML={{ __html: section?.editorText }}
                   />
                   {/* {(articleLength > 665 || isMobile) && (
                     <button
@@ -122,6 +140,10 @@ export default function Content({ selectedContent }: any) {
                     </Link>
                   )}
                 </div>
+              )}
+              {/* Separator  */}
+              {section?.separator === true && (
+                <div className="my-5 h-0.5 w-full bg-zinc-300"></div>
               )}
               {/* Important Links  */}
               {section?.importantLinks && (
@@ -257,19 +279,18 @@ export default function Content({ selectedContent }: any) {
                   ))}
                 </>
               )}
-              {/* Separator  */}
-              {section?.separator === true && (
-                <div className="my-5 h-0.5 w-full bg-zinc-300"></div>
-              )}
-              {/* =================================================== */}
               {/* Review  */}
               {section?.reviewsAndRatings && (
                 <ReviewsAndRatingsSection data={section?.reviewsAndRatings} />
               )}
+              {/* FAQ  */}
+              {section?.Questions && (
+                <FaqsForDetailPage data={section?.Questions} />
+              )}
             </div>
           );
         })}
-    </>
+    </div>
   );
 }
 
