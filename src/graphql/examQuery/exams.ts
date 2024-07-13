@@ -4,9 +4,9 @@ export const getAllExams = gql`
   query getAllExams(
     $searchByExamName: String
     $modes: [String]
-    $eligibilityLevel: [String]
-    $ExaminationLevel: [String]
-    $specializations: [String]
+    $eligibilityLevels: [String]
+    $ExaminationLevels: [String]
+    $streams: [String]
     $examSortingParameter: [String]
     $page: Int
     $pageSize: Int
@@ -14,10 +14,10 @@ export const getAllExams = gql`
     exams(
       sort: $examSortingParameter
       filters: {
-        breadCrumb: { containsi: $searchByExamName }
-        specialization: { specialization: { in: $specializations } }
-        ExaminationLevel: { ExaminationLevel: { in: $ExaminationLevel } }
-        eligibilityLevel: { eligibilityLevel: { in: $eligibilityLevel } }
+        examName: { containsi: $searchByExamName }
+        streams: { stream: { in: $streams } }
+        ExaminationLevel: { ExaminationLevel: { in: $ExaminationLevels } }
+        eligibilityLevel: { eligibilityLevel: { in: $eligibilityLevels } }
         mode: { examMode: { in: $modes } }
       }
       pagination: { page: $page, pageSize: $pageSize }
@@ -89,12 +89,12 @@ export const getAllExams = gql`
   }
 `;
 
-export const getAllSpecializations = gql`
-  query getAllSpecializations {
-    specializations {
+export const getAllStreams = gql`
+  query getAllStreams {
+    streams {
       data {
         attributes {
-          specialization
+          stream
         }
       }
     }

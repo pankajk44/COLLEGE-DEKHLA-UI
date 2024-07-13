@@ -1,25 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const getCourseDetails = gql`
- query getCourseDetails($ID: ID!) {
-  authors{
-    data{
-      id
-      attributes{
-        avatar{
-          data{
-            id
-            attributes{
-              url
-            }
-          }
-        }
-        name
-        designation
-        updatedAt
-      }
-    }
-  }
+query getCourseDetails($ID: ID!) {
   course(id: $ID) {
     data {
       id
@@ -73,9 +55,17 @@ export const getCourseDetails = gql`
             }
           }
         }
+        videoGalleryTitle {
+          title {
+            t1
+            t2
+            t3
+          }
+        }
         videoGallery {
           id
           category
+
           video {
             id
             videoId
@@ -97,9 +87,17 @@ export const getCourseDetails = gql`
             }
           }
         }
+        imageGalleryTitle {
+          title {
+            t1
+            t2
+            t3
+          }
+        }
         imageGallery {
           id
           category
+
           images {
             data {
               id
@@ -140,9 +138,67 @@ export const getCourseDetails = gql`
           }
         }
         PageData {
+          ... on ComponentCommonAccordionComponent {
+            accordion {
+              title
+              text
+            }
+            navItem {
+              data {
+                attributes {
+                  navItem
+                }
+              }
+            }
+          }
+          ... on ComponentCommonQuoteComponent {
+            quote
+            navItem {
+              data {
+                attributes {
+                  navItem
+                }
+              }
+            }
+            author {
+              data {
+                attributes {
+                  avatar {
+                    data {
+                      attributes {
+                        url
+                      }
+                    }
+                  }
+                  name
+                  designation
+                  updatedAt
+                }
+              }
+            }
+          }
+
           ... on ComponentCommonTextEditor {
             id
             heading
+            author {
+              data {
+                id
+                attributes {
+                  name
+                  avatar {
+                    data {
+                      attributes {
+                        url
+                      }
+                    }
+                  }
+                  designation
+                  updatedAt
+                }
+              }
+            }
+
             editorText: text
             headingIcon {
               data {
@@ -355,6 +411,5 @@ export const getCourseDetails = gql`
     }
   }
 }
-
 
 `;
