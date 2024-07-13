@@ -5,9 +5,9 @@ import { MdClose } from "react-icons/md";
 
 import { getAllModes } from "@/graphql/courseQuery/course";
 import { useQuery } from "@apollo/client";
-import { AnyARecord } from "dns";
+
 export default function CourseFilters({
-  filterBy,
+  // filterBy,
   SelectedFilters,
   setSelectedFilters,
   totalResults,
@@ -108,7 +108,7 @@ export default function CourseFilters({
             }
             return (
               value !== "" &&
-              (!Array.isArray(value) || value.length !== 0) && (
+              (!Array.isArray(value) || value?.length !== 0) && (
                 <div
                   key={key}
                   className="flex w-max items-center gap-1 rounded-md border border-orange-500 px-2 py-1 text-xs"
@@ -130,9 +130,9 @@ export default function CourseFilters({
         />
         <Filter
           title="COURSE DURATION"
-          filterList={filterBy?.courseDuration}
+          filterList={[]}
           handleFilter={handleCourseDurationFilter}
-          checked={CourseCheckedDurationFilters}
+          checked={CourseCheckedDurationFilters || 96}
         />
       </div>
     </aside>

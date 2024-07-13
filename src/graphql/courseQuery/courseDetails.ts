@@ -1,7 +1,25 @@
 import { gql } from "@apollo/client";
 
 export const getCourseDetails = gql`
- query getCourseDetails($ID: ID!) {
+query getCourseDetails($ID: ID!) {
+  authors{
+    data{
+      id
+      attributes{
+        avatar{
+          data{
+            id
+            attributes{
+              url
+            }
+          }
+        }
+        name
+        designation
+        updatedAt
+      }
+    }
+  }
   course(id: $ID) {
     data {
       id
@@ -9,6 +27,7 @@ export const getCourseDetails = gql`
         slug
         breadCrumb
         courseName
+        titleAddition
         description
         courseType {
           data {
@@ -57,6 +76,11 @@ export const getCourseDetails = gql`
         videoGallery {
           id
           category
+          title{
+            t1
+            t2
+            t3
+          }
           video {
             id
             videoId
@@ -81,6 +105,11 @@ export const getCourseDetails = gql`
         imageGallery {
           id
           category
+          title{
+            t1
+            t2
+            t3
+          }
           images {
             data {
               id
@@ -121,9 +150,71 @@ export const getCourseDetails = gql`
           }
         }
         PageData {
+          ... on ComponentCommonAccordionComponent{
+            accordion{
+              title
+              text
+            }
+            navItem{
+              data{
+                attributes{
+                  navItem
+                }
+              }
+            }
+          }
+          ... on ComponentCommonQuoteComponent{
+            quote
+            navItem{
+              data{
+                attributes{
+                  navItem
+                }
+              }
+            }
+            author{
+              data{
+                attributes{
+                  avatar{
+                    data{
+                      attributes{
+                        url
+                      }
+                    }
+                  }
+                  name
+                  designation
+                  updatedAt
+                  
+                }
+                
+              }
+              
+            }
+          }
+          
           ... on ComponentCommonTextEditor {
             id
             heading
+            author{
+              data{
+                id
+                attributes{
+                  name
+                  avatar{
+                    data{
+                      attributes{
+                        url
+                      }
+                    }
+                  }
+                  designation
+                  updatedAt
+                }
+              }
+            }
+            
+            editorText: text
             headingIcon {
               data {
                 id
@@ -156,7 +247,7 @@ export const getCourseDetails = gql`
                 }
               }
             }
-            text
+            reviewsText: text
             navItem {
               data {
                 id
@@ -179,7 +270,7 @@ export const getCourseDetails = gql`
                 }
               }
             }
-            text
+            galleryText: text
             navItem {
               data {
                 id
@@ -192,22 +283,12 @@ export const getCourseDetails = gql`
           ... on ComponentCommonFaqComponent {
             id
             heading
-            headingIcon {
-              data {
-                id
-                attributes {
-                  width
-                  height
-                  url
-                }
-              }
-            }
             Questions {
               id
               question
               answer
             }
-            navItem {
+            faqText: navItem {
               data {
                 id
                 attributes {
@@ -229,7 +310,7 @@ export const getCourseDetails = gql`
                 }
               }
             }
-            navItem {
+            mainGalleryText: navItem {
               data {
                 id
                 attributes {
@@ -251,7 +332,7 @@ export const getCourseDetails = gql`
                 }
               }
             }
-            navItem {
+            videoText: navItem {
               data {
                 id
                 attributes {
@@ -262,8 +343,7 @@ export const getCourseDetails = gql`
           }
           ... on ComponentCommonBannerComponent {
             id
-            heading
-            image {
+            img {
               data {
                 id
                 attributes {
@@ -274,9 +354,9 @@ export const getCourseDetails = gql`
                 }
               }
             }
-            text
+            bannerText: text
             href
-            navItem {
+            bannerNavItem: navItem {
               data {
                 id
                 attributes {
@@ -299,7 +379,7 @@ export const getCourseDetails = gql`
                 }
               }
             }
-            navbar {
+            reviewDescriptionText: navbar {
               data {
                 id
                 attributes {
@@ -321,7 +401,7 @@ export const getCourseDetails = gql`
                 }
               }
             }
-            navItem {
+            newsText: navItem {
               data {
                 id
                 attributes {
@@ -329,6 +409,7 @@ export const getCourseDetails = gql`
                 }
               }
             }
+            
           }
         }
         bgImage {

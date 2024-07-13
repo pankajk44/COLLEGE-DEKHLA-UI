@@ -27,8 +27,9 @@ export default function CourseDetailPage({ params }: Props) {
   } = useQuery(getCourseDetails, {
     variables: { ID: courseId },
   });
+
   useEffect(() => {
-    console.log("Course Details: ", courseData?.course?.data?.attributes);
+    // console.log("Course Details: ", courseData?.course?.data?.attributes);
 
     if (courseData?.course?.data?.attributes?.PageData) {
       const convertedData: any = convertQueryDataToTabSections(
@@ -38,8 +39,7 @@ export default function CourseDetailPage({ params }: Props) {
     }
   }, [courseData]);
 
-  // console.log(tabSelectionArray);
-
+  // console.log("tabSelectionArray", tabSelectionArray);
   return (
     <>
       <CourseDetailBanner
