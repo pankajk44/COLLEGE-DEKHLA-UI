@@ -225,6 +225,7 @@ export default function CollegeFilters({
         ...prevData,
         stream: [],
       }));
+      // shygttdtfgcgvb
     } else if (filter === "state") {
       setStateCheckedFilters([]);
       setSelectedFilters((prevData: any) => ({
