@@ -39,6 +39,7 @@ export default function ExamDetailsPage({ params }: Props) {
   }, [examData]);
 
   // console.log("tabSelectionArray", tabSelectionArray);
+  console.log("error", error);
 
   return (
     <>
@@ -54,6 +55,7 @@ export default function ExamDetailsPage({ params }: Props) {
         data={tabSelectionArray}
         asideData={asideSection}
         slug={examId}
+        tabUrlValue={"exams"}
       />
       <Banner1 data={banner1} />
     </>

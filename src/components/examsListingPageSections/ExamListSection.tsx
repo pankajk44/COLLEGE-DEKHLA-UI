@@ -32,7 +32,8 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
   const [ExaminationLevelCheckedFilters, setExaminationLevelCheckedFilters] =
     useState<string[]>([]);
   const [pageNo, SetPageNo] = useState(1);
-  const [sortingParameter, setSortingParameter] = useState("examSequence");
+  const [sortingParameterName, setSortingParameterName] =
+    useState("examSequence");
 
   // Query
   const {
@@ -52,7 +53,7 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
       eligibilityLevels: EligibilityLevelCheckedFilters?.length
         ? EligibilityLevelCheckedFilters
         : undefined,
-      sortingParameter: sortingParameter,
+      examSortingParameter: sortingParameterName,
       page: pageNo,
       pageSize: 10,
     },
@@ -61,7 +62,6 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
   useEffect(() => {
     // console.log(examData?.exams?.data, "examData");
     if (examData) {
-      // setSortingParameter("examSequence");
       if (pageNo === 1) {
         setFilteredData(examData?.exams?.data);
       } else {
@@ -78,7 +78,7 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
     StreamCheckedFilters,
     ExaminationLevelCheckedFilters,
     EligibilityLevelCheckedFilters,
-    sortingParameter,
+    sortingParameterName,
     pageNo,
   ]);
 
@@ -98,9 +98,9 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
 
   const handleFilterOptionClick = (option: any) => {
     if (option === "a-z") {
-      setSortingParameter("examName");
+      setSortingParameterName("examName");
     } else if (option === "reset") {
-      setSortingParameter("examSequence");
+      setSortingParameterName("examSequence");
     }
   };
 

@@ -21,9 +21,9 @@ export function formatRupee(number: number) {
 
 export default function formatFees(amount: number) {
     if (amount >= 100000) {
-        return `${(amount / 100000)?.toFixed(0)} Lac`;
+        return `${(amount / 100000)?.toFixed(1)} Lac`;
     } else if (amount >= 1000) {
-        return `${(amount / 1000)?.toFixed(0)} K`;
+        return `${(amount / 1000)?.toFixed(1)} K`;
     } else {
         return `${amount}`;
     }

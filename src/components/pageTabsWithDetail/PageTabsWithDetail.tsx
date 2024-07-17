@@ -10,6 +10,7 @@ export function PageTabsWithDetailWrapperContent({
   data,
   asideData,
   slug,
+  tabUrlValue,
 }: any) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const router = useRouter();
@@ -32,7 +33,9 @@ export function PageTabsWithDetailWrapperContent({
     setSelectedIndex(index);
     // Update the URL with the selected tab
     const selectedTab = data[index].navItem.toLowerCase();
-    router.push(`/courses/${slug}?tab=${encodeURIComponent(selectedTab)}`); // Adjust the URL as necessary
+    router.push(
+      `/${tabUrlValue}/${slug}?tab=${encodeURIComponent(selectedTab)}`,
+    ); // Adjust the URL as necessary
   };
 
   return (
