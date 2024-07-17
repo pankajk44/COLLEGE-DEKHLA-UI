@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import SortButton from "@/components/SortButton";
 import { MdOutlineSort } from "react-icons/md";

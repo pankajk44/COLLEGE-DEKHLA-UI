@@ -11,9 +11,14 @@ import {
   getAllStreams,
 } from "@/graphql/collegeQuery/colleges";
 import { useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdClose } from "react-icons/md";
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks,
+} from "body-scroll-lock";
 
 export default function CollegeFilters({
   filterBy,
@@ -42,6 +47,19 @@ export default function CollegeFilters({
   ExamCheckedFilters,
   setExamCheckedFilters,
 }: any) {
+  const asideRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (mobileFilter && asideRef.current) {
+      disableBodyScroll(asideRef.current);
+    } else if (asideRef.current) {
+      enableBodyScroll(asideRef.current);
+    }
+
+    return () => {
+      clearAllBodyScrollLocks();
+    };
+  }, [mobileFilter]);
+
   const {
     data: streams,
     loading: streamsLoading,
@@ -341,62 +359,70 @@ export default function CollegeFilters({
           })}
         </div>
         {/*END  shows filter by options  */}
-
-        {/* Filters  */}
-        <Filter
-          title="SPECIALIZATION"
-          filterList={streamsFilteredFromQueryArray}
-          handleFilter={handleStreamFilter}
-          checked={StreamCheckedFilters}
-        />
-        <Filter
-          title="STATE"
-          filterList={statesFilteredFromQueryArray}
-          handleFilter={handleStateFilter}
-          checked={StateCheckedFilters}
-        />
-        <Filter
-          title="CITY"
-          filterList={citiesFilteredFromQueryArray}
-          handleFilter={handleCityFilter}
-          checked={CityCheckedFilters}
-        />
-        <Filter
-          title="COURSE"
-          filterList={coursesFilteredFromQueryArray}
-          handleFilter={handleCourseFilter}
-          checked={CoursesCheckedFilters}
-        />
-        <Filter
-          title="COLLEGE TYPE"
-          filterList={collegeTypesFilteredFromQueryArray}
-          handleFilter={handleCollegeTypeFilter}
-          checked={CollegeTypeCheckedFilters}
-        />
-        <Filter
-          title="AFFILIATION"
-          filterList={affiliationsFilteredFromQueryArray}
-          handleFilter={handleAffiliationFilter}
-          checked={AffiliationCheckedFilters}
-        />
-        <Filter
-          title="GENDER ACCEPTED"
-          filterList={gendersFilteredFromQueryArray}
-          handleFilter={handleGenderFilter}
-          checked={GenderCheckedFilters}
-        />
-        <Filter
-          title="RANKING"
-          filterList={["Top 10", "Top 20", "Top 30", "Top 40", "Top 50"]}
-          handleFilter={handleRankingFilter}
-          checked={RankingCheckedFilters}
-        />
-        <Filter
-          title="EXAM ACCEPTED"
-          filterList={examsFilteredFromQueryArray}
-          handleFilter={handleExamFilter}
-          checked={ExamCheckedFilters}
-        />
+        <div
+          ref={asideRef}
+          className={`overflow-hidden md:sticky md:top-0 md:h-screen md:hover:overflow-y-auto ${
+            mobileFilter
+              ? "fixed inset-0 z-50 overflow-y-auto"
+              : "hidden md:block"
+          }`}
+        >
+          {/* Filters  */}
+          <Filter
+            title="SPECIALIZATION"
+            filterList={streamsFilteredFromQueryArray}
+            handleFilter={handleStreamFilter}
+            checked={StreamCheckedFilters}
+          />
+          <Filter
+            title="STATE"
+            filterList={statesFilteredFromQueryArray}
+            handleFilter={handleStateFilter}
+            checked={StateCheckedFilters}
+          />
+          <Filter
+            title="CITY"
+            filterList={citiesFilteredFromQueryArray}
+            handleFilter={handleCityFilter}
+            checked={CityCheckedFilters}
+          />
+          <Filter
+            title="COURSE"
+            filterList={coursesFilteredFromQueryArray}
+            handleFilter={handleCourseFilter}
+            checked={CoursesCheckedFilters}
+          />
+          <Filter
+            title="COLLEGE TYPE"
+            filterList={collegeTypesFilteredFromQueryArray}
+            handleFilter={handleCollegeTypeFilter}
+            checked={CollegeTypeCheckedFilters}
+          />
+          <Filter
+            title="AFFILIATION"
+            filterList={affiliationsFilteredFromQueryArray}
+            handleFilter={handleAffiliationFilter}
+            checked={AffiliationCheckedFilters}
+          />
+          <Filter
+            title="GENDER ACCEPTED"
+            filterList={gendersFilteredFromQueryArray}
+            handleFilter={handleGenderFilter}
+            checked={GenderCheckedFilters}
+          />
+          <Filter
+            title="RANKING"
+            filterList={["Top 10", "Top 20", "Top 30", "Top 40", "Top 50"]}
+            handleFilter={handleRankingFilter}
+            checked={RankingCheckedFilters}
+          />
+          <Filter
+            title="EXAM ACCEPTED"
+            filterList={examsFilteredFromQueryArray}
+            handleFilter={handleExamFilter}
+            checked={ExamCheckedFilters}
+          />
+        </div>
       </div>
     </aside>
   );
