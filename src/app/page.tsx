@@ -37,19 +37,30 @@ import { headerLogo } from "@/assets";
 import CollegeFilteredCard from "@/components/cardsAndSliders/CollegeFilteredCard";
 import formatFees, { formatRupee } from "@/utils/customText";
 import { GiBookCover } from "react-icons/gi";
+import { useQuery } from "@apollo/client";
+import { getHomePage } from "@/graphql/homePage/homePage";
 
 export default function Home() {
+
+const {
+  data: homePageData,
+  loading,
+  error,
+} = useQuery(getHomePage)
+
+console.log("homePageData", homePageData?.homePages);
+
   return (
     <section className="backgroundGradient relative !mt-0 w-full">
       <HomeBanner
-        title={homePageData?.heroSection?.title}
-        text={homePageData?.heroSection?.text}
-        text1={homePageData?.text1}
-        text2={homePageData?.text2}
-        text3={homePageData?.text3}
-        text4={homePageData?.text4}
-        text5={homePageData?.text5}
-        popularCourses={courses}
+        title={homePageData?.homePages?.data[0]?.attributes?.HeroSection?.title}
+        text={homePageData?.homePages?.data[0]?.attributes?.HeroSection?.text}
+        text1={homePageData?.homePages?.data[0]?.attributes?.text1}
+        text2={homePageData?.homePages?.data[0]?.attributes?.text2}
+        text3={homePageData?.homePages?.data[0]?.attributes?.text3}
+        text4={homePageData?.homePages?.data[0]?.attributes?.text4}
+        text5={homePageData?.homePages?.data[0]?.attributes?.text5}
+        popularCourses={homePageData}
         data={homePageData}
       />
 
@@ -60,6 +71,7 @@ export default function Home() {
         </h2>
         <Events data={homePageData?.eventsAndWebinars} />
       </Wrapper>
+
       {/* Top Colleges */}
       <Wrapper containerClassName="py-14">
         <h2 className="mb-5 text-center text-4xl font-bold sm:text-5xl md:mb-14">
@@ -83,7 +95,7 @@ export default function Home() {
           {testimonials?.title?.t1}
           <span className="text-orange-500">{testimonials?.title?.t2}</span>
         </h2>
-        <TestimonialSlider data={testimonials?.testimonials} />
+        <TestimonialSlider data={testimonials?.testimonialCards} />
         <div className="mx-auto -mt-60 h-64 w-full rounded-2xl bg-orange-500"></div>
       </Wrapper>
 
@@ -103,7 +115,7 @@ export default function Home() {
       </div>
 
       {/* Explore college */}
-      <Wrapper
+      {/* <Wrapper
         bgColor="bg-zinc-200"
         containerClassName="py-14"
         className="bg-orange-200 p-4"
@@ -125,7 +137,7 @@ export default function Home() {
 
           <FeaturedCollegeSlider />
         </div>
-      </Wrapper>
+      </Wrapper> */}
 
       {/* metric data */}
       <MetricsCard data={homePageData?.metricData} />

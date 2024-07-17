@@ -1,104 +1,14 @@
 import { gql } from "@apollo/client";
 
 export const getCollegeDetails = gql`
-query getCollegeDetails($ID: ID!) {
-  college(id: $ID) {
-    data {
-      id
-      attributes {
-        slug
-        breadCrumb
-        collegeLogo {
-          data {
-            id
-            attributes {
-              alternativeText
-              width
-              height
-              url
-            }
-          }
-        }
-        bgImage {
-          data {
-            id
-            attributes {
-              alternativeText
-              width
-              height
-              url
-            }
-          }
-        }
-        collegeName
-        description
-        location {
-          state {
-            data {
-              id
-              attributes {
-                state
-              }
-            }
-          }
-          city {
-            data {
-              id
-              attributes {
-                city
-              }
-            }
-          }
-          country {
-            data {
-              id
-              attributes {
-                country
-              }
-            }
-          }
-        }
-        college_type {
-          data {
-            id
-            attributes {
-              collegeType
-            }
-          }
-        }
-        affiliation {
-          data {
-            id
-            attributes {
-              organization
-            }
-          }
-        }
-        estYear
-        courses {
-          examName {
-            data {
-              id
-              attributes {
-                examName
-                slug
-                description
-              }
-            }
-          }
-        }
-        videoGallery {
-          id
-          category
-          video {
-            id
-            videoId
-          }
-        }
-        imageGallery {
-          id
-          category
-          images {
+  query getCollegeDetails($ID: ID!) {
+    college(id: $ID) {
+      data {
+        id
+        attributes {
+          slug
+          breadCrumb
+          collegeLogo {
             data {
               id
               attributes {
@@ -109,331 +19,447 @@ query getCollegeDetails($ID: ID!) {
               }
             }
           }
-        }
-        campusSize
-        noOfFaculty
-        noOfStudents
-        avgPackage
-        hightestPackage
-        genderAccepted {
-          data {
-            id
-            attributes {
-              gender
-            }
-          }
-        }
-        news {
-          data {
-            id
-            attributes {
-              icon {
-                data {
-                  id
-                  attributes {
-                    alternativeText
-                    width
-                    height
-                    url
-                  }
-                }
-              }
-              bgImage {
-                data {
-                  id
-                  attributes {
-                    alternativeText
-                    width
-                    height
-                    url
-                  }
-                }
-              }
-              title
-              excerpt
-              category {
-                data {
-                  id
-                  attributes {
-                    category
-                  }
-                }
-              }
-              slug
-              timeStamp
-            }
-          }
-        }
-        navbars {
-          data {
-            id
-            attributes {
-              navItem
-            }
-          }
-        }
-        courses {
-          examName {
+          bgImage {
             data {
               id
               attributes {
-                examName
+                alternativeText
+                width
+                height
+                url
               }
             }
           }
-          courseFee
-          courseFeeLabel
-          courseName {
-            data {
-              id
-              attributes {
-                courseName
-              }
-            }
-          }
-        }
-        brochureFile {
-          data {
-            id
-            attributes {
-              alternativeText
-              width
-              height
-              url
-            }
-          }
-        }
-        streams {
-          data {
-            id
-            attributes {
-              stream
-            }
-          }
-        }
-        PageData {
-          ... on ComponentCommonTextEditor {
-            id
-            heading
-            author {
+          collegeName
+          description
+          location {
+            state {
               data {
                 id
                 attributes {
-                  name
-                  avatar {
-                    data {
-                      attributes {
-                        url
-                      }
+                  state
+                }
+              }
+            }
+            city {
+              data {
+                id
+                attributes {
+                  city
+                }
+              }
+            }
+            country {
+              data {
+                id
+                attributes {
+                  country
+                }
+              }
+            }
+          }
+          college_type {
+            data {
+              id
+              attributes {
+                collegeType
+              }
+            }
+          }
+          affiliation {
+            data {
+              id
+              attributes {
+                organization
+              }
+            }
+          }
+          estYear
+          courses {
+            examName {
+              data {
+                id
+                attributes {
+                  examName
+                  slug
+                  description
+                }
+              }
+            }
+          }
+          videoGallery {
+            id
+            category
+            video {
+              id
+              videoId
+            }
+          }
+          imageGallery {
+            id
+            category
+            images {
+              data {
+                id
+                attributes {
+                  alternativeText
+                  width
+                  height
+                  url
+                }
+              }
+            }
+          }
+          campusSize
+          noOfFaculty
+          noOfStudents
+          avgPackage
+          hightestPackage
+          genderAccepted {
+            data {
+              id
+              attributes {
+                gender
+              }
+            }
+          }
+          news {
+            data {
+              id
+              attributes {
+                icon {
+                  data {
+                    id
+                    attributes {
+                      alternativeText
+                      width
+                      height
+                      url
                     }
                   }
-                  designation
-                  updatedAt
                 }
-              }
-            }
-
-            editorText: text
-            headingIcon {
-              data {
-                id
-                attributes {
-                  width
-                  height
-                  url
+                bgImage {
+                  data {
+                    id
+                    attributes {
+                      alternativeText
+                      width
+                      height
+                      url
+                    }
+                  }
                 }
-              }
-            }
-            navItem {
-              data {
-                id
-                attributes {
-                  navItem
+                title
+                excerpt
+                category {
+                  data {
+                    id
+                    attributes {
+                      category
+                    }
+                  }
                 }
-              }
-            }
-          }
-          ... on ComponentCommonReviewsComponent {
-            id
-            heading
-            headingIcon {
-              data {
-                id
-                attributes {
-                  width
-                  height
-                  url
-                }
-              }
-            }
-            reviewsText: text
-            navItem {
-              data {
-                id
-                attributes {
-                  navItem
-                }
+                slug
+                timeStamp
               }
             }
           }
-          ... on ComponentCommonGalleryComponent {
-            id
-            heading
-            headingIcon {
-              data {
-                id
-                attributes {
-                  width
-                  height
-                  url
-                }
-              }
-            }
-            galleryText: text
-            navItem {
-              data {
-                id
-                attributes {
-                  navItem
-                }
-              }
-            }
-          }
-          ... on ComponentCommonFaqComponent {
-            id
-            heading
-            Questions {
+          navbars {
+            data {
               id
-              question
-              answer
+              attributes {
+                navItem
+              }
             }
-            navItem {
+          }
+          courses {
+            examName {
               data {
                 id
                 attributes {
-                  navItem
+                  examName
+                }
+              }
+            }
+            courseFee
+            courseFeeLabel
+            courseName {
+              data {
+                id
+                attributes {
+                  courseName
                 }
               }
             }
           }
-          ... on ComponentCommonMainGalleryComponent {
-            id
-            heading
-            headingIcon {
-              data {
-                id
-                attributes {
-                  width
-                  height
-                  url
+          brochureFile {
+            data {
+              id
+              attributes {
+                alternativeText
+                width
+                height
+                url
+              }
+            }
+          }
+          streams {
+            data {
+              id
+              attributes {
+                stream
+              }
+            }
+          }
+          PageData {
+            ... on ComponentCommonTextEditor {
+              id
+              heading
+              author {
+                data {
+                  id
+                  attributes {
+                    name
+                    avatar {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                    designation
+                    updatedAt
+                  }
+                }
+              }
+
+              editorText: text
+              headingIcon {
+                data {
+                  id
+                  attributes {
+                    width
+                    height
+                    url
+                  }
+                }
+              }
+              navItem {
+                data {
+                  id
+                  attributes {
+                    navItem
+                  }
                 }
               }
             }
-            navItem {
-              data {
+            ... on ComponentCommonReviewsComponent {
+              id
+              heading
+              headingIcon {
+                data {
+                  id
+                  attributes {
+                    width
+                    height
+                    url
+                  }
+                }
+              }
+              reviewsText: text
+              navItem {
+                data {
+                  id
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonGalleryComponent {
+              id
+              heading
+              headingIcon {
+                data {
+                  id
+                  attributes {
+                    width
+                    height
+                    url
+                  }
+                }
+              }
+              galleryText: text
+              navItem {
+                data {
+                  id
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonFaqComponent {
+              id
+              heading
+              Questions {
                 id
-                attributes {
-                  navItem
+                question
+                answer
+              }
+              navItem {
+                data {
+                  id
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonMainGalleryComponent {
+              id
+              heading
+              headingIcon {
+                data {
+                  id
+                  attributes {
+                    width
+                    height
+                    url
+                  }
+                }
+              }
+              navItem {
+                data {
+                  id
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonVideoComponent {
+              id
+              heading
+              headingIcon {
+                data {
+                  id
+                  attributes {
+                    width
+                    height
+                    url
+                  }
+                }
+              }
+              navItem {
+                data {
+                  id
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonBannerComponent {
+              id
+              img {
+                data {
+                  id
+                  attributes {
+                    alternativeText
+                    width
+                    height
+                    url
+                  }
+                }
+              }
+              bannerText: text
+              href
+              navItem {
+                data {
+                  id
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonReviewDescriptionComponent {
+              id
+              heading
+              headingIcon {
+                data {
+                  id
+                  attributes {
+                    alternativeText
+                    width
+                    height
+                    url
+                  }
+                }
+              }
+              navbar {
+                data {
+                  id
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonNewsComponent {
+              id
+              heading
+              headingIcon {
+                data {
+                  id
+                  attributes {
+                    width
+                    height
+                    url
+                  }
+                }
+              }
+              navItem {
+                data {
+                  id
+                  attributes {
+                    navItem
+                  }
                 }
               }
             }
           }
-          ... on ComponentCommonVideoComponent {
+          CollegeReviewsAndRatings {
             id
-            heading
-            headingIcon {
-              data {
-                id
-                attributes {
-                  width
-                  height
-                  url
-                }
-              }
+            userName
+            overall {
+              id
+              description
             }
-            navItem {
-              data {
-                id
-                attributes {
-                  navItem
-                }
-              }
+            Academics {
+              rating
+              description
             }
-          }
-          ... on ComponentCommonBannerComponent {
-            id
-            img {
-              data {
-                id
-                attributes {
-                  alternativeText
-                  width
-                  height
-                  url
-                }
-              }
+            Faculty {
+              rating
+              description
             }
-            bannerText: text
-            href
-            navItem {
-              data {
-                id
-                attributes {
-                  navItem
-                }
-              }
+            Infrastructure {
+              rating
+              description
             }
-          }
-          ... on ComponentCommonReviewDescriptionComponent {
-            id
-            heading
-            headingIcon {
-              data {
-                id
-                attributes {
-                  alternativeText
-                  width
-                  height
-                  url
-                }
-              }
+            SocialLife {
+              rating
+              description
             }
-            navbar {
-              data {
-                id
-                attributes {
-                  navItem
-                }
-              }
-            }
-          }
-          ... on ComponentCommonNewsComponent {
-            id
-            heading
-            headingIcon {
-              data {
-                id
-                attributes {
-                  width
-                  height
-                  url
-                }
-              }
-            }
-            navItem {
-              data {
-                id
-                attributes {
-                  navItem
-                }
-              }
+            Placement {
+              rating
+              description
             }
           }
         }
       }
     }
   }
-}
-
-
 `;
