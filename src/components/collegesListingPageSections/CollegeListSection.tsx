@@ -22,7 +22,7 @@ export default function CollegeListSection({
     stream: [] as string[],
     state: [] as string[],
     city: [] as string[],
-    courses: [] as string[],
+    course: [] as string[],
     programType: [] as string[],
     collegeType: [] as string[],
     affiliation: [] as string[],
@@ -38,7 +38,7 @@ export default function CollegeListSection({
   );
   const [StateCheckedFilters, setStateCheckedFilters] = useState<string[]>([]);
   const [CityCheckedFilters, setCityCheckedFilters] = useState<string[]>([]);
-  const [CoursesCheckedFilters, setCoursesCheckedFilters] = useState<string[]>(
+  const [CourseCheckedFilters, setCourseCheckedFilters] = useState<string[]>(
     [],
   );
   const [ProgramTypeCheckedFilters, setProgramTypeCheckedFilters] = useState<
@@ -78,9 +78,7 @@ export default function CollegeListSection({
         : undefined,
       gender: GenderCheckedFilters ? GenderCheckedFilters : undefined,
       examAccepted: ExamCheckedFilters?.length ? ExamCheckedFilters : undefined,
-      courses: CoursesCheckedFilters?.length
-        ? CoursesCheckedFilters
-        : undefined,
+      courses: CourseCheckedFilters?.length ? CourseCheckedFilters : undefined,
       searchByCollegeName: searchValue,
       collegeSortingParameter: sortingParameterName,
       page: pageNo,
@@ -88,7 +86,6 @@ export default function CollegeListSection({
     },
   });
   useEffect(() => {
-    console.log(collegeData?.colleges?.data, "colleges");
     if (collegeData) {
       if (pageNo === 1) {
         setFilteredData(collegeData?.colleges?.data);
@@ -108,7 +105,7 @@ export default function CollegeListSection({
     StreamCheckedFilters,
     StateCheckedFilters,
     CityCheckedFilters,
-    CoursesCheckedFilters,
+    CourseCheckedFilters,
     ProgramTypeCheckedFilters,
     CollegeTypeCheckedFilters,
     AffiliationCheckedFilters,
@@ -138,7 +135,7 @@ export default function CollegeListSection({
   const handleLoadMore = () => {
     setPageNo((prev) => prev + 1);
   };
-
+  console.log(filteredData?.[0]?.attributes?.courses, "filteredData");
   return (
     <section id="collegeList" className="my-5 w-full pb-5">
       <Wrapper
@@ -160,8 +157,8 @@ export default function CollegeListSection({
           setStateCheckedFilters={setStateCheckedFilters}
           CityCheckedFilters={CityCheckedFilters}
           setCityCheckedFilters={setCityCheckedFilters}
-          CoursesCheckedFilters={CoursesCheckedFilters}
-          setCoursesCheckedFilters={setCoursesCheckedFilters}
+          CourseCheckedFilters={CourseCheckedFilters}
+          setCourseCheckedFilters={setCourseCheckedFilters}
           ProgramTypeCheckedFilters={ProgramTypeCheckedFilters}
           setProgramTypeCheckedFilters={setProgramTypeCheckedFilters}
           CollegeTypeCheckedFilters={CollegeTypeCheckedFilters}
@@ -233,7 +230,16 @@ export default function CollegeListSection({
               )}
               collegeName={college?.attributes?.collegeName}
               avgPackage={college?.attributes?.avgPackage}
-              // exam={college?.attributes?.exam}
+              exam={Array.from(
+                new Set(
+                  college?.attributes?.courses?.map(
+                    (item: any) =>
+                      item?.courseName?.data?.attributes?.breadCrumb,
+                  ),
+                ),
+              )
+                .filter(Boolean)
+                .join(", ")}
               description={college?.attributes?.description}
               tabsSections={college?.attributes?.navbars?.data?.map(
                 (value: any) => value?.attributes?.navItem,

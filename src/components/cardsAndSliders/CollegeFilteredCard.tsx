@@ -109,14 +109,7 @@ export default function CollegeFilteredCard({
               <div className="flex gap-x-2">
                 <RiTodoLine className="text-3xl text-orange-500" />
                 <div>
-                  <p className="font-semibold">
-                    {exam?.map((item: any, index: number) => (
-                      <React.Fragment key={index}>
-                        {item}
-                        {index < exam?.length - 1 ? ", " : ""}
-                      </React.Fragment>
-                    ))}
-                  </p>
+                  <p className="font-semibold">{exam}</p>
                   <p className="text-xs text-zinc-400">Exams</p>
                 </div>
               </div>

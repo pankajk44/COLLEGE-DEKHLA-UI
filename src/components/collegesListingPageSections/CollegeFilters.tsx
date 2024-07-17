@@ -34,8 +34,8 @@ export default function CollegeFilters({
   setStateCheckedFilters,
   CityCheckedFilters,
   setCityCheckedFilters,
-  CoursesCheckedFilters,
-  setCoursesCheckedFilters,
+  CourseCheckedFilters,
+  setCourseCheckedFilters,
   CollegeTypeCheckedFilters,
   setCollegeTypeCheckedFilters,
   AffiliationCheckedFilters,
@@ -114,7 +114,7 @@ export default function CollegeFilters({
     ? cities?.cities?.data?.map((item: any) => item?.attributes?.city)
     : [];
   const coursesFilteredFromQueryArray = courses?.courses?.data
-    ? courses?.courses?.data?.map((item: any) => item?.attributes?.courseName)
+    ? courses?.courses?.data?.map((item: any) => item?.attributes?.breadCrumb)
     : [];
   const collegeTypesFilteredFromQueryArray = collegeTypes?.collegeTypes?.data
     ? collegeTypes?.collegeTypes?.data?.map(
@@ -132,7 +132,7 @@ export default function CollegeFilters({
   const examsFilteredFromQueryArray = exams?.exams?.data
     ? exams?.exams?.data?.map((item: any) => item?.attributes?.breadCrumb)
     : [];
-  console.log(affiliations, "affiliations");
+  // console.log(affiliations, "affiliations");
   // ========================================================================//
   // handleFilter functions
   const handleStreamFilter = (data: string) => {
@@ -173,10 +173,10 @@ export default function CollegeFilters({
 
   const handleCourseFilter = (data: any) => {
     // Toggle the selection
-    const updatedSelection = CoursesCheckedFilters.includes(data)
-      ? CoursesCheckedFilters.filter((item: any) => item !== data)
-      : [...CoursesCheckedFilters, data];
-    setCoursesCheckedFilters(updatedSelection);
+    const updatedSelection = CourseCheckedFilters.includes(data)
+      ? CourseCheckedFilters.filter((item: any) => item !== data)
+      : [...CourseCheckedFilters, data];
+    setCourseCheckedFilters(updatedSelection);
     setSelectedFilters((prevData: any) => ({
       ...prevData,
       course: updatedSelection,
@@ -255,11 +255,11 @@ export default function CollegeFilters({
         ...prevData,
         city: [],
       }));
-    } else if (filter === "courses") {
-      setCoursesCheckedFilters([]);
+    } else if (filter === "course") {
+      setCourseCheckedFilters([]);
       setSelectedFilters((prevData: any) => ({
         ...prevData,
-        courses: [],
+        course: [],
       }));
     } else if (filter === "collegeType") {
       setCollegeTypeCheckedFilters([]);
@@ -389,7 +389,7 @@ export default function CollegeFilters({
             title="COURSE"
             filterList={coursesFilteredFromQueryArray}
             handleFilter={handleCourseFilter}
-            checked={CoursesCheckedFilters}
+            checked={CourseCheckedFilters}
           />
           <Filter
             title="COLLEGE TYPE"

@@ -36,144 +36,160 @@ export function getAllColleges(range: any): DocumentNode {
 
   return gql`
     query getAllColleges(
-      $page: Int
-      $pageSize: Int
-      $cities: [String]
-      $states: [String]
-      $collegeTypes: [String]
-      $affiliations: [String]
-      $gender: String
-      $examAccepted: [String]
-      $courses: [String]
-      $streams: [String]
-      $collegeSortingParameter: [String]
-      $searchByCollegeName: String
-    ) {
-      colleges(
-        pagination: { page: $page, pageSize: $pageSize }
-        sort: $collegeSortingParameter
-        filters: {
-          collegeName: { containsi: $searchByCollegeName }
-          college_type: { collegeType: { in: $collegeTypes } }
-          location: {
-            city: { city: { in: $cities } }
-            state: { state: { in: $states } }
+  $page: Int
+  $pageSize: Int
+  $cities: [String]
+  $states: [String]
+  $collegeTypes: [String]
+  $affiliations: [String]
+  $gender: String
+  $examAccepted: [String]
+  $courses: [String]
+  $streams: [String]
+  $collegeSortingParameter: [String]
+  $searchByCollegeName: String
+) {
+  colleges(
+    pagination: { page: $page, pageSize: $pageSize }
+    sort: $collegeSortingParameter
+    filters: {
+      collegeName: { containsi: $searchByCollegeName }
+      college_type: { collegeType: { in: $collegeTypes } }
+      location: {
+        city: { city: { in: $cities } }
+        state: { state: { in: $states } }
+      }
+      affiliation: { organization: { in: $affiliations } }
+      genderAccepted: { gender: { eq: $gender } }
+      courses: {
+        examName: { breadCrumb: { in: $examAccepted } }
+        courseName: { breadCrumb: { in: $courses } }
+        stream: { stream: { in: $streams } }
+      }
+        ${topCollegesFilterStr}
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        slug
+        breadCrumb
+        bgImage {
+          data {
+            id
+            attributes {
+              alternativeText
+              width
+              height
+              url
+            }
           }
-          affiliation: { organization: { in: $affiliations } }
-          genderAccepted: { gender: { eq: $gender } }
-          courses: {
-            examName: { examName: { in: $examAccepted } }
-            courseName: { courseName: { in: $courses } }
-            stream: { stream: { in: $streams } }
-          }
-          ${topCollegesFilterStr}
         }
-      ) {
-        meta {
-          pagination {
-            total
+        collegeName
+        description
+        location {
+          state {
+            data {
+              id
+              attributes {
+                state
+              }
+            }
+          }
+          city {
+            data {
+              id
+              attributes {
+                city
+              }
+            }
+          }
+          country {
+            data {
+              id
+              attributes {
+                country
+              }
+            }
           }
         }
-        data {
-          id
-          attributes {
-            slug
-            breadCrumb
-            bgImage {
-              data {
-                id
-                attributes {
-                  alternativeText
-                  width
-                  height
-                  url
-                }
+        college_type {
+          data {
+            id
+            attributes {
+              collegeType
+            }
+          }
+        }
+        affiliation {
+          data {
+            id
+            attributes {
+              organization
+            }
+          }
+        }
+        avgPackage
+        hightestPackage
+        brochureFile {
+          data {
+            id
+            attributes {
+              name
+              alternativeText
+              caption
+              ext
+              mime
+              size
+              url
+            }
+          }
+        }
+        navbars {
+          data {
+            id
+            attributes {
+              navItem
+            }
+          }
+        }
+        courses {
+        courseName {
+            data {
+              attributes {
+                breadCrumb
               }
             }
-            collegeName
-            description
-            location {
-              state {
-                data {
-                  id
-                  attributes {
-                    state
-                  }
-                }
-              }
-              city {
-                data {
-                  id
-                  attributes {
-                    city
-                  }
-                }
-              }
-              country {
-                data {
-                  id
-                  attributes {
-                    country
-                  }
-                }
+          }
+          courseFee
+          courseFeeLabel
+          examName {
+            data {
+              id
+              attributes {
+                breadCrumb
               }
             }
-            college_type {
-              data {
-                id
-                attributes {
-                  collegeType
-                }
-              }
-            }
-            affiliation {
-              data {
-                id
-                attributes {
-                  organization
-                }
-              }
-            }
-            avgPackage
-            hightestPackage
-            brochureFile {
-              data {
-                id
-                attributes {
-                  name
-                  alternativeText
-                  caption
-                  ext
-                  mime
-                  size
-                  url
-                }
-              }
-            }
-            navbars {
-              data {
-                id
-                attributes {
-                  navItem
-                }
-              }
-            }
-            courses {
-              courseFee
-              courseFeeLabel
-              examName {
-                data {
-                  id
-                  attributes {
-                    examName
-                  }
-                }
+          }
+          stream {
+            data {
+              id
+              attributes {
+                stream
               }
             }
           }
         }
       }
     }
+  }
+}
+
   `;
 }
 
@@ -256,7 +272,7 @@ export const getAllCourses = gql`
     courses {
       data {
         attributes {
-          courseName
+          breadCrumb
         }
       }
     }
