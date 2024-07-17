@@ -3,6 +3,7 @@ import Profile from "./profileForm/Profile";
 import { AppliedCollege } from "./appliedCollege/AppliedColleges";
 import { PendingCollege } from "./pendingApplication/PendingApplication";
 import { AccountSetting } from "./accountSetting/AccountSetting";
+import { RatingReview } from "./reviewRating/RatingReview";
 
 const TabContent = ({ activeTab, setMobileMenu, mobileMenu }: any) => {
   return (
@@ -18,6 +19,13 @@ const TabContent = ({ activeTab, setMobileMenu, mobileMenu }: any) => {
 
 {activeTab?.label === "Applied Colleges" && (
         <AppliedCollege
+          tab={activeTab}
+          mobileMenu={mobileMenu}
+          setMobileMenu={setMobileMenu}
+        />
+      )}
+       {activeTab?.label === "Your Reviews" && (
+        <RatingReview
           tab={activeTab}
           mobileMenu={mobileMenu}
           setMobileMenu={setMobileMenu}

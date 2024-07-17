@@ -7,12 +7,13 @@ import Link from "next/link";
 
 export default function DetailPageAsideSection({ data }: any) {
   return (
-    <aside className="mt-5 flex min-w-[300px] flex-col gap-y-5 [flex:2] max-md:hidden max-md:bg-opacity-80">
+    <aside className="mt-5 flex min-w-[300px] flex-col gap-y-5 [flex:2] max-md:hidden max-md:bg-opacity-80 md:sticky md:h-screen md:top-0">
       {data?.map((item: any, index: number) => (
         <React.Fragment key={index}>
           {/* Banner  */}
           {item?.banner && <Banner data={item?.banner} />}
           {/* Video Gallery  */}
+          <div className="md:max-h-[70vh] md:overflow-hidden md:hover:overflow-y-auto">
           {item?.videoGallery && item?.videoGallery?.videos && (
             <VideoGallery data={item?.videoGallery?.videos} />
           )}
@@ -22,6 +23,7 @@ export default function DetailPageAsideSection({ data }: any) {
           )}
           {/* Top Courses  */}
           {item?.topCourses && <TopCourses data={item?.topCourses} />}
+          </div>
         </React.Fragment>
       ))}
     </aside>

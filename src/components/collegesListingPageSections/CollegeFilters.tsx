@@ -47,34 +47,30 @@ export default function CollegeFilters({
   ExamCheckedFilters,
   setExamCheckedFilters,
 }: any) {
-  const asideRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (mobileFilter && asideRef.current) {
-      disableBodyScroll(asideRef.current);
-    } else if (asideRef.current) {
-      enableBodyScroll(asideRef.current);
-    }
+  // const asideRef = useRef<HTMLDivElement>(null);
+  // useEffect(() => {
+  //   if (mobileFilter && asideRef.current) {
+  //     disableBodyScroll(asideRef.current);
+  //   } else if (asideRef.current) {
+  //     enableBodyScroll(asideRef.current);
+  //   }
 
-    return () => {
-      clearAllBodyScrollLocks();
-    };
-  }, [mobileFilter]);
+  //   return () => {
+  //     clearAllBodyScrollLocks();
+  //   };
+  // }, [mobileFilter]);
 
   const {
     data: streams,
     loading: streamsLoading,
     error: streamsError,
   } = useQuery(getAllStreams);
-  const {
-    data: states,
-    loading: statesLoading,
-    error: statesError,
-  } = useQuery(getAllStates);
-  const {
-    data: cities,
-    loading: citiesLoading,
-    error: citiesError,
-  } = useQuery(getAllCities);
+  const { data: states, loading: statesLoading, error: statesError } = useQuery(
+    getAllStates
+  );
+  const { data: cities, loading: citiesLoading, error: citiesError } = useQuery(
+    getAllCities
+  );
   const {
     data: courses,
     loading: coursesLoading,
@@ -95,11 +91,9 @@ export default function CollegeFilters({
     loading: gendersLoading,
     error: gendersError,
   } = useQuery(getAllGenders);
-  const {
-    data: exams,
-    loading: examsLoading,
-    error: examsError,
-  } = useQuery(getAllExamsAccepted);
+  const { data: exams, loading: examsLoading, error: examsError } = useQuery(
+    getAllExamsAccepted
+  );
   // ========================================================================== //
   // filtering all Name form query
   const streamsFilteredFromQueryArray = streams?.streams?.data
@@ -118,12 +112,12 @@ export default function CollegeFilters({
     : [];
   const collegeTypesFilteredFromQueryArray = collegeTypes?.collegeTypes?.data
     ? collegeTypes?.collegeTypes?.data?.map(
-        (item: any) => item?.attributes?.collegeType,
+        (item: any) => item?.attributes?.collegeType
       )
     : [];
   const affiliationsFilteredFromQueryArray = affiliations?.organizations?.data
     ? affiliations?.organizations?.data?.map(
-        (item: any) => item?.attributes?.organization,
+        (item: any) => item?.attributes?.organization
       )
     : [];
   const gendersFilteredFromQueryArray = genders?.genders?.data
@@ -243,6 +237,7 @@ export default function CollegeFilters({
         ...prevData,
         stream: [],
       }));
+      // shygttdtfgcgvb
     } else if (filter === "state") {
       setStateCheckedFilters([]);
       setSelectedFilters((prevData: any) => ({
@@ -296,76 +291,81 @@ export default function CollegeFilters({
 
   return (
     <aside
-      className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20 ${mobileFilter ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll" : "max-md:hidden"}`}
+      className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20 ${
+        mobileFilter
+          ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll"
+          : "max-md:hidden"
+      }`}
     >
-      <button
-        className="!fixed !right-5 !top-24 !z-50 text-4xl text-black hover:text-orange-500 md:hidden"
-        onClick={() => setMobileFilter(false)}
+      <div
+        // ref={asideRef}
+        className={` md:sticky md:top-4
+           
+          `}
       >
-        <IoIosCloseCircleOutline />
-      </button>
-      <h1 className="mb-5 font-medium">Showing {totalResults} Colleges</h1>
-      <div className="w-full pb-0 max-md:bg-opacity-95">
-        <h2 className="mb-5 font-bold">Search by filters</h2>
-        {/* Selected filters display */}
-        <div className="mb-3 flex flex-wrap items-center gap-1 max-md:text-white">
-          {Object.values(SelectedFilters).some(
-            (value) =>
-              value !== "" &&
-              value !== 0 &&
-              (!Array.isArray(value) || value.length !== 0),
-          ) && <span className="text-xs font-bold">Filters Applied : </span>}
-          {Object.entries(SelectedFilters).map(([key, value]: any) => {
-            if (Array.isArray(value)) {
-              // If the value is an array, join its elements with commas
-              value = value.join(" , ");
-            } else if (key === "courseDuration") {
-              const duration: any =
-                typeof value === "string" ? parseInt(value) : value;
+        <button
+          className="!fixed !right-5 !top-24 !z-50 text-4xl text-black hover:text-orange-500 md:hidden"
+          onClick={() => setMobileFilter(false)}
+        >
+          <IoIosCloseCircleOutline />
+        </button>
+        <h1 className="mb-5 font-medium">Showing {totalResults} Colleges</h1>
+        <div className="w-full pb-0 max-md:bg-opacity-95">
+          <h2 className="mb-5 font-bold">Search by filters</h2>
+          {/* Selected filters display */}
+          <div className="mb-3 flex flex-wrap items-center gap-1 max-md:text-black md:max-h-[6vh]md:overflow-hidden  md:hover:overflow-y-auto">
+            {Object.values(SelectedFilters).some(
+              (value) =>
+                value !== "" &&
+                value !== 0 &&
+                (!Array.isArray(value) || value.length !== 0)
+            ) && <span className="text-xs font-bold">Filters Applied : </span>}
+            {Object.entries(SelectedFilters).map(([key, value]: any) => {
+              if (Array.isArray(value)) {
+                // If the value is an array, join its elements with commas
+                value = value.join(" , ");
+              } else if (key === "courseDuration") {
+                const duration: any =
+                  typeof value === "string" ? parseInt(value) : value;
+                return (
+                  value !== "" &&
+                  value !== 0 && (
+                    <div
+                      key={key}
+                      className="flex w-max items-center gap-1 rounded-md border border-orange-500 px-2 py-1 text-xs"
+                    >
+                      <span>
+                        {Math.floor(duration / 12)} years {duration % 12} months
+                      </span>
+                      <button
+                        onClick={() =>
+                          handleUnselectFilter(key, value as string)
+                        }
+                      >
+                        <MdClose />
+                      </button>
+                    </div>
+                  )
+                );
+              }
               return (
                 value !== "" &&
-                value !== 0 && (
+                (!Array.isArray(value) || value.length !== 0) && (
                   <div
                     key={key}
                     className="flex w-max items-center gap-1 rounded-md border border-orange-500 px-2 py-1 text-xs"
                   >
-                    <span>
-                      {Math.floor(duration / 12)} years {duration % 12} months
-                    </span>
-                    <button
-                      onClick={() => handleUnselectFilter(key, value as string)}
-                    >
+                    <span className="max-w-[150px] text-wrap">{value}</span>
+                    <button onClick={() => handleUnselectFilter(key, value)}>
                       <MdClose />
                     </button>
                   </div>
                 )
               );
-            }
-            return (
-              value !== "" &&
-              (!Array.isArray(value) || value.length !== 0) && (
-                <div
-                  key={key}
-                  className="flex w-max items-center gap-1 rounded-md border border-orange-500 px-2 py-1 text-xs"
-                >
-                  <span className="max-w-[150px] text-wrap">{value}</span>
-                  <button onClick={() => handleUnselectFilter(key, value)}>
-                    <MdClose />
-                  </button>
-                </div>
-              )
-            );
-          })}
-        </div>
-        {/*END  shows filter by options  */}
-        <div
-          ref={asideRef}
-          className={`overflow-hidden md:sticky md:top-0 md:h-screen md:hover:overflow-y-auto ${
-            mobileFilter
-              ? "fixed inset-0 z-50 overflow-y-auto"
-              : "hidden md:block"
-          }`}
-        >
+            })}
+          </div>
+          {/*END  shows filter by options  */}
+<div className="md:overflow-hidden  md:hover:overflow-y-auto md:h-[76vh] max-md:mb-20 w-full">
           {/* Filters  */}
           <Filter
             title="SPECIALIZATION"
@@ -421,6 +421,7 @@ export default function CollegeFilters({
             handleFilter={handleExamFilter}
             checked={ExamCheckedFilters}
           />
+          </div>
         </div>
       </div>
     </aside>

@@ -156,7 +156,7 @@ export default function ExamFilters({
 
   return (
     <aside
-      className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20 ${mobileFilter ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll" : "max-md:hidden"}`}
+      className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20  md:sticky md:top-2 md:h-screen ${mobileFilter ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll" : "max-md:hidden"}`}
     >
       <button
         className="!fixed !right-5 !top-24 !z-50 text-4xl text-black hover:text-orange-500 md:hidden"
@@ -168,7 +168,7 @@ export default function ExamFilters({
       <div className="w-full pb-0 max-md:bg-opacity-95">
         <h2 className="mb-5 font-medium">Find Exam</h2>
         {/* Selected filters display */}
-        <div className="mb-3 flex flex-wrap items-center gap-1 max-md:text-white">
+        <div className="mb-3 flex flex-wrap items-center gap-1 max-md:text-black md:max-h-[9vh] md:overflow-hidden md:hover:overflow-y-auto">
           {Object.values(SelectedFilters).some(
             (value) =>
               value !== "" && (!Array.isArray(value) || value.length !== 0),
@@ -197,6 +197,7 @@ export default function ExamFilters({
         {/* END shows filter by options */}
 
         {/* Filters  */}
+        <div className="md:max-h-[77vh] md:overflow-hidden md:hover:overflow-y-auto max-md:mb-20"> 
         <Filter
           title="SPECIALIZATION"
           filterList={streamsFilteredFromQueryArray}
@@ -221,6 +222,7 @@ export default function ExamFilters({
           handleFilter={handleExaminationLevelFilter}
           checked={ExaminationLevelCheckedFilters}
         />
+        </div>
       </div>
     </aside>
   );
