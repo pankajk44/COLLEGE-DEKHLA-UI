@@ -1,15 +1,19 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useIsMobile from "../customHooks/useIsMobile";
-import { Button } from "../Button";
+import { Button, LoadingButton } from "../Button";
 import TimelineList from "../TimelineList";
 import YoutubeVideo from "../youtubeVideo";
 import { StarRating } from "../StarRating";
 import { FaStar } from "react-icons/fa";
 import Faqs, { FaqsForDetailPage } from "../Faqs";
 import { formatDate } from "@/utils/customText";
+import { RiSearchLine } from "react-icons/ri";
+import CourseFilteredCard from "../cardsAndSliders/CourseFilteredCard";
+import { getAllCourses } from "@/graphql/collegeQuery/colleges";
+import { useQuery } from "@apollo/client";
 
 export default function Content({ selectedContent }: any) {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -109,6 +113,13 @@ export default function Content({ selectedContent }: any) {
                     </button>
                   )} */}
                 </>
+              )}
+              {/* ReviewsText */}
+              {section?.reviewsText && (
+                <div
+                  className={`dangerouslySetInnerHTMLStyle mb-5 text-justify ${isExpanded ? "" : "line-clamp-4"}`}
+                  dangerouslySetInnerHTML={{ __html: section?.reviewsText }}
+                />
               )}
               {/* Buttons */}
               {section?.button && (
@@ -283,6 +294,8 @@ export default function Content({ selectedContent }: any) {
               {section?.reviewsAndRatings && (
                 <ReviewsAndRatingsSection data={section?.reviewsAndRatings} />
               )}
+              {/* Related Courses  */}
+              {section?.courses && <RelatedCourses data={section?.courses} />}
               {/* FAQ  */}
               {section?.Questions && (
                 <FaqsForDetailPage data={section?.Questions} />
@@ -294,8 +307,101 @@ export default function Content({ selectedContent }: any) {
   );
 }
 
-function RelatedCourses() {
-  return <div></div>;
+function RelatedCourses({ data, breadCrumb }: any) {
+  const [searchValue, setSearchValue] = useState("");
+  const [filteredData, setFilteredData] = useState<any>();
+  const [pageNo, setPageNo] = useState(1);
+  // Query
+  const {
+    data: courseData,
+    loading,
+    error,
+  } = useQuery(getAllCourses, {
+    variables: {
+      searchByCourseName: searchValue,
+
+      page: pageNo,
+      pageSize: 10,
+    },
+  });
+  useEffect(() => {
+    if (courseData) {
+      if (pageNo === 1) {
+        setFilteredData(courseData?.courses?.data);
+      } else {
+        setFilteredData((prevData: any) => [
+          ...prevData,
+          ...courseData?.courses?.data,
+        ]);
+      }
+    }
+  }, [courseData, searchValue, pageNo]);
+  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
+    const searchTerm = event?.target?.value?.toLowerCase()?.trim();
+    if (searchTerm.length >= 3) {
+      setSearchValue(searchTerm);
+    } else {
+      setSearchValue("");
+    }
+  }
+
+  const handleLoadMore = () => {
+    setPageNo((prev) => prev + 1);
+  };
+
+  return (
+    <div>
+      <h1>
+        Courses Offered by {breadCrumb} {new Date().getFullYear()}
+      </h1>
+      <div className="flex w-full flex-col py-5 pt-0 md:min-w-[550px]">
+        {/* Search and Sort Section  */}
+        <div className="relative mb-4 flex items-stretch gap-4 max-md:flex-col">
+          <div className="text-primary-text focus-within:border-secondary-text flex h-12 flex-1 items-center rounded-xl border border-zinc-200 bg-white px-2 shadow-md">
+            <RiSearchLine className="text-orange-500" />
+            <input
+              className="w-full pl-5 focus:outline-none max-md:p-3"
+              type="text"
+              placeholder="Search Course Name"
+              onChange={handleSearch}
+            />
+          </div>
+        </div>
+        {/* College List Section  */}
+        {filteredData?.map((course: any) => (
+          <CourseFilteredCard
+            key={course?.id}
+            id={course?.id}
+            slug={course?.attributes?.slug}
+            bgImage={course?.attributes?.bgImage?.data?.attributes?.url}
+            courseName={course?.attributes?.courseName}
+            courseType={
+              course?.attributes?.courseType?.data?.attributes?.collegeType
+            }
+            totalColleges={course?.totalColleges}
+            duration={
+              course?.attributes?.duration?.data?.attributes?.duration || "N/A"
+            }
+            description={course?.attributes?.description}
+            avgFeesFrom={course?.attributes?.avgFees?.from}
+            avgFeesTo={course?.attributes?.avgFees?.to}
+            courseLevel={course?.attributes?.courseLevel?.data?.map(
+              (value: any) => value?.attributes?.courseLevel,
+            )}
+            tabsSections={course?.attributes?.navbars?.data?.map(
+              (value: any) => value?.attributes?.navItem,
+            )}
+          />
+        ))}
+        {courseData?.courses?.meta?.pagination?.total >
+          filteredData?.length && (
+          <LoadingButton onClick={handleLoadMore} className="mx-auto">
+            Load More
+          </LoadingButton>
+        )}
+      </div>
+    </div>
+  );
 }
 
 function ReviewsAndRatingsSection({ data }: any) {

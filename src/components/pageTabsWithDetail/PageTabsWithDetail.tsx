@@ -53,13 +53,19 @@ export function PageTabsWithDetailWrapperContent({
   );
 }
 
-export default function PageTabsWithDetail({ data, asideData, slug }: any) {
+export default function PageTabsWithDetail({
+  data,
+  asideData,
+  slug,
+  tabUrlValue,
+}: any) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <PageTabsWithDetailWrapperContent
         data={data}
         asideData={asideData}
         slug={slug}
+        tabUrlValue={tabUrlValue}
       />
     </Suspense>
   );
