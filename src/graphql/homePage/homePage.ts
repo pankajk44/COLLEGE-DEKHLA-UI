@@ -1,0 +1,54 @@
+import { gql } from "@apollo/client";
+
+export const getHomePage = gql`
+query getHomePage{
+  homePages{
+    data{
+      attributes{
+        HeroSection{
+          title{
+            t1
+            t2
+            t3
+          }
+          text
+        }
+        text1
+        text2
+        text3
+        text4
+        text5
+        metricData{
+          title
+          text
+          students
+          experts
+          newUsers
+          teams
+        }
+        eventsAndWebinars{
+          image{
+             data{
+              attributes{
+                url
+              }
+            }
+          }
+          text
+          href
+        }
+        collegeLogos{
+          image{
+            data{
+              attributes{
+                url
+              }
+            }
+          }
+          href
+        }
+      }
+    }
+  }
+}
+`

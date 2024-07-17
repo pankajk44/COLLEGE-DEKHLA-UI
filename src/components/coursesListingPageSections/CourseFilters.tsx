@@ -18,7 +18,7 @@ export default function CourseFilters({
   CourseCheckedDurationFilters,
   setCourseCheckedDurationFilters,
 }: any) {
-  const { data: modes, refetch, loading, error } = useQuery(getAllModes);
+  const { data: modes, loading, error } = useQuery(getAllModes);
 
   // console.log(modes?.courseModes?.data, "modes");
   // filtering all modes Name form query

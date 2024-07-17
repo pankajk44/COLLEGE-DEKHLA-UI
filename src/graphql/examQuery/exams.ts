@@ -4,10 +4,10 @@ export const getAllExams = gql`
   query getAllExams(
     $searchByExamName: String
     $modes: [String]
-    $examSortingParameter: [String]
     $eligibilityLevels: [String]
     $ExaminationLevels: [String]
     $streams: [String]
+    $examSortingParameter: [String]
     $page: Int
     $pageSize: Int
   ) {
@@ -31,8 +31,9 @@ export const getAllExams = gql`
         id
         attributes {
           slug
-          description
           examName
+          examSequence
+          description
           bg {
             data {
               id

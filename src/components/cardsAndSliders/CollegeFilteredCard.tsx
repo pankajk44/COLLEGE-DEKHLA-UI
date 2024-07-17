@@ -12,6 +12,7 @@ import { Button } from "../Button";
 import formatFees from "@/utils/customText";
 
 export default function CollegeFilteredCard({
+  id,
   slug,
   bgImage,
   city,
@@ -29,19 +30,21 @@ export default function CollegeFilteredCard({
   tabsSections,
 }: any) {
   return (
-    <div className="relative mb-5 w-full rounded-lg shadow-xl bg-white">
+    <div className="relative mb-5 w-full rounded-lg bg-white shadow-xl">
       {/* Div 1 */}
       <div className="flex gap-y-2 p-5 max-lg:flex-wrap">
         <Image
           src={bgImage}
           alt="collage"
+          width={500}
+          height={500}
           className="h-[175px] w-[220px] rounded-md max-lg:w-full"
         />
         <div className="md:px-5">
           {/* Line 1  */}
           <div className="mb-3 flex flex-wrap gap-x-12 gap-y-2">
             <div className="flex items-center gap-2">
-              <span className="flex items-center gap-1 rounded bg-emerald-300 px-1 text-sm text-white">
+              <span className="flex items-center gap-1 rounded bg-emerald-300 px-1 py-0.5 text-xs text-white">
                 {overallRating} <FaStar className="mb-[1px]" />
               </span>
               <span className="text-xs text-orange-500">{`(${totalReviews} reviews)`}</span>
@@ -57,13 +60,13 @@ export default function CollegeFilteredCard({
             <div className="flex items-center gap-x-2">
               <MdOutlineOutlinedFlag />
               <span className="text-xs text-orange-500">
-                {collegeType.slice(0, 3)}. College
+                {collegeType}. College
               </span>
             </div>
           </div>
           {/* Line 2  */}
-          <Link href={`/colleges/${slug || "#"}`}>
-            <h1 className="mb-3 text-wrap text-xl font-bold hover:text-orange-500 cursor-pointer">
+          <Link href={id ? `/colleges/${id}` : `#`}>
+            <h1 className="mb-3 cursor-pointer text-wrap text-xl font-bold hover:text-orange-500">
               {collegeName}
             </h1>
           </Link>
@@ -75,7 +78,7 @@ export default function CollegeFilteredCard({
                 <TbCoinRupee className="text-3xl text-blue-500" />
                 <div>
                   <p className="font-semibold">
-                    {formatFees(avgFeePerYear)}. lac/sem
+                    {formatFees(avgFeePerYear)}./Year
                   </p>
                   <p className="text-xs text-zinc-400">Fees</p>
                 </div>
@@ -86,7 +89,7 @@ export default function CollegeFilteredCard({
               <div className="flex gap-x-2">
                 <SlBadge className="text-3xl text-blue-500" />
                 <div>
-                  <p className="font-semibold">{affiliation}</p>
+                  <p className="font-semibold">{affiliation.join(", ")}</p>
                   <p className="text-xs text-zinc-400">Accreditation</p>
                 </div>
               </div>
@@ -124,7 +127,7 @@ export default function CollegeFilteredCard({
             <p className="line-clamp-2 text-wrap text-sm [flex:11]">
               <span className="line-clamp-2 text-justify">{description}</span>
               <span className="text-orange-500 hover:underline">
-                <Link href={`/colleges/${slug} || '#'}`}>Read More</Link>
+                <Link href={id ? `/colleges/${id}` : `#`}>Read More</Link>
               </span>
             </p>
           </div>
@@ -136,19 +139,23 @@ export default function CollegeFilteredCard({
         <ul className="flex flex-wrap items-center gap-x-4 rounded-md bg-orange-100 px-4 py-1 text-sm text-orange-600">
           {tabsSections?.slice(0, 5)?.map((item: any, index: number) => (
             <React.Fragment key={index}>
-              <Link href="#">
+              <Link
+                href={
+                  id ? `/colleges/${id}?tab=${encodeURIComponent(item)}` : `#`
+                }
+              >
                 <li
                   key={index}
                   className="cursor-pointer capitalize hover:underline"
                 >
-                  {item?.navItem}
+                  {item}
                 </li>
               </Link>
               {index !== tabsSections?.length - 1 && <li>|</li>}
             </React.Fragment>
           ))}
           {tabsSections?.length > 5 && (
-            <Link href={`/colleges/${slug} || "#"}`}>
+            <Link href={id ? `/colleges/${id}` : `#`}>
               <li className="cursor-pointer capitalize hover:underline">
                 more
               </li>
@@ -162,7 +169,7 @@ export default function CollegeFilteredCard({
               Apply Now
             </Button>
           </Link>
-          <Link href={brochureUrl} className="max-md:w-full">
+          <Link href={brochureUrl || "#"} className="max-md:w-full">
             <Button variant="orange" className="!w-full">
               Download Brochure
             </Button>

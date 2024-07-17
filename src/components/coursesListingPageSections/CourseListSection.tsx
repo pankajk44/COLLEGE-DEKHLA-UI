@@ -26,8 +26,9 @@ export default function CourseListSection({
   const [ModeCheckedFilters, setModeCheckedFilters] = useState<string[]>([]);
   const [CourseCheckedDurationFilters, setCourseCheckedDurationFilters] =
     useState<number>();
-  const [pageNo, SetPageNo] = useState(1);
-  const [sortingParameter, setSortingParameter] = useState("courseSequence");
+  const [pageNo, setPageNo] = useState(1);
+  const [sortingParameterName, setSortingParameterName] =
+    useState("courseSequence");
 
   // Query
   const {
@@ -39,14 +40,13 @@ export default function CourseListSection({
       searchByCourseName: searchValue,
       modes: ModeCheckedFilters?.length ? ModeCheckedFilters : undefined,
       duration: CourseCheckedDurationFilters,
-      sortingParameter: sortingParameter,
+      sortingParameter: sortingParameterName,
       page: pageNo,
       pageSize: 10,
     },
   });
   useEffect(() => {
     if (courseData) {
-      setSortingParameter("courseSequence");
       if (pageNo === 1) {
         setFilteredData(courseData?.courses?.data);
       } else {
@@ -56,7 +56,13 @@ export default function CourseListSection({
         ]);
       }
     }
-  }, [courseData, searchValue, ModeCheckedFilters, sortingParameter, pageNo]);
+  }, [
+    courseData,
+    searchValue,
+    ModeCheckedFilters,
+    sortingParameterName,
+    pageNo,
+  ]);
 
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
     const searchTerm = event?.target?.value?.toLowerCase()?.trim();
@@ -67,20 +73,16 @@ export default function CourseListSection({
     }
   }
 
-  const handleMobileFilter = () => {
-    setMobileFilter((pre) => !pre);
-  };
-
   const handleFilterOptionClick = (option: any) => {
     if (option === "a-z") {
-      setSortingParameter("courseName");
+      setSortingParameterName("courseName");
     } else if (option === "reset") {
-      setSortingParameter("courseSequence");
+      setSortingParameterName("courseSequence");
     }
   };
 
   const handleLoadMore = () => {
-    SetPageNo((prev) => prev + 1);
+    setPageNo((prev) => prev + 1);
   };
 
   return (

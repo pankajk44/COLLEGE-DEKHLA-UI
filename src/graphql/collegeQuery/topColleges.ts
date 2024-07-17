@@ -1,98 +1,94 @@
 import { gql } from "@apollo/client";
 
-export const getTopColleges = gql`
-query {
-  colleges(
-    filters: { isTopCollege: { eq: true } }
-    sort: "topCollegeSequence:asc"
-  ) {
-    data {
-      id
-      attributes {
-        slug
-        breadCrumb
-        collegeLogo {
-          data {
-            id
-            attributes {
-              alternativeText
-              width
-              height
-              url
-            }
-          }
-        }
-        collegeName
-        description
-        location {
-          state {
+export const getAllTopColleges = gql`
+  query getAllTopColleges {
+    colleges(
+      filters: { isTopCollege: { eq: true } }
+      sort: "topCollegeSequence:asc"
+    ) {
+      data {
+        id
+        attributes {
+          slug
+          breadCrumb
+          collegeLogo {
             data {
               id
               attributes {
-                state_name
+                url
               }
             }
           }
-          city {
+          collegeName
+          description
+          location {
+            state {
+              data {
+                id
+                attributes {
+                  state
+                }
+              }
+            }
+            city {
+              data {
+                id
+                attributes {
+                  city
+                }
+              }
+            }
+            country {
+              data {
+                id
+                attributes {
+                  country
+                }
+              }
+            }
+          }
+          college_type {
             data {
               id
               attributes {
-                city_name
+                collegeType
               }
             }
           }
-          country {
+          affiliation {
             data {
               id
               attributes {
-                country_name
+                organization
               }
             }
           }
-        }
-        college_type {
-          data {
-            id
-            attributes {
-              type_name
+          navbars {
+            data {
+              id
+              attributes {
+                navItem
+              }
             }
           }
-        }
-        affiliation {
-          data {
-            id
-            attributes {
-              organization_name
+          courses {
+            courseFee
+            courseFeeLabel
+            examName {
+              data {
+                id
+                attributes {
+                  examName
+                }
+              }
             }
           }
+          estYear
+          avgPackage
+          hightestPackage
+          topCollegeSequence
         }
-        estYear
-        exams {
-          data {
-            id
-            attributes {
-              exam_name
-            }
-          }
-        }
-        tabsSections {
-          id
-          navItem
-        }
-        avgFeePerYear
-        avgFeePerSem
-        avgPackage
-        hightestPackage
-        reviewsAndRatings {
-          totalReviews
-          overallRating
-        }
-        collegeSequence
-        isTopCollege
-        topCollegeSequence
       }
     }
   }
-}
-
-`
+`;

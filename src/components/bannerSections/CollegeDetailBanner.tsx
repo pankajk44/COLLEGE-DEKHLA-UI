@@ -86,11 +86,12 @@ export default function CollegeDetailBanner({
           </div>
         </div>
         {/* Right Side  */}
-        <div className="flex-center flex-[4] flex-col gap-4 max-md:hidden">
-          <h2 className="flex gap-2 text-3xl font-bold">
-            {overallRating}{" "}
-            <StarRating className="gap-2 text-white" rating={overallRating} />
-          </h2>
+        <div className="flex-center flex-[2] flex-col gap-4 max-md:hidden">
+          <h2 className="text-4xl font-bold">{overallRating}</h2>
+          <StarRating
+            className="gap-2 text-3xl font-bold text-white"
+            rating={overallRating}
+          />
           <p className="text-xl">({totalReviews} reviews)</p>
           <Link href={brochureUrl || "#"}>
             <Button variant="white" className="text-nowrap">
