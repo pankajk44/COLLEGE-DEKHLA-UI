@@ -70,3 +70,16 @@ export function convertQueryDataToTabSections(queryData: any): any {
     // Convert the map to an array
     return Object.values(tabSectionsMap);
 }
+
+export function convertToYearlyFee(courseFee: any, courseFeeLabel: any) {
+    switch (courseFeeLabel) {
+        case 'monthly':
+            return courseFee * 12;
+        case 'weekly':
+            return courseFee * 52;
+        case 'daily':
+            return courseFee * 365;
+        default: // yearly
+            return courseFee;
+    }
+}

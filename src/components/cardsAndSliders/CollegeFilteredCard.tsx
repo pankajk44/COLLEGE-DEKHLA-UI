@@ -78,7 +78,7 @@ export default function CollegeFilteredCard({
                 <TbCoinRupee className="text-3xl text-blue-500" />
                 <div>
                   <p className="font-semibold">
-                    {formatFees(avgFeePerYear)}./Year
+                    {formatFees(avgFeePerYear)}/Year
                   </p>
                   <p className="text-xs text-zinc-400">Fees</p>
                 </div>

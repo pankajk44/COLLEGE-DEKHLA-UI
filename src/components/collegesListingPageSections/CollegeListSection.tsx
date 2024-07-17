@@ -10,6 +10,7 @@ import TopCollegesScroll from "@/components/cardsAndSliders/TopCollegesScroll";
 import CollegeFilters from "./CollegeFilters";
 import { useQuery } from "@apollo/client";
 import { getAllColleges } from "@/graphql/collegeQuery/colleges";
+import { convertToYearlyFee } from "@/utils/customText";
 export default function CollegeListSection({
   data,
   filterBy,
@@ -203,73 +204,77 @@ export default function CollegeListSection({
               </div>
             </div>
           </div>
-          {/* College List Section  */}
-          {filteredData.slice(0, 3).map((college: any) => (
-            <CollegeFilteredCard
-              key={college?.id}
-              id={college?.id}
-              slug={college?.attributes?.slug}
-              bgImage={college?.attributes?.bgImage?.data?.attributes?.url}
-              city={college?.attributes?.location?.city?.data?.attributes?.city}
-              state={
-                college?.attributes?.location?.state?.data?.attributes?.state
-              }
-              overallRating={
-                college?.attributes?.reviewsAndRatings?.overallRating
-              }
-              totalReviews={345}
-              avgFeePerYear={180000}
-              affiliation={college?.attributes?.affiliation?.data?.map(
-                (value: any) => value?.attributes?.organization,
-              )}
-              hightestPackage={college?.attributes?.hightestPackage}
-              brochureUrl={college?.attributes?.brochureFile}
-              collegeType={college?.attributes?.college_type?.data?.attributes?.collegeType?.slice(
-                0,
-                3,
-              )}
-              collegeName={college?.attributes?.collegeName}
-              avgPackage={college?.attributes?.avgPackage}
-              exam={Array.from(
-                new Set(
-                  college?.attributes?.courses?.map(
-                    (item: any) =>
-                      item?.courseName?.data?.attributes?.breadCrumb,
+          {/* College List Section */}
+          {filteredData?.map((college: any, index: number) => (
+            <React.Fragment key={college?.id}>
+              <CollegeFilteredCard
+                id={college?.id}
+                slug={college?.attributes?.slug}
+                bgImage={college?.attributes?.bgImage?.data?.attributes?.url}
+                city={
+                  college?.attributes?.location?.city?.data?.attributes?.city
+                }
+                state={
+                  college?.attributes?.location?.state?.data?.attributes?.state
+                }
+                overallRating={
+                  college?.attributes?.reviewsAndRatings?.overallRating
+                }
+                totalReviews={345}
+                avgFeePerYear={
+                  college?.attributes?.courses
+                    .map((course: any) =>
+                      convertToYearlyFee(
+                        course?.courseFee,
+                        course?.courseFeeLabel,
+                      ),
+                    )
+                    ?.reduce(
+                      (total: any, fee: any, _: any, { length }: any) =>
+                        total + fee / length,
+                      0,
+                    ) || 0
+                }
+                affiliation={college?.attributes?.affiliation?.data?.map(
+                  (value: any) => value?.attributes?.organization,
+                )}
+                hightestPackage={college?.attributes?.hightestPackage}
+                brochureUrl={college?.attributes?.brochureFile}
+                collegeType={college?.attributes?.college_type?.data?.attributes?.collegeType?.slice(
+                  0,
+                  3,
+                )}
+                collegeName={college?.attributes?.collegeName}
+                avgPackage={college?.attributes?.avgPackage}
+                exam={Array.from(
+                  new Set(
+                    college?.attributes?.courses?.map(
+                      (item: any) =>
+                        item?.courseName?.data?.attributes?.breadCrumb,
+                    ),
                   ),
-                ),
-              )
-                .filter(Boolean)
-                .join(", ")}
-              description={college?.attributes?.description}
-              tabsSections={college?.attributes?.navbars?.data?.map(
-                (value: any) => value?.attributes?.navItem,
+                )
+                  .filter(Boolean)
+                  .join(", ")}
+                description={college?.attributes?.description}
+                tabsSections={college?.attributes?.navbars?.data?.map(
+                  (value: any) => value?.attributes?.navItem,
+                )}
+              />
+              {(index + 1) % 4 === 0 && index !== filteredData?.length - 1 && (
+                <TopCollegesScroll
+                  data={topColleges}
+                  key={`topColleges-${index}`}
+                />
               )}
-            />
+            </React.Fragment>
           ))}
-          {/* Top Colleges Section  */}
-          <TopCollegesScroll data={topColleges} />
-          {/* Next College List Section  */}
-          {/* {filteredData.slice(3).map((college: any) => (
-            <CollegeFilteredCard
-              key={college.id}
-              slug={college?.slug}
-              bgImage={college?.bgImage?.url}
-              city={college?.location?.city}
-              state={college?.location?.state}
-              overallRating={college?.reviewsAndRatings?.overallRating}
-              totalReviews={college?.reviewsAndRatings?.totalReviews}
-              avgFeePerYear={college?.avgFeePerYear}
-              affiliation={college?.affiliation}
-              hightestPackage={college?.hightestPackage}
-              brochureUrl={college?.brochureUrl}
-              collegeType={college?.collegeType}
-              collegeName={college?.collegeName}
-              avgPackage={college?.avgPackage}
-              exam={college?.exam}
-              description={college?.description}
-              tabsSections={tabsSections}
-            />
-          ))} */}
+
+          {/* Top Colleges Section */}
+          {filteredData?.length % 4 !== 0 && (
+            <TopCollegesScroll data={topColleges} />
+          )}
+
           {collegeData?.courses?.meta?.pagination?.total >
             filteredData?.length && (
             <LoadingButton onClick={handleLoadMore} className="mx-auto">
