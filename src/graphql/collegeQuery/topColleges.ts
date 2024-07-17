@@ -87,6 +87,22 @@ export const getAllTopColleges = gql`
           avgPackage
           hightestPackage
           topCollegeSequence
+          courses {
+            courseFee
+            courseFeeLabel
+            examName {
+              data {
+                id
+                attributes {
+                  examName
+                }
+              }
+            }
+          }
+          estYear
+          avgPackage
+          hightestPackage
+          topCollegeSequence
         }
       }
     }

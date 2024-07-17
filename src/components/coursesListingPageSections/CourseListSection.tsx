@@ -12,11 +12,10 @@ import { getAllCourses } from "@/graphql/courseQuery/course";
 import { useQuery } from "@apollo/client";
 export default function CourseListSection({
   data,
-  filterBy,
+  // filterBy,
   tabsSections,
 }: any) {
   const [MobileFilter, setMobileFilter] = useState(false);
-  const [displayCount, setDisplayCount] = useState(3);
   const [filteredData, setFilteredData] = useState<any>();
   const [SelectedFilters, setSelectedFilters] = useState({
     mode: [] as string[],
@@ -26,9 +25,10 @@ export default function CourseListSection({
   const [searchValue, setSearchValue] = useState("");
   const [ModeCheckedFilters, setModeCheckedFilters] = useState<string[]>([]);
   const [CourseCheckedDurationFilters, setCourseCheckedDurationFilters] =
-    useState<number>(96);
-  const [pageNo, SetPageNo] = useState(1);
-  const [sortingParameter, setSortingParameter] = useState("courseSequence");
+    useState<number>();
+  const [pageNo, setPageNo] = useState(1);
+  const [sortingParameterName, setSortingParameterName] =
+    useState("courseSequence");
 
   // Query
   const {
@@ -40,14 +40,13 @@ export default function CourseListSection({
       searchByCourseName: searchValue,
       modes: ModeCheckedFilters?.length ? ModeCheckedFilters : undefined,
       duration: CourseCheckedDurationFilters,
-      sortingParameter: sortingParameter,
+      sortingParameter: sortingParameterName,
       page: pageNo,
       pageSize: 10,
     },
   });
   useEffect(() => {
     if (courseData) {
-      setSortingParameter("courseSequence");
       if (pageNo === 1) {
         setFilteredData(courseData?.courses?.data);
       } else {
@@ -57,7 +56,13 @@ export default function CourseListSection({
         ]);
       }
     }
-  }, [courseData, searchValue, ModeCheckedFilters, sortingParameter, pageNo]);
+  }, [
+    courseData,
+    searchValue,
+    ModeCheckedFilters,
+    sortingParameterName,
+    pageNo,
+  ]);
 
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
     const searchTerm = event?.target?.value?.toLowerCase()?.trim();
@@ -68,20 +73,16 @@ export default function CourseListSection({
     }
   }
 
-  const handleMobileFilter = () => {
-    setMobileFilter((pre) => !pre);
-  };
-
   const handleFilterOptionClick = (option: any) => {
     if (option === "a-z") {
-      setSortingParameter("courseName");
+      setSortingParameterName("courseName");
     } else if (option === "reset") {
-      setSortingParameter("courseSequence");
+      setSortingParameterName("courseSequence");
     }
   };
 
   const handleLoadMore = () => {
-    SetPageNo((prev) => prev + 1);
+    setPageNo((prev) => prev + 1);
   };
 
   return (
@@ -89,7 +90,7 @@ export default function CourseListSection({
       <Wrapper className="flex flex-col justify-between gap-5 md:flex-row">
         {/* Aside College Filter Section  */}
         <CourseFilters
-          filterBy={filterBy}
+          // filterBy={filterBy}
           SelectedFilters={SelectedFilters}
           setSelectedFilters={setSelectedFilters}
           totalResults={courseData?.courses?.meta?.pagination?.total}
@@ -145,7 +146,8 @@ export default function CourseListSection({
               }
               totalColleges={course?.totalColleges}
               duration={
-                course?.attributes?.duration?.data?.attributes?.duration
+                course?.attributes?.duration?.data?.attributes?.duration ||
+                "N/A"
               }
               description={course?.attributes?.description}
               avgFeesFrom={course?.attributes?.avgFees?.from}

@@ -1,13 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import SortButton from "@/components/SortButton";
 import { MdOutlineSort } from "react-icons/md";
 import Wrapper from "@/components/Wrappers";
-import { Button } from "@/components/Button";
+import { Button, LoadingButton } from "@/components/Button";
 import CollegeFilteredCard from "@/components/cardsAndSliders/CollegeFilteredCard";
 import TopCollegesScroll from "@/components/cardsAndSliders/TopCollegesScroll";
 import CollegeFilters from "./CollegeFilters";
+import { useQuery } from "@apollo/client";
+import { getAllColleges } from "@/graphql/collegeQuery/colleges";
+import { convertToYearlyFee } from "@/utils/customText";
 export default function CollegeListSection({
   data,
   filterBy,
@@ -15,40 +18,125 @@ export default function CollegeListSection({
   topColleges,
 }: any) {
   const [MobileFilter, setMobileFilter] = useState(false);
-  const [displayCount, setDisplayCount] = useState(3);
-  const [filteredData, setFilteredData] = useState<any>(data);
+  const [filteredData, setFilteredData] = useState<any>([]);
   const [SelectedFilters, setSelectedFilters] = useState({
     stream: [] as string[],
-    courseDuration: 0,
     state: [] as string[],
     city: [] as string[],
-    courses: [] as string[],
+    course: [] as string[],
     programType: [] as string[],
     collegeType: [] as string[],
-    avgFeePerYear: "",
-    collegeCategory: [] as string[],
     affiliation: [] as string[],
     genderAccepted: "",
     ranking: "",
     examAccepted: [] as string[],
   });
 
-  function handleSearch() {
-    // search operation
+  // ============================================================== //
+  // used for Query
+  const [StreamCheckedFilters, setStreamCheckedFilters] = useState<string[]>(
+    [],
+  );
+  const [StateCheckedFilters, setStateCheckedFilters] = useState<string[]>([]);
+  const [CityCheckedFilters, setCityCheckedFilters] = useState<string[]>([]);
+  const [CourseCheckedFilters, setCourseCheckedFilters] = useState<string[]>(
+    [],
+  );
+  const [ProgramTypeCheckedFilters, setProgramTypeCheckedFilters] = useState<
+    string[]
+  >([]);
+  const [CollegeTypeCheckedFilters, setCollegeTypeCheckedFilters] = useState<
+    string[]
+  >([]);
+  const [AffiliationCheckedFilters, setAffiliationCheckedFilters] = useState<
+    string[]
+  >([]);
+  const [GenderCheckedFilters, setGenderCheckedFilters] = useState<string>("");
+  const [RankingCheckedFilters, setRankingCheckedFilters] =
+    useState<string>("");
+  const [ExamCheckedFilters, setExamCheckedFilters] = useState<string[]>([]);
+  // ============================================================== //
+  const [searchValue, setSearchValue] = useState("");
+  const [pageNo, setPageNo] = useState(1);
+  const [sortingParameterName, setSortingParameterName] =
+    useState("collegeSequence");
+
+  // Query
+  const {
+    data: collegeData,
+    loading,
+    error,
+  } = useQuery(getAllColleges(""), {
+    variables: {
+      streams: StreamCheckedFilters?.length ? StreamCheckedFilters : undefined,
+      states: StateCheckedFilters?.length ? StateCheckedFilters : undefined,
+      cities: CityCheckedFilters?.length ? CityCheckedFilters : undefined,
+      collegeTypes: CollegeTypeCheckedFilters?.length
+        ? CollegeTypeCheckedFilters
+        : undefined,
+      affiliations: AffiliationCheckedFilters?.length
+        ? AffiliationCheckedFilters
+        : undefined,
+      gender: GenderCheckedFilters ? GenderCheckedFilters : undefined,
+      examAccepted: ExamCheckedFilters?.length ? ExamCheckedFilters : undefined,
+      courses: CourseCheckedFilters?.length ? CourseCheckedFilters : undefined,
+      searchByCollegeName: searchValue,
+      collegeSortingParameter: sortingParameterName,
+      page: pageNo,
+      pageSize: 10,
+    },
+  });
+  useEffect(() => {
+    if (collegeData) {
+      if (pageNo === 1) {
+        setFilteredData(collegeData?.colleges?.data);
+      } else {
+        setFilteredData((prevData: any) => [
+          ...prevData,
+          ...collegeData?.colleges?.data,
+        ]);
+      }
+    }
+  }, [
+    collegeData,
+    searchValue,
+    sortingParameterName,
+    pageNo,
+
+    StreamCheckedFilters,
+    StateCheckedFilters,
+    CityCheckedFilters,
+    CourseCheckedFilters,
+    ProgramTypeCheckedFilters,
+    CollegeTypeCheckedFilters,
+    AffiliationCheckedFilters,
+    GenderCheckedFilters,
+    RankingCheckedFilters,
+    ExamCheckedFilters,
+  ]);
+
+  // console.log(filteredData, "filteredData");
+  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
+    const searchTerm = event?.target?.value?.toLowerCase()?.trim();
+    if (searchTerm.length >= 3) {
+      setSearchValue(searchTerm);
+    } else {
+      setSearchValue("");
+    }
   }
 
   const handleFilterOptionClick = (option: any) => {
     if (option === "a-z") {
-      const sortedData: any = [...data].sort((a: any, b: any) => {
-        return a?.name.localeCompare(b?.name);
-      });
-      setFilteredData(sortedData.slice(0, displayCount));
+      setSortingParameterName("collegeName");
     } else if (option === "reset") {
-      const resetArray: any = [...data].slice(0, displayCount);
-      setFilteredData(resetArray);
+      setSortingParameterName("collegeSequence");
     }
   };
 
+  const handleLoadMore = () => {
+    setPageNo((prev) => prev + 1);
+  };
+  console.log(filteredData?.[0]?.attributes?.courses, "filteredData");
   return (
     <section id="collegeList" className="my-5 w-full pb-5">
       <Wrapper
@@ -63,6 +151,27 @@ export default function CollegeListSection({
           totalResults={data?.length}
           mobileFilter={MobileFilter}
           setMobileFilter={setMobileFilter}
+          // filters
+          StreamCheckedFilters={StreamCheckedFilters}
+          setStreamCheckedFilters={setStreamCheckedFilters}
+          StateCheckedFilters={StateCheckedFilters}
+          setStateCheckedFilters={setStateCheckedFilters}
+          CityCheckedFilters={CityCheckedFilters}
+          setCityCheckedFilters={setCityCheckedFilters}
+          CourseCheckedFilters={CourseCheckedFilters}
+          setCourseCheckedFilters={setCourseCheckedFilters}
+          ProgramTypeCheckedFilters={ProgramTypeCheckedFilters}
+          setProgramTypeCheckedFilters={setProgramTypeCheckedFilters}
+          CollegeTypeCheckedFilters={CollegeTypeCheckedFilters}
+          setCollegeTypeCheckedFilters={setCollegeTypeCheckedFilters}
+          AffiliationCheckedFilters={AffiliationCheckedFilters}
+          setAffiliationCheckedFilters={setAffiliationCheckedFilters}
+          GenderCheckedFilters={GenderCheckedFilters}
+          setGenderCheckedFilters={setGenderCheckedFilters}
+          RankingCheckedFilters={RankingCheckedFilters}
+          setRankingCheckedFilters={setRankingCheckedFilters}
+          ExamCheckedFilters={ExamCheckedFilters}
+          setExamCheckedFilters={setExamCheckedFilters}
         />
         {/* main College Search and List Section  */}
         <main className="flex w-full flex-col py-5 pt-0 md:min-w-[550px] md:[flex:8]">
@@ -95,52 +204,83 @@ export default function CollegeListSection({
               </div>
             </div>
           </div>
-          {/* College List Section  */}
-          {filteredData.slice(0, 3).map((college: any) => (
-            <CollegeFilteredCard
-              key={college.id}
-              slug={college?.slug}
-              bgImage={college?.bgImage?.url}
-              city={college?.location?.city}
-              state={college?.location?.state}
-              overallRating={college?.reviewsAndRatings?.overallRating}
-              totalReviews={college?.reviewsAndRatings?.totalReviews}
-              avgFeePerYear={college?.avgFeePerYear}
-              affiliation={college?.affiliation}
-              hightestPackage={college?.hightestPackage}
-              brochureUrl={college?.brochureUrl}
-              collegeType={college?.collegeType}
-              collegeName={college?.collegeName}
-              avgPackage={college?.avgPackage}
-              exam={college?.exam}
-              description={college?.description}
-              tabsSections={tabsSections}
-            />
+          {/* College List Section */}
+          {filteredData?.map((college: any, index: number) => (
+            <React.Fragment key={college?.id}>
+              <CollegeFilteredCard
+                id={college?.id}
+                slug={college?.attributes?.slug}
+                bgImage={college?.attributes?.bgImage?.data?.attributes?.url}
+                city={
+                  college?.attributes?.location?.city?.data?.attributes?.city
+                }
+                state={
+                  college?.attributes?.location?.state?.data?.attributes?.state
+                }
+                overallRating={
+                  college?.attributes?.reviewsAndRatings?.overallRating
+                }
+                totalReviews={345}
+                avgFeePerYear={
+                  college?.attributes?.courses
+                    .map((course: any) =>
+                      convertToYearlyFee(
+                        course?.courseFee,
+                        course?.courseFeeLabel,
+                      ),
+                    )
+                    ?.reduce(
+                      (total: any, fee: any, _: any, { length }: any) =>
+                        total + fee / length,
+                      0,
+                    ) || 0
+                }
+                affiliation={college?.attributes?.affiliation?.data?.map(
+                  (value: any) => value?.attributes?.organization,
+                )}
+                hightestPackage={college?.attributes?.hightestPackage}
+                brochureUrl={college?.attributes?.brochureFile}
+                collegeType={college?.attributes?.college_type?.data?.attributes?.collegeType?.slice(
+                  0,
+                  3,
+                )}
+                collegeName={college?.attributes?.collegeName}
+                avgPackage={college?.attributes?.avgPackage}
+                exam={Array.from(
+                  new Set(
+                    college?.attributes?.courses?.map(
+                      (item: any) =>
+                        item?.courseName?.data?.attributes?.breadCrumb,
+                    ),
+                  ),
+                )
+                  .filter(Boolean)
+                  .join(", ")}
+                description={college?.attributes?.description}
+                tabsSections={college?.attributes?.navbars?.data?.map(
+                  (value: any) => value?.attributes?.navItem,
+                )}
+              />
+              {(index + 1) % 4 === 0 && index !== filteredData?.length - 1 && (
+                <TopCollegesScroll
+                  data={topColleges}
+                  key={`topColleges-${index}`}
+                />
+              )}
+            </React.Fragment>
           ))}
-          {/* Top Colleges Section  */}
-          <TopCollegesScroll data={topColleges} />
-          {/* Next College List Section  */}
-          {filteredData.slice(3).map((college: any) => (
-            <CollegeFilteredCard
-              key={college.id}
-              slug={college?.slug}
-              bgImage={college?.bgImage?.url}
-              city={college?.location?.city}
-              state={college?.location?.state}
-              overallRating={college?.reviewsAndRatings?.overallRating}
-              totalReviews={college?.reviewsAndRatings?.totalReviews}
-              avgFeePerYear={college?.avgFeePerYear}
-              affiliation={college?.affiliation}
-              hightestPackage={college?.hightestPackage}
-              brochureUrl={college?.brochureUrl}
-              collegeType={college?.collegeType}
-              collegeName={college?.collegeName}
-              avgPackage={college?.avgPackage}
-              exam={college?.exam}
-              description={college?.description}
-              tabsSections={tabsSections}
-            />
-          ))}
+
+          {/* Top Colleges Section */}
+          {filteredData?.length % 4 !== 0 && (
+            <TopCollegesScroll data={topColleges} />
+          )}
+
+          {collegeData?.courses?.meta?.pagination?.total >
+            filteredData?.length && (
+            <LoadingButton onClick={handleLoadMore} className="mx-auto">
+              Load More
+            </LoadingButton>
+          )}
         </main>
       </Wrapper>
     </section>

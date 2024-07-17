@@ -9,6 +9,9 @@ import { HiBuildingLibrary } from "react-icons/hi2";
 import { FaPlaneDeparture, FaUserNinja } from "react-icons/fa";
 import { YourDetails } from "./YouDetails";
 import { EducationDetails } from "./EductionDetails";
+import { DesiredCollege } from "./DesiredCollege";
+import { ProfessionalExp } from "./ProfessionalExp";
+import { AbroadCollege } from "./StudyAbroad";
 
 export default function Profile({}: any) {
   const stepItems = [
@@ -81,13 +84,13 @@ export default function Profile({}: any) {
           <EducationDetails setNextButtonState={setNextButtonState} />
         </div>
         <div className="pt-10">
-          <h1>Thank you for using Awesome React Stepper</h1>
+        <DesiredCollege setNextButtonState={setNextButtonState} />
         </div>
         <div className="pt-10">
-          <h1>Thank you for using Awesome React Stepper</h1>
+        <ProfessionalExp setNextButtonState={setNextButtonState} />
         </div>
         <div className="pt-10">
-          <h1>Thank you for using Awesome React Stepper</h1>
+        <AbroadCollege  />
         </div>
       </Stepper>
     </div>

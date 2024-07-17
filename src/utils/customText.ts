@@ -21,9 +21,9 @@ export function formatRupee(number: number) {
 
 export default function formatFees(amount: number) {
     if (amount >= 100000) {
-        return `${(amount / 100000)?.toFixed(0)} Lac`;
+        return `${(amount / 100000)?.toFixed(1)} Lac`;
     } else if (amount >= 1000) {
-        return `${(amount / 1000)?.toFixed(0)} K`;
+        return `${(amount / 1000)?.toFixed(1)} K`;
     } else {
         return `${amount}`;
     }
@@ -43,4 +43,43 @@ export function getDate(dateString: string) {
     const day = date.getDate().toString().padStart(2, '0');
 
     return (`${day}-${month}-${year}`);
+}
+
+export function convertQueryDataToTabSections(queryData: any): any {
+    const tabSectionsMap: { [key: string]: any } = {};
+
+    // Iterate over each item in queryData
+    queryData.forEach((item: any) => {
+        const navItem = item?.navItem?.data?.attributes?.navItem;
+        if (!navItem) {
+            // Skip this item if it doesn't contain navItem
+            return;
+        }
+
+        const { navItem: _, ...sectionData } = item;
+
+        // Initialize the navItem in the map if it doesn't exist
+        if (!tabSectionsMap[navItem]) {
+            tabSectionsMap[navItem] = { navItem: navItem, sections: [] };
+        }
+
+        // Add the section data to the respective navItem's sections array
+        tabSectionsMap[navItem].sections.push(sectionData);
+    });
+
+    // Convert the map to an array
+    return Object.values(tabSectionsMap);
+}
+
+export function convertToYearlyFee(courseFee: any, courseFeeLabel: any) {
+    switch (courseFeeLabel) {
+        case 'monthly':
+            return courseFee * 12;
+        case 'weekly':
+            return courseFee * 52;
+        case 'daily':
+            return courseFee * 365;
+        default: // yearly
+            return courseFee;
+    }
 }

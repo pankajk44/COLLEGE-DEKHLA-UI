@@ -4,32 +4,82 @@ import React, { useEffect, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 
+import { useQuery } from "@apollo/client";
+import {
+  getAllEligibilityLevels,
+  getAllExaminationLevels,
+  getAllExamModes,
+  getAllStreams,
+} from "@/graphql/examQuery/exams";
 export default function ExamFilters({
-  filterBy,
+  // filterBy,
   SelectedFilters,
   setSelectedFilters,
   totalResults,
   mobileFilter,
   setMobileFilter,
-}: any) {
-  // Filter Checked
-  const [StreamCheckedFilters, setStreamCheckedFilters] = useState<string[]>(
-    [],
-  );
-  const [ModeCheckedFilters, setModeCheckedFilters] = useState<string[]>([]);
-  const [EligibilityLevelCheckedFilters, setEligibilityLevelCheckedFilters] =
-    useState<string[]>([]);
-  const [ExaminationLevelCheckedFilters, setExaminationLevelCheckedFilters] =
-    useState<string[]>([]);
-  const [ExamStatusCheckedFilters, setExamStatusCheckedFilters] = useState<
-    string[]
-  >([]);
 
+  StreamCheckedFilters,
+  setStreamCheckedFilters,
+  ModeCheckedFilters,
+  setModeCheckedFilters,
+  EligibilityLevelCheckedFilters,
+  setEligibilityLevelCheckedFilters,
+  ExaminationLevelCheckedFilters,
+  setExaminationLevelCheckedFilters,
+}: any) {
+  const {
+    data: streams,
+    loading: streamsLoading,
+    error: streamsError,
+  } = useQuery(getAllStreams);
+  const {
+    data: examinationLevels,
+    loading: examinationLevelsLoading,
+    error: examinationLevelsError,
+  } = useQuery(getAllExaminationLevels);
+  const {
+    data: eligibilityLevels,
+    loading: eligibilityLevelsLoading,
+    error: eligibilityLevelsError,
+  } = useQuery(getAllEligibilityLevels);
+  const {
+    data: examModes,
+    loading: examModesLoading,
+    error: examModesError,
+  } = useQuery(getAllExamModes);
+
+  // ========================================================================== //
+  // filtering all Name form query
+  const streamsFilteredFromQueryArray = streams?.streams?.data
+    ? streams?.streams?.data?.map((stream: any) => stream?.attributes?.stream)
+    : [];
+  const examinationLevelsFilteredFromQueryArray = examinationLevels
+    ?.examinationLevels?.data
+    ? examinationLevels?.examinationLevels?.data?.map(
+        (examinationLevel: any) =>
+          examinationLevel?.attributes?.ExaminationLevel,
+      )
+    : [];
+  const eligibilityLevelsFilteredFromQueryArray = eligibilityLevels
+    ?.eligibilityLevels?.data
+    ? eligibilityLevels?.eligibilityLevels?.data?.map(
+        (eligibilityLevel: any) =>
+          eligibilityLevel?.attributes?.eligibilityLevel,
+      )
+    : [];
+  const examModesFilteredFromQueryArray = examModes?.examModes?.data
+    ? examModes?.examModes?.data?.map(
+        (examMode: any) => examMode?.attributes?.examMode,
+      )
+    : [];
+
+  //=====================================================================================//
   // handleFilter functions
   const handleStreamFilter = (data: string) => {
     // Toggle the selection
     const updatedSelection = StreamCheckedFilters.includes(data)
-      ? StreamCheckedFilters.filter((item) => item !== data)
+      ? StreamCheckedFilters.filter((item: any) => item !== data)
       : [...StreamCheckedFilters, data];
 
     setStreamCheckedFilters(updatedSelection);
@@ -42,7 +92,7 @@ export default function ExamFilters({
   const handleModeFilter = (data: string) => {
     // Toggle the selection
     const updatedSelection = ModeCheckedFilters.includes(data)
-      ? ModeCheckedFilters.filter((item) => item !== data)
+      ? ModeCheckedFilters.filter((item: any) => item !== data)
       : [...ModeCheckedFilters, data];
 
     setModeCheckedFilters(updatedSelection);
@@ -55,7 +105,7 @@ export default function ExamFilters({
   const handleEligibilityLevelFilter = (data: string) => {
     // Toggle the selection
     const updatedSelection = EligibilityLevelCheckedFilters.includes(data)
-      ? EligibilityLevelCheckedFilters.filter((item) => item !== data)
+      ? EligibilityLevelCheckedFilters.filter((item: any) => item !== data)
       : [...EligibilityLevelCheckedFilters, data];
 
     setEligibilityLevelCheckedFilters(updatedSelection);
@@ -68,7 +118,7 @@ export default function ExamFilters({
   const handleExaminationLevelFilter = (data: string) => {
     // Toggle the selection
     const updatedSelection = ExaminationLevelCheckedFilters.includes(data)
-      ? ExaminationLevelCheckedFilters.filter((item) => item !== data)
+      ? ExaminationLevelCheckedFilters.filter((item: any) => item !== data)
       : [...ExaminationLevelCheckedFilters, data];
 
     setExaminationLevelCheckedFilters(updatedSelection);
@@ -77,20 +127,7 @@ export default function ExamFilters({
       level: updatedSelection,
     }));
   };
-
-  const handleExamStatusFilter = (data: string) => {
-    // Toggle the selection
-    const updatedSelection = ExamStatusCheckedFilters.includes(data)
-      ? ExamStatusCheckedFilters.filter((item) => item !== data)
-      : [...ExamStatusCheckedFilters, data];
-
-    setExamStatusCheckedFilters(updatedSelection);
-    setSelectedFilters((prevData: any) => ({
-      ...prevData,
-      level: updatedSelection,
-    }));
-  };
-
+  // ==========================================================================//
   // function to remove filters from all selected filters
   const handleUnselectFilter = (filter?: string) => {
     if (filter === "stream") {
@@ -114,19 +151,14 @@ export default function ExamFilters({
         ...prevData,
         category: [],
       }));
-    } else if (filter === "examStatus") {
-      setExamStatusCheckedFilters([]);
-      setSelectedFilters((prevData: any) => ({
-        ...prevData,
-        category: [],
-      }));
     }
   };
+
   return (
     <aside
-      className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20 ${mobileFilter ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll" : "max-md:hidden"}`}
+      className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20  md:sticky md:top-2 md:h-screen ${mobileFilter ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll" : "max-md:hidden"}`}
     >
-     <button
+      <button
         className="!fixed !right-5 !top-24 !z-50 text-4xl text-black hover:text-orange-500 md:hidden"
         onClick={() => setMobileFilter(false)}
       >
@@ -136,7 +168,7 @@ export default function ExamFilters({
       <div className="w-full pb-0 max-md:bg-opacity-95">
         <h2 className="mb-5 font-medium">Find Exam</h2>
         {/* Selected filters display */}
-        <div className="mb-3 flex flex-wrap items-center gap-1 max-md:text-white">
+        <div className="mb-3 flex flex-wrap items-center gap-1 max-md:text-black md:max-h-[9vh] md:overflow-hidden md:hover:overflow-y-auto">
           {Object.values(SelectedFilters).some(
             (value) =>
               value !== "" && (!Array.isArray(value) || value.length !== 0),
@@ -165,36 +197,32 @@ export default function ExamFilters({
         {/* END shows filter by options */}
 
         {/* Filters  */}
+        <div className="md:max-h-[77vh] md:overflow-hidden md:hover:overflow-y-auto max-md:mb-20"> 
         <Filter
           title="SPECIALIZATION"
-          filterList={filterBy?.stream}
+          filterList={streamsFilteredFromQueryArray}
           handleFilter={handleStreamFilter}
           checked={StreamCheckedFilters}
         />
         <Filter
           title="MODE"
-          filterList={filterBy?.mode}
+          filterList={examModesFilteredFromQueryArray}
           handleFilter={handleModeFilter}
           checked={ModeCheckedFilters}
         />
         <Filter
           title="ELIGIBILITY LEVEL"
-          filterList={filterBy?.eligibilityLevel}
+          filterList={eligibilityLevelsFilteredFromQueryArray}
           handleFilter={handleEligibilityLevelFilter}
           checked={EligibilityLevelCheckedFilters}
         />
         <Filter
           title="EXAMINATION LEVEL"
-          filterList={filterBy?.examinationLevel}
+          filterList={examinationLevelsFilteredFromQueryArray}
           handleFilter={handleExaminationLevelFilter}
           checked={ExaminationLevelCheckedFilters}
         />
-        <Filter
-          title="EXAM STATUS"
-          filterList={filterBy?.examStatus}
-          handleFilter={handleExamStatusFilter}
-          checked={ExamStatusCheckedFilters}
-        />
+        </div>
       </div>
     </aside>
   );

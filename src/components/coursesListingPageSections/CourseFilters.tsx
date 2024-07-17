@@ -5,9 +5,9 @@ import { MdClose } from "react-icons/md";
 
 import { getAllModes } from "@/graphql/courseQuery/course";
 import { useQuery } from "@apollo/client";
-import { AnyARecord } from "dns";
+
 export default function CourseFilters({
-  filterBy,
+  // filterBy,
   SelectedFilters,
   setSelectedFilters,
   totalResults,
@@ -18,7 +18,7 @@ export default function CourseFilters({
   CourseCheckedDurationFilters,
   setCourseCheckedDurationFilters,
 }: any) {
-  const { data: modes, refetch, loading, error } = useQuery(getAllModes);
+  const { data: modes, loading, error } = useQuery(getAllModes);
 
   // console.log(modes?.courseModes?.data, "modes");
   // filtering all modes Name form query
@@ -66,7 +66,7 @@ export default function CourseFilters({
 
   return (
     <aside
-      className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20 ${mobileFilter ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll" : "max-md:hidden"}`}
+      className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20 md:sticky md:top-2 md:h-screen ${mobileFilter ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll" : "max-md:hidden"}`}
     >
       <button
         className="!fixed !right-5 !top-24 !z-50 text-4xl text-black hover:text-orange-500 md:hidden"
@@ -76,7 +76,7 @@ export default function CourseFilters({
       </button>
       <h1 className="mb-7 font-medium">Found {totalResults} Results</h1>
       <div className="w-full pb-0 max-md:bg-opacity-95">
-        <div className="mb-3 flex flex-wrap items-center gap-1 max-md:text-white">
+        <div className="mb-3 flex flex-wrap items-center gap-1 max-md:text-black md:overflow-hidden md:hover:overflow-y-auto md:max-h-[10vh]">
           {Object.values(SelectedFilters).some(
             (value) =>
               value !== "" &&
@@ -108,7 +108,7 @@ export default function CourseFilters({
             }
             return (
               value !== "" &&
-              (!Array.isArray(value) || value.length !== 0) && (
+              (!Array.isArray(value) || value?.length !== 0) && (
                 <div
                   key={key}
                   className="flex w-max items-center gap-1 rounded-md border border-orange-500 px-2 py-1 text-xs"
@@ -122,7 +122,8 @@ export default function CourseFilters({
             );
           })}
         </div>
-        <Filter
+        <div className="md:overflow-hidden md:hover:overflow-y-auto md:max-h-[76vh]">    
+          <Filter
           title="MODE"
           filterList={modesFilteredFromQueryArray}
           handleFilter={handleModeFilter}
@@ -130,10 +131,11 @@ export default function CourseFilters({
         />
         <Filter
           title="COURSE DURATION"
-          filterList={filterBy?.courseDuration}
+          filterList={[]}
           handleFilter={handleCourseDurationFilter}
-          checked={CourseCheckedDurationFilters}
+          checked={CourseCheckedDurationFilters || 96}
         />
+        </div>
       </div>
     </aside>
   );
