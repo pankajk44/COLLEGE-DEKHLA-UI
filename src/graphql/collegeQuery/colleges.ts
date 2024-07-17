@@ -1,206 +1,331 @@
-import { gql } from "@apollo/client";
+"use client";
+import { gql, DocumentNode } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { useState } from "react";
 
-// function ratingFilter(range: any) {
-//   switch (range) {
-//     case "5":
-//       return `eq: 5`;
-//     case "4-5":
-//       return `gte: 4, lt: 5`;
-//     case "3-4":
-//       return `gte: 3, lt: 4`;
-//     case "2-3":
-//       return `gte: 2, lt: 3`;
-//     case "<2":
-//       return `lt: 2`;
-//     default:
-//       return ``;
-//   }
-// }
+// Function to return filter ranges for top colleges
+function topCollegesFilter(range: any) {
+  switch (range) {
+    case "Top 10":
+      return { gte: 1, lt: 11 };
+    case "Top 20":
+      return { gte: 1, lt: 21 };
+    case "Top 30":
+      return { gte: 1, lt: 31 };
+    case "Top 40":
+      return { gte: 1, lt: 41 };
+    case "Top 50":
+      return { gte: 1, lt: 51 };
+    default:
+      return {};
+  }
+}
 
-// function avgFeePerYearFilter(range: any) {
-//   switch (range) {
-//     case "100000-300000":
-//       return `gte: 100000, lt: 300000`;
-//     case "300000-500000":
-//       return `gte: 300000, lt: 500000`;
-//     case "500000-800000":
-//       return `gte: 500000, lt: 800000`;
-//     case "800000-1000000":
-//       return `gte: 800000, lt: 1000000`;
-//     case "1000000-1200000":
-//       return `gte: 1000000, lt: 1200000`;
-//     case "1200000-1500000":
-//       return `gte: 1200000, lt: 1500000`;
-//     case "1500000-2000000":
-//       return `gte: 1500000, lt: 2000000`;
-//     case "2000000-2500000":
-//       return `gte: 2000000, lt: 2500000`;
-//     default:
-//       return ``;
-//   }
-// }
+// Function to generate the GraphQL query
+export function getAllColleges(range: any): DocumentNode {
+  const topCollegesFilterObj = topCollegesFilter(range);
+  const topCollegesFilterStr =
+    Object.keys(topCollegesFilterObj).length > 0
+      ? `
+          topCollegeSequence: {
+            gte: ${topCollegesFilterObj.gte}
+            lt: ${topCollegesFilterObj.lt}
+          }
+      `
+      : "";
 
-export function getAllColleges() {
-  // const ratingFilterStr = ratingFilter(rating);
-  // const avgFeePerYearFilterStr = avgFeePerYearFilter(avgFeePerYear);
   return gql`
     query getAllColleges(
-      $start: Int!
-      $limit: Int!
-      $city: String
-      $state: String
-      $collegeType: String
-      $affiliation: String
-      $gender: String
-      $examName: String
-      $course: String
-      $specialization: String
-    ) {
-      colleges(
-        pagination: { start: $start, limit: $limit }
-        sort: "collegeSequence:asc"
-        filters: {
-          college_type: { collegeType: { eq: $collegeType } }
-          location: {
-            city: { city: { eq: $city } }
-            state: { state: { eq: $state } }
-          }
-          affiliation: { organization: { eq: $affiliation } }
-          genderAccepted: { gender: { eq: $gender } }
-          courses: {
-            examName: { examName: { eq: $examName } }
-            courseName: { courseName: { eq: $course } }
-            specialization: { specialization: { eq: $specialization } }
+  $page: Int
+  $pageSize: Int
+  $cities: [String]
+  $states: [String]
+  $collegeTypes: [String]
+  $affiliations: [String]
+  $gender: String
+  $examAccepted: [String]
+  $courses: [String]
+  $streams: [String]
+  $collegeSortingParameter: [String]
+  $searchByCollegeName: String
+) {
+  colleges(
+    pagination: { page: $page, pageSize: $pageSize }
+    sort: $collegeSortingParameter
+    filters: {
+      collegeName: { containsi: $searchByCollegeName }
+      college_type: { collegeType: { in: $collegeTypes } }
+      location: {
+        city: { city: { in: $cities } }
+        state: { state: { in: $states } }
+      }
+      affiliation: { organization: { in: $affiliations } }
+      genderAccepted: { gender: { eq: $gender } }
+      courses: {
+        examName: { breadCrumb: { in: $examAccepted } }
+        courseName: { breadCrumb: { in: $courses } }
+        stream: { stream: { in: $streams } }
+      }
+        ${topCollegesFilterStr}
+    }
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        slug
+        breadCrumb
+        bgImage {
+          data {
+            id
+            attributes {
+              alternativeText
+              width
+              height
+              url
+            }
           }
         }
-      ) {
-        meta {
-          pagination {
-            total
-          }
-        }
-        data {
-          id
-          attributes {
-            slug
-            breadCrumb
-            bgImage {
-              data {
-                id
-                attributes {
-                  alternativeText
-                  width
-                  height
-                  url
-                }
-              }
-            }
-            collegeName
-            description
-            location {
-              state {
-                data {
-                  id
-                  attributes {
-                    state
-                  }
-                }
-              }
-              city {
-                data {
-                  id
-                  attributes {
-                    city
-                  }
-                }
-              }
-              country {
-                data {
-                  id
-                  attributes {
-                    country
-                  }
-                }
-              }
-            }
-            college_type {
-              data {
-                id
-                attributes {
-                  collegeType
-                }
-              }
-            }
-            affiliation {
-              data {
-                id
-                attributes {
-                  organization
-                }
-              }
-            }
-            avgPackage
-            hightestPackage
-            brochureFile {
-              data {
-                id
-                attributes {
-                  name
-                  alternativeText
-                  caption
-                  ext
-                  mime
-                  size
-                  url
-                }
-              }
-            }
-            navbars {
-              data {
-                id
-                attributes {
-                  navItem
-                }
-              }
-            }
-            CollegeReviewsAndRatings {
+        collegeName
+        description
+        location {
+          state {
+            data {
               id
-              Academics {
-                rating
-              }
-              Faculty {
-                rating
-              }
-              Infrastructure {
-                rating
-              }
-              SocialLife {
-                rating
-              }
-              Placement {
-                rating
+              attributes {
+                state
               }
             }
-            courses {
-              courseFee
-              courseFeeLabel
-              examName {
-                data {
-                  id
-                  attributes {
-                    examName
-                  }
-                }
+          }
+          city {
+            data {
+              id
+              attributes {
+                city
               }
             }
-            isFeatured
-            featuredSequence
-            collegeSequence
-            isTopCollege
-            topCollegeSequence
+          }
+          country {
+            data {
+              id
+              attributes {
+                country
+              }
+            }
+          }
+        }
+        college_type {
+          data {
+            id
+            attributes {
+              collegeType
+            }
+          }
+        }
+        affiliation {
+          data {
+            id
+            attributes {
+              organization
+            }
+          }
+        }
+        avgPackage
+        hightestPackage
+        brochureFile {
+          data {
+            id
+            attributes {
+              name
+              alternativeText
+              caption
+              ext
+              mime
+              size
+              url
+            }
+          }
+        }
+        navbars {
+          data {
+            id
+            attributes {
+              navItem
+            }
+          }
+        }
+        courses {
+        courseName {
+            data {
+              attributes {
+                breadCrumb
+              }
+            }
+          }
+          courseFee
+          courseFeeLabel
+          examName {
+            data {
+              id
+              attributes {
+                breadCrumb
+              }
+            }
+          }
+          stream {
+            data {
+              id
+              attributes {
+                stream
+              }
+            }
           }
         }
       }
     }
+  }
+}
+
   `;
 }
+
+export const getAllCollegeSortingParameters = gql`
+  query getAllCollegeSortingParameters {
+    colleges {
+      data {
+        id
+        attributes {
+          featuredSequence
+          topCollegeSequence
+          collegeSequence
+        }
+      }
+    }
+  }
+`;
+
+export const getAllCities = gql`
+  query getAllCities {
+    cities {
+      data {
+        attributes {
+          city
+        }
+      }
+    }
+  }
+`;
+
+export const getAllStates = gql`
+  query getAllStates {
+    states {
+      data {
+        attributes {
+          state
+        }
+      }
+    }
+  }
+`;
+
+export const getAllCollegeTypes = gql`
+  query getAllCollegeTypes {
+    collegeTypes {
+      data {
+        attributes {
+          collegeType
+        }
+      }
+    }
+  }
+`;
+export const getAllAffiliations = gql`
+  query getAllAffiliations {
+    organizations {
+      data {
+        attributes {
+          organization
+        }
+      }
+    }
+  }
+`;
+
+export const getAllGenders = gql`
+  query getAllGenders {
+    genders {
+      data {
+        attributes {
+          gender
+        }
+      }
+    }
+  }
+`;
+
+export const getAllCourses = gql`
+  query getAllCourses {
+    courses {
+      data {
+        attributes {
+          breadCrumb
+        }
+      }
+    }
+  }
+`;
+
+export const getAllStreams = gql`
+  query getAllStreams {
+    streams {
+      data {
+        attributes {
+          stream
+        }
+      }
+    }
+  }
+`;
+
+export const getCollegeListingPageBanner = gql`
+  query getCollegeListingPageBanner {
+    collegeListingPages {
+      data {
+        id
+        attributes {
+          bgImg {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          title
+          photos {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const getAllExamsAccepted = gql`
+  query getAllExamsAccepted {
+    exams {
+      data {
+        attributes {
+          breadCrumb
+        }
+      }
+    }
+  }
+`;

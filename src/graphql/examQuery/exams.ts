@@ -31,6 +31,8 @@ export const getAllExams = gql`
         id
         attributes {
           slug
+          examName
+          examSequence
           description
           bg {
             data {

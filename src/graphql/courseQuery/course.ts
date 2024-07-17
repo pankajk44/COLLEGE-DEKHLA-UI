@@ -28,6 +28,7 @@ export const getAllCourses = gql`
         attributes {
           slug
           courseName
+          courseSequence
           bgImage {
             data {
               id

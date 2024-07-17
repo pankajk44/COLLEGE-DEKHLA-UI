@@ -215,29 +215,25 @@ query getCollegeDetails($ID: ID!) {
           ... on ComponentCommonTextEditor {
             id
             heading
-            headingIcon {
+            author {
               data {
                 id
                 attributes {
-                  width
-                  height
-                  url
+                  name
+                  avatar {
+                    data {
+                      attributes {
+                        url
+                      }
+                    }
+                  }
+                  designation
+                  updatedAt
                 }
               }
             }
 
-            navItem {
-              data {
-                id
-                attributes {
-                  navItem
-                }
-              }
-            }
-          }
-          ... on ComponentCommonCoursesComponent {
-            id
-            heading
+            editorText: text
             headingIcon {
               data {
                 id
@@ -270,7 +266,7 @@ query getCollegeDetails($ID: ID!) {
                 }
               }
             }
-            text
+            reviewsText: text
             navItem {
               data {
                 id
@@ -293,30 +289,7 @@ query getCollegeDetails($ID: ID!) {
                 }
               }
             }
-            text
-            navItem {
-              data {
-                id
-                attributes {
-                  navItem
-                }
-              }
-            }
-          }
-          ... on ComponentCommonFacilitiesComponent {
-            id
-            heading
-            headingIcon {
-              data {
-                id
-                attributes {
-                  width
-                  height
-                  url
-                }
-              }
-            }
-            text
+            galleryText: text
             navItem {
               data {
                 id
@@ -329,16 +302,6 @@ query getCollegeDetails($ID: ID!) {
           ... on ComponentCommonFaqComponent {
             id
             heading
-            headingIcon {
-              data {
-                id
-                attributes {
-                  width
-                  height
-                  url
-                }
-              }
-            }
             Questions {
               id
               question
@@ -375,7 +338,6 @@ query getCollegeDetails($ID: ID!) {
               }
             }
           }
-
           ... on ComponentCommonVideoComponent {
             id
             heading
@@ -400,8 +362,7 @@ query getCollegeDetails($ID: ID!) {
           }
           ... on ComponentCommonBannerComponent {
             id
-            heading
-            image {
+            img {
               data {
                 id
                 attributes {
@@ -412,7 +373,7 @@ query getCollegeDetails($ID: ID!) {
                 }
               }
             }
-            text
+            bannerText: text
             href
             navItem {
               data {
@@ -446,7 +407,6 @@ query getCollegeDetails($ID: ID!) {
               }
             }
           }
-
           ... on ComponentCommonNewsComponent {
             id
             heading
@@ -474,5 +434,6 @@ query getCollegeDetails($ID: ID!) {
     }
   }
 }
+
 
 `;

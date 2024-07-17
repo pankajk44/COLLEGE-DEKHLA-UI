@@ -35,28 +35,27 @@ export const getUserForm = gql`
 
 export const updateUsersMetaData = gql`
   mutation updateUsersMetaData(
-  $id: ID!
-  $name: String
-  $gender: String
-  $email: String
-  $courseInterested: ID
-) {
-  updateUsersMetaData(
-    id: $id
-    data: {
-      name: $name
-      gender: $gender
-      email: $email
-      courseInterested: $courseInterested
-    }
+    $id: ID!
+    $name: String
+    $gender: String
+    $email: String
+    $courseInterested: ID
   ) {
-    data {
-      attributes {
-        name
-        email
+    updateUsersMetaData(
+      id: $id
+      data: {
+        name: $name
+        gender: $gender
+        email: $email
+        courseInterested: $courseInterested
+      }
+    ) {
+      data {
+        attributes {
+          name
+          email
+        }
       }
     }
   }
-}
-
 `;

@@ -9,21 +9,21 @@ import { useQuery } from "@apollo/client";
 import { getAllExams } from "@/graphql/examQuery/exams";
 
 export default function Exams() {
-  const specialization = "engineering";
-  const ExaminationLevel = "National";
-  const eligibilityLevel = "B.Sc";
-  const mode = "both";
+  // const streams = ["Engineering"];
+  // const ExaminationLevels = ["National"];
+  // const eligibilityLevels = ["B.Sc"];
+  // const modes = ["both"];
   const {
     data: examData,
     loading,
     error,
   } = useQuery(getAllExams, {
-    variables: {
-      specialization: specialization,
-      ExaminationLevel: ExaminationLevel,
-      eligibilityLevel: eligibilityLevel,
-      mode: mode,
-    },
+    // variables: {
+    //   streams: streams,
+    //   ExaminationLevels: ExaminationLevels,
+    //   eligibilityLevels: eligibilityLevels,
+    //   modes: modes,
+    // },
   });
   console.log("courseData:", examData);
 

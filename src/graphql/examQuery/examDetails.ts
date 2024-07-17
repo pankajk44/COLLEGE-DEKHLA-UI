@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const getExamDetails = gql`
   query getExamDetails($ID: ID!) {
-  exam(id: $ID) {
+    exam(id: $ID) {
       data {
         id
         attributes {
@@ -21,7 +21,7 @@ export const getExamDetails = gql`
             }
           }
           examName
-          stream {
+          streams {
             data {
               attributes {
                 stream
@@ -86,11 +86,25 @@ export const getExamDetails = gql`
               }
             }
           }
+          videoGalleryTitle {
+            title {
+              t1
+              t2
+              t3
+            }
+          }
           videoGallery {
             category
             video {
               id
               videoId
+            }
+          }
+          imageGalleryTitle {
+            title {
+              t1
+              t2
+              t3
             }
           }
           imageGallery {
@@ -130,9 +144,67 @@ export const getExamDetails = gql`
             }
           }
           PageData {
+            ... on ComponentCommonAccordionComponent {
+              accordion {
+                title
+                text
+              }
+              navItem {
+                data {
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonQuoteComponent {
+              quote
+              navItem {
+                data {
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+              author {
+                data {
+                  attributes {
+                    avatar {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                    name
+                    designation
+                    updatedAt
+                  }
+                }
+              }
+            }
+
             ... on ComponentCommonTextEditor {
               id
               heading
+              author {
+                data {
+                  id
+                  attributes {
+                    name
+                    avatar {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                    designation
+                    updatedAt
+                  }
+                }
+              }
+              editorText: text
               headingIcon {
                 data {
                   id
@@ -165,7 +237,7 @@ export const getExamDetails = gql`
                   }
                 }
               }
-              text
+              reviewText: text
               navItem {
                 data {
                   id
@@ -188,7 +260,7 @@ export const getExamDetails = gql`
                   }
                 }
               }
-              text
+              galleryText: text
               navItem {
                 data {
                   id
@@ -201,16 +273,6 @@ export const getExamDetails = gql`
             ... on ComponentCommonFaqComponent {
               id
               heading
-              headingIcon {
-                data {
-                  id
-                  attributes {
-                    width
-                    height
-                    url
-                  }
-                }
-              }
               Questions {
                 id
                 question
@@ -271,8 +333,7 @@ export const getExamDetails = gql`
             }
             ... on ComponentCommonBannerComponent {
               id
-              heading
-              image {
+              img {
                 data {
                   id
                   attributes {
@@ -283,7 +344,7 @@ export const getExamDetails = gql`
                   }
                 }
               }
-              text
+              bannerText: text
               href
               navItem {
                 data {
@@ -337,6 +398,15 @@ export const getExamDetails = gql`
                     navItem
                   }
                 }
+              }
+            }
+          }
+
+          navbars {
+            data {
+              id
+              attributes {
+                navItem
               }
             }
           }

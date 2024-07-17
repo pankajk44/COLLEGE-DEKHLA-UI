@@ -1,16 +1,14 @@
 import { gql } from "@apollo/client";
 
-export const getAllTopColleges = gql`
-  query getAllTopColleges {
-    colleges(
-      filters: { isTopCollege: { eq: true } }
-      sort: "topCollegeSequence:asc"
-    ) {
+export const getAllfeaturedColleges = gql`
+  query getAllfeaturedColleges {
+    colleges(filters: { isFeatured: { eq: true } }) {
       data {
         id
         attributes {
           slug
           breadCrumb
+          isFeatured
           collegeLogo {
             data {
               id

@@ -6,10 +6,26 @@ import CollegesSlider from "@/components/cardsAndSliders/CollegesSlider";
 import CollegeListSection from "@/components/collegesListingPageSections/CollegeListSection";
 import { collegePage, colleges } from "@/data/collegeData";
 import { banner1, tabsSections } from "@/data/globalData";
+import { getAllColleges } from "@/graphql/collegeQuery/colleges";
 import { addCommas } from "@/utils/customText";
+import { useQuery } from "@apollo/client";
 import React from "react";
 
 export default function Colleges() {
+   
+  const range = "Top 10";
+  const query = getAllColleges(range);
+
+  const {
+    data: collegeData,
+    loading,
+    error,
+  } = useQuery(query);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  console.log("collegeData:", collegeData);
   return (
     <>
       <CollegeListingBanner
