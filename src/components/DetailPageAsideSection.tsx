@@ -7,19 +7,17 @@ import Link from "next/link";
 
 export default function DetailPageAsideSection({ data }: any) {
   return (
-    <aside className="mt-5 flex min-w-[300px] flex-col gap-y-5 [flex:2] max-md:hidden max-md:bg-opacity-80 md:sticky md:top-0">
+    <aside className="mt-5 h-max min-w-[300px] space-y-5 [flex:2] max-md:hidden max-md:bg-opacity-80 md:sticky md:top-0">
       {data?.map((item: any, index: number) => (
         <React.Fragment key={index}>
           {/* Banner  */}
           {item?.banner && <Banner data={item?.banner} />}
           {/* Video Gallery  */}
-          <div className="md:overflow-hidden md:hover:overflow-y-auto">
-            {item?.videoGallery && <VideoGallery data={item?.videoGallery} />}
-            {/* Photo Gallery */}
-            {item?.imageGallery && <PhotoGallery data={item?.imageGallery} />}
-            {/* Top Courses  */}
-            {item?.topCourses && <TopCourses data={item?.topCourses} />}
-          </div>
+          {item?.videoGallery && <VideoGallery data={item?.videoGallery} />}
+          {/* Photo Gallery */}
+          {item?.imageGallery && <PhotoGallery data={item?.imageGallery} />}
+          {/* Top Courses  */}
+          {item?.topCourses && <TopCourses data={item?.topCourses} />}
         </React.Fragment>
       ))}
     </aside>
@@ -28,7 +26,7 @@ export default function DetailPageAsideSection({ data }: any) {
 
 function VideoGallery({ data }: any) {
   return (
-    <div className="w-full rounded-2xl bg-white p-5 pb-0">
+    <div className="h-max w-full rounded-2xl bg-white p-5 pb-0">
       <h2 className="mb-5 text-xl">Videos</h2>
       {data
         ?.slice(0, 3)
@@ -38,7 +36,7 @@ function VideoGallery({ data }: any) {
               key={index}
               videoId={item || ""}
               width={"100%"}
-              height={"200"}
+              height={"200px"}
               className="mb-5 rounded-xl"
             />
           ) : null,
@@ -76,7 +74,7 @@ function Banner({ data }: any) {
       <Button variant="white" className="mb-3 !w-full text-nowrap shadow-lg">
         Apply Now
       </Button>
-      <Link href={data?.brochureUrl} className="!w-full">
+      <Link href={data?.brochureUrl || "#"} className="!w-full">
         <Button variant="black" className="!w-full text-nowrap shadow-lg">
           <span>Download Brochure</span>
           <HiOutlineDownload />
