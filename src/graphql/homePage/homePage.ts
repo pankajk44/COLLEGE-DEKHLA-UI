@@ -30,6 +30,9 @@ export const getHomePage = gql`
             image {
               data {
                 attributes {
+                  alternativeText
+                  width
+                  height
                   url
                 }
               }
@@ -41,6 +44,9 @@ export const getHomePage = gql`
             image {
               data {
                 attributes {
+                  alternativeText
+                  width
+                  height
                   url
                 }
               }
@@ -94,6 +100,9 @@ export const getHomePage = gql`
               userAvatar {
                 data {
                   attributes {
+                    alternativeText
+                    width
+                    height
                     url
                   }
                 }
@@ -116,11 +125,15 @@ export const getHomePage = gql`
         attributes {
           slug
           courseName
+          breadCrumb
           isPopular
           bgImage {
             data {
               id
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -178,6 +191,9 @@ export const getHomePage = gql`
             data {
               id
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -261,6 +277,9 @@ export const getHomePage = gql`
             data {
               id
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -293,6 +312,9 @@ export const getHomePage = gql`
             data {
               id
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -376,6 +398,9 @@ export const getHomePage = gql`
           collegeLogo {
             data {
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }

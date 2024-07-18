@@ -13,6 +13,9 @@ export const getAllfeaturedColleges = gql`
             data {
               id
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }

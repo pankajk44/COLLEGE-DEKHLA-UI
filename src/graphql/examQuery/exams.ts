@@ -168,6 +168,9 @@ export const getExamListingPageBanner = gql`
           bgImg {
             data {
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -176,6 +179,9 @@ export const getExamListingPageBanner = gql`
           photos {
             data {
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }

@@ -166,6 +166,9 @@ export const getCourseDetails = gql`
                     avatar {
                       data {
                         attributes {
+                          alternativeText
+                          width
+                          height
                           url
                         }
                       }
@@ -189,6 +192,9 @@ export const getCourseDetails = gql`
                     avatar {
                       data {
                         attributes {
+                          alternativeText
+                          width
+                          height
                           url
                         }
                       }

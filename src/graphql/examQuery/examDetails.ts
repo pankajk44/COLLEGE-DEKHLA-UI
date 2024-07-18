@@ -9,6 +9,9 @@ export const getExamDetails = gql`
           logo {
             data {
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }

@@ -33,6 +33,9 @@ export const getAllCourses = gql`
             data {
               id
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -136,6 +139,9 @@ export const getCourseListingPageBanner = gql`
           bgImg {
             data {
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -144,6 +150,9 @@ export const getCourseListingPageBanner = gql`
           photos {
             data {
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }

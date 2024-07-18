@@ -41,14 +41,18 @@ import { useQuery } from "@apollo/client";
 import { getHomePage } from "@/graphql/homePage/homePage";
 
 export default function Home() {
+  const { data: homePageData, loading, error } = useQuery(getHomePage);
 
-const {
-  data: homePageData,
-  loading,
-  error,
-} = useQuery(getHomePage)
-
-console.log("homePageData", homePageData?.homePages);
+  console.log("homePageData", homePageData);
+  const popularCourses: any[] = homePageData?.popularCourses?.data?.map(
+    (item: any) => {
+      return {
+        id: item?.id,
+        breadCrumb: item?.attributes?.breadCrumb,
+        bgImage: item?.attributes.bgImage?.data?.attributes?.url,
+      };
+    },
+  );
 
   return (
     <section className="backgroundGradient relative !mt-0 w-full">
@@ -60,7 +64,7 @@ console.log("homePageData", homePageData?.homePages);
         text3={homePageData?.homePages?.data[0]?.attributes?.text3}
         text4={homePageData?.homePages?.data[0]?.attributes?.text4}
         text5={homePageData?.homePages?.data[0]?.attributes?.text5}
-        popularCourses={homePageData}
+        popularCourses={popularCourses}
         data={homePageData}
       />
 
@@ -69,7 +73,11 @@ console.log("homePageData", homePageData?.homePages);
         <h2 className="mb-5 text-center text-4xl font-bold sm:text-5xl md:mb-14">
           Events and Webinars
         </h2>
-        <Events data={homePageData?.eventsAndWebinars} />
+        <Events
+          eventsAndWebinars={
+            homePageData?.homePages?.data[0]?.attributes?.eventsAndWebinars
+          }
+        />
       </Wrapper>
 
       {/* Top Colleges */}
@@ -154,7 +162,16 @@ console.log("homePageData", homePageData?.homePages);
   );
 }
 
-function HomeBanner({ title, text, text1, text2, text3, text4, text5 }: any) {
+function HomeBanner({
+  title,
+  text,
+  text1,
+  text2,
+  text3,
+  text4,
+  text5,
+  popularCourses,
+}: any) {
   const isMobile = useIsMobile(750);
   return (
     <Wrapper
@@ -233,7 +250,7 @@ function HomeBanner({ title, text, text1, text2, text3, text4, text5 }: any) {
       <h2 className="mb-5 text-center text-3xl font-bold sm:text-5xl md:mb-10">
         Popular Courses
       </h2>
-      <PopularCoursesCard data={courses?.[0]} />
+      <PopularCoursesCard data={popularCourses} />
     </Wrapper>
   );
 }
@@ -253,11 +270,14 @@ function Card({ data }: any) {
 function PopularCoursesCard(data: any) {
   return (
     <div className="mb-4 flex w-full flex-wrap justify-center gap-6 p-4 max-sm:gap-2">
-      {[data?.[0], data?.[0], data?.[0], data?.[0], data?.[0], data?.[0]].map(
-        (item: any, index: number) => (
-          <CollegesCardContent key={index} text={data?.breadCrumb} />
-        ),
-      )}
+      {data?.data?.map((item: any, index: number) => (
+        <CollegesCardContent
+          key={index}
+          breadCrumb={item?.breadCrumb}
+          bgImage={item?.bgImage}
+          id={item?.id}
+        />
+      ))}
     </div>
   );
 }
@@ -373,38 +393,42 @@ const FeaturedCollegeSlider = () => {
   );
 };
 
-function CollegesCardContent({ text }: any) {
+function CollegesCardContent({ breadCrumb, bgImage, id }: any) {
   return (
-    <Link href={"/courses"}>
+    <Link href={id ? `/courses/${id}` : `#`}>
       <div className="flex-center hover:mix-blend-color-saturation hover:!border-3 h-full w-[200px] flex-col gap-5 rounded-2xl border-white bg-white p-5 text-center shadow-xl transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
         <Image
-          src={book1}
+          src={bgImage}
           alt="image"
           width={70}
           height={70}
           className="w-38 h-auto object-contain"
         />
         {/* <GiBookCover className="text-6xl" /> */}
-        <p className="text-center text-lg font-semibold">
-          <TextWithLineBreak text={courses?.[0].breadCrumb} />
-        </p>
+        <p className="text-center text-lg font-semibold">{breadCrumb}</p>
       </div>
     </Link>
   );
 }
 
 // Events function
-function Events({ data }: { data: any[] }) {
+function Events({ eventsAndWebinars }: { eventsAndWebinars: any[] }) {
   return (
     <Wrapper>
       <div className="flex flex-wrap justify-around">
-        {data?.slice(0, 3)?.map((event) => (
+        {eventsAndWebinars?.slice(0, 3)?.map((event) => (
           <div
             key={event?.id}
             className="w-[29%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
           >
             {/* Event content here */}
-            <Image src={event?.image} alt={"event"} className="h-auto w-full" />
+            <Image
+              src={event?.image?.data?.attributes?.url}
+              alt={"event"}
+              className="h-auto w-full object-cover"
+              height={800}
+              width={800}
+            />
             <div className="p-4">
               <p className="mb-3 text-2xl">{event.text}</p>
 
@@ -416,13 +440,19 @@ function Events({ data }: { data: any[] }) {
             </div>
           </div>
         ))}
-        {data?.slice(0, 1)?.map((event) => (
+        {eventsAndWebinars?.slice(0, 1)?.map((event) => (
           <div
             key={event?.id}
             className="w-[29%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
           >
             {/* Event content here */}
-            <Image src={event?.image} alt={"event"} className="h-auto w-full" />
+            <Image
+              src={event?.image}
+              alt={"event"}
+              className="h-auto w-full"
+              height={800}
+              width={800}
+            />
             <div className="p-4">
               <p className="mb-3 text-2xl">{event.text}</p>
 

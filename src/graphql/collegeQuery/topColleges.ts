@@ -1,9 +1,10 @@
 import { gql } from "@apollo/client";
 
 export const getAllTopColleges = gql`
-  query getAllTopColleges {
+  query getAllTopColleges($page: Int, $pageSize: Int) {
     colleges(
       filters: { isTopCollege: { eq: true } }
+      pagination: { page: $page, pageSize: $pageSize }
       sort: "topCollegeSequence:asc"
     ) {
       data {
@@ -71,22 +72,6 @@ export const getAllTopColleges = gql`
               }
             }
           }
-          courses {
-            courseFee
-            courseFeeLabel
-            examName {
-              data {
-                id
-                attributes {
-                  examName
-                }
-              }
-            }
-          }
-          estYear
-          avgPackage
-          hightestPackage
-          topCollegeSequence
           courses {
             courseFee
             courseFeeLabel

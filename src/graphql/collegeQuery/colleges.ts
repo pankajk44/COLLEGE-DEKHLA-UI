@@ -8,7 +8,7 @@ function topCollegesFilter(range: any) {
   switch (range) {
     case "Top 10":
       return { gte: 1, lt: 11 };
-    case "Top 20":
+    case "Top 20" /*  */:
       return { gte: 1, lt: 21 };
     case "Top 30":
       return { gte: 1, lt: 31 };
@@ -300,6 +300,9 @@ export const getCollegeListingPageBanner = gql`
           bgImg {
             data {
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -308,6 +311,9 @@ export const getCollegeListingPageBanner = gql`
           photos {
             data {
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -329,3 +335,4 @@ export const getAllExamsAccepted = gql`
     }
   }
 `;
+

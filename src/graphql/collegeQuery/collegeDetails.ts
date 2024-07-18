@@ -223,6 +223,9 @@ export const getCollegeDetails = gql`
                     avatar {
                       data {
                         attributes {
+                          alternativeText
+                          width
+                          height
                           url
                         }
                       }
@@ -238,6 +241,7 @@ export const getCollegeDetails = gql`
                 data {
                   id
                   attributes {
+                    alternativeText
                     width
                     height
                     url
@@ -260,6 +264,7 @@ export const getCollegeDetails = gql`
                 data {
                   id
                   attributes {
+                    alternativeText
                     width
                     height
                     url
@@ -283,6 +288,7 @@ export const getCollegeDetails = gql`
                 data {
                   id
                   attributes {
+                    alternativeText
                     width
                     height
                     url
@@ -323,6 +329,7 @@ export const getCollegeDetails = gql`
                 data {
                   id
                   attributes {
+                    alternativeText
                     width
                     height
                     url
@@ -345,6 +352,7 @@ export const getCollegeDetails = gql`
                 data {
                   id
                   attributes {
+                    alternativeText
                     width
                     height
                     url
@@ -414,6 +422,7 @@ export const getCollegeDetails = gql`
                 data {
                   id
                   attributes {
+                    alternativeText
                     width
                     height
                     url
@@ -456,6 +465,92 @@ export const getCollegeDetails = gql`
             Placement {
               rating
               description
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const getAllCoursesOfACollege = gql`
+  query coursesOfACollege(
+    $ID: ID!
+    $searchByCourseName: String
+    $courseSortingParameter: [String]
+    $page: Int
+    $pageSize: Int
+  ) {
+    college(id: $ID) {
+      data {
+        id
+        attributes {
+          courses(
+            sort: $courseSortingParameter
+            filters: {
+              courseName: { courseName: { containsi: $searchByCourseName } }
+            }
+            pagination: { page: $page, pageSize: $pageSize }
+          ) {
+            courseName {
+              data {
+                id
+                attributes {
+                  slug
+                  breadCrumb
+                  courseName
+                  description
+                  bgImage {
+                    data {
+                      attributes {
+                        alternativeText
+                        width
+                        height
+                        url
+                      }
+                    }
+                  }
+                  courseLevel {
+                    data {
+                      attributes {
+                        courseLevel
+                      }
+                    }
+                  }
+                  courseType {
+                    data {
+                      attributes {
+                        collegeType
+                      }
+                    }
+                  }
+                  duration {
+                    data {
+                      attributes {
+                        duration
+                      }
+                    }
+                  }
+                  avgFees {
+                    from
+                    to
+                  }
+                  courseMode {
+                    data {
+                      attributes {
+                        courseMode
+                      }
+                    }
+                  }
+                  navbars {
+                    data {
+                      attributes {
+                        navItem
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         }
