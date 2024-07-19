@@ -1,13 +1,18 @@
 import { gql } from "@apollo/client";
 
 export const getAllTopCourses = gql`
-  query getAllTopCourses {
-    courses(filters: { isPopular: { eq: true } }, sort: "popularSequence:asc") {
+  query getAllTopCourses($page: Int, $pageSize: Int) {
+    courses(
+      filters: { isPopular: { eq: true } }
+      pagination: { page: $page, pageSize: $pageSize }
+      sort: "popularSequence:asc"
+    ) {
       data {
         id
         attributes {
           slug
           courseName
+          breadCrumb
           isPopular
           bgImage {
             data {

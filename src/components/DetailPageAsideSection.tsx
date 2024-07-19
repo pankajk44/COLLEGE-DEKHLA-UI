@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "./Button";
 import { HiOutlineDownload } from "react-icons/hi";
 import Link from "next/link";
+import { formatRupee } from "@/utils/customText";
 
 export default function DetailPageAsideSection({ data }: any) {
   return (
@@ -14,10 +15,10 @@ export default function DetailPageAsideSection({ data }: any) {
           {item?.banner && <Banner data={item?.banner} />}
           {/* Video Gallery  */}
           {item?.videoGallery && <VideoGallery data={item?.videoGallery} />}
-          {/* Photo Gallery */}
-          {item?.imageGallery && <PhotoGallery data={item?.imageGallery} />}
           {/* Top Courses  */}
           {item?.topCourses && <TopCourses data={item?.topCourses} />}
+          {/* Photo Gallery */}
+          {item?.imageGallery && <PhotoGallery data={item?.imageGallery} />}
         </React.Fragment>
       ))}
     </aside>
@@ -90,16 +91,18 @@ function TopCourses({ data }: any) {
       <h2 className="border-b-2 border-orange-500 pb-5 text-xl">Top Courses</h2>
       <ul className="mb-5 flex flex-col">
         {data?.map((item: any, index: number) => (
-          <li key={index} className="border-b-2 border-orange-500 py-5 text-xs">
+          <li key={index} className="border-b-2 border-orange-500 py-5">
             <Link href={item?.id ? `/courses/${item?.id}` : `#`}>
-              <h6 className="text-base font-medium">{item?.breadCrumb}</h6>
+              <h6 className="text-xl font-medium">{item?.breadCrumb}</h6>
             </Link>
             <p className="flex gap-2">
               <span>Course Duration :</span>
-              <span className="text-orange-500">{item?.duration}</span>
+              <span className="text-orange-500">{item?.duration} months</span>
             </p>
             <p className="flex gap-2">
-              <span className="text-orange-500">{item?.fees}</span>
+              <span className="text-orange-500">
+                INR {formatRupee(item?.fees)}
+              </span>
               <span>avg. yearly fees</span>
             </p>
           </li>

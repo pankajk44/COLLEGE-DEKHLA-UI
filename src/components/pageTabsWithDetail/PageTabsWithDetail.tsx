@@ -11,6 +11,7 @@ export function PageTabsWithDetailWrapperContent({
   asideData,
   slug,
   tabUrlValue,
+  breadCrumb,
 }: any) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const router = useRouter();
@@ -46,7 +47,11 @@ export function PageTabsWithDetailWrapperContent({
         selectedIndex={selectedIndex}
       />
       <main className="flex gap-5 md:flex-row">
-        <Content selectedContent={data?.[selectedIndex]} />
+        <Content
+          selectedContent={data?.[selectedIndex]}
+          slug={slug}
+          breadCrumb={breadCrumb}
+        />
         <DetailPageAsideSection data={asideData} />
       </main>
     </Wrapper>
@@ -58,6 +63,7 @@ export default function PageTabsWithDetail({
   asideData,
   slug,
   tabUrlValue,
+  breadCrumb,
 }: any) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -66,6 +72,7 @@ export default function PageTabsWithDetail({
         asideData={asideData}
         slug={slug}
         tabUrlValue={tabUrlValue}
+        breadCrumb={breadCrumb}
       />
     </Suspense>
   );

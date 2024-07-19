@@ -1,23 +1,54 @@
-import { ChangeEvent } from "react";
+"use client";
+import { ChangeEvent, useState } from "react";
 import Wrapper from "../Wrappers";
 import { Button } from "../Button";
+import { getAllNews } from "@/graphql/newsQuery/news";
+import { useQuery } from "@apollo/client";
+import { SearchResult } from "./SearchResult";
 
-interface SearchProps {
-    searchTerm?: string;
-    setSearchTerm: (term: string) => void;
+export function Search() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [pageNo, SetPageNo] = useState(1);
+  const [runQuery, setRunQuery] = useState(false);
+
+  // Query
+  const {
+    data: newsSearchData,
+    loading: newsSearchDataLoading,
+    error: newsSearchDataError,
+  } = useQuery(getAllNews, {
+    skip: !runQuery,
+    variables: {
+      searchNewsByTitle: searchTerm,
+      page: pageNo,
+      pageSize: 10,
+    },
+  });
+
+  const newsSearch = newsSearchData?.news?.data?.map((item: any) => {
+    return {
+      id: item?.id,
+      slug: item?.attributes?.slug,
+      title: item?.attributes?.title,
+      text: item?.attributes?.excerpt,
+      timeStamp: item?.attributes?.updatedAt,
+      icon: item?.attributes?.icon?.data?.attributes?.url,
+      category: item?.attributes?.category?.data?.attributes?.category,
+    };
+  });
+
+  function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
+    setSearchTerm(event.target.value || "");
   }
 
-export function Search({ searchTerm, setSearchTerm }: SearchProps) {
-    function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
-      setSearchTerm(event.target.value || "");
+  function handleSubmit() {
+    if (searchTerm.trim() !== "") {
+      setRunQuery(true);
     }
-  
-    function handleSubmit() {
-      // console.log(searchTerm);
-      // Add submit logic here
-    }
-  
-    return (
+  }
+
+  return (
+    <>
       <Wrapper
         as="div"
         bgColor="bg-transparent"
@@ -36,5 +67,9 @@ export function Search({ searchTerm, setSearchTerm }: SearchProps) {
           Submit
         </Button>
       </Wrapper>
-    );
-  }
+      {newsSearch?.length > 0 && (
+        <SearchResult searchTerm={searchTerm} data={newsSearch} />
+      )}
+    </>
+  );
+}

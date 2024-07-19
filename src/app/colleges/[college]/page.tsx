@@ -8,7 +8,8 @@ import { banner1, tabsSections } from "@/data/globalData";
 
 import { useQuery } from "@apollo/client";
 import { getCollegeDetails } from "@/graphql/collegeQuery/collegeDetails";
-import { convertQueryDataToTabSections } from "@/utils/customText";
+import formatFees, { convertQueryDataToTabSections } from "@/utils/customText";
+import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
 
 type Props = {
   params: {
@@ -22,11 +23,22 @@ export default function CollegeDetailPage({ params }: Props) {
 
   // Query
   const {
-    loading,
-    error,
+    loading: collegeLoading,
+    error: collegeError,
     data: collegeData,
   } = useQuery(getCollegeDetails, {
     variables: { ID: collegeId },
+  });
+
+  const {
+    loading: topCourseLoading,
+    error: topCourseError,
+    data: topCourseData,
+  } = useQuery(getAllTopCourses, {
+    variables: {
+      page: 1,
+      pageSize: 3,
+    },
   });
 
   useEffect(() => {
@@ -38,32 +50,39 @@ export default function CollegeDetailPage({ params }: Props) {
     }
   }, [collegeData]);
   console.log(collegeData?.college?.data?.attributes, "collegeData");
+  console.log(tabSelectionArray, "tabSelectionArray");
+  // console.log(collegeData?.college?.data?.attributes?.breadCrumb, "breadCrumb");
 
   const asideSection = [
     {
-      videoGallery:
-        collegeData?.college?.data?.attributes?.videoGallery?.flatMap(
-          (gallery: any) => gallery?.video?.map((video: any) => video?.videoId),
-        ),
-      imageGallery:
-        collegeData?.college?.data?.attributes?.imageGallery?.flatMap(
-          (gallery: any) =>
-            gallery?.images?.data?.map((image: any) => image?.attributes?.url),
-        ),
       banner: {
         title: "Are You Interested in this College?",
         brochureUrl:
           collegeData?.college?.data?.attributes?.brochureFile?.data?.attributes
             ?.url,
       },
-      topCourses: [
-        {
-          breadCrumb: "Top Courses",
-          id: "3",
-          duration: "333",
-          fees: "10000",
-        },
-      ],
+      videoGallery:
+        collegeData?.college?.data?.attributes?.videoGallery?.flatMap(
+          (gallery: any) =>
+            gallery?.video?.data?.map(
+              (video: any) => video?.attributes?.videoId,
+            ),
+        ),
+      imageGallery:
+        collegeData?.college?.data?.attributes?.imageGallery?.flatMap(
+          (gallery: any) =>
+            gallery?.images?.data?.map((image: any) => image?.attributes?.url),
+        ),
+      topCourses: topCourseData?.courses?.data?.map((item: any) => {
+        return {
+          id: item?.id,
+          breadCrumb: item?.attributes?.courseName,
+          duration: item?.attributes?.duration?.data?.attributes?.duration,
+          fees:
+            (item?.attributes?.avgFees?.from + item?.attributes?.avgFees?.to) /
+            2,
+        };
+      }),
     },
   ];
 
@@ -105,6 +124,7 @@ export default function CollegeDetailPage({ params }: Props) {
         asideData={asideSection}
         slug={collegeId}
         tabUrlValue="colleges"
+        breadCrumb={collegeData?.college?.data?.attributes?.breadCrumb}
       />
       <Banner1 data={banner1} />
     </>

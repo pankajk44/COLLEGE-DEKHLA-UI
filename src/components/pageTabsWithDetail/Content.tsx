@@ -14,8 +14,9 @@ import { RiSearchLine } from "react-icons/ri";
 import CourseFilteredCard from "../cardsAndSliders/CourseFilteredCard";
 import { getAllCourses } from "@/graphql/collegeQuery/colleges";
 import { useQuery } from "@apollo/client";
+import RelatedCourses from "./RelatedCourses";
 
-export default function Content({ selectedContent }: any) {
+export default function Content({ selectedContent, slug, breadCrumb }: any) {
   const [isExpanded, setIsExpanded] = useState(true);
   // const isMobile = useIsMobile(1030);
   // const toggleReadMore = () => {
@@ -23,20 +24,51 @@ export default function Content({ selectedContent }: any) {
   // };
 
   return (
-    <div className="w-full md:[flex:8]">
+    <div className="w-full overflow-x-hidden md:[flex:8]">
       {selectedContent &&
         selectedContent?.sections?.length > 0 &&
         selectedContent?.sections?.map((section: any, index: any) => {
-          const articleLength = section?.article?.length || 0;
+          // const articleLength = section?.article?.length || 0;
           // Function to group images by category
-          const groupByCategory = (images: any) => {
-            return images?.reduce((acc: any, image: any) => {
-              (acc[image?.category] = acc[image?.category] || []).push(image);
-              return acc;
-            }, {});
+          const groupedImagesByCategory = (imageGalleries: any) => {
+            const groupedImages: any = {};
+
+            imageGalleries.forEach((gallery: any) => {
+              const category = gallery?.category;
+              const images = gallery?.images?.data?.map((imageEntity: any) => ({
+                url: imageEntity?.attributes?.url,
+              }));
+
+              if (!groupedImages[category]) {
+                groupedImages[category] = [];
+              }
+              groupedImages[category].push(...images);
+            });
+
+            return groupedImages;
           };
-          const groupedImages = groupByCategory(section?.imageGallery?.images);
-          const groupedVideos = groupByCategory(section?.videoGallery?.videos);
+          const imageGalleries = section?.imageGallery || [];
+          const groupedImages = groupedImagesByCategory(imageGalleries);
+
+          const groupVideosByCategory = (videoGalleries: any) => {
+            const groupedVideos: any = {};
+
+            videoGalleries.forEach((gallery: any) => {
+              const category = gallery?.category;
+              const videos = gallery?.video?.data.map((videoEntity: any) => ({
+                videoId: videoEntity?.attributes?.videoId,
+              }));
+
+              if (!groupedVideos?.[category]) {
+                groupedVideos[category] = [];
+              }
+              groupedVideos[category].push(...videos);
+            });
+
+            return groupedVideos;
+          };
+          const videoGalleries = section?.videoGallery || [];
+          const groupedVideos = groupVideosByCategory(videoGalleries);
           return (
             <div
               key={index}
@@ -44,7 +76,9 @@ export default function Content({ selectedContent }: any) {
             >
               {/* Title */}
               {section?.heading && (
-                <h2 className="my-5 text-2xl font-bold">{section?.heading}</h2>
+                <h2 className="my-5 text-2xl font-bold capitalize">
+                  {section?.heading}
+                </h2>
               )}
               {/* Author */}
               {section?.author && section?.author?.data?.attributes?.name && (
@@ -121,6 +155,41 @@ export default function Content({ selectedContent }: any) {
                   dangerouslySetInnerHTML={{ __html: section?.reviewsText }}
                 />
               )}
+              {/* galleryText */}
+              {section?.galleryText && (
+                <div
+                  className={`dangerouslySetInnerHTMLStyle mb-5 text-justify ${isExpanded ? "" : "line-clamp-4"}`}
+                  dangerouslySetInnerHTML={{ __html: section?.galleryText }}
+                />
+              )}
+              {/* videoText */}
+              {section?.videoText && (
+                <div
+                  className={`dangerouslySetInnerHTMLStyle mb-5 text-justify ${isExpanded ? "" : "line-clamp-4"}`}
+                  dangerouslySetInnerHTML={{ __html: section?.videoText }}
+                />
+              )}
+              {/* accordionText */}
+              {section?.accordionText && (
+                <div
+                  className={`dangerouslySetInnerHTMLStyle mb-5 text-justify ${isExpanded ? "" : "line-clamp-4"}`}
+                  dangerouslySetInnerHTML={{ __html: section?.accordionText }}
+                />
+              )}
+              {/* bannerText */}
+              {section?.bannerText && (
+                <div
+                  className={`dangerouslySetInnerHTMLStyle mb-5 text-justify ${isExpanded ? "" : "line-clamp-4"}`}
+                  dangerouslySetInnerHTML={{ __html: section?.bannerText }}
+                />
+              )}
+              {/* bannerText */}
+              {section?.facilityText && (
+                <div
+                  className={`dangerouslySetInnerHTMLStyle mb-5 text-justify ${isExpanded ? "" : "line-clamp-4"}`}
+                  dangerouslySetInnerHTML={{ __html: section?.facilityText }}
+                />
+              )}
               {/* Buttons */}
               {section?.button && (
                 <div className="mb-5 flex gap-2 max-sm:flex-col">
@@ -184,18 +253,18 @@ export default function Content({ selectedContent }: any) {
                 </div>
               )}
               {/* banner  */}
-              {section?.banner && (
+              {section?.bannerText && (
                 <div className="relative my-5">
                   <Image
-                    src={section?.banner?.img?.url}
+                    src={section?.bannerImage?.data?.[0]?.attributes?.url}
                     alt="banner"
                     width={1700}
                     height={480}
                     className="h-96 w-full object-cover object-center"
                   />
                   <p className="absolute bottom-0 left-0 w-full text-wrap bg-black bg-opacity-60 px-5 py-3 text-white">
-                    <Link href={section?.banner?.href || "#"}>
-                      {section?.banner?.text}
+                    <Link href={section?.href || "#"}>
+                      {section?.bannerTitle}
                     </Link>
                   </p>
                 </div>
@@ -203,24 +272,20 @@ export default function Content({ selectedContent }: any) {
               {/* Accordion  */}
               {section?.accordion && <TimelineList data={section?.accordion} />}
               {/* Photo Gallery  */}
-              {section?.imageGallery && section?.imageGallery?.images && (
+              {section?.imageGallery && (
                 <>
-                  {section?.imageGallery?.title && (
+                  {section?.title && (
                     <h2 className="border-b border-zinc-500 py-5 text-2xl font-bold">
-                      {section?.imageGallery?.title?.t1 && (
-                        <span className="text-black">
-                          {section?.imageGallery?.title?.t1}
-                        </span>
+                      {section?.title?.t1 && (
+                        <span className="text-black">{section?.title?.t1}</span>
                       )}{" "}
-                      {section?.imageGallery?.title?.t2 && (
+                      {section?.title?.t2 && (
                         <span className="text-orange-500">
-                          {section?.imageGallery?.title?.t2}
+                          {section?.title?.t2}
                         </span>
                       )}{" "}
-                      {section?.imageGallery?.title?.t3 && (
-                        <span className="text-black">
-                          {section?.imageGallery?.title?.t3}
-                        </span>
+                      {section?.title?.t3 && (
+                        <span className="text-black">{section?.title?.t3}</span>
                       )}{" "}
                     </h2>
                   )}
@@ -234,7 +299,7 @@ export default function Content({ selectedContent }: any) {
                           (image: any, i: number) => (
                             <Image
                               key={i}
-                              src={image.url}
+                              src={image?.url}
                               width={800}
                               height={800}
                               alt={`${category} image`}
@@ -248,24 +313,20 @@ export default function Content({ selectedContent }: any) {
                 </>
               )}
               {/* Video Gallery  */}
-              {section?.videoGallery && section?.videoGallery?.videos && (
+              {section?.videoGallery && (
                 <>
-                  {section?.videoGallery?.title && (
+                  {section?.videoGallery && (
                     <h2 className="border-b border-zinc-500 py-5 text-2xl font-bold">
-                      {section?.videoGallery?.title?.t1 && (
-                        <span className="text-black">
-                          {section?.videoGallery?.title?.t1}
-                        </span>
+                      {section?.title?.t1 && (
+                        <span className="text-black">{section?.title?.t1}</span>
                       )}{" "}
-                      {section?.videoGallery?.title?.t2 && (
+                      {section?.title?.t2 && (
                         <span className="text-orange-500">
-                          {section?.videoGallery?.title?.t2}
+                          {section?.title?.t2}
                         </span>
                       )}{" "}
-                      {section?.videoGallery?.title?.t3 && (
-                        <span className="text-black">
-                          {section?.videoGallery?.title?.t3}
-                        </span>
+                      {section?.title?.t3 && (
+                        <span className="text-black">{section?.title?.t3}</span>
                       )}{" "}
                     </h2>
                   )}
@@ -275,27 +336,49 @@ export default function Content({ selectedContent }: any) {
                         {category}
                       </h3>
                       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-3 md:grid-cols-4">
-                        {groupedVideos[category].map((video: any, i: number) =>
-                          video?.videoId ? (
-                            <YoutubeVideo
-                              videoId={video?.videoId}
-                              width={"100%"}
-                              height={"200"}
-                              key={i}
-                            />
-                          ) : null,
-                        )}
+                        {groupedVideos[category]?.map((video: any, i: any) => (
+                          <YoutubeVideo
+                            videoId={video?.videoId}
+                            width={"100%"}
+                            height={"200"}
+                            key={i}
+                          />
+                        ))}
                       </div>
                     </div>
                   ))}
                 </>
               )}
+              {/* Facilities */}
+              {section?.facility && (
+                <div className="mb-8 flex flex-wrap gap-5 rounded-lg bg-orange-500 p-5">
+                  {section.facility?.data?.map((d: any, i: number) => (
+                    <div
+                      key={i}
+                      className="flex-center gap-1 rounded-e-3xl rounded-s-3xl border-2 border-zinc-300 bg-white p-3 px-5 shadow"
+                    >
+                      <Image
+                        src={d?.attributes?.facilityIcon?.data?.attributes?.url}
+                        alt="icon"
+                        width={20}
+                        height={20}
+                        className="h-5 w-5"
+                      />
+                      <p className="font-semibold text-black">
+                        {d?.attributes?.facilityName}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
               {/* Review  */}
-              {section?.reviewsAndRatings && (
+              {section?.reviewsText && (
                 <ReviewsAndRatingsSection data={section?.reviewsAndRatings} />
               )}
               {/* Related Courses  */}
-              {section?.courses && <RelatedCourses data={section?.courses} />}
+              {section?.courseText && (
+                <RelatedCourses slug={slug} breadCrumb={breadCrumb} />
+              )}
               {/* FAQ  */}
               {section?.Questions && (
                 <FaqsForDetailPage data={section?.Questions} />
@@ -307,109 +390,12 @@ export default function Content({ selectedContent }: any) {
   );
 }
 
-function RelatedCourses({ data, breadCrumb }: any) {
-  const [searchValue, setSearchValue] = useState("");
-  const [filteredData, setFilteredData] = useState<any>();
-  const [pageNo, setPageNo] = useState(1);
-  // Query
-  const {
-    data: courseData,
-    loading,
-    error,
-  } = useQuery(getAllCourses, {
-    variables: {
-      searchByCourseName: searchValue,
-
-      page: pageNo,
-      pageSize: 10,
-    },
-  });
-  useEffect(() => {
-    if (courseData) {
-      if (pageNo === 1) {
-        setFilteredData(courseData?.courses?.data);
-      } else {
-        setFilteredData((prevData: any) => [
-          ...prevData,
-          ...courseData?.courses?.data,
-        ]);
-      }
-    }
-  }, [courseData, searchValue, pageNo]);
-  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
-    const searchTerm = event?.target?.value?.toLowerCase()?.trim();
-    if (searchTerm.length >= 3) {
-      setSearchValue(searchTerm);
-    } else {
-      setSearchValue("");
-    }
-  }
-
-  const handleLoadMore = () => {
-    setPageNo((prev) => prev + 1);
-  };
-
-  return (
-    <div>
-      <h1>
-        Courses Offered by {breadCrumb} {new Date().getFullYear()}
-      </h1>
-      <div className="flex w-full flex-col py-5 pt-0 md:min-w-[550px]">
-        {/* Search and Sort Section  */}
-        <div className="relative mb-4 flex items-stretch gap-4 max-md:flex-col">
-          <div className="text-primary-text focus-within:border-secondary-text flex h-12 flex-1 items-center rounded-xl border border-zinc-200 bg-white px-2 shadow-md">
-            <RiSearchLine className="text-orange-500" />
-            <input
-              className="w-full pl-5 focus:outline-none max-md:p-3"
-              type="text"
-              placeholder="Search Course Name"
-              onChange={handleSearch}
-            />
-          </div>
-        </div>
-        {/* College List Section  */}
-        {filteredData?.map((course: any) => (
-          <CourseFilteredCard
-            key={course?.id}
-            id={course?.id}
-            slug={course?.attributes?.slug}
-            bgImage={course?.attributes?.bgImage?.data?.attributes?.url}
-            courseName={course?.attributes?.courseName}
-            courseType={
-              course?.attributes?.courseType?.data?.attributes?.collegeType
-            }
-            totalColleges={course?.totalColleges}
-            duration={
-              course?.attributes?.duration?.data?.attributes?.duration || "N/A"
-            }
-            description={course?.attributes?.description}
-            avgFeesFrom={course?.attributes?.avgFees?.from}
-            avgFeesTo={course?.attributes?.avgFees?.to}
-            courseLevel={course?.attributes?.courseLevel?.data?.map(
-              (value: any) => value?.attributes?.courseLevel,
-            )}
-            tabsSections={course?.attributes?.navbars?.data?.map(
-              (value: any) => value?.attributes?.navItem,
-            )}
-          />
-        ))}
-        {courseData?.courses?.meta?.pagination?.total >
-          filteredData?.length && (
-          <LoadingButton onClick={handleLoadMore} className="mx-auto">
-            Load More
-          </LoadingButton>
-        )}
-      </div>
-    </div>
-  );
-}
-
 function ReviewsAndRatingsSection({ data }: any) {
   return (
-    <div className="space-y-5">
-      <div className="my-5 flex !h-auto items-center justify-around gap-16 max-md:mt-9 max-md:flex-col max-md:gap-5">
+    <div className="w-full space-y-5">
+      <div className="my-5 flex items-center justify-around gap-3 max-md:flex-col max-md:gap-5">
         {/* Overall Rating Section  */}
-        <div className="flex-center flex-col rounded-2xl bg-orange-200 p-5 sm:px-12">
+        <div className="flex-center flex-col rounded-2xl bg-orange-200 p-5">
           <h2 className="text-7xl font-semibold">{data?.overallRating}</h2>
           <div>
             <StarRating
@@ -417,10 +403,10 @@ function ReviewsAndRatingsSection({ data }: any) {
               className="gap-2 text-lg text-orange-500"
             />
           </div>
-          <p>{data?.totalReviews} Reviews</p>
+          <p>({data?.totalReviews} Reviews)</p>
         </div>
         {/* Rating according to number  */}
-        <div className="!h-auto w-1/2 space-y-2 max-sm:mb-3 max-sm:w-full">
+        <div className="space-y-2 max-sm:mb-3 max-sm:w-full">
           <div className="!my-3 flex items-center gap-3">
             <p className="mr-2 flex items-center gap-2 text-2xl font-semibold">
               5 <FaStar className="text-orange-500" />
@@ -485,7 +471,7 @@ function ReviewsAndRatingsSection({ data }: any) {
 
 function ProgressBar({ value }: any) {
   return (
-    <div className="h-3 w-full min-w-20 rounded-full bg-orange-200">
+    <div className="h-3 w-full min-w-40 rounded-full bg-orange-200">
       <div
         className={`h-3 rounded-full bg-orange-500`}
         style={{ width: `${value}%` }}

@@ -96,8 +96,11 @@ export const getExamDetails = gql`
           videoGallery {
             category
             video {
-              id
-              videoId
+              data {
+                attributes {
+                  videoId
+                }
+              }
             }
           }
           imageGalleryTitle {
@@ -144,46 +147,6 @@ export const getExamDetails = gql`
             }
           }
           PageData {
-            ... on ComponentCommonAccordionComponent {
-              accordion {
-                title
-                text
-              }
-              navItem {
-                data {
-                  attributes {
-                    navItem
-                  }
-                }
-              }
-            }
-            ... on ComponentCommonQuoteComponent {
-              quote
-              navItem {
-                data {
-                  attributes {
-                    navItem
-                  }
-                }
-              }
-              author {
-                data {
-                  attributes {
-                    avatar {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                    name
-                    designation
-                    updatedAt
-                  }
-                }
-              }
-            }
-
             ... on ComponentCommonTextEditor {
               id
               heading
@@ -204,6 +167,7 @@ export const getExamDetails = gql`
                   }
                 }
               }
+
               editorText: text
               headingIcon {
                 data {
@@ -237,7 +201,7 @@ export const getExamDetails = gql`
                   }
                 }
               }
-              reviewText: text
+              reviewsText: text
               navItem {
                 data {
                   id
@@ -261,6 +225,23 @@ export const getExamDetails = gql`
                 }
               }
               galleryText: text
+              imageGallery {
+                id
+                category
+                images {
+                  data {
+                    id
+                    attributes {
+                      url
+                    }
+                  }
+                }
+              }
+              title {
+                t1
+                t2
+                t3
+              }
               navItem {
                 data {
                   id
@@ -300,6 +281,7 @@ export const getExamDetails = gql`
                   }
                 }
               }
+              mainGalleryText: text
               navItem {
                 data {
                   id
@@ -322,6 +304,24 @@ export const getExamDetails = gql`
                   }
                 }
               }
+              videoText: text
+              title {
+                t1
+                t2
+                t3
+              }
+              videoGallery {
+                id
+                category
+                video {
+                  data {
+                    id
+                    attributes {
+                      videoId
+                    }
+                  }
+                }
+              }
               navItem {
                 data {
                   id
@@ -333,7 +333,7 @@ export const getExamDetails = gql`
             }
             ... on ComponentCommonBannerComponent {
               id
-              img {
+              bannerImage {
                 data {
                   id
                   attributes {
@@ -346,6 +346,7 @@ export const getExamDetails = gql`
               }
               bannerText: text
               href
+              bannerTitle
               navItem {
                 data {
                   id
@@ -369,6 +370,7 @@ export const getExamDetails = gql`
                   }
                 }
               }
+              reviewDescriptionText: text
               navbar {
                 data {
                   id
@@ -378,6 +380,7 @@ export const getExamDetails = gql`
                 }
               }
             }
+
             ... on ComponentCommonNewsComponent {
               id
               heading
@@ -391,9 +394,51 @@ export const getExamDetails = gql`
                   }
                 }
               }
+              newsText: text
               navItem {
                 data {
                   id
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonAccordionComponent {
+              accordion {
+                title
+                text
+              }
+              accordionText: text
+              navItem {
+                data {
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonQuoteComponent {
+              author {
+                data {
+                  attributes {
+                    avatar {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                    name
+                    designation
+                    updatedAt
+                  }
+                }
+              }
+              quote
+
+              navItem {
+                data {
                   attributes {
                     navItem
                   }
