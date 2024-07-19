@@ -155,7 +155,7 @@ export default function CourseListSection({
               courseLevel={course?.attributes?.courseLevel?.data?.map(
                 (value: any) => value?.attributes?.courseLevel,
               )}
-              tabsSections={course?.attributes?.navbars?.data?.map(
+              tabsSections={course?.attributes?.navbars?.data?.map( 
                 (value: any) => value?.attributes?.navItem,
               )}
             />

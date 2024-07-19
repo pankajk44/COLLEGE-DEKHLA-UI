@@ -56,7 +56,7 @@ export default function TopCollegesScroll({ data }: any) {
   }, [topCollegeData]);
 
   return (
-    <div className="relative my-16 max-w-max rounded-2xl bg-orange-500 px-1 py-10 shadow-lg sm:px-5">
+    <div className="relative my-5 max-w-max rounded-2xl bg-orange-500 px-1 py-10 shadow-lg sm:px-5">
       <h1 className="pb-6 text-3xl font-bold text-white max-sm:px-5">
         Discover Top colleges in <span className="text-black">Engineering</span>{" "}
         category
@@ -80,9 +80,7 @@ export default function TopCollegesScroll({ data }: any) {
                 bgImage={college?.attributes?.bgImage?.data?.attributes?.url}
                 collegeLogo={college?.collegeLogo}
                 breadCrumb={college?.breadCrumb}
-                city={
-                  college?.attributes?.location?.city?.data?.attributes?.city
-                }
+                city={ college?.attributes?.location?.city?.data?.attributes?.city }
                 state={
                   college?.attributes?.location?.state?.data?.attributes?.state
                 }
@@ -101,10 +99,6 @@ export default function TopCollegesScroll({ data }: any) {
           );
           return (
             <>
-              {slide}
-              {slide}
-              {slide}
-              {slide}
               {slide}
               {slide}
               {slide}

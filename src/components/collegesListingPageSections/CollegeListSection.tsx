@@ -239,7 +239,9 @@ export default function CollegeListSection({
                   (value: any) => value?.attributes?.organization,
                 )}
                 hightestPackage={college?.attributes?.hightestPackage}
-                brochureUrl={college?.attributes?.brochureFile}
+                brochureUrl={
+                  college?.attributes?.brochureFile?.data?.attributes?.url
+                }
                 collegeType={college?.attributes?.college_type?.data?.attributes?.collegeType?.slice(
                   0,
                   3,
