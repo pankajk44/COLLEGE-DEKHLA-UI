@@ -183,7 +183,7 @@ export default function Content({ selectedContent, slug, breadCrumb }: any) {
                   dangerouslySetInnerHTML={{ __html: section?.bannerText }}
                 />
               )}
-              {/* bannerText */}
+              {/* facilityText */}
               {section?.facilityText && (
                 <div
                   className={`dangerouslySetInnerHTMLStyle mb-5 text-justify ${isExpanded ? "" : "line-clamp-4"}`}
