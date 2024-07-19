@@ -1,21 +1,21 @@
 import { gql } from "@apollo/client";
 
-export const getAllTopColleges = gql`
-  query getAllTopColleges($page: Int, $pageSize: Int) {
-    colleges(
-      filters: { isTopCollege: { eq: true } }
-      pagination: { page: $page, pageSize: $pageSize }
-      sort: "topCollegeSequence:asc"
-    ) {
+export const getAllfeaturedColleges = gql`
+  query getAllfeaturedColleges {
+    colleges(filters: { isFeatured: { eq: true } }) {
       data {
         id
         attributes {
           slug
           breadCrumb
+          isFeatured
           collegeLogo {
             data {
               id
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }

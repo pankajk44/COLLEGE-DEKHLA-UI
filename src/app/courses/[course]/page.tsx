@@ -58,6 +58,7 @@ export default function CourseDetailPage({ params }: Props) {
         data={tabSelectionArray}
         asideData={asideSection}
         slug={courseId}
+        tabUrlValue={"courses"}
       />
       <Banner1 data={banner1} />
     </>

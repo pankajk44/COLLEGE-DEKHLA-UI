@@ -2,10 +2,10 @@ import { gql } from "@apollo/client";
 
 export const getAllCourses = gql`
   query getAllCourses(
-    $searchByCourseName: String
-    $modes: [String]
     $sortingParameter: [String]
+    $modes: [String]
     $duration: Long
+    $searchByCourseName: String
     $page: Int
     $pageSize: Int
   ) {
@@ -28,10 +28,14 @@ export const getAllCourses = gql`
         attributes {
           slug
           courseName
+          courseSequence
           bgImage {
             data {
               id
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -135,6 +139,9 @@ export const getCourseListingPageBanner = gql`
           bgImg {
             data {
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -143,6 +150,9 @@ export const getCourseListingPageBanner = gql`
           photos {
             data {
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }

@@ -1,11 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
 import { TiChevronLeft, TiChevronRight } from "react-icons/ti";
 import { CollegesCardContent } from "./CollegesSlider";
+import { useQuery } from "@apollo/client";
+import { getAllColleges } from "@/graphql/collegeQuery/colleges";
 
 export default function TopCollegesScroll({ data }: any) {
+  const [filteredData, setFilteredData] = useState<any>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftButton, setShowLeftButton] = useState(false);
   const [showRightButton, setShowRightButton] = useState(true);
+
+  // Query
+  const { data: topCollegeData, loading, error } = useQuery(getAllColleges(""));
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -42,45 +48,63 @@ export default function TopCollegesScroll({ data }: any) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    if (topCollegeData) {
+      setFilteredData(topCollegeData?.colleges?.data);
+    }
+    // console.log(topCollegeData?.colleges?.data, "colleges");
+  }, [topCollegeData]);
+
   return (
-    <div className="relative my-16 max-w-max rounded-2xl bg-orange-500 py-10 px-1 sm:px-5 shadow-lg">
-      <h1 className="max-sm:px-5  pb-6 text-3xl font-bold text-white">
-        Discover Top colleges in<br /> <span className="text-black">Engineering</span>{" "}
+    <div className="relative my-5 max-w-max rounded-2xl bg-orange-500 px-1 py-10 shadow-lg sm:px-5">
+      <h1 className="pb-6 text-3xl font-bold text-white max-sm:px-5">
+        Discover Top colleges in <span className="text-black">Engineering</span>{" "}
         category
       </h1>
-      
+
       <div
         className="flex w-full gap-6 overflow-x-auto md:px-5"
         // ref={scrollContainerRef}
         // onScroll={handleScroll}
       >
-        {data?.map((college: any, index: number) => {
-            const slide = (
-              <div
+        {filteredData?.map((college: any, index: number) => {
+          const slide = (
+            <div
               key={index}
-              className="min-w-96 overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-md max-sm:min-w-full p-1"
+              className="min-w-96 overflow-hidden rounded-2xl border border-zinc-300 bg-white p-1 shadow-md max-sm:min-w-full"
             >
               <CollegesCardContent
-                slug={college?.slug}
-                bgImage={college?.bgImage?.url}
+                key={college?.id}
+                id={college?.id}
+                slug={college?.attributes?.slug}
+                bgImage={college?.attributes?.bgImage?.data?.attributes?.url}
                 collegeLogo={college?.collegeLogo}
                 breadCrumb={college?.breadCrumb}
-                city={college?.city}
-                state={college?.state}
-                overallRating={college?.reviewsAndRatings?.overallRating}
-                totalReviews={college?.reviewsAndRatings?.totalReviews}
-                avgFeePerYear={college?.avgFeePerYear}
-                affiliation={college?.affiliation}
-                hightestPackage={college?.hightestPackage}
-                brochureUrl={college?.brochureUrl}
+                city={ college?.attributes?.location?.city?.data?.attributes?.city }
+                state={
+                  college?.attributes?.location?.state?.data?.attributes?.state
+                }
+                overallRating={
+                  college?.attributes?.reviewsAndRatings?.overallRating
+                }
+                totalReviews={345}
+                avgFeePerYear={180000}
+                affiliation={college?.attributes?.affiliation?.data?.map(
+                  (value: any) => value?.attributes?.organization,
+                )}
+                hightestPackage={college?.attributes?.hightestPackage}
+                brochureUrl={college?.attributes?.brochureFile}
               />
             </div>
-            )
-            return(
-              <>
-              {slide}{slide}{slide}{slide}{slide}{slide}{slide}{slide}
-              </>
-            )
+          );
+          return (
+            <>
+              {slide}
+              {slide}
+              {slide}
+              {slide}
+            </>
+          );
         })}
       </div>
       {/* {showLeftButton && (

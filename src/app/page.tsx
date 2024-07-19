@@ -37,19 +37,34 @@ import { headerLogo } from "@/assets";
 import CollegeFilteredCard from "@/components/cardsAndSliders/CollegeFilteredCard";
 import formatFees, { formatRupee } from "@/utils/customText";
 import { GiBookCover } from "react-icons/gi";
+import { useQuery } from "@apollo/client";
+import { getHomePage } from "@/graphql/homePage/homePage";
 
 export default function Home() {
+  const { data: homePageData, loading, error } = useQuery(getHomePage);
+
+  console.log("homePageData", homePageData);
+  const popularCourses: any[] = homePageData?.popularCourses?.data?.map(
+    (item: any) => {
+      return {
+        id: item?.id,
+        breadCrumb: item?.attributes?.breadCrumb,
+        bgImage: item?.attributes.bgImage?.data?.attributes?.url,
+      };
+    },
+  );
+
   return (
     <section className="backgroundGradient relative !mt-0 w-full">
       <HomeBanner
-        title={homePageData?.heroSection?.title}
-        text={homePageData?.heroSection?.text}
-        text1={homePageData?.text1}
-        text2={homePageData?.text2}
-        text3={homePageData?.text3}
-        text4={homePageData?.text4}
-        text5={homePageData?.text5}
-        popularCourses={courses}
+        title={homePageData?.homePages?.data[0]?.attributes?.HeroSection?.title}
+        text={homePageData?.homePages?.data[0]?.attributes?.HeroSection?.text}
+        text1={homePageData?.homePages?.data[0]?.attributes?.text1}
+        text2={homePageData?.homePages?.data[0]?.attributes?.text2}
+        text3={homePageData?.homePages?.data[0]?.attributes?.text3}
+        text4={homePageData?.homePages?.data[0]?.attributes?.text4}
+        text5={homePageData?.homePages?.data[0]?.attributes?.text5}
+        popularCourses={popularCourses}
         data={homePageData}
       />
 
@@ -58,8 +73,13 @@ export default function Home() {
         <h2 className="mb-5 text-center text-4xl font-bold sm:text-5xl md:mb-14">
           Events and Webinars
         </h2>
-        <Events data={homePageData?.eventsAndWebinars} />
+        <Events
+          eventsAndWebinars={
+            homePageData?.homePages?.data[0]?.attributes?.eventsAndWebinars
+          }
+        />
       </Wrapper>
+
       {/* Top Colleges */}
       <Wrapper containerClassName="py-14">
         <h2 className="mb-5 text-center text-4xl font-bold sm:text-5xl md:mb-14">
@@ -80,10 +100,20 @@ export default function Home() {
       {/* Testimonial */}
       <Wrapper bgColor="bg-zinc-200" containerClassName="relative py-14">
         <h2 className="mb-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
-          {testimonials?.title?.t1}
-          <span className="text-orange-500">{testimonials?.title?.t2}</span>
+          {homePageData?.homePages?.data[0].attributes?.testimonials?.title?.t1}{" "}
+          <span className="text-orange-500">
+            {
+              homePageData?.homePages?.data[0].attributes?.testimonials?.title
+                ?.t2
+            }
+          </span>
         </h2>
-        <TestimonialSlider data={testimonials?.testimonials} />
+        <TestimonialSlider
+          data={
+            homePageData?.homePages?.data[0].attributes?.testimonials
+              ?.testimonialCards
+          }
+        />
         <div className="mx-auto -mt-60 h-64 w-full rounded-2xl bg-orange-500"></div>
       </Wrapper>
 
@@ -92,7 +122,7 @@ export default function Home() {
         <h2 className="my-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
           We have been featured in the News!
         </h2>
-        <NewsCardSlider data={newsPage?.news} />
+        <NewsCardSlider data={homePageData?.news?.data} />
         <div className="flex-center my-6 w-full">
           <Link href={"#"}>
             <Button variant="white" className="!w-48 px-6 shadow-xl">
@@ -103,7 +133,7 @@ export default function Home() {
       </div>
 
       {/* Explore college */}
-      <Wrapper
+      {/* <Wrapper
         bgColor="bg-zinc-200"
         containerClassName="py-14"
         className="bg-orange-200 p-4"
@@ -125,16 +155,20 @@ export default function Home() {
 
           <FeaturedCollegeSlider />
         </div>
-      </Wrapper>
+      </Wrapper> */}
 
       {/* metric data */}
-      <MetricsCard data={homePageData?.metricData} />
+      <MetricsCard
+        data={homePageData?.homePages?.data[0].attributes?.metricData}
+      />
 
       {/* packages part */}
-      <PackageCard data={CounsellingPackages} />
+      <PackageCard
+        data={homePageData?.homePages?.data[0].attributes?.counsellingPackages}
+      />
 
       {/* faqs */}
-      <Faqs data={faqs} />
+      <Faqs data={homePageData?.homePages?.data[0].attributes?.faqs} />
 
       {/* final creative section */}
       <LastSection />
@@ -142,7 +176,16 @@ export default function Home() {
   );
 }
 
-function HomeBanner({ title, text, text1, text2, text3, text4, text5 }: any) {
+function HomeBanner({
+  title,
+  text,
+  text1,
+  text2,
+  text3,
+  text4,
+  text5,
+  popularCourses,
+}: any) {
   const isMobile = useIsMobile(750);
   return (
     <Wrapper
@@ -221,7 +264,7 @@ function HomeBanner({ title, text, text1, text2, text3, text4, text5 }: any) {
       <h2 className="mb-5 text-center text-3xl font-bold sm:text-5xl md:mb-10">
         Popular Courses
       </h2>
-      <PopularCoursesCard data={courses?.[0]} />
+      <PopularCoursesCard data={popularCourses} />
     </Wrapper>
   );
 }
@@ -241,11 +284,14 @@ function Card({ data }: any) {
 function PopularCoursesCard(data: any) {
   return (
     <div className="mb-4 flex w-full flex-wrap justify-center gap-6 p-4 max-sm:gap-2">
-      {[data?.[0], data?.[0], data?.[0], data?.[0], data?.[0], data?.[0]].map(
-        (item: any, index: number) => (
-          <CollegesCardContent key={index} text={data?.breadCrumb} />
-        ),
-      )}
+      {data?.data?.map((item: any, index: number) => (
+        <CollegesCardContent
+          key={index}
+          breadCrumb={item?.breadCrumb}
+          bgImage={item?.bgImage}
+          id={item?.id}
+        />
+      ))}
     </div>
   );
 }
@@ -361,38 +407,42 @@ const FeaturedCollegeSlider = () => {
   );
 };
 
-function CollegesCardContent({ text }: any) {
+function CollegesCardContent({ breadCrumb, bgImage, id }: any) {
   return (
-    <Link href={"/courses"}>
+    <Link href={id ? `/courses/${id}` : `#`}>
       <div className="flex-center hover:mix-blend-color-saturation hover:!border-3 h-full w-[200px] flex-col gap-5 rounded-2xl border-white bg-white p-5 text-center shadow-xl transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
         <Image
-          src={book1}
+          src={bgImage}
           alt="image"
           width={70}
           height={70}
           className="w-38 h-auto object-contain"
         />
         {/* <GiBookCover className="text-6xl" /> */}
-        <p className="text-center text-lg font-semibold">
-          <TextWithLineBreak text={courses?.[0].breadCrumb} />
-        </p>
+        <p className="text-center text-lg font-semibold">{breadCrumb}</p>
       </div>
     </Link>
   );
 }
 
 // Events function
-function Events({ data }: { data: any[] }) {
+function Events({ eventsAndWebinars }: { eventsAndWebinars: any[] }) {
   return (
     <Wrapper>
       <div className="flex flex-wrap justify-around">
-        {data?.slice(0, 3)?.map((event) => (
+        {eventsAndWebinars?.slice(0, 3)?.map((event) => (
           <div
             key={event?.id}
             className="w-[29%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
           >
             {/* Event content here */}
-            <Image src={event?.image} alt={"event"} className="h-auto w-full" />
+            <Image
+              src={event?.image?.data?.attributes?.url}
+              alt={"event"}
+              className="h-auto w-full object-cover"
+              height={800}
+              width={800}
+            />
             <div className="p-4">
               <p className="mb-3 text-2xl">{event.text}</p>
 
@@ -404,13 +454,19 @@ function Events({ data }: { data: any[] }) {
             </div>
           </div>
         ))}
-        {data?.slice(0, 1)?.map((event) => (
+        {eventsAndWebinars?.slice(0, 1)?.map((event) => (
           <div
             key={event?.id}
             className="w-[29%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
           >
             {/* Event content here */}
-            <Image src={event?.image} alt={"event"} className="h-auto w-full" />
+            <Image
+              src={event?.image}
+              alt={"event"}
+              className="h-auto w-full"
+              height={800}
+              width={800}
+            />
             <div className="p-4">
               <p className="mb-3 text-2xl">{event.text}</p>
 
@@ -454,7 +510,7 @@ const TestimonialSlider = ({ data }: any) => {
         {...swiperOptions}
         className={`mySwiper w-full max-w-fit px-5 md:w-[90%]`}
       >
-        {data.map((comments: { id: React.Key | null | undefined }) => (
+        {data?.map((comments: { id: React.Key | null | undefined }) => (
           <SwiperSlide
             key={comments.id}
             className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
@@ -516,7 +572,7 @@ const NewsCardSlider = ({ data }: any) => {
     breakpoints: {
       640: { slidesPerView: 1 },
       768: { slidesPerView: 2 },
-      1024: { slidesPerView: 3 },
+      1024: { slidesPerView: 2 },
     },
   };
 
@@ -532,9 +588,9 @@ const NewsCardSlider = ({ data }: any) => {
             className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
           >
             <NewsCard
-              image={news?.bgImage?.url}
-              text={news?.text}
-              timeStamp={news?.timeStamp}
+              image={news?.attributes?.icon?.data?.attributes?.url}
+              text={news?.attributes?.excerpt}
+              timeStamp={news?.attributes?.updatedAt}
             />
           </SwiperSlide>
         ))}
@@ -601,13 +657,23 @@ function MetricsCard({ data }: any) {
 
 // package card
 function PackageCard({ data }: any) {
+  const isMobile = useIsMobile(750);
+  console.log("data", data);
+
   return (
     <div className="w-full bg-zinc-200 p-4 pb-14">
       <div className="w-full">
         <h2 className="my-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
           {data?.title}
         </h2>
-        <p className="mb-11 text-center text-xl">{data?.text}</p>
+
+        <p className="mb-11 text-center text-xl">
+          {isMobile ? (
+            <TextWithoutLineBreak text={data?.text} />
+          ) : (
+            <TextWithLineBreak text={data?.text} />
+          )}
+        </p>
         <div className="flex flex-wrap items-stretch justify-center gap-4">
           {data?.counsellingPackagesCards?.map((packageData: { id: any }) => (
             <PackageContentCard key={packageData.id} data={packageData} />
@@ -630,14 +696,14 @@ function PackageContentCard({ data }: any) {
         ₹ {formatRupee(data?.price)} <span className="text-xl">/month</span>
       </h3>
       <p className="my-2">{data?.text}</p>
-      {data?.lists?.map((list: any) => (
+      {data?.lists?.data?.map((list: any) => (
         <p key={list.id} className="flex items-center font-bold">
-          {list?.isInclude ? (
+          {list?.attributes?.isInclude ? (
             <FaCheck className="mr-3" />
           ) : (
             <ImCross className="mr-3" />
           )}{" "}
-          {list?.text}
+          {list?.attributes?.text}
         </p>
       ))}
       <Link

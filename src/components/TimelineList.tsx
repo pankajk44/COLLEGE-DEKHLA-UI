@@ -8,22 +8,20 @@ export default function TimelineList({ data }: any) {
     setIsOpen(isOpen === id ? null : id);
   };
   return (
-    <div className="pt-5 flex w-full gap-x-3 items-stretch mb-5">
-      <div className=" mx-4 w-[2px] border-r-2 border-zinc-500"></div>
-      <div className="w-full flex flex-col gap-4  pt-0">
+    <div className="mb-5 flex w-full items-stretch gap-x-3 pt-5">
+      <div className="mx-4 w-[2px] border-r-2 border-zinc-500"></div>
+      <div className="flex w-full flex-col gap-4 pt-0">
         {data?.map((item: any, index: number) => (
           <div
-            key={item.id}
-            className={`
-            ${
-              isOpen === item.id || (index === 0 && isOpen === null)
+            key={index}
+            className={` ${
+              isOpen === index || (index === 0 && isOpen === null)
                 ? "chat-bubble-active shadow-lg"
                 : "chat-bubble"
-            }
-            relative rounded-lg border border-zinc-500 p-5 pb-4`}
+            } relative rounded-lg border border-zinc-500 p-5 pb-4`}
           >
             <button
-              onClick={() => toggle(item.id)}
+              onClick={() => toggle(index)}
               className="flex w-full items-center justify-between text-left"
             >
               <span className="pb-0 font-bold text-orange-500">
@@ -31,7 +29,7 @@ export default function TimelineList({ data }: any) {
               </span>
               <IoIosArrowDown
                 className={`flex-center transform rounded-full bg-orange-500 p-1 text-2xl text-zinc-600 transition-transform ${
-                  isOpen === item.id || (index === 0 && isOpen === null)
+                  isOpen === index || (index === 0 && isOpen === null)
                     ? "rotate-180"
                     : ""
                 }`}
@@ -39,7 +37,7 @@ export default function TimelineList({ data }: any) {
             </button>
             <div
               className={`mt-1 transition-all duration-300 ease-in-out ${
-                isOpen === item?.id || (index === 0 && isOpen === null)
+                isOpen === index || (index === 0 && isOpen === null)
                   ? "max-h-96"
                   : "max-h-0 overflow-hidden"
               }`}

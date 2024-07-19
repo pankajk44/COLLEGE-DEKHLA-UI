@@ -1,10 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const getExamDetails = gql`
-  query getExamDetails($ID: ID!, $navItem: String) {
-    exams(
-      filters: { id: { eq: $ID }, navbars: { navItem: { eq: $navItem } } }
-    ) {
+  query getExamDetails($ID: ID!) {
+    exam(id: $ID) {
       data {
         id
         attributes {
@@ -23,7 +21,7 @@ export const getExamDetails = gql`
             }
           }
           examName
-          stream {
+          streams {
             data {
               attributes {
                 stream
@@ -88,11 +86,28 @@ export const getExamDetails = gql`
               }
             }
           }
+          videoGalleryTitle {
+            title {
+              t1
+              t2
+              t3
+            }
+          }
           videoGallery {
             category
             video {
-              id
-              videoId
+              data {
+                attributes {
+                  videoId
+                }
+              }
+            }
+          }
+          imageGalleryTitle {
+            title {
+              t1
+              t2
+              t3
             }
           }
           imageGallery {
@@ -135,6 +150,25 @@ export const getExamDetails = gql`
             ... on ComponentCommonTextEditor {
               id
               heading
+              author {
+                data {
+                  id
+                  attributes {
+                    name
+                    avatar {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                    designation
+                    updatedAt
+                  }
+                }
+              }
+
+              editorText: text
               headingIcon {
                 data {
                   id
@@ -167,7 +201,7 @@ export const getExamDetails = gql`
                   }
                 }
               }
-              text
+              reviewsText: text
               navItem {
                 data {
                   id
@@ -190,7 +224,24 @@ export const getExamDetails = gql`
                   }
                 }
               }
-              text
+              galleryText: text
+              imageGallery {
+                id
+                category
+                images {
+                  data {
+                    id
+                    attributes {
+                      url
+                    }
+                  }
+                }
+              }
+              title {
+                t1
+                t2
+                t3
+              }
               navItem {
                 data {
                   id
@@ -203,16 +254,6 @@ export const getExamDetails = gql`
             ... on ComponentCommonFaqComponent {
               id
               heading
-              headingIcon {
-                data {
-                  id
-                  attributes {
-                    width
-                    height
-                    url
-                  }
-                }
-              }
               Questions {
                 id
                 question
@@ -240,6 +281,7 @@ export const getExamDetails = gql`
                   }
                 }
               }
+              mainGalleryText: text
               navItem {
                 data {
                   id
@@ -262,6 +304,24 @@ export const getExamDetails = gql`
                   }
                 }
               }
+              videoText: text
+              title {
+                t1
+                t2
+                t3
+              }
+              videoGallery {
+                id
+                category
+                video {
+                  data {
+                    id
+                    attributes {
+                      videoId
+                    }
+                  }
+                }
+              }
               navItem {
                 data {
                   id
@@ -273,8 +333,7 @@ export const getExamDetails = gql`
             }
             ... on ComponentCommonBannerComponent {
               id
-              heading
-              image {
+              bannerImage {
                 data {
                   id
                   attributes {
@@ -285,8 +344,9 @@ export const getExamDetails = gql`
                   }
                 }
               }
-              text
+              bannerText: text
               href
+              bannerTitle
               navItem {
                 data {
                   id
@@ -310,6 +370,7 @@ export const getExamDetails = gql`
                   }
                 }
               }
+              reviewDescriptionText: text
               navbar {
                 data {
                   id
@@ -319,6 +380,7 @@ export const getExamDetails = gql`
                 }
               }
             }
+
             ... on ComponentCommonNewsComponent {
               id
               heading
@@ -332,6 +394,7 @@ export const getExamDetails = gql`
                   }
                 }
               }
+              newsText: text
               navItem {
                 data {
                   id
@@ -339,6 +402,56 @@ export const getExamDetails = gql`
                     navItem
                   }
                 }
+              }
+            }
+            ... on ComponentCommonAccordionComponent {
+              accordion {
+                title
+                text
+              }
+              accordionText: text
+              navItem {
+                data {
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonQuoteComponent {
+              author {
+                data {
+                  attributes {
+                    avatar {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                    name
+                    designation
+                    updatedAt
+                  }
+                }
+              }
+              quote
+
+              navItem {
+                data {
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+          }
+
+          navbars {
+            data {
+              id
+              attributes {
+                navItem
               }
             }
           }

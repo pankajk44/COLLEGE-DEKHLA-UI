@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const getNewsDetails = gql`
   query getNewsDetails($ID: ID!) {
-    news(filters: { id: { eq: $ID } }) {
+    new(id: $ID) {
       data {
         id
         attributes {
@@ -13,6 +13,9 @@ export const getNewsDetails = gql`
               data {
                 id
                 attributes {
+                  alternativeText
+                  width
+                  height
                   url
                 }
               }

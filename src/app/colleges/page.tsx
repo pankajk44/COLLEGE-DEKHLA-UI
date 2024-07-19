@@ -6,18 +6,37 @@ import CollegesSlider from "@/components/cardsAndSliders/CollegesSlider";
 import CollegeListSection from "@/components/collegesListingPageSections/CollegeListSection";
 import { collegePage, colleges } from "@/data/collegeData";
 import { banner1, tabsSections } from "@/data/globalData";
+import { getCollegeListingPageBanner } from "@/graphql/collegeQuery/colleges";
 import { addCommas } from "@/utils/customText";
+import { useQuery } from "@apollo/client";
 import React from "react";
 
 export default function Colleges() {
+  // Query
+  const {
+    data: bannerData,
+    loading,
+    error,
+  } = useQuery(getCollegeListingPageBanner);
+
   return (
     <>
       <CollegeListingBanner
-        data={collegePage?.banner}
-        totalCollegesFound={34643}
+        title={bannerData?.courseListingPages?.data?.[0]?.attributes?.title}
+        bgImg={
+          bannerData?.courseListingPages?.data?.[0]?.attributes?.bgImg?.data
+            ?.attributes?.url
+        }
+        imgArray={bannerData?.courseListingPages?.data?.[0]?.attributes?.photos?.data?.map(
+          (img: any) => img?.attributes?.url,
+        )}
+        totalCollegesFound={bannerData?.courses?.meta?.pagination?.total}
       />
-      <TopColleges data={colleges} totalCollegesFound={34643} />
-      
+      <TopColleges
+        data={colleges}
+        totalCollegesFound={bannerData?.courses?.meta?.pagination?.total}
+      />
+
       <CollegeListSection
         data={colleges}
         filterBy={collegePage?.filterBy}
@@ -46,5 +65,3 @@ function TopColleges({ data, totalCollegesFound }: any) {
     </Wrapper>
   );
 }
-
-

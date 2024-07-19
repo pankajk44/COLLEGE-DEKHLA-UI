@@ -21,9 +21,9 @@ export function formatRupee(number: number) {
 
 export default function formatFees(amount: number) {
     if (amount >= 100000) {
-        return `${(amount / 100000)?.toFixed(0)} Lac`;
+        return `${(amount / 100000)?.toFixed(1)} Lac`;
     } else if (amount >= 1000) {
-        return `${(amount / 1000)?.toFixed(0)} K`;
+        return `${(amount / 1000)?.toFixed(1)} K`;
     } else {
         return `${amount}`;
     }
@@ -69,4 +69,17 @@ export function convertQueryDataToTabSections(queryData: any): any {
 
     // Convert the map to an array
     return Object.values(tabSectionsMap);
+}
+
+export function convertToYearlyFee(courseFee: any, courseFeeLabel: any) {
+    switch (courseFeeLabel) {
+        case 'monthly':
+            return courseFee * 12;
+        case 'weekly':
+            return courseFee * 52;
+        case 'daily':
+            return courseFee * 365;
+        default: // yearly
+            return courseFee;
+    }
 }
