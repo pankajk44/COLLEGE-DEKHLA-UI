@@ -91,8 +91,12 @@ export const getCollegeDetails = gql`
             id
             category
             video {
-              id
-              videoId
+              data {
+                id
+                attributes {
+                  videoId
+                }
+              }
             }
           }
           imageGallery {
@@ -160,7 +164,6 @@ export const getCollegeDetails = gql`
                   }
                 }
                 slug
-                timeStamp
               }
             }
           }
@@ -223,9 +226,6 @@ export const getCollegeDetails = gql`
                     avatar {
                       data {
                         attributes {
-                          alternativeText
-                          width
-                          height
                           url
                         }
                       }
@@ -241,7 +241,6 @@ export const getCollegeDetails = gql`
                 data {
                   id
                   attributes {
-                    alternativeText
                     width
                     height
                     url
@@ -264,7 +263,6 @@ export const getCollegeDetails = gql`
                 data {
                   id
                   attributes {
-                    alternativeText
                     width
                     height
                     url
@@ -288,7 +286,6 @@ export const getCollegeDetails = gql`
                 data {
                   id
                   attributes {
-                    alternativeText
                     width
                     height
                     url
@@ -296,6 +293,23 @@ export const getCollegeDetails = gql`
                 }
               }
               galleryText: text
+              imageGallery {
+                id
+                category
+                images {
+                  data {
+                    id
+                    attributes {
+                      url
+                    }
+                  }
+                }
+              }
+              title {
+                t1
+                t2
+                t3
+              }
               navItem {
                 data {
                   id
@@ -329,13 +343,13 @@ export const getCollegeDetails = gql`
                 data {
                   id
                   attributes {
-                    alternativeText
                     width
                     height
                     url
                   }
                 }
               }
+              mainGalleryText: text
               navItem {
                 data {
                   id
@@ -352,10 +366,27 @@ export const getCollegeDetails = gql`
                 data {
                   id
                   attributes {
-                    alternativeText
                     width
                     height
                     url
+                  }
+                }
+              }
+              videoText: text
+              title {
+                t1
+                t2
+                t3
+              }
+              videoGallery {
+                id
+                category
+                video {
+                  data {
+                    id
+                    attributes {
+                      videoId
+                    }
                   }
                 }
               }
@@ -370,7 +401,7 @@ export const getCollegeDetails = gql`
             }
             ... on ComponentCommonBannerComponent {
               id
-              img {
+              bannerImage {
                 data {
                   id
                   attributes {
@@ -383,6 +414,7 @@ export const getCollegeDetails = gql`
               }
               bannerText: text
               href
+              bannerTitle
               navItem {
                 data {
                   id
@@ -406,9 +438,29 @@ export const getCollegeDetails = gql`
                   }
                 }
               }
+              reviewDescriptionText: text
               navbar {
                 data {
                   id
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonCoursesComponent {
+              id
+              heading
+              headingIcon {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+              courseText: text
+              navItem {
+                data {
                   attributes {
                     navItem
                   }
@@ -422,10 +474,87 @@ export const getCollegeDetails = gql`
                 data {
                   id
                   attributes {
-                    alternativeText
                     width
                     height
                     url
+                  }
+                }
+              }
+              newsText: text
+              navItem {
+                data {
+                  id
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonAccordionComponent {
+              accordion {
+                title
+                text
+              }
+              accordionText: text
+              navItem {
+                data {
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonQuoteComponent {
+              author {
+                data {
+                  attributes {
+                    avatar {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                    name
+                    designation
+                    updatedAt
+                  }
+                }
+              }
+              quote
+
+              navItem {
+                data {
+                  attributes {
+                    navItem
+                  }
+                }
+              }
+            }
+            ... on ComponentCommonFacilitiesComponent {
+              heading
+              headingIcon {
+                data {
+                  id
+                  attributes {
+                    url
+                  }
+                }
+              }
+              facilityText: text
+              facility {
+                data {
+                  id
+                  attributes {
+                    facilityName
+                    facilityIcon {
+                      data {
+                        id
+                        attributes {
+                          url
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -439,6 +568,7 @@ export const getCollegeDetails = gql`
               }
             }
           }
+
           CollegeReviewsAndRatings {
             id
             userName

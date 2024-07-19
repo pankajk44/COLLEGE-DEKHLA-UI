@@ -100,10 +100,20 @@ export default function Home() {
       {/* Testimonial */}
       <Wrapper bgColor="bg-zinc-200" containerClassName="relative py-14">
         <h2 className="mb-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
-          {testimonials?.title?.t1}
-          <span className="text-orange-500">{testimonials?.title?.t2}</span>
+          {homePageData?.homePages?.data[0].attributes?.testimonials?.title?.t1}{" "}
+          <span className="text-orange-500">
+            {
+              homePageData?.homePages?.data[0].attributes?.testimonials?.title
+                ?.t2
+            }
+          </span>
         </h2>
-        <TestimonialSlider data={testimonials?.testimonialCards} />
+        <TestimonialSlider
+          data={
+            homePageData?.homePages?.data[0].attributes?.testimonials
+              ?.testimonialCards
+          }
+        />
         <div className="mx-auto -mt-60 h-64 w-full rounded-2xl bg-orange-500"></div>
       </Wrapper>
 
@@ -112,7 +122,7 @@ export default function Home() {
         <h2 className="my-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
           We have been featured in the News!
         </h2>
-        <NewsCardSlider data={newsPage?.news} />
+        <NewsCardSlider data={homePageData?.news?.data} />
         <div className="flex-center my-6 w-full">
           <Link href={"#"}>
             <Button variant="white" className="!w-48 px-6 shadow-xl">
@@ -148,13 +158,17 @@ export default function Home() {
       </Wrapper> */}
 
       {/* metric data */}
-      <MetricsCard data={homePageData?.metricData} />
+      <MetricsCard
+        data={homePageData?.homePages?.data[0].attributes?.metricData}
+      />
 
       {/* packages part */}
-      <PackageCard data={CounsellingPackages} />
+      <PackageCard
+        data={homePageData?.homePages?.data[0].attributes?.counsellingPackages}
+      />
 
       {/* faqs */}
-      <Faqs data={faqs} />
+      <Faqs data={homePageData?.homePages?.data[0].attributes?.faqs} />
 
       {/* final creative section */}
       <LastSection />
@@ -496,7 +510,7 @@ const TestimonialSlider = ({ data }: any) => {
         {...swiperOptions}
         className={`mySwiper w-full max-w-fit px-5 md:w-[90%]`}
       >
-        {data.map((comments: { id: React.Key | null | undefined }) => (
+        {data?.map((comments: { id: React.Key | null | undefined }) => (
           <SwiperSlide
             key={comments.id}
             className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
@@ -558,7 +572,7 @@ const NewsCardSlider = ({ data }: any) => {
     breakpoints: {
       640: { slidesPerView: 1 },
       768: { slidesPerView: 2 },
-      1024: { slidesPerView: 3 },
+      1024: { slidesPerView: 2 },
     },
   };
 
@@ -574,9 +588,9 @@ const NewsCardSlider = ({ data }: any) => {
             className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
           >
             <NewsCard
-              image={news?.bgImage?.url}
-              text={news?.text}
-              timeStamp={news?.timeStamp}
+              image={news?.attributes?.icon?.data?.attributes?.url}
+              text={news?.attributes?.excerpt}
+              timeStamp={news?.attributes?.updatedAt}
             />
           </SwiperSlide>
         ))}
@@ -643,13 +657,23 @@ function MetricsCard({ data }: any) {
 
 // package card
 function PackageCard({ data }: any) {
+  const isMobile = useIsMobile(750);
+  console.log("data", data);
+
   return (
     <div className="w-full bg-zinc-200 p-4 pb-14">
       <div className="w-full">
         <h2 className="my-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
           {data?.title}
         </h2>
-        <p className="mb-11 text-center text-xl">{data?.text}</p>
+
+        <p className="mb-11 text-center text-xl">
+          {isMobile ? (
+            <TextWithoutLineBreak text={data?.text} />
+          ) : (
+            <TextWithLineBreak text={data?.text} />
+          )}
+        </p>
         <div className="flex flex-wrap items-stretch justify-center gap-4">
           {data?.counsellingPackagesCards?.map((packageData: { id: any }) => (
             <PackageContentCard key={packageData.id} data={packageData} />
@@ -672,14 +696,14 @@ function PackageContentCard({ data }: any) {
         ₹ {formatRupee(data?.price)} <span className="text-xl">/month</span>
       </h3>
       <p className="my-2">{data?.text}</p>
-      {data?.lists?.map((list: any) => (
+      {data?.lists?.data?.map((list: any) => (
         <p key={list.id} className="flex items-center font-bold">
-          {list?.isInclude ? (
+          {list?.attributes?.isInclude ? (
             <FaCheck className="mr-3" />
           ) : (
             <ImCross className="mr-3" />
           )}{" "}
-          {list?.text}
+          {list?.attributes?.text}
         </p>
       ))}
       <Link
