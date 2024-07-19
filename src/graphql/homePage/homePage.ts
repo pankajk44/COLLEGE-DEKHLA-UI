@@ -30,6 +30,9 @@ export const getHomePage = gql`
             image {
               data {
                 attributes {
+                  alternativeText
+                  width
+                  height
                   url
                 }
               }
@@ -41,6 +44,9 @@ export const getHomePage = gql`
             image {
               data {
                 attributes {
+                  alternativeText
+                  width
+                  height
                   url
                 }
               }
@@ -94,6 +100,9 @@ export const getHomePage = gql`
               userAvatar {
                 data {
                   attributes {
+                    alternativeText
+                    width
+                    height
                     url
                   }
                 }
@@ -116,11 +125,15 @@ export const getHomePage = gql`
         attributes {
           slug
           courseName
+          breadCrumb
           isPopular
           bgImage {
             data {
               id
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -168,6 +181,7 @@ export const getHomePage = gql`
     topColleges: colleges(
       filters: { isTopCollege: { eq: true } }
       sort: "topCollegeSequence:asc"
+      pagination: { page: 1, pageSize: 10 }
     ) {
       data {
         id
@@ -178,6 +192,9 @@ export const getHomePage = gql`
             data {
               id
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -253,7 +270,7 @@ export const getHomePage = gql`
         }
       }
     }
-    news: news(sort: "updatedAt:desc") {
+    news: news(sort: "updatedAt:desc", pagination: { page: 1, pageSize: 10 }) {
       data {
         id
         attributes {
@@ -261,12 +278,15 @@ export const getHomePage = gql`
             data {
               id
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
           }
           title
-          # excerpt
+          excerpt
           category {
             data {
               id
@@ -275,7 +295,7 @@ export const getHomePage = gql`
               }
             }
           }
-          timeStamp
+
           slug
           newsSequence
           updatedAt
@@ -293,6 +313,9 @@ export const getHomePage = gql`
             data {
               id
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }
@@ -376,6 +399,9 @@ export const getHomePage = gql`
           collegeLogo {
             data {
               attributes {
+                alternativeText
+                width
+                height
                 url
               }
             }

@@ -300,9 +300,10 @@ export const testimonials = {
   title: {
     t1: "What students say",
     t2: "About Us",
+    t3: "",
   },
   text1: "Discover Success Stories \nfrom Our Satisfied Students",
-  testimonials: [
+  testimonialCards: [
     {
       id: "1",
       userName: "Pankaj",

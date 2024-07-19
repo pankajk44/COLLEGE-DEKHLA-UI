@@ -13,6 +13,9 @@ export const getNewsDetails = gql`
               data {
                 id
                 attributes {
+                  alternativeText
+                  width
+                  height
                   url
                 }
               }
