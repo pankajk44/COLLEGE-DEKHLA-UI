@@ -11,7 +11,7 @@ export function SearchResult({ data, searchTerm }: any) {
   const filteredData =
     selectedCategory === "all"
       ? data
-      : data?.filter((item: any) => item.category === selectedCategory);
+      : data?.filter((item: any) => item?.category === selectedCategory);
 
   return (
     <Wrapper as="div" className="mb-16">
