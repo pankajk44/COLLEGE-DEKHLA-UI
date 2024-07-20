@@ -7,6 +7,11 @@ export const getAllNews = gql`
       filters: { title: { containsi: $searchNewsByTitle } }
       sort: "updatedAt:desc"
     ) {
+      meta {
+        pagination {
+          total
+        }
+      }
       data {
         id
         attributes {
@@ -43,12 +48,19 @@ export const getAllNews = gql`
           newsSequence
           updatedAt
         }
-  query getAllNews($searchNewsByTitle: String, $page: Int, $pageSize: Int) {
-    news(
-      pagination: { page: $page, pageSize: $pageSize }
-      filters: { title: { containsi: $searchNewsByTitle } }
-      sort: "updatedAt:desc"
-    ) {
+      }
+    }
+  }
+`;
+
+export const getAllNewsNotifications = gql`
+  query getALlNewsNofications {
+    news(filters: { isNotificationDisplay: { eq: true } }) {
+      meta {
+        pagination {
+          total
+        }
+      }
       data {
         id
         attributes {
@@ -83,6 +95,7 @@ export const getAllNews = gql`
           }
           slug
           newsSequence
+          notificationDisplaySequence
           updatedAt
         }
       }

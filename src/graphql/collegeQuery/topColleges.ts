@@ -7,6 +7,11 @@ export const getAllTopColleges = gql`
       pagination: { page: $page, pageSize: $pageSize }
       sort: "topCollegeSequence:asc"
     ) {
+      meta {
+        pagination {
+          total
+        }
+      }
       data {
         id
         attributes {

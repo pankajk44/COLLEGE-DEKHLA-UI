@@ -7,6 +7,11 @@ export const getAllTopCourses = gql`
       pagination: { page: $page, pageSize: $pageSize }
       sort: "popularSequence:asc"
     ) {
+      meta {
+        pagination {
+          total
+        }
+      }
       data {
         id
         attributes {
