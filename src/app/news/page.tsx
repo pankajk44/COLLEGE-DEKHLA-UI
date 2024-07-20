@@ -1,6 +1,6 @@
 "use client";
 import React, { ChangeEvent, useState } from "react";
-import { Button } from "@/components/Button";
+import { Button, LoadingButton } from "@/components/Button";
 import Notification from "@/components/notification/Notification";
 import { newsPage } from "@/data/newsData";
 import Wrapper from "@/components/Wrappers";
@@ -16,53 +16,18 @@ import { Card1 } from "@/components/newsSections/Card1";
 import { Search } from "@/components/newsSections/Search";
 import { getAllNews } from "@/graphql/newsQuery/news";
 import { useQuery } from "@apollo/client";
+import { formatRupee } from "@/utils/customText";
+import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
 
 export default function Page() {
-  const [searchTerm, setSearchTerm] = useState("IIT Bombay News and Article");
-  const [pageNo, SetPageNo] = useState(1);
-  // Query
-  const {
-    data: newsSearchData,
-    loading: newsSearchDataLoading,
-    error: newsSearchDataError,
-  } = useQuery(getAllNews, {
-    variables: {
-      searchNewsByTitle: searchTerm,
-      page: pageNo,
-      pageSize: 10,
-    },
-  });
-  const {
-    data: latestNewsData,
-    loading: latestNewsDataLoading,
-    error: latestNewsDataError,
-  } = useQuery(getAllNews, {
-    variables: {
-      page: pageNo,
-      pageSize: 10,
-    },
-  });
-  console.log(latestNewsData?.news?.data, "latestNewsData");
-  const latestNews = latestNewsData?.news?.data?.map((item: any) => {
-    return {
-      id: item?.id,
-      slug: item?.attributes?.slug,
-      title: item?.attributes?.title,
-      text: item?.attributes?.excerpt,
-      timeStamp: item?.attributes?.updatedAt,
-      icon: item?.attributes?.icon?.data?.attributes?.url,
-      category: item?.attributes?.category?.data?.attributes?.category,
-    };
-  });
   return (
     <section className="w-full pt-32 max-md:pt-28">
       {newsPage?.notification?.list?.length > 0 && (
         <Notification data={newsPage?.notification?.list} />
       )}
       <Search />
-      {/* <LatestNewsAndArticles data={latestNews} /> */}
       {/* <CollegePredictor data={collegePredictor} /> */}
-      <LatestNewsAndArticles data={latestNews} />
+      <LatestNewsAndArticles />
       <Banner1 data={banner1} />
     </section>
   );
@@ -70,10 +35,10 @@ export default function Page() {
 
 function Card2({ item }: any) {
   return (
-    <div className="mb-4 flex items-center gap-5 border-b border-zinc-800 pb-3">
+    <div className="mb-4 flex items-center gap-5 border-b border-orange-500 pb-3">
       <div className="flex flex-col gap-1">
         <Link
-          href={`news/${item?.slug}|| #`}
+          href={`news/${item?.id}|| #`}
           className="cursor-pointer font-bold"
         >
           <h6 className="cursor-pointer hover:text-orange-500">
@@ -97,19 +62,46 @@ function Card2({ item }: any) {
   );
 }
 
-function LatestNewsAndArticles({ data }: any) {
+function LatestNewsAndArticles() {
+  const [pageNo, SetPageNo] = useState(1);
+  // query
+  const {
+    data: latestNewsData,
+    loading: latestNewsDataLoading,
+    error: latestNewsDataError,
+  } = useQuery(getAllNews, {
+    variables: {
+      page: pageNo,
+      pageSize: 10,
+    },
+  });
+  // console.log(latestNewsData?.news?.data, "latestNewsData");
+  const latestNews = latestNewsData?.news?.data?.map((item: any) => {
+    return {
+      id: item?.id,
+      slug: item?.attributes?.slug,
+      title: item?.attributes?.title,
+      text: item?.attributes?.excerpt,
+      timeStamp: item?.attributes?.updatedAt,
+      icon: item?.attributes?.icon?.data?.attributes?.url,
+      category: item?.attributes?.category?.data?.attributes?.category,
+    };
+  });
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   const categories = ["all", "exam", "college"];
 
   const filteredData =
     selectedCategory === "all"
-      ? data
-      : data?.filter((item: any) => item?.category === selectedCategory);
+      ? latestNews
+      : latestNews?.filter((item: any) => item?.category === selectedCategory);
 
+  const handleLoadMore = () => {
+    SetPageNo((prev: number) => prev + 1);
+  };
   return (
     <Wrapper as="main" className="my-10">
-      <h2 className="my-5 text-2xl font-bold">Latest News and Articles</h2>
+      <h2 className="mb-5 text-2xl font-bold">Latest News and Articles</h2>
       {/* filter buttons  */}
       <div className="mb-5 flex gap-6">
         {categories.map((category) => (
@@ -126,39 +118,89 @@ function LatestNewsAndArticles({ data }: any) {
       </div>
       <section className="grid grid-cols-12 gap-4">
         <article className="col-span-12 lg:col-span-9">
-          <ul className="flex flex-col gap-4">
+          <ul className="mb-5 flex flex-col gap-4">
             {filteredData?.map((item: any) => (
               <li key={item.id}>
                 <Card1 item={item} />
               </li>
             ))}
           </ul>
+          {latestNewsData?.news?.meta?.pagination?.total >
+            filteredData?.length && (
+            <LoadingButton onClick={handleLoadMore} className="mx-auto">
+              Load More
+            </LoadingButton>
+          )}
         </article>
+        {/* Aside Section  */}
         <aside className="col-span-3 flex flex-col gap-4 max-lg:hidden">
           {/* Notification  */}
           <div className="rounded-lg bg-white px-2 pt-5 shadow-lg">
-            <h2 className="mb-4 border-b border-zinc-800 pb-3 text-xl font-bold">
+            <h2 className="mb-4 border-b border-orange-500 pb-3 text-xl font-bold">
               Notification
             </h2>
-            {data?.slice(0, 3)?.map((item: any) => (
+            {latestNews?.slice(0, 3)?.map((item: any) => (
               <React.Fragment key={item?.id}>
                 <Card2 item={item} />
               </React.Fragment>
             ))}
           </div>
           {/* Top Courses  */}
-          <div className="rounded-lg bg-white px-2 pt-5 shadow-lg">
-            <h2 className="mb-4 border-b border-zinc-800 pb-3 text-xl font-bold">
-              Top Courses
-            </h2>
-            {data?.slice(0, 3)?.map((item: any) => (
-              <React.Fragment key={item?.id}>
-                <Card2 item={item} />
-              </React.Fragment>
-            ))}
-          </div>
+          <AsideTopCourses />
         </aside>
       </section>
     </Wrapper>
+  );
+}
+
+function AsideTopCourses({ latestNews }: any) {
+  const {
+    loading: topCourseLoading,
+    error: topCourseError,
+    data: topCourseData,
+  } = useQuery(getAllTopCourses, {
+    variables: {
+      page: 1,
+      pageSize: 3,
+    },
+  });
+
+  const topCourses = topCourseData?.courses?.data?.map((item: any) => ({
+    id: item?.id,
+    breadCrumb: item?.attributes?.courseName,
+    duration: item?.attributes?.duration?.data?.attributes?.duration,
+    fees: (item?.attributes?.avgFees?.from + item?.attributes?.avgFees?.to) / 2,
+  }));
+
+  return (
+    <div className="w-full rounded-2xl bg-white p-5">
+      <h2 className="border-b-2 border-orange-500 pb-5 text-xl font-bold">
+        Top Courses
+      </h2>
+      <ul className="mb-5 flex flex-col">
+        {topCourses?.map((item: any, index: number) => (
+          <li key={index} className="border-b-2 border-orange-500 py-5">
+            <Link href={item?.id ? `/courses/${item?.id}` : `#`}>
+              <h6 className="text-xl font-medium">{item?.breadCrumb}</h6>
+            </Link>
+            <p className="flex gap-2">
+              <span>Course Duration :</span>
+              <span className="text-orange-500">{item?.duration} months</span>
+            </p>
+            <p className="flex gap-2">
+              <span className="text-orange-500">
+                INR {formatRupee(item?.fees)}
+              </span>
+              <span>avg. yearly fees</span>
+            </p>
+          </li>
+        ))}
+      </ul>
+      <Link href="/courses" className="!w-full">
+        <Button variant="white" className="!w-full text-nowrap shadow-lg">
+          View More
+        </Button>
+      </Link>
+    </div>
   );
 }
