@@ -386,46 +386,22 @@ function CollegesCardContent({ breadCrumb, bgImage, id }: any) {
 function Events({ eventsAndWebinars }: { eventsAndWebinars: any[] }) {
   return (
     <Wrapper>
-      <div className="flex flex-wrap justify-around">
+      <div className="flex flex-wrap justify-around gap-10">
         {eventsAndWebinars?.slice(0, 3)?.map((event) => (
           <div
             key={event?.id}
-            className="w-[29%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
+            className="flex-[1] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
           >
             {/* Event content here */}
             <Image
               src={event?.image?.data?.attributes?.url}
               alt={"event"}
-              className="h-64 w-full object-cover"
+              className="h-64 max-h-64 w-full object-cover"
               height={800}
               width={800}
             />
             <div className="p-4">
-              <p className="mb-3 text-2xl">{event.text}</p>
-
-              <Link href={event?.href || "#"} className="w-full">
-                <Button variant="black" className="!w-full">
-                  Attend Now
-                </Button>
-              </Link>
-            </div>
-          </div>
-        ))}
-        {eventsAndWebinars?.slice(0, 1)?.map((event) => (
-          <div
-            key={event?.id}
-            className="w-[29%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
-          >
-            {/* Event content here */}
-            <Image
-              src={event?.image}
-              alt={"event"}
-              className="h-auto w-full"
-              height={800}
-              width={800}
-            />
-            <div className="p-4">
-              <p className="mb-3 text-2xl">{event.text}</p>
+              <p className="mb-3 text-2xl">{event?.text}</p>
 
               <Link href={event?.href || "#"} className="w-full">
                 <Button variant="black" className="!w-full">
