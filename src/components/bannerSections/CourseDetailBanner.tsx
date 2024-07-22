@@ -29,14 +29,22 @@ export default function CourseDetailBanner({
     >
       {/* Upper Side  */}
       <p className="text-zinc-600">
-        Home &gt; Courses &gt; Courses &gt;{" "}
-        <span className="text-orange-500">{breadCrumb}</span>
+        <Link href="/" className="hover:text-blue-500 hover:underline">
+          {" "}
+          Home
+        </Link>{" "}
+        &gt;{" "}
+        <Link href="/" className="hover:text-blue-500 hover:underline">
+          {" "}
+          Courses
+        </Link>{" "}
+        &gt; <span className="font-bold text-orange-500">{breadCrumb}</span>
       </p>
-      <h2 className="text-3xl font-bold md:pt-2 md:text-5xl">
+      <h2 className="text-3xl font-bold max-md:pt-2 md:text-5xl">
         {courseName} : {titleAddition}
       </h2>
       {/* Down Side  */}
-      <div className="flex flex-wrap items-center justify-between max-md:flex-col">
+      <div className="flex flex-wrap items-center justify-between gap-5 max-md:flex-col">
         <div className="flex flex-wrap gap-5">
           <p className="flex items-center gap-2">
             <FaClockRotateLeft className="text-xl text-orange-500" />
@@ -51,15 +59,15 @@ export default function CourseDetailBanner({
           </p>
         </div>
         <div className="flex flex-wrap gap-5">
-          <p className="flex items-center gap-2">
+          <p className="flex cursor-pointer items-center gap-2">
             <MdOutlineFileDownload className="text-xl text-white" />
             <span>Save</span>
           </p>
-          <p className="flex items-center gap-2">
+          <p className="flex cursor-pointer items-center gap-2">
             <AiOutlineQuestionCircle className="text-xl text-white" />
             <span>Ask</span>
           </p>
-          <p className="flex items-center gap-2">
+          <p className="flex cursor-pointer items-center gap-2">
             <MdOutlineLocalPhone className="text-xl text-white" />
             <span>Request a Call</span>
           </p>

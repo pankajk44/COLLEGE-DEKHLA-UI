@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import { Button, LoadingButton } from "@/components/Button";
 import Notification from "@/components/notification/Notification";
 import { newsPage } from "@/data/newsData";
@@ -16,15 +16,13 @@ import { Card1 } from "@/components/newsSections/Card1";
 import { Search } from "@/components/newsSections/Search";
 import { getAllNews } from "@/graphql/newsQuery/news";
 import { useQuery } from "@apollo/client";
-import { formatRupee } from "@/utils/customText";
+import { formatDate, formatRupee } from "@/utils/customText";
 import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
 
 export default function Page() {
   return (
     <section className="w-full pt-32 max-md:pt-28">
-      {newsPage?.notification?.list?.length > 0 && (
-        <Notification data={newsPage?.notification?.list} />
-      )}
+      <Notification />
       <Search />
       {/* <CollegePredictor data={collegePredictor} /> */}
       <LatestNewsAndArticles />
@@ -35,7 +33,7 @@ export default function Page() {
 
 function Card2({ item }: any) {
   return (
-    <div className="mb-4 flex items-center gap-5 border-b border-orange-500 pb-3">
+    <div className="mb-4 flex items-center gap-5 border-b-2 border-orange-500 pb-3">
       <div className="flex flex-col gap-1">
         <Link
           href={`news/${item?.id}|| #`}
@@ -48,7 +46,7 @@ function Card2({ item }: any) {
         <div className="flex gap-5 text-xs capitalize text-orange-500">
           <p className="flex items-center gap-2">
             <FaRegCalendarAlt className="text-black" />
-            {item?.timeStamp}
+            {formatDate(item?.timeStamp)}
           </p>
           <p className="flex items-center gap-2">
             <BsClipboardCheck className="text-black" />
@@ -125,18 +123,19 @@ function LatestNewsAndArticles() {
               </li>
             ))}
           </ul>
-          {latestNewsData?.news?.meta?.pagination?.total >
-            filteredData?.length && (
-            <LoadingButton onClick={handleLoadMore} className="mx-auto">
-              Load More
-            </LoadingButton>
-          )}
+          {selectedCategory === "all" &&
+            latestNewsData?.news?.meta?.pagination?.total >
+              filteredData?.length && (
+              <LoadingButton onClick={handleLoadMore} className="mx-auto">
+                Load More
+              </LoadingButton>
+            )}
         </article>
         {/* Aside Section  */}
         <aside className="col-span-3 flex flex-col gap-4 max-lg:hidden">
           {/* Notification  */}
-          <div className="rounded-lg bg-white px-2 pt-5 shadow-lg">
-            <h2 className="mb-4 border-b border-orange-500 pb-3 text-xl font-bold">
+          <div className="rounded-lg bg-white px-5 py-5 shadow-lg">
+            <h2 className="mb-4 border-b-2 border-orange-500 pb-3 text-xl font-bold">
               Notification
             </h2>
             {latestNews?.slice(0, 3)?.map((item: any) => (
@@ -153,7 +152,7 @@ function LatestNewsAndArticles() {
   );
 }
 
-function AsideTopCourses({ latestNews }: any) {
+function AsideTopCourses() {
   const {
     loading: topCourseLoading,
     error: topCourseError,

@@ -21,7 +21,7 @@ export function PageTabsWithDetailWrapperContent({
   useEffect(() => {
     if (typeof tab === "string") {
       // Check if tab is a string
-      const index = data.findIndex(
+      const index = data?.findIndex(
         (item: any) => item.navItem.toLowerCase() === tab.toLowerCase(),
       );
       if (index !== -1) {

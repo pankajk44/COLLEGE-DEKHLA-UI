@@ -67,7 +67,7 @@ export function Search() {
           Submit
         </Button>
       </Wrapper>
-      {newsSearch?.length > 0 && (
+      {searchTerm && newsSearch?.length > 0 && (
         <SearchResult searchTerm={searchTerm} data={newsSearch} />
       )}
     </>

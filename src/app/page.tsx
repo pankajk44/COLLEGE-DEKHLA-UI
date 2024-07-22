@@ -86,10 +86,10 @@ export default function Home() {
           Top Colleges
         </h2>
         <div className="topColleges relative mb-5">
-          <CollegesSlider data={colleges} />
+          <CollegesSlider />
         </div>
         <div className="flex-center w-full">
-          <Link href={"#"}>
+          <Link href="/colleges">
             <Button variant="white" className="text-nowrap shadow-xl">
               View More
             </Button>
@@ -439,7 +439,7 @@ function Events({ eventsAndWebinars }: { eventsAndWebinars: any[] }) {
             <Image
               src={event?.image?.data?.attributes?.url}
               alt={"event"}
-              className="h-auto w-full object-cover"
+              className="h-64 w-full object-cover"
               height={800}
               width={800}
             />

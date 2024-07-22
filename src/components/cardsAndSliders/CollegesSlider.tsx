@@ -14,11 +14,7 @@ import { addCommas } from "@/utils/customText";
 import { useQuery } from "@apollo/client";
 import { getAllColleges } from "@/graphql/collegeQuery/colleges";
 
-export default function CollegesSlider({
-  data,
-  mainscreen,
-  spaceBetween,
-}: any) {
+export default function CollegesSlider() {
   const [filteredData, setFilteredData] = useState<any>([]);
   const uniqueId = "college123";
   // Query
@@ -32,7 +28,7 @@ export default function CollegesSlider({
 
   const swiperOptions = {
     slidesPerView: 1,
-    spaceBetween: spaceBetween || 10,
+    spaceBetween: 10,
     pagination: {
       clickable: true,
       // dynamicBullets: true,
@@ -58,7 +54,7 @@ export default function CollegesSlider({
         slidesPerView: 3,
       },
       1260: {
-        slidesPerView: mainscreen || 4,
+        slidesPerView: 4,
       },
     },
   };

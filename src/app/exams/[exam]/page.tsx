@@ -4,7 +4,9 @@ import ExamDetailBanner from "@/components/bannerSections/ExamDetailBanner";
 import PageTabsWithDetail from "@/components/pageTabsWithDetail/PageTabsWithDetail";
 import { exams } from "@/data/examData";
 import { asideSection, banner1, tabsSections } from "@/data/globalData";
+import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
 import { getExamDetails } from "@/graphql/examQuery/examDetails";
+import { getAllNews } from "@/graphql/newsQuery/news";
 import { convertQueryDataToTabSections } from "@/utils/customText";
 import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
@@ -27,6 +29,28 @@ export default function ExamDetailsPage({ params }: Props) {
     variables: { ID: examId },
   });
 
+  const {
+    loading: topCourseLoading,
+    error: topCourseError,
+    data: topCourseData,
+  } = useQuery(getAllTopCourses, {
+    variables: {
+      page: 1,
+      pageSize: 3,
+    },
+  });
+
+  const {
+    data: latestNewsData,
+    loading: latestNewsDataLoading,
+    error: latestNewsDataError,
+  } = useQuery(getAllNews, {
+    variables: {
+      page: 1,
+      pageSize: 3,
+    },
+  });
+
   useEffect(() => {
     // console.log("Exam Details: ", examData);
 
@@ -37,19 +61,53 @@ export default function ExamDetailsPage({ params }: Props) {
       setTabSelectionArray(convertedData);
     }
   }, [examData]);
-
+  // console.log(examData?.exam?.data?.attributes, "examData");
   // console.log("tabSelectionArray", tabSelectionArray);
-  console.log("error", error);
+
+  const asideSection = [
+    {
+      banner: {
+        title: "Are You Interested in this Exam?",
+        brochureUrl:
+          examData?.exam?.data?.attributes?.brochureFile?.data?.attributes?.url,
+      },
+      // videoGallery: [],
+      // imageGallery: [],
+      topCourses: topCourseData?.courses?.data?.map((item: any) => {
+        return {
+          id: item?.id,
+          breadCrumb: item?.attributes?.courseName,
+          duration: item?.attributes?.duration?.data?.attributes?.duration,
+          fees:
+            (item?.attributes?.avgFees?.from + item?.attributes?.avgFees?.to) /
+            2,
+        };
+      }),
+      latestNews: latestNewsData?.news?.data?.map((item: any) => {
+        return {
+          id: item?.id,
+          slug: item?.attributes?.slug,
+          title: item?.attributes?.title,
+          text: item?.attributes?.excerpt,
+          timeStamp: item?.attributes?.updatedAt,
+          icon: item?.attributes?.icon?.data?.attributes?.url,
+          category: item?.attributes?.category?.data?.attributes?.category,
+        };
+      }),
+    },
+  ];
 
   return (
     <>
       <ExamDetailBanner
-        breadCrumb={exams?.[0]?.breadCrumb}
-        examName={exams?.[0]?.examName}
-        titleAddition={exams?.[0]?.titleAddition}
-        examLogo={exams?.[0]?.logo?.url}
-        brochureUrl={exams?.[0]?.brochureUrl}
-        lastUpdate={exams?.[0]?.lastUpdate}
+        breadCrumb={examData?.exam?.data?.attributes?.breadCrumb}
+        examName={examData?.exam?.data?.attributes?.examName}
+        titleAddition={examData?.exam?.data?.attributes?.titleAddition}
+        examLogo={examData?.exam?.data?.attributes?.logo?.data?.attributes?.url}
+        brochureUrl={
+          examData?.exam?.data?.attributes?.brochureFile?.data?.attributes?.url
+        }
+        lastUpdate={examData?.exam?.data?.attributes?.updatedAt}
       />
       <PageTabsWithDetail
         data={tabSelectionArray}
