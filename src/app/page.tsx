@@ -43,7 +43,7 @@ import { getHomePage } from "@/graphql/homePage/homePage";
 export default function Home() {
   const { data: homePageData, loading, error } = useQuery(getHomePage);
 
-  console.log("homePageData", homePageData);
+  console.log("data", homePageData?.featuredColleges?.data);
   const popularCourses: any[] = homePageData?.popularCourses?.data?.map(
     (item: any) => {
       return {
@@ -86,7 +86,7 @@ export default function Home() {
           Top Colleges
         </h2>
         <div className="topColleges relative mb-5">
-          <CollegesSlider data={colleges} />
+          <CollegesSlider data={homePageData?.topColleges?.data} />
         </div>
         <div className="flex-center w-full">
           <Link href={"#"}>
@@ -133,7 +133,7 @@ export default function Home() {
       </div>
 
       {/* Explore college */}
-      {/* <Wrapper
+      <Wrapper
         bgColor="bg-zinc-200"
         containerClassName="py-14"
         className="bg-orange-200 p-4"
@@ -153,9 +153,9 @@ export default function Home() {
             </Link>
           </p>
 
-          <FeaturedCollegeSlider />
+          <FeaturedCollegeSlider data={homePageData?.featuredColleges?.data} />
         </div>
-      </Wrapper> */}
+      </Wrapper>
 
       {/* metric data */}
       <MetricsCard
@@ -295,8 +295,9 @@ function PopularCoursesCard(data: any) {
     </div>
   );
 }
-const FeaturedCollegeSlider = () => {
+const FeaturedCollegeSlider = ({ data }: any) => {
   const uniqueId = "featured123";
+
   const swiperOptions = {
     slidesPerView: 1,
     spaceBetween: 30,
@@ -318,88 +319,44 @@ const FeaturedCollegeSlider = () => {
 
   return (
     <div className="CoursesSlider relative w-full">
-      <Swiper
-        {...swiperOptions}
-        className={`relative w-full px-5 ${uniqueId} `}
-      >
-        {colleges?.slice(0, 1).map((college: any) => (
-          <SwiperSlide
-            key={college.id}
-            className="mb-12 w-full overflow-hidden rounded-2xl p-2"
-          >
-            <CollegeFilteredCard
-              key={college.id}
-              slug={college?.slug}
-              bgImage={college?.bgImage?.url}
-              city={college?.location?.city}
-              state={college?.location?.state}
-              overallRating={college?.reviewsAndRatings?.overallRating}
-              totalReviews={college?.reviewsAndRatings?.totalReviews}
-              avgFeePerYear={college?.avgFeePerYear}
-              affiliation={college?.affiliation}
-              hightestPackage={college?.hightestPackage}
-              brochureUrl={college?.brochureUrl}
-              collegeType={college?.collegeType}
-              collegeName={college?.collegeName}
-              avgPackage={college?.avgPackage}
-              exam={college?.exam}
-              description={college?.description}
-              tabsSections={tabsSections}
-            />{" "}
-          </SwiperSlide>
-        ))}
-        {colleges?.slice(0, 1).map((college: any) => (
-          <SwiperSlide
-            key={college.id}
-            className="mb-12 w-full overflow-hidden rounded-2xl p-2"
-          >
-            <CollegeFilteredCard
-              key={college.id}
-              slug={college?.slug}
-              bgImage={college?.bgImage?.url}
-              city={college?.location?.city}
-              state={college?.location?.state}
-              overallRating={college?.reviewsAndRatings?.overallRating}
-              totalReviews={college?.reviewsAndRatings?.totalReviews}
-              avgFeePerYear={college?.avgFeePerYear}
-              affiliation={college?.affiliation}
-              hightestPackage={college?.hightestPackage}
-              brochureUrl={college?.brochureUrl}
-              collegeType={college?.collegeType}
-              collegeName={college?.collegeName}
-              avgPackage={college?.avgPackage}
-              exam={college?.exam}
-              description={college?.description}
-              tabsSections={tabsSections}
-            />{" "}
-          </SwiperSlide>
-        ))}
-        {colleges?.slice(0, 1).map((college: any) => (
-          <SwiperSlide
-            key={college.id}
-            className="mb-12 w-full overflow-hidden rounded-2xl p-2"
-          >
-            <CollegeFilteredCard
-              key={college.id}
-              slug={college?.slug}
-              bgImage={college?.bgImage?.url}
-              city={college?.location?.city}
-              state={college?.location?.state}
-              overallRating={college?.reviewsAndRatings?.overallRating}
-              totalReviews={college?.reviewsAndRatings?.totalReviews}
-              avgFeePerYear={college?.avgFeePerYear}
-              affiliation={college?.affiliation}
-              hightestPackage={college?.hightestPackage}
-              brochureUrl={college?.brochureUrl}
-              collegeType={college?.collegeType}
-              collegeName={college?.collegeName}
-              avgPackage={college?.avgPackage}
-              exam={college?.exam}
-              description={college?.description}
-              tabsSections={tabsSections}
-            />{" "}
-          </SwiperSlide>
-        ))}
+      <Swiper {...swiperOptions} className={`relative w-full px-5 ${uniqueId}`}>
+        {data?.map((collegeEntity: any) => {
+          const college = collegeEntity.attributes;
+          const affiliation =
+            college?.affiliation?.data
+              ?.map((aff: any) => aff?.attributes?.organization || "")
+              .join(", ") || "";
+          return (
+            <SwiperSlide
+              key={collegeEntity.id}
+              className="mb-12 w-full overflow-hidden rounded-2xl p-2"
+            >
+              <CollegeFilteredCard
+                key={collegeEntity.id}
+                slug={college?.slug}
+                bgImage={college?.collegeLogo?.data?.attributes?.url}
+                city={college?.location?.city?.data?.attributes?.city}
+                state={college?.location?.state?.data?.attributes?.state}
+                // overallRating={college?.reviewsAndRatings?.overallRating}
+                // totalReviews={college?.reviewsAndRatings?.totalReviews}
+                // avgFeePerYear={college?.avgFeePerYear}
+                affiliation={affiliation}
+                hightestPackage={college?.hightestPackage}
+                brochureUrl={college?.brochureUrl}
+                collegeType={
+                  college?.college_type?.data?.attributes?.collegeType
+                }
+                collegeName={college?.collegeName}
+                avgPackage={college?.avgPackage}
+                exam={college?.exam}
+                description={college?.description}
+                tabsSections={college?.navbars?.data?.map(
+                  (nav: any) => nav.attributes.navItem,
+                )}
+              />
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
       <div className={`${uniqueId}-next swiper-button-next`}></div>
       <div className={`${uniqueId}-prev swiper-button-prev`}></div>
@@ -658,7 +615,6 @@ function MetricsCard({ data }: any) {
 // package card
 function PackageCard({ data }: any) {
   const isMobile = useIsMobile(750);
-  console.log("data", data);
 
   return (
     <div className="w-full bg-zinc-200 p-4 pb-14">

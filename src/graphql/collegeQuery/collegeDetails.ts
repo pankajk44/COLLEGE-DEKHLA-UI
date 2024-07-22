@@ -687,3 +687,21 @@ export const getAllCoursesOfACollege = gql`
     }
   }
 `;
+export const totalCoursesInACollege = gql`
+  query totalCoursesInACollege($ID: ID!) {
+    college(id: $ID) {
+      data {
+        id
+        attributes {
+          courses(pagination: { limit: 100 }) {
+            courseName {
+              data {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;

@@ -2,7 +2,10 @@ import { gql } from "@apollo/client";
 
 export const getAllFeaturedColleges = gql`
   query getAllFeaturedColleges {
-    colleges(filters: { isFeatured: { eq: true } }) {
+    colleges(
+      filters: { isFeatured: { eq: true } }
+      pagination: { limit: 100 }
+    ) {
       meta {
         pagination {
           total

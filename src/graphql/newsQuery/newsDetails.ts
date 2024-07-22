@@ -13,15 +13,13 @@ export const getNewsDetails = gql`
               data {
                 id
                 attributes {
-                  alternativeText
-                  width
-                  height
                   url
                 }
               }
             }
             writerName
             content
+            designation
           }
         }
       }
