@@ -1,3 +1,4 @@
+"use client";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { persistReducer } from "redux-persist";
@@ -26,7 +27,7 @@ const storage =
 const authPersistConfig = {
 	key: "auth",
 	storage,
-	whitelist: ["authState", "userName", "email", "userID", "number" ,"gender","city","interestedCourse"],
+	whitelist: ["authState", "userName", "email", "userID", "number", "gender", "city", "interestedCourse", "token"],
 };
 
 const persistedReducer = persistReducer(authPersistConfig, authReducer);

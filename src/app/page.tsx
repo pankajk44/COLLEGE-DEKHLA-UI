@@ -20,7 +20,7 @@ import CollegesSlider from "@/components/cardsAndSliders/CollegesSlider";
 import { colleges } from "@/data/collegeData";
 import {
   testimonials,
-  CounsellingPackages,
+  // CounsellingPackages,
   faqs,
   tabsSections,
   banner1,
@@ -124,7 +124,7 @@ export default function Home() {
         </h2>
         <NewsCardSlider data={homePageData?.news?.data} />
         <div className="flex-center my-6 w-full">
-          <Link href={"#"}>
+          <Link href="/news">
             <Button variant="white" className="!w-48 px-6 shadow-xl">
               View More
             </Button>
@@ -156,22 +156,15 @@ export default function Home() {
           <FeaturedCollegeSlider data={homePageData?.featuredColleges?.data} />
         </div>
       </Wrapper>
-
-      {/* metric data */}
       <MetricsCard
         data={homePageData?.homePages?.data[0].attributes?.metricData}
       />
-
-      {/* packages part */}
-      <PackageCard
+      <CounsellingPackages
         data={homePageData?.homePages?.data[0].attributes?.counsellingPackages}
       />
-
-      {/* faqs */}
       <Faqs data={homePageData?.homePages?.data[0].attributes?.faqs} />
-
-      {/* final creative section */}
-      <LastSection />
+      <CollegesScrollSlideShow image={[headerLogo]} />
+      <Banner1 data={banner1} />
     </section>
   );
 }
@@ -423,13 +416,13 @@ const TestimonialSlider = ({ data }: any) => {
   const swiperOptions = {
     slidesPerView: 1,
     spaceBetween: 30,
-    autoplay: { delay: 5000, disableOnInteraction: false },
-    loop: true,
+    // autoplay: { delay: 5000, disableOnInteraction: false },
+    // loop: true,
     navigation: {
       nextEl: `.${uniqueId}-next`,
       prevEl: `.${uniqueId}-prev`,
     },
-    modules: [Autoplay, Navigation],
+    // modules: [Autoplay, Navigation],
     breakpoints: {
       640: { slidesPerView: 1 },
       768: { slidesPerView: 2 },
@@ -460,7 +453,7 @@ const TestimonialSlider = ({ data }: any) => {
 
 function TestimonialCard({ testimonial }: any) {
   return (
-    <div className="w-full p-4 even:mb-10">
+    <div className="flex min-h-[19.2rem] w-full flex-col justify-between p-4">
       <div className="flex items-center">
         <Image
           src={testimonial?.userAvatar}
@@ -472,7 +465,7 @@ function TestimonialCard({ testimonial }: any) {
           <p>{testimonial?.college}</p>
         </div>
       </div>
-      <p className="my-2">{testimonial?.comment}</p>
+      <p className="my-2 line-clamp-4">{testimonial?.comment}</p>
       <div className="flex-center mb-3">
         {Array.from({ length: testimonial?.star }, (_, i) => (
           <FaStar key={i} className="mx-2 text-2xl text-orange-500" />
@@ -515,7 +508,7 @@ const NewsCardSlider = ({ data }: any) => {
         {...swiperOptions}
         className={`mySwiper topColleges !relative w-full max-w-fit px-5`}
       >
-        {data?.map((news: any, index: number) => (
+        {data?.slice(0, 3).map((news: any, index: number) => (
           <SwiperSlide
             key={news?.id}
             className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
@@ -542,7 +535,7 @@ function NewsCard({ image, text, timeStamp }: any) {
         width={800}
         height={800}
         alt="image"
-        className="w-full rounded-xl object-cover"
+        className="h-52 w-full rounded-xl object-cover"
       />
       <div className="px-4">
         <p className="my-2">{text}</p>
@@ -589,37 +582,37 @@ function MetricsCard({ data }: any) {
 }
 
 // package card
-function PackageCard({ data }: any) {
+function CounsellingPackages({ data }: any) {
+  console.log(data, "data");
   const isMobile = useIsMobile(750);
 
   return (
     <div className="w-full bg-zinc-200 p-4 pb-14">
-      <div className="w-full">
-        <h2 className="my-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
-          {data?.title}
-        </h2>
+      <h2 className="my-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
+        {data?.title}
+      </h2>
 
-        <p className="mb-11 text-center text-xl">
-          {isMobile ? (
-            <TextWithoutLineBreak text={data?.text} />
-          ) : (
-            <TextWithLineBreak text={data?.text} />
-          )}
-        </p>
-        <div className="flex flex-wrap items-stretch justify-center gap-4">
-          {data?.counsellingPackagesCards?.map((packageData: { id: any }) => (
-            <PackageContentCard key={packageData.id} data={packageData} />
-          ))}
-        </div>
+      <p className="mb-11 text-center text-xl">
+        {isMobile ? (
+          <TextWithoutLineBreak text={data?.text} />
+        ) : (
+          <TextWithLineBreak text={data?.text} />
+        )}
+      </p>
+      <div className="flex flex-wrap items-stretch justify-center gap-4">
+        {data?.counsellingPackagesCards?.map((packageData: { id: any }) => (
+          <PackageContentCard key={packageData.id} data={packageData} />
+        ))}
       </div>
     </div>
   );
 }
 
 function PackageContentCard({ data }: any) {
+  const isMobile = useIsMobile(750);
   return (
     <div
-      className={`relative w-full rounded-xl p-5 pt-6 shadow sm:w-[27%] md:pb-20 ${
+      className={`relative w-full rounded-xl p-5 pt-6 shadow duration-300 hover:scale-105 sm:w-[27%] md:pb-20 ${
         data?.isPopular ? "bg-orange-500 text-white" : "bg-white text-black"
       }`}
     >
@@ -627,7 +620,13 @@ function PackageContentCard({ data }: any) {
       <h3 className="text-4xl font-bold">
         ₹ {formatRupee(data?.price)} <span className="text-xl">/month</span>
       </h3>
-      <p className="my-2">{data?.text}</p>
+      <p className="my-2">
+        {isMobile ? (
+          <TextWithoutLineBreak text={data?.text} />
+        ) : (
+          <TextWithLineBreak text={data?.text} />
+        )}
+      </p>
       {data?.lists?.data?.map((list: any) => (
         <p key={list.id} className="flex items-center font-bold">
           {list?.attributes?.isInclude ? (
@@ -649,66 +648,15 @@ function PackageContentCard({ data }: any) {
     </div>
   );
 }
-function LastSection() {
-  return (
-    <div className="!relative flex flex-col items-center justify-center py-11 pt-0">
-      {/* <div className="z-20 mb-8 flex w-full max-w-screen-xl flex-col items-center justify-center rounded-2xl bg-white bg-opacity-35 p-5 text-center shadow backdrop-blur-lg backdrop-filter md:mb-28">
-        <h1 className="mb-4 text-center text-3xl font-bold max-sm:mb-2 max-sm:text-3xl">
-          More than 1000+ Colleges
-        </h1>
-        <p className="mb-9 text-center text-xl">
-          Start your college Discovery...
-        </p>
-
-        <div className="mb-5 flex w-full justify-between p-6 max-sm:mb-0 max-sm:p-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Image
-              key={i}
-              src={homePageData?.collegeLogos?.[0].image?.url}
-              alt={`College Logo ${i + 1}`}
-              className="h-11 w-11 max-sm:h-9 max-sm:w-9"
-            />
-          ))}
-        </div>
-
-        <div className="mb-5 flex w-[85%] justify-around p-6 max-sm:mb-0 max-sm:p-3">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Image
-              key={i}
-              src={homePageData?.collegeLogos?.[0].image?.url}
-              alt={`College Logo ${i + 1}`}
-              className="h-11 w-11 max-sm:h-9 max-sm:w-9"
-            />
-          ))}
-        </div>
-
-        <div className="mb-5 flex w-[70%] justify-around p-6 max-sm:mb-0 max-sm:p-3">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <Image
-              key={i}
-              src={homePageData?.collegeLogos?.[0].image?.url}
-              alt={`College Logo ${i + 1}`}
-              className="h-11 w-11 max-sm:h-9 max-sm:w-9"
-            />
-          ))}
-        </div>
-      </div> */}
-
-      <CompaniesScrollSlideShow image={[headerLogo]} />
-      <Banner1 data={banner1} />
-    </div>
-  );
-}
-
 // partner cards
-interface CompaniesScrollSlideShowProps {
+interface CollegesScrollSlideShowProps {
   image: string[];
 }
 
 const FAST_DURATION = 5;
 const SLOW_DURATION = 75;
 
-const CompaniesScrollSlideShow: React.FC<CompaniesScrollSlideShowProps> = ({
+const CollegesScrollSlideShow: React.FC<CollegesScrollSlideShowProps> = ({
   image,
 }) => {
   const [duration, setDuration] = useState(FAST_DURATION);
