@@ -29,7 +29,6 @@ export default function Content({ selectedContent, slug, breadCrumb }: any) {
         selectedContent?.sections?.length > 0 &&
         selectedContent?.sections?.map((section: any, index: any) => {
           // const articleLength = section?.article?.length || 0;
-          // Function to group images by category
           const groupedImagesByCategory = (imageGalleries: any) => {
             const groupedImages: any = {};
 
@@ -49,7 +48,7 @@ export default function Content({ selectedContent, slug, breadCrumb }: any) {
           };
           const imageGalleries = section?.imageGallery || [];
           const groupedImages = groupedImagesByCategory(imageGalleries);
-
+          // =============================================
           const groupVideosByCategory = (videoGalleries: any) => {
             const groupedVideos: any = {};
 
@@ -69,6 +68,7 @@ export default function Content({ selectedContent, slug, breadCrumb }: any) {
           };
           const videoGalleries = section?.videoGallery || [];
           const groupedVideos = groupVideosByCategory(videoGalleries);
+          // ==============================================
           return (
             <div
               key={index}
@@ -76,9 +76,20 @@ export default function Content({ selectedContent, slug, breadCrumb }: any) {
             >
               {/* Title */}
               {section?.heading && (
-                <h2 className="my-5 text-2xl font-bold capitalize">
-                  {section?.heading}
-                </h2>
+                <div className="flex items-center gap-2">
+                  {section?.headingIcon?.data?.attributes?.url && (
+                    <Image
+                      src={section?.headingIcon?.data?.attributes?.url}
+                      width={20}
+                      height={20}
+                      alt="icon"
+                      className="h-10 w-10 object-contain"
+                    />
+                  )}
+                  <h2 className="my-5 text-2xl font-bold capitalize">
+                    {section?.heading}
+                  </h2>
+                </div>
               )}
               {/* Author */}
               {section?.author && section?.author?.data?.attributes?.name && (
@@ -190,6 +201,13 @@ export default function Content({ selectedContent, slug, breadCrumb }: any) {
                   dangerouslySetInnerHTML={{ __html: section?.facilityText }}
                 />
               )}
+              {/* newsText */}
+              {section?.newsText && (
+                <div
+                  className={`dangerouslySetInnerHTMLStyle mb-5 text-justify ${isExpanded ? "" : "line-clamp-4"}`}
+                  dangerouslySetInnerHTML={{ __html: section?.newsText }}
+                />
+              )}
               {/* Buttons */}
               {section?.button && (
                 <div className="mb-5 flex gap-2 max-sm:flex-col">
@@ -275,7 +293,7 @@ export default function Content({ selectedContent, slug, breadCrumb }: any) {
               {section?.imageGallery && (
                 <>
                   {section?.title && (
-                    <h2 className="border-b border-zinc-500 py-5 text-2xl font-bold">
+                    <h2 className="border-b border-zinc-500 py-5 text-2xl font-bold capitalize">
                       {section?.title?.t1 && (
                         <span className="text-black">{section?.title?.t1}</span>
                       )}{" "}
@@ -316,7 +334,7 @@ export default function Content({ selectedContent, slug, breadCrumb }: any) {
               {section?.videoGallery && (
                 <>
                   {section?.videoGallery && (
-                    <h2 className="border-b border-zinc-500 py-5 text-2xl font-bold">
+                    <h2 className="border-b border-zinc-500 py-5 text-2xl font-bold capitalize">
                       {section?.title?.t1 && (
                         <span className="text-black">{section?.title?.t1}</span>
                       )}{" "}
@@ -351,11 +369,11 @@ export default function Content({ selectedContent, slug, breadCrumb }: any) {
               )}
               {/* Facilities */}
               {section?.facility && (
-                <div className="mb-8 flex flex-wrap gap-5 rounded-lg bg-orange-500 p-5">
+                <div className="flex flex-wrap gap-5 rounded-lg bg-orange-500 p-5">
                   {section.facility?.data?.map((d: any, i: number) => (
                     <div
                       key={i}
-                      className="flex-center gap-1 rounded-e-3xl rounded-s-3xl border-2 border-zinc-300 bg-white p-3 px-5 shadow"
+                      className="flex-center gap-2 rounded-e-3xl rounded-s-3xl border-2 border-zinc-300 bg-white p-3 px-5 shadow"
                     >
                       <Image
                         src={d?.attributes?.facilityIcon?.data?.attributes?.url}

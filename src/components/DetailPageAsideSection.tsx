@@ -4,7 +4,9 @@ import Image from "next/image";
 import { Button } from "./Button";
 import { HiOutlineDownload } from "react-icons/hi";
 import Link from "next/link";
-import { formatRupee } from "@/utils/customText";
+import { formatDate, formatRupee } from "@/utils/customText";
+import { FaRegCalendarAlt } from "react-icons/fa";
+import { BsClipboardCheck } from "react-icons/bs";
 
 export default function DetailPageAsideSection({ data }: any) {
   return (
@@ -14,11 +16,19 @@ export default function DetailPageAsideSection({ data }: any) {
           {/* Banner  */}
           {item?.banner && <Banner data={item?.banner} />}
           {/* Video Gallery  */}
-          {item?.videoGallery && <VideoGallery data={item?.videoGallery} />}
+          {item?.videoGallery && item?.videoGallery?.length > 0 && (
+            <VideoGallery data={item?.videoGallery} />
+          )}
           {/* Top Courses  */}
           {item?.topCourses && <TopCourses data={item?.topCourses} />}
           {/* Photo Gallery */}
-          {item?.imageGallery && <PhotoGallery data={item?.imageGallery} />}
+          {item?.imageGallery && item?.imageGallery?.length > 0 && (
+            <PhotoGallery data={item?.imageGallery} />
+          )}
+          {/* Recent News  */}
+          {item?.latestNews && item?.latestNews?.length > 0 && (
+            <RecentNews data={item?.latestNews} />
+          )}
         </React.Fragment>
       ))}
     </aside>
@@ -88,7 +98,9 @@ function Banner({ data }: any) {
 function TopCourses({ data }: any) {
   return (
     <div className="w-full rounded-2xl bg-white p-5">
-      <h2 className="border-b-2 border-orange-500 pb-5 text-xl">Top Courses</h2>
+      <h2 className="border-b-2 border-orange-500 pb-5 text-xl font-bold">
+        Top Courses
+      </h2>
       <ul className="mb-5 flex flex-col">
         {data?.map((item: any, index: number) => (
           <li key={index} className="border-b-2 border-orange-500 py-5">
@@ -113,6 +125,55 @@ function TopCourses({ data }: any) {
           View More
         </Button>
       </Link>
+    </div>
+  );
+}
+
+function RecentNews({ data }: any) {
+  return (
+    <div className="rounded-lg bg-white px-5 py-5">
+      <h2 className="mb-4 border-b-2 border-orange-500 pb-3 text-xl font-bold capitalize">
+        Recent News
+      </h2>
+      {data?.slice(0, 3)?.map((item: any) => (
+        <React.Fragment key={item?.id}>
+          <Card2 item={item} />
+        </React.Fragment>
+      ))}
+      <Link href="/news" className="!w-full">
+        <Button variant="white" className="!w-full text-nowrap shadow-lg">
+          View More
+        </Button>
+      </Link>
+    </div>
+  );
+}
+
+function Card2({ item }: any) {
+  return (
+    <div className="mb-4 flex items-center gap-5 border-b-2 border-orange-500 pb-3">
+      <div className="flex flex-col gap-1">
+        <Link
+          href={`news/${item?.id}|| #`}
+          className="cursor-pointer font-bold"
+        >
+          <h6 className="cursor-pointer hover:text-orange-500">
+            {item?.title}
+          </h6>
+        </Link>
+        <div className="flex gap-5 text-xs capitalize text-orange-500">
+          <p className="flex items-center gap-2">
+            <FaRegCalendarAlt className="text-black" />
+            {formatDate(item?.timeStamp)}
+          </p>
+          <p className="flex items-center gap-2">
+            <BsClipboardCheck className="text-black" />
+            {item?.category}
+          </p>
+        </div>
+        <p className="line-clamp-2 text-sm">{item?.text}</p>
+      </div>
+      <Image src={item?.icon?.url} alt="CD" width={100} height={100} />
     </div>
   );
 }

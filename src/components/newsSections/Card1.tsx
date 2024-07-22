@@ -27,7 +27,7 @@ export function Card1({ item }: any) {
           </p>
         </div>
         <p>
-          {item?.text}
+          {item?.text}{" "}
           <span className="relative right-0 text-orange-500 underline">
             <Link href={item?.id ? `/news/${item?.id}` : `#`}>Read More</Link>
           </span>

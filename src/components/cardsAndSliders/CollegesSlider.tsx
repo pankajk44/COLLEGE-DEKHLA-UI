@@ -13,26 +13,23 @@ import { FaStar } from "react-icons/fa";
 import { addCommas } from "@/utils/customText";
 import { useQuery } from "@apollo/client";
 import { getAllColleges } from "@/graphql/collegeQuery/colleges";
+import { getHomePage } from "@/graphql/homePage/homePage";
 
-export default function CollegesSlider({
-  data,
-  mainscreen,
-  spaceBetween,
-}: any) {
+export default function CollegesSlider() {
   const [filteredData, setFilteredData] = useState<any>([]);
   const uniqueId = "college123";
   // Query
-  const { data: topCollegeData, loading, error } = useQuery(getAllColleges(""));
+  const { data: topCollegeData, loading, error } = useQuery(getHomePage);
   useEffect(() => {
     if (topCollegeData) {
-      setFilteredData(topCollegeData?.colleges?.data);
+      setFilteredData(topCollegeData?.topColleges?.data);
     }
-    // console.log(topCollegeData?.colleges?.data, "colleges");
+    console.log(topCollegeData?.topColleges?.data, "colleges");
   }, [topCollegeData]);
 
   const swiperOptions = {
     slidesPerView: 1,
-    spaceBetween: spaceBetween || 10,
+    spaceBetween: 10,
     pagination: {
       clickable: true,
       // dynamicBullets: true,
@@ -58,7 +55,7 @@ export default function CollegesSlider({
         slidesPerView: 3,
       },
       1260: {
-        slidesPerView: mainscreen || 4,
+        slidesPerView: 4,
       },
     },
   };
@@ -82,8 +79,8 @@ export default function CollegesSlider({
                   id={college?.id}
                   slug={college?.attributes?.slug}
                   bgImage={college?.attributes?.bgImage?.data?.attributes?.url}
-                  collegeLogo={college?.collegeLogo}
-                  breadCrumb={college?.breadCrumb}
+                  collegeLogo={college?.collegeLogo?.data?.attributes?.url}
+                  breadCrumb={college?.attributes?.breadCrumb}
                   city={
                     college?.attributes?.location?.city?.data?.attributes?.city
                   }
@@ -91,9 +88,7 @@ export default function CollegesSlider({
                     college?.attributes?.location?.state?.data?.attributes
                       ?.state
                   }
-                  overallRating={
-                    college?.attributes?.reviewsAndRatings?.overallRating
-                  }
+                  overallRating={4}
                   totalReviews={345}
                   avgFeePerYear={180000}
                   affiliation={college?.attributes?.affiliation?.data?.map(

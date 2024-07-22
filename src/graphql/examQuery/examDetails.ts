@@ -21,6 +21,8 @@ export const getExamDetails = gql`
             }
           }
           examName
+          breadCrumb
+          titleAddition
           streams {
             data {
               attributes {
@@ -146,6 +148,7 @@ export const getExamDetails = gql`
               description
             }
           }
+            updatedAt
           PageData {
             ... on ComponentCommonTextEditor {
               id

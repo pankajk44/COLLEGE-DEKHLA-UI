@@ -27,34 +27,40 @@ export default function ExamDetailBanner({
     >
       {/* Upper Side  */}
       <p className="text-zinc-600">
-        Home &gt; Exams &gt;{" "}
-        <span className="text-orange-500">{breadCrumb}</span>
+        <Link className="hover:text-blue-500 hover:underline" href={"/"}>
+          Home
+        </Link>{" "}
+        &gt;{" "}
+        <Link className="hover:text-blue-500 hover:underline" href={"/exams"}>
+          Exams
+        </Link>{" "}
+        &gt; <span className="text-bold text-orange-500">{breadCrumb}</span>
       </p>
       <div className="flex gap-5 max-md:flex-col max-md:flex-col-reverse">
         {/* Left Side  */}
-        <div className="flex items-center gap-5">
-          <h2 className="text-3xl font-bold md:pt-2 md:text-4xl max-sm:text-center">
+        <div className="flex flex-[8] gap-5">
+          <h2 className="text-3xl font-bold max-sm:text-center md:pt-2 md:text-4xl">
             {examName} : {titleAddition}
           </h2>
         </div>
         {/* Right Side  */}
-        <div className="w-full flex justify-center h-auto items-center">
-          <div className="w-min rounded-2xl bg-white p-2 ">
+        <div className="flex h-auto w-full flex-[2] items-center justify-center md:justify-end">
+          <div className="w-min rounded-2xl bg-white p-2">
             <Image
               src={examLogo}
               alt="banner"
               width={500}
               height={500}
-              className="min-h-40 min-w-40 object-contain"
+              className="h-40 w-40 object-contain"
             />
           </div>
         </div>
       </div>
       {/* Down Side  */}
-      <div className="flex flex-wrap items-center justify-between ">
+      <div className="flex flex-wrap items-center justify-between">
         <p className="flex items-center gap-2">
           <FaClockRotateLeft className="text-xl" />
-          <span>Updated on {lastUpdate}</span>
+          <span>Updated on {formatDate(lastUpdate)}</span>
         </p>
         <div className="flex flex-wrap gap-5 max-md:w-full">
           <p className="flex items-center gap-2">
@@ -66,10 +72,13 @@ export default function ExamDetailBanner({
             <span>Ask</span>
           </p>
           <div className="flex flex-wrap gap-5 max-md:!w-full">
-            <Link href={brochureUrl || "#"} className="max-md:w-[48%] max-sm:!w-full">
+            <Link
+              href={brochureUrl || "#"}
+              className="max-md:w-[48%] max-sm:!w-full"
+            >
               <Button
                 variant="white"
-                className="max-md:w-[100%] max-sm:!w-full text-nowrap shadow-lg"
+                className="text-nowrap shadow-lg max-md:w-[100%] max-sm:!w-full"
               >
                 <span>Download Brochure</span>
                 <HiOutlineDownload />
@@ -77,10 +86,9 @@ export default function ExamDetailBanner({
             </Link>
             <Button
               variant="black"
-              className=" text-nowrap shadow-lg max-md:w-[48%] max-sm:!w-full"
+              className="text-nowrap shadow-lg max-md:w-[48%] max-sm:!w-full"
             >
               <span>Register</span>
-              <HiOutlineDownload />
             </Button>
           </div>
         </div>

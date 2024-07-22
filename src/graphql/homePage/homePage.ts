@@ -181,7 +181,6 @@ export const getHomePage = gql`
     topColleges: colleges(
       filters: { isTopCollege: { eq: true } }
       sort: "topCollegeSequence:asc"
-      pagination: { page: 1, pageSize: 10 }
     ) {
       data {
         id
@@ -189,6 +188,17 @@ export const getHomePage = gql`
           slug
           breadCrumb
           collegeLogo {
+            data {
+              id
+              attributes {
+                alternativeText
+                width
+                height
+                url
+              }
+            }
+          }
+          bgImage {
             data {
               id
               attributes {
@@ -270,7 +280,7 @@ export const getHomePage = gql`
         }
       }
     }
-    news: news(sort: "updatedAt:desc", pagination: { page: 1, pageSize: 10 }) {
+    news: news(sort: "updatedAt:desc") {
       data {
         id
         attributes {

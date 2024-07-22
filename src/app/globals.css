@@ -64,31 +64,7 @@ body {
     .list {
       @apply list-disc pl-5;
     }
-    /* table  */
-    table {
-      @apply min-w-full table-auto border border-gray-400 text-center;
-      colgroup{
-        @apply !w-full
-      }
-      thead {
-        @apply bg-gray-50;
-      }
-      th {
-        @apply border border-gray-400 bg-orange-500 px-6 py-3 text-center text-lg font-semibold tracking-wider text-white;
-      }
-      tbody {
-        @apply divide-x divide-y divide-gray-400 bg-white font-normal;
-      }
-      tbody tr:nth-child(odd) {
-        @apply bg-orange-100;
-      }
-      tr {
-        @apply divide-x divide-gray-400;
-      }
-      td {
-        @apply whitespace-nowrap px-6 py-4;
-      }
-    }
+
     .bg-orange {
       @apply rounded-md bg-orange-200 p-5 text-zinc-800;
       h1,
@@ -473,4 +449,49 @@ body {
 
 .slide-out {
   animation: slideOutToLeft 0.5s ease-out forwards;
+}
+
+/* Table in editorText */
+.table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  text-align: center !important;
+}
+
+table {
+  table-layout: fixed;
+  width: 100% !important;
+  overflow-x: auto;
+  border-radius: 10px !important;
+}
+
+table,
+th,
+td {
+  border: 2px solid #ffdac0 !important;
+  vertical-align: middle !important;
+}
+tbody tr {
+  color: #020014 !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  background-color: #ffffff !important;
+}
+
+tbody tr:first-child {
+  background-color: #f97316 !important;
+  text-align: center !important;
+}
+
+tbody tr:first-child span {
+  font-size: 1.2rem !important;
+  color: #ffffff !important;
+  font-weight: 500 !important;
+}
+
+table td:first-child,
+table th:first-child {
+  border-left: none !important;
 }
