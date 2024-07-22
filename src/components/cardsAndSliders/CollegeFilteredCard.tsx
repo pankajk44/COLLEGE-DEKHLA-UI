@@ -89,7 +89,7 @@ export default function CollegeFilteredCard({
               <div className="flex gap-x-2">
                 <SlBadge className="text-3xl text-blue-500" />
                 <div>
-                  <p className="font-semibold">{affiliation.join(", ")}</p>
+                  <p className="font-semibold">{affiliation}</p>
                   <p className="text-xs text-zinc-400">Accreditation</p>
                 </div>
               </div>
