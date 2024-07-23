@@ -49,8 +49,8 @@ export default function CollegeDetailPage({ params }: Props) {
       setTabSelectionArray(convertedData);
     }
   }, [collegeData]);
-  console.log(collegeData?.college?.data?.attributes, "collegeData");
-  console.log(tabSelectionArray, "tabSelectionArray");
+  // console.log(collegeData?.college?.data?.attributes, "collegeData");
+  // console.log(tabSelectionArray, "tabSelectionArray");
   // console.log(collegeData?.college?.data?.attributes?.breadCrumb, "breadCrumb");
 
   const asideSection = [

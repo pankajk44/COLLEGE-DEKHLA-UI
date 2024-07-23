@@ -159,7 +159,7 @@ export function SignInContainer({
             <p className="mt-5 flex gap-x-2">
               <span>OTP will be sent to </span>
               <span className="text-xl font-bold text-blue-500">
-                {userSubmittedData.number || 999999999}
+                {userSubmittedData?.number || 999999999}
               </span>
               <span onClick={() => setIsOtp((pre) => !pre)}>
                 <FaRegEdit className="text-blue-500" />

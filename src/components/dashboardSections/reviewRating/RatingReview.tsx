@@ -19,7 +19,7 @@ interface Review {
   reviewdata: ReviewData[];
 }
 
-export function RatingReview() {
+export function RatingReview({ tab }: any) {
   const reviews: Review[] = [
     {
       id: 1,
@@ -77,7 +77,7 @@ export function RatingReview() {
 
   return (
     <div className="w-full">
-      <h2 className="text-xl font-bold mb-3">
+      <h2 className="mb-3 text-xl font-bold">
         Your Reviews{" "}
         <span className="float-right text-2xl text-zinc-600">
           <FaRegEdit />
@@ -85,41 +85,47 @@ export function RatingReview() {
       </h2>
       <div className="grid grid-cols-1 gap-5">
         {reviews.map((review, index) => (
-          <div key={review.id} className="space-y-2 border-2 rounded-xl p-7 max-sm:p-6">
+          <div
+            key={review.id}
+            className="space-y-2 rounded-xl border-2 p-7 max-sm:p-6"
+          >
             <div
-              className="flex flex-nowrap justify-between items-start  cursor-pointer"
+              className="flex cursor-pointer flex-nowrap items-start justify-between"
               onClick={() => toggleReview(review.id)}
             >
-              <h3 className="font-extrabold text-4xl sm:text-5xl text-orange-300 mr-4">
+              <h3 className="mr-4 text-4xl font-extrabold text-orange-300 sm:text-5xl">
                 {index + 1}
               </h3>
-              <div className="w-full ">
-                <div className="flex flex-nowrap justify-between w-full">
+              <div className="w-full">
+                <div className="flex w-full flex-nowrap justify-between">
                   <div>
-                <h4 className="text-2xl sm:text-3xl  font-medium">
-                  {review.title}
-                  
-                    {/* {expandedReviews[review.id] ? <FaChevronUp className="text-xl ml-4" /> : <FaChevronDown className="text-xl ml-4" />} */}
-              
-                </h4>
-                <p className="text-sm">
-                  {review.quote} | {review.date}
-                </p>
-                </div>                    <FaRegEdit className="!text-[20px]  min-w-[20px]"/>
+                    <h4 className="text-2xl font-medium sm:text-3xl">
+                      {review.title}
 
-</div>
+                      {/* {expandedReviews[review.id] ? <FaChevronUp className="text-xl ml-4" /> : <FaChevronDown className="text-xl ml-4" />} */}
+                    </h4>
+                    <p className="text-sm">
+                      {review.quote} | {review.date}
+                    </p>
+                  </div>{" "}
+                  <FaRegEdit className="min-w-[20px] !text-[20px]" />
+                </div>
                 {expandedReviews[review.id] && (
-                  <div className="w-full mt-5">
+                  <div className="mt-5 w-full">
                     {review.reviewdata.map((data) => (
                       <div key={data.id} className="mb-4">
-                        <div className="lg:flex w-full lg:flex-nowrap lg:justify-between lg:items-center">
-                          <p className="my-5   font-bold text-black "> {data.heading}: 
-                            <span className="text-lg text-zinc-800 font-normal ml-2">
-                {data.details}<StarRating
-                            rating={data.rating}
-                            totalStars={5}
-                            className="ml-4 mb-2 text-lg text-orange-500 lg:hidden max-w-min float-right"
-                          /></span>
+                        <div className="w-full lg:flex lg:flex-nowrap lg:items-center lg:justify-between">
+                          <p className="my-5 font-bold text-black">
+                            {" "}
+                            {data.heading}:
+                            <span className="ml-2 text-lg font-normal text-zinc-800">
+                              {data.details}
+                              <StarRating
+                                rating={data.rating}
+                                totalStars={5}
+                                className="float-right mb-2 ml-4 max-w-min text-lg text-orange-500 lg:hidden"
+                              />
+                            </span>
                           </p>
                           <StarRating
                             rating={data.rating}

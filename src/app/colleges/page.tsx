@@ -9,7 +9,7 @@ import { banner1, tabsSections } from "@/data/globalData";
 import { getCollegeListingPageBanner } from "@/graphql/collegeQuery/colleges";
 import { addCommas } from "@/utils/customText";
 import { useQuery } from "@apollo/client";
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function Colleges() {
   // Query
@@ -18,23 +18,26 @@ export default function Colleges() {
     loading,
     error,
   } = useQuery(getCollegeListingPageBanner);
+  useEffect(() => {
+    console.log(bannerData?.colleges?.meta?.pagination?.total, "bannerData");
+  }, [bannerData]);
 
   return (
     <>
       <CollegeListingBanner
-        title={bannerData?.courseListingPages?.data?.[0]?.attributes?.title}
+        title={bannerData?.collegeListingPages?.data?.[0]?.attributes?.title}
         bgImg={
-          bannerData?.courseListingPages?.data?.[0]?.attributes?.bgImg?.data
+          bannerData?.collegeListingPages?.data?.[0]?.attributes?.bgImg?.data
             ?.attributes?.url
         }
-        imgArray={bannerData?.courseListingPages?.data?.[0]?.attributes?.photos?.data?.map(
+        imgArray={bannerData?.collegeListingPages?.data?.[0]?.attributes?.photos?.data?.map(
           (img: any) => img?.attributes?.url,
         )}
-        totalCollegesFound={bannerData?.courses?.meta?.pagination?.total}
+        totalCollegesFound={bannerData?.colleges?.meta?.pagination?.total}
       />
       <TopColleges
         data={colleges}
-        totalCollegesFound={bannerData?.courses?.meta?.pagination?.total}
+        totalCollegesFound={bannerData?.colleges?.meta?.pagination?.total}
       />
 
       <CollegeListSection
@@ -53,14 +56,11 @@ function TopColleges({ data, totalCollegesFound }: any) {
     <Wrapper as="section" containerClassName="my-10">
       <h2 className="mb-5 text-3xl font-bold">
         <span className="text-orange-500">Top Colleges</span>{" "}
-        <span className="text-black">in India based on ranking</span>{" "}
-        {totalCollegesFound && (
-          <span className="text-sm text-zinc-700">{`(found ${addCommas(totalCollegesFound)} colleges)`}</span>
-        )}
+        <span className="text-black">in India based on ranking</span>
       </h2>
       {/* Slider  */}
       <div className="topColleges relative">
-        <CollegesSlider data={data} />
+        <CollegesSlider />
       </div>
     </Wrapper>
   );

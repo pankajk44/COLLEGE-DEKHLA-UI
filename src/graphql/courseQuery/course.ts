@@ -33,9 +33,6 @@ export const getAllCourses = gql`
             data {
               id
               attributes {
-                alternativeText
-                width
-                height
                 url
               }
             }
@@ -48,6 +45,7 @@ export const getAllCourses = gql`
               }
             }
           }
+
           description
           duration {
             data {
@@ -75,6 +73,11 @@ export const getAllCourses = gql`
               attributes {
                 navItem
               }
+            }
+          }
+          colleges {
+            data {
+              id
             }
           }
         }

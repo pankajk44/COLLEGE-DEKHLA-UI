@@ -75,21 +75,20 @@ export default function Content({ selectedContent, slug, breadCrumb }: any) {
               className="mt-5 w-full rounded-2xl bg-white p-5 md:min-w-[550px]"
             >
               {/* Title */}
-              {section?.heading && (
-                <div className="flex items-center gap-2">
-                  {section?.headingIcon?.data?.attributes?.url && (
-                    <Image
-                      src={section?.headingIcon?.data?.attributes?.url}
-                      width={20}
-                      height={20}
-                      alt="icon"
-                      className="h-10 w-10 object-contain"
-                    />
-                  )}
-                  <h2 className="my-5 text-2xl font-bold capitalize">
-                    {section?.heading}
-                  </h2>
-                </div>
+              {section?.title && (
+                <h2 className="border-b border-zinc-500 py-5 text-2xl font-bold capitalize">
+                  {section?.title?.t1 && (
+                    <span className="text-black">{section?.title?.t1}</span>
+                  )}{" "}
+                  {section?.title?.t2 && (
+                    <span className="text-orange-500">
+                      {section?.title?.t2}
+                    </span>
+                  )}{" "}
+                  {section?.title?.t3 && (
+                    <span className="text-black">{section?.title?.t3}</span>
+                  )}{" "}
+                </h2>
               )}
               {/* Author */}
               {section?.author && section?.author?.data?.attributes?.name && (
@@ -292,21 +291,6 @@ export default function Content({ selectedContent, slug, breadCrumb }: any) {
               {/* Photo Gallery  */}
               {section?.imageGallery && (
                 <>
-                  {section?.title && (
-                    <h2 className="border-b border-zinc-500 py-5 text-2xl font-bold capitalize">
-                      {section?.title?.t1 && (
-                        <span className="text-black">{section?.title?.t1}</span>
-                      )}{" "}
-                      {section?.title?.t2 && (
-                        <span className="text-orange-500">
-                          {section?.title?.t2}
-                        </span>
-                      )}{" "}
-                      {section?.title?.t3 && (
-                        <span className="text-black">{section?.title?.t3}</span>
-                      )}{" "}
-                    </h2>
-                  )}
                   {Object.keys(groupedImages).map((category, index) => (
                     <div key={index} className="mt-5">
                       <h3 className="my-3 text-xl font-semibold capitalize">
@@ -333,21 +317,6 @@ export default function Content({ selectedContent, slug, breadCrumb }: any) {
               {/* Video Gallery  */}
               {section?.videoGallery && (
                 <>
-                  {section?.videoGallery && (
-                    <h2 className="border-b border-zinc-500 py-5 text-2xl font-bold capitalize">
-                      {section?.title?.t1 && (
-                        <span className="text-black">{section?.title?.t1}</span>
-                      )}{" "}
-                      {section?.title?.t2 && (
-                        <span className="text-orange-500">
-                          {section?.title?.t2}
-                        </span>
-                      )}{" "}
-                      {section?.title?.t3 && (
-                        <span className="text-black">{section?.title?.t3}</span>
-                      )}{" "}
-                    </h2>
-                  )}
                   {Object.keys(groupedVideos).map((category, index) => (
                     <div key={index} className="mt-5">
                       <h3 className="my-3 text-xl font-semibold capitalize">

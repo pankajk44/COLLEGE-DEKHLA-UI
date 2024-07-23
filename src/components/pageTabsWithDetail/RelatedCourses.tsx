@@ -4,7 +4,10 @@ import { LoadingButton } from "../Button";
 import CourseFilteredCard from "../cardsAndSliders/CourseFilteredCard";
 import { RiSearchLine } from "react-icons/ri";
 import { useQuery } from "@apollo/client";
-import { getAllCoursesOfACollege } from "@/graphql/collegeQuery/collegeDetails";
+import {
+  getAllCoursesOfACollege,
+  totalCoursesInACollege,
+} from "@/graphql/collegeQuery/collegeDetails";
 import SortButton from "../SortButton";
 
 export default function RelatedCourses({ data, breadCrumb, slug }: any) {
@@ -28,8 +31,23 @@ export default function RelatedCourses({ data, breadCrumb, slug }: any) {
       courseSortingParameter: [`courseName.${sortingParameterName}`],
     },
   });
-  //   console.log(courseData?.college?.data?.attributes?.courses, "courseData");
-  //   console.log(filteredData, "filteredData");
+  const {
+    data: collegeCoursesData,
+    loading: collegeCoursesLoading,
+    error: collegeCoursesError,
+  } = useQuery(totalCoursesInACollege, {
+    variables: {
+      ID: courseId,
+    },
+  });
+
+  useEffect(() => {
+    console.log(
+      collegeCoursesData?.college?.data?.attributes?.courses,
+      "collegeCoursesData",
+    );
+  }, [collegeCoursesData]);
+
   useEffect(() => {
     if (courseData) {
       if (pageNo === 1) {
@@ -65,7 +83,7 @@ export default function RelatedCourses({ data, breadCrumb, slug }: any) {
 
   return (
     <div>
-      <h1 className="mb-3">
+      <h1 className="my-3">
         Courses Offered by{" "}
         <span className="font-bold capitalize text-orange-500">
           {breadCrumb}
@@ -87,6 +105,14 @@ export default function RelatedCourses({ data, breadCrumb, slug }: any) {
           {/* Sort button  */}
           <SortButton handleFilterOptionClick={handleFilterOptionClick} />
         </div>
+        {/* Total courses offered  */}
+        <p className="w-min text-nowrap border-b-2 border-orange-500 text-orange-500">
+          <span className="text-2xl font-bold text-black">
+            {collegeCoursesData?.college?.data?.attributes?.courses?.length ||
+              0}
+          </span>{" "}
+          <span>Total Courses</span>
+        </p>
         {/* College List Section  */}
         {filteredData?.map((course: any) => (
           <CourseFilteredCard

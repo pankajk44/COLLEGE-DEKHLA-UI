@@ -122,7 +122,7 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
           // filterBy={filterBy}
           SelectedFilters={SelectedFilters}
           setSelectedFilters={setSelectedFilters}
-          totalResults={data?.length}
+          totalResults={examData?.exams?.meta?.pagination?.total}
           mobileFilter={MobileFilter}
           setMobileFilter={setMobileFilter}
           // For query
