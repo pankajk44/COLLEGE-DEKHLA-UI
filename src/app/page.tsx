@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Wrapper from "@/components/Wrappers";
 import { Button } from "@/components/Button";
-import { homePageData } from "@/data/homeData";
+// import { homePageData } from "@/data/homeData";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { animate, motion, useMotionValue } from "framer-motion";
 import { book1 } from "@/assets";
@@ -42,8 +42,6 @@ import { getHomePage } from "@/graphql/homePage/homePage";
 
 export default function Home() {
   const { data: homePageData, loading, error } = useQuery(getHomePage);
-
-  console.log("data", homePageData?.featuredColleges?.data);
   const popularCourses: any[] = homePageData?.popularCourses?.data?.map(
     (item: any) => {
       return {
@@ -55,7 +53,7 @@ export default function Home() {
   );
 
   return (
-    <section className="backgroundGradient relative !mt-0 w-full">
+    <section className="backgroundGradient relative !mt-0 w-full pb-16">
       <HomeBanner
         title={homePageData?.homePages?.data[0]?.attributes?.HeroSection?.title}
         text={homePageData?.homePages?.data[0]?.attributes?.HeroSection?.text}

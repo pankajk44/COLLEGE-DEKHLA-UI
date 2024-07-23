@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, KeyboardEvent } from "react";
 import Wrapper from "../Wrappers";
 import { Button } from "../Button";
 import { getAllNews } from "@/graphql/newsQuery/news";
@@ -8,7 +8,7 @@ import { SearchResult } from "./SearchResult";
 
 export function Search() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [pageNo, SetPageNo] = useState(1);
+  const [pageNo, setPageNo] = useState(1);
   const [runQuery, setRunQuery] = useState(false);
 
   // Query
@@ -47,6 +47,12 @@ export function Search() {
     }
   }
 
+  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Enter") {
+      handleSubmit();
+    }
+  }
+
   return (
     <>
       <Wrapper
@@ -61,6 +67,7 @@ export function Search() {
           placeholder="Search for colleges, courses etc."
           value={searchTerm}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           min={3}
         />
         <Button variant="black" className="text-sm" onClick={handleSubmit}>

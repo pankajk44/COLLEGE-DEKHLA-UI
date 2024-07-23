@@ -62,6 +62,7 @@ export function getAllColleges(range: any): DocumentNode {
       affiliation: { organization: { in: $affiliations } }
       genderAccepted: { gender: { eq: $gender } }
       allCourses: {
+      allCourses: {
         examName: { breadCrumb: { in: $examAccepted } }
         courseName: { breadCrumb: { in: $courses } }
         stream: { stream: { in: $streams } }
@@ -293,6 +294,13 @@ export const getAllStreams = gql`
 
 export const getCollegeListingPageBanner = gql`
   query getCollegeListingPageBanner {
+    colleges {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
     colleges {
       meta {
         pagination {
