@@ -77,7 +77,7 @@ export const getAllFeaturedColleges = gql`
               }
             }
           }
-          courses {
+          allCourses {
             courseFee
             courseFeeLabel
             examName {

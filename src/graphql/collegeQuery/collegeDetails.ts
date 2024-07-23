@@ -75,18 +75,6 @@ export const getCollegeDetails = gql`
             }
           }
           estYear
-          courses {
-            examName {
-              data {
-                id
-                attributes {
-                  examName
-                  slug
-                  description
-                }
-              }
-            }
-          }
           videoGallery {
             id
             category
@@ -175,12 +163,14 @@ export const getCollegeDetails = gql`
               }
             }
           }
-          courses {
+          allCourses {
             examName {
               data {
                 id
                 attributes {
                   examName
+                  slug
+                  description
                 }
               }
             }
@@ -217,7 +207,11 @@ export const getCollegeDetails = gql`
           PageData {
             ... on ComponentCommonTextEditor {
               id
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               author {
                 data {
                   id
@@ -258,7 +252,11 @@ export const getCollegeDetails = gql`
             }
             ... on ComponentCommonReviewsComponent {
               id
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               headingIcon {
                 data {
                   id
@@ -281,7 +279,6 @@ export const getCollegeDetails = gql`
             }
             ... on ComponentCommonGalleryComponent {
               id
-              heading
               headingIcon {
                 data {
                   id
@@ -321,7 +318,11 @@ export const getCollegeDetails = gql`
             }
             ... on ComponentCommonFaqComponent {
               id
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               Questions {
                 id
                 question
@@ -338,7 +339,11 @@ export const getCollegeDetails = gql`
             }
             ... on ComponentCommonMainGalleryComponent {
               id
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               headingIcon {
                 data {
                   id
@@ -361,7 +366,6 @@ export const getCollegeDetails = gql`
             }
             ... on ComponentCommonVideoComponent {
               id
-              heading
               headingIcon {
                 data {
                   id
@@ -426,7 +430,11 @@ export const getCollegeDetails = gql`
             }
             ... on ComponentCommonReviewDescriptionComponent {
               id
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               headingIcon {
                 data {
                   id
@@ -450,7 +458,11 @@ export const getCollegeDetails = gql`
             }
             ... on ComponentCommonCoursesComponent {
               id
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               headingIcon {
                 data {
                   attributes {
@@ -469,7 +481,11 @@ export const getCollegeDetails = gql`
             }
             ... on ComponentCommonNewsComponent {
               id
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               headingIcon {
                 data {
                   id
@@ -522,6 +538,7 @@ export const getCollegeDetails = gql`
                 }
               }
               quote
+
               navItem {
                 data {
                   attributes {
@@ -531,7 +548,11 @@ export const getCollegeDetails = gql`
               }
             }
             ... on ComponentCommonFacilitiesComponent {
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               headingIcon {
                 data {
                   id
@@ -614,7 +635,7 @@ export const getAllCoursesOfACollege = gql`
       data {
         id
         attributes {
-          courses(
+          allCourses(
             sort: $courseSortingParameter
             filters: {
               courseName: { courseName: { containsi: $searchByCourseName } }
@@ -693,7 +714,7 @@ export const totalCoursesInACollege = gql`
       data {
         id
         attributes {
-          courses(pagination: { limit: 100 }) {
+          allCourses(pagination: { limit: 100 }) {
             courseName {
               data {
                 id

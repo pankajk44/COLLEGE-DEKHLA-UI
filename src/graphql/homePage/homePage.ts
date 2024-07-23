@@ -198,17 +198,6 @@ export const getHomePage = gql`
               }
             }
           }
-          bgImage {
-            data {
-              id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
           collegeName
           description
           location {
@@ -261,7 +250,7 @@ export const getHomePage = gql`
               }
             }
           }
-          courses {
+          allCourses {
             courseFee
             courseFeeLabel
             examName {
@@ -296,7 +285,7 @@ export const getHomePage = gql`
             }
           }
           title
-          excerpt
+          # excerpt
           category {
             data {
               id
@@ -382,7 +371,7 @@ export const getHomePage = gql`
               }
             }
           }
-          courses {
+          allCourses {
             courseFee
             courseFeeLabel
             examName {

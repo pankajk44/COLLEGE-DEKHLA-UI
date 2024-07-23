@@ -8,7 +8,7 @@ function topCollegesFilter(range: any) {
   switch (range) {
     case "Top 10":
       return { gte: 1, lt: 11 };
-    case "Top 20" /*  */:
+    case "Top 20":
       return { gte: 1, lt: 21 };
     case "Top 30":
       return { gte: 1, lt: 31 };
@@ -61,7 +61,7 @@ export function getAllColleges(range: any): DocumentNode {
       }
       affiliation: { organization: { in: $affiliations } }
       genderAccepted: { gender: { eq: $gender } }
-      courses: {
+      allCourses: {
         examName: { breadCrumb: { in: $examAccepted } }
         courseName: { breadCrumb: { in: $courses } }
         stream: { stream: { in: $streams } }
@@ -158,7 +158,7 @@ export function getAllColleges(range: any): DocumentNode {
             }
           }
         }
-        courses {
+        allCourses {
         courseName {
             data {
               attributes {
@@ -293,6 +293,13 @@ export const getAllStreams = gql`
 
 export const getCollegeListingPageBanner = gql`
   query getCollegeListingPageBanner {
+    colleges {
+      meta {
+        pagination {
+          total
+        }
+      }
+    }
     collegeListingPages {
       data {
         id
@@ -300,9 +307,6 @@ export const getCollegeListingPageBanner = gql`
           bgImg {
             data {
               attributes {
-                alternativeText
-                width
-                height
                 url
               }
             }
@@ -311,9 +315,6 @@ export const getCollegeListingPageBanner = gql`
           photos {
             data {
               attributes {
-                alternativeText
-                width
-                height
                 url
               }
             }
@@ -335,4 +336,3 @@ export const getAllExamsAccepted = gql`
     }
   }
 `;
-

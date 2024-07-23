@@ -21,8 +21,6 @@ export const getExamDetails = gql`
             }
           }
           examName
-          breadCrumb
-          titleAddition
           streams {
             data {
               attributes {
@@ -148,11 +146,15 @@ export const getExamDetails = gql`
               description
             }
           }
-            updatedAt
+          updatedAt
           PageData {
             ... on ComponentCommonTextEditor {
               id
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               author {
                 data {
                   id
@@ -193,7 +195,11 @@ export const getExamDetails = gql`
             }
             ... on ComponentCommonReviewsComponent {
               id
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               headingIcon {
                 data {
                   id
@@ -216,7 +222,6 @@ export const getExamDetails = gql`
             }
             ... on ComponentCommonGalleryComponent {
               id
-              heading
               headingIcon {
                 data {
                   id
@@ -256,7 +261,11 @@ export const getExamDetails = gql`
             }
             ... on ComponentCommonFaqComponent {
               id
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               Questions {
                 id
                 question
@@ -273,7 +282,11 @@ export const getExamDetails = gql`
             }
             ... on ComponentCommonMainGalleryComponent {
               id
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               headingIcon {
                 data {
                   id
@@ -296,7 +309,6 @@ export const getExamDetails = gql`
             }
             ... on ComponentCommonVideoComponent {
               id
-              heading
               headingIcon {
                 data {
                   id
@@ -361,7 +373,11 @@ export const getExamDetails = gql`
             }
             ... on ComponentCommonReviewDescriptionComponent {
               id
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               headingIcon {
                 data {
                   id
@@ -386,7 +402,11 @@ export const getExamDetails = gql`
 
             ... on ComponentCommonNewsComponent {
               id
-              heading
+              title {
+                t1
+                t2
+                t3
+              }
               headingIcon {
                 data {
                   id
