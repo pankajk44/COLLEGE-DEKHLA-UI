@@ -60,7 +60,7 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
   });
 
   useEffect(() => {
-    // console.log(examData?.exams?.data, "examData");
+    console.log(examData?.exams?.data, "examData");
     if (examData) {
       if (pageNo === 1) {
         setFilteredData(examData?.exams?.data);
@@ -167,11 +167,11 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
             </div>
           </div>
           {/* Navbar Filter  */}
-          <Navbar
+          {/* <Navbar
             category={filterBy?.category}
             selectedNav={selectedIndex}
             onSelect={handleSelect}
-          />
+          /> */}
           {/* College List Section  */}
           {filteredData?.map((exam: any) => (
             <ExamFilteredCard
@@ -180,15 +180,17 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
               slug={exam?.attributes?.slug}
               logo={exam?.attributes?.bg?.data?.attributes?.url}
               examName={exam?.attributes?.examName}
+              examStartDate={exam?.attributes?.examDate?.startDate}
+              examEndDate={exam?.attributes?.examDate?.endDate}
               applicationSubmissionStartDate={
                 exam?.attributes?.applicationSubmissionDates?.startDate
               }
               applicationSubmissionEndDate={
                 exam?.attributes?.applicationSubmissionDates?.endDate
               }
-              mode={exam?.attributes?.examMode}
+              mode={exam?.attributes?.mode?.data?.attributes?.examMode}
               examinationLevel={
-                exam?.attributes?.examinationLevel?.data?.attributes
+                exam?.attributes?.ExaminationLevel?.data?.attributes
                   ?.ExaminationLevel
               }
               description={exam?.attributes?.description}

@@ -11,6 +11,8 @@ export default function ExamFilteredCard({
   slug,
   logo,
   examName,
+  examStartDate,
+  examEndDate,
   applicationSubmissionStartDate,
   applicationSubmissionEndDate,
   mode,
@@ -43,7 +45,8 @@ export default function ExamFilteredCard({
                   <p className="font-medium">
                     Registration Date:{" "}
                     <span className="text-zinc-600">
-                      {formatDate(applicationSubmissionStartDate)}
+                      {formatDate(applicationSubmissionStartDate)} -{" "}
+                      {formatDate(applicationSubmissionEndDate)}
                     </span>
                   </p>
                 </div>
@@ -56,7 +59,7 @@ export default function ExamFilteredCard({
                   <p className="font-medium">
                     Exam Date:{" "}
                     <span className="text-zinc-600">
-                      {formatDate(applicationSubmissionEndDate)}
+                      {formatDate(examStartDate)} - {formatDate(examEndDate)}
                     </span>
                   </p>
                 </div>

@@ -62,7 +62,6 @@ export function getAllColleges(range: any): DocumentNode {
       affiliation: { organization: { in: $affiliations } }
       genderAccepted: { gender: { eq: $gender } }
       allCourses: {
-      allCourses: {
         examName: { breadCrumb: { in: $examAccepted } }
         courseName: { breadCrumb: { in: $courses } }
         stream: { stream: { in: $streams } }
