@@ -285,7 +285,7 @@ export const getHomePage = gql`
             }
           }
           title
-          # excerpt
+          excerpt
           category {
             data {
               id
@@ -378,7 +378,7 @@ export const getHomePage = gql`
               data {
                 id
                 attributes {
-                  examName
+                  breadCrumb
                 }
               }
             }
