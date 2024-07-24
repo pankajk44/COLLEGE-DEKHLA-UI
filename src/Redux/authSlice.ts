@@ -5,14 +5,14 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface IAuthState {
 	authState: boolean;
-	userID: ID
+	userID: ID;
 	userName: string;
 	email: string;
 	number: string;
 	gender?: string;
 	city?: string;
 	interestedCourse?: string;
-	token: string
+	token: string;
 }
 
 const initialState: IAuthState = {
@@ -24,7 +24,7 @@ const initialState: IAuthState = {
 	gender: "",
 	city: "",
 	interestedCourse: "",
-	token: ""
+	token: "",
 };
 
 let clearSessionTimer: NodeJS.Timeout | null = null;
@@ -50,7 +50,6 @@ export const authSlice = createSlice({
 			clearSessionTimer = setTimeout(() => {
 				clearSession();
 			}, 60 * 60 * 1000);
-
 		},
 		clearAuthState: (state) => {
 			state.authState = false;
@@ -70,10 +69,9 @@ export const authSlice = createSlice({
 export const { setAuthState, clearAuthState } = authSlice.actions;
 
 const clearSession = () => {
-	localStorage.removeItem('persist:auth');
+	localStorage.removeItem("persist:auth");
 	localStorage.clear();
 	clearSessionTimer = null;
 };
-
 
 export const authReducer = authSlice.reducer;

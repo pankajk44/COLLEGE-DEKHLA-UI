@@ -252,7 +252,7 @@ export default function CollegeListSection({
                   new Set(
                     college?.attributes?.allCourses?.map(
                       (item: any) =>
-                        item?.courseName?.data?.attributes?.breadCrumb,
+                        item?.examName?.data?.attributes?.breadCrumb,
                     ),
                   ),
                 )

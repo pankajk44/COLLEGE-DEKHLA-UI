@@ -35,7 +35,11 @@ import TextWithLineBreak, {
 import useIsMobile from "@/components/customHooks/useIsMobile";
 import { headerLogo } from "@/assets";
 import CollegeFilteredCard from "@/components/cardsAndSliders/CollegeFilteredCard";
-import formatFees, { formatRupee } from "@/utils/customText";
+import formatFees, {
+  convertToYearlyFee,
+  formatDate,
+  formatRupee,
+} from "@/utils/customText";
 import { GiBookCover } from "react-icons/gi";
 import { useQuery } from "@apollo/client";
 import { getHomePage } from "@/graphql/homePage/homePage";
@@ -136,7 +140,7 @@ export default function Home() {
         containerClassName="py-14"
         className="bg-orange-200 p-4"
       >
-        <Link href={"/colleges/1"} className="max-w-min">
+        <Link href={"/colleges"} className="max-w-min">
           <Button variant="black" className="text-nowrap shadow-xl">
             Featured Colleges
           </Button>
@@ -287,6 +291,7 @@ function PopularCoursesCard(data: any) {
   );
 }
 const FeaturedCollegeSlider = ({ data }: any) => {
+  // console.log(data, "data");
   const uniqueId = "featured123";
 
   const swiperOptions = {
@@ -311,38 +316,66 @@ const FeaturedCollegeSlider = ({ data }: any) => {
   return (
     <div className="CoursesSlider relative w-full">
       <Swiper {...swiperOptions} className={`relative w-full px-5 ${uniqueId}`}>
-        {data?.map((collegeEntity: any) => {
-          const college = collegeEntity.attributes;
-          const affiliation =
-            college?.affiliation?.data
-              ?.map((aff: any) => aff?.attributes?.organization || "")
-              .join(", ") || "";
+        {data?.map((college: any) => {
           return (
             <SwiperSlide
-              key={collegeEntity.id}
+              key={college.id}
               className="mb-12 w-full overflow-hidden rounded-2xl p-2"
             >
               <CollegeFilteredCard
-                key={collegeEntity.id}
-                slug={college?.slug}
-                bgImage={college?.collegeLogo?.data?.attributes?.url}
-                city={college?.location?.city?.data?.attributes?.city}
-                state={college?.location?.state?.data?.attributes?.state}
-                // overallRating={college?.reviewsAndRatings?.overallRating}
-                // totalReviews={college?.reviewsAndRatings?.totalReviews}
-                // avgFeePerYear={college?.avgFeePerYear}
-                affiliation={affiliation}
-                hightestPackage={college?.hightestPackage}
-                brochureUrl={college?.brochureUrl}
-                collegeType={
-                  college?.college_type?.data?.attributes?.collegeType
+                id={college?.id}
+                slug={college?.attributes?.slug}
+                bgImage={college?.attributes?.bgImage?.data?.attributes?.url}
+                city={
+                  college?.attributes?.location?.city?.data?.attributes?.city
                 }
-                collegeName={college?.collegeName}
-                avgPackage={college?.avgPackage}
-                exam={college?.exam}
-                description={college?.description}
-                tabsSections={college?.navbars?.data?.map(
-                  (nav: any) => nav.attributes.navItem,
+                state={
+                  college?.attributes?.location?.state?.data?.attributes?.state
+                }
+                overallRating={
+                  college?.attributes?.reviewsAndRatings?.overallRating
+                }
+                totalReviews={345}
+                avgFeePerYear={
+                  college?.attributes?.allCourses
+                    .map((course: any) =>
+                      convertToYearlyFee(
+                        course?.courseFee,
+                        course?.courseFeeLabel,
+                      ),
+                    )
+                    ?.reduce(
+                      (total: any, fee: any, _: any, { length }: any) =>
+                        total + fee / length,
+                      0,
+                    ) || 0
+                }
+                affiliation={college?.attributes?.affiliation?.data?.map(
+                  (value: any) => value?.attributes?.organization,
+                )}
+                hightestPackage={college?.attributes?.hightestPackage}
+                brochureUrl={
+                  college?.attributes?.brochureFile?.data?.attributes?.url
+                }
+                collegeType={college?.attributes?.college_type?.data?.attributes?.collegeType?.slice(
+                  0,
+                  3,
+                )}
+                collegeName={college?.attributes?.collegeName}
+                avgPackage={college?.attributes?.avgPackage}
+                exam={Array.from(
+                  new Set(
+                    college?.attributes?.allCourses?.map(
+                      (item: any) =>
+                        item?.examName?.data?.attributes?.breadCrumb,
+                    ),
+                  ),
+                )
+                  .filter(Boolean)
+                  .join(", ")}
+                description={college?.attributes?.description}
+                tabsSections={college?.attributes?.navbars?.data?.map(
+                  (value: any) => value?.attributes?.navItem,
                 )}
               />
             </SwiperSlide>
@@ -537,7 +570,7 @@ function NewsCard({ image, text, timeStamp }: any) {
       />
       <div className="px-4">
         <p className="my-2">{text}</p>
-        <p className="text-md text-zinc-700">{timeStamp}</p>
+        <p className="text-md text-zinc-700">{formatDate(timeStamp)}</p>
       </div>
     </div>
   );

@@ -1,22 +1,29 @@
 "use client";
-// import { logoSmall } from "@/asset";
-import Image from "next/image";
-import Link from "next/link";
+
 import { useRouter } from "next/navigation";
-import React, { useId, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-// import axios from "axios";
-// import useSignup from "@/query/hooks/useSignup";
-// import useUserMetaData from "@/query/hooks/useUserMetaData";
-// import { useAppDispatch } from "@/Redux";
-// import { useQuery } from "@apollo/client";
-// import { getStreams, getCourseLevels } from "@/query/schema";
-// import { restUrl } from "@/utils/network";
-// import { setAuthState } from "@/Redux/authSlice";
-// import { ID, UserSubmittedData } from "@/types/global";
 import OtpInput from "react-otp-input";
+import CryptoJS from "crypto-js";
+import axios from "axios";
+// import { useAppDispatch } from "@/store/store";
+// import { setAuthState } from "@/store/slices/authSlice";
 import { Input } from "./Input";
 import { ImCross } from "react-icons/im";
+import { ID } from "@/types/global";
+import { useAppDispatch } from "@/Redux";
+import { setAuthState } from "@/Redux/authSlice";
+
+interface UserSubmittedData {
+  name: string;
+  email: string;
+  number: string;
+  dob: string;
+  stream: string;
+  courseLevel: string;
+  city: string;
+  isWhatsappNo?: boolean;
+}
 
 export function SignUpContainer({
   setIsLoginModule,
@@ -24,112 +31,101 @@ export function SignUpContainer({
   closePopup,
 }: any) {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  }: any = useForm();
+  } = useForm<UserSubmittedData>();
+
   const [error, setError] = useState("");
-  const [userSubmittedData, setuserSubmittedData] = useState<any>({
-    name: "",
-    email: "",
-    number: "",
-    isWhatsappNo: false,
-    stream: "",
-    courseLevel: "",
-  });
+  const [userSubmittedData, setUserSubmittedData] = useState<UserSubmittedData>(
+    {
+      name: "",
+      email: "",
+      number: "",
+      dob: "",
+      stream: "",
+      courseLevel: "",
+      city: "",
+      isWhatsappNo: false,
+    },
+  );
 
   const [userOtp, setUserOtp] = useState("");
-  // const [userId, setUserId] = useState<ID>();
+  const [encryptedOtp, setEncryptedOtp] = useState("");
   const [isOtp, setIsOtp] = useState(false);
-  // const { UserCheck, CheckOTP } = useSignup();
-  // const { userMetaCreate } = useUserMetaData();
-  // const dispatch = useAppDispatch();
-  // const { data: streamsData } = useQuery(getStreams);
-  // const { data: courseLevelData } = useQuery(getCourseLevels);
-  // const checkUser = UserCheck(
-  //   userSubmittedData?.number,
-  //   userSubmittedData?.email,
-  // );
-  // const otpchecker = CheckOTP(userId!, userSubmittedData?.number, userOtp);
 
-  async function sendSignupOtp() {
-    // const currentDate = new Date();
-    // const publishedAt = currentDate.toISOString();
-    // if ((await checkUser) === false) {
-    //   try {
-    //     let data = JSON.stringify({
-    //       data: {
-    //         name: userSubmittedData.name,
-    //         email: userSubmittedData.email,
-    //         number: userSubmittedData.number,
-    //         stream: userSubmittedData.stream,
-    //         courseLevel: userSubmittedData.courseLevel,
-    //       },
-    //     });
-    //     let config = {
-    //       method: "post",
-    //       maxBodyLength: Infinity,
-    //       url: `${restUrl}/api/users-data`,
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       data: data,
-    //     };
-    //     axios
-    //       .request(config)
-    //       .then((response: any) => {
-    //         setUserId(response?.data?.data?.id);
-    //         setIsOtp(true);
-    //       })
-    //       .catch((error: any) => {
-    //         console.log(error);
-    //       });
-    //   } catch (error) {
-    //     console.error("Error adding user:", error);
-    //   }
-    // } else {
-    //   setError("User already exists");
-    // }
+  const secretKey = "PankajIsTheBest";
+
+  function generateOtp() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  }
+
+  async function sendSignUpOtp(data: UserSubmittedData) {
+    const otp = generateOtp();
+    const encrypted = CryptoJS.AES.encrypt(otp, secretKey).toString();
+    setEncryptedOtp(encrypted);
+
+    try {
+      const response = await axios.post(
+        "https://www.fast2sms.com/dev/bulkV2",
+        {
+          message: `Your OTP code is ${otp}`,
+          language: "english",
+          route: "q",
+          numbers: data.number,
+          flash: 0,
+        },
+        {
+          headers: {
+            authorization: "YOUR_FAST2SMS_API_KEY",
+          },
+        },
+      );
+
+      setUserSubmittedData(data);
+      setIsOtp(true);
+    } catch (error) {
+      setError("Failed to send OTP");
+    }
+  }
+
+  function verifyOtp(inputOtp: string) {
+    const bytes = CryptoJS.AES.decrypt(encryptedOtp, secretKey);
+    const originalOtp = bytes.toString(CryptoJS.enc.Utf8);
+    return inputOtp === originalOtp;
   }
 
   async function handleSubmitSignup() {
-    // const currentDate = new Date();
-    // const publishedAt = currentDate.toISOString();
-    // if (otpchecker != false) {
-    //   try {
-    //     dispatch(
-    //       setAuthState({
-    //         authState: true,
-    //         userID: otpchecker?.loggedInUser?.id,
-    //         userName: otpchecker?.loggedInUser?.attributes?.name,
-    //         email: otpchecker?.loggedInUser?.attributes?.email,
-    //         number: otpchecker?.loggedInUser?.attributes?.number,
-    //       }),
-    //     );
-    //     await userMetaCreate({
-    //       variables: {
-    //         name: userSubmittedData.name,
-    //         email: userSubmittedData.email,
-    //         number: userSubmittedData.number,
-    //         userDataId: userId,
-    //         publishedAt,
-    //       },
-    //     });
-    //     console.log("user signed up");
-    //     closePopup();
-    //     router.push("/");
-    //   } catch (error) {
-    //     console.error("Error publishing user:", error);
-    //   }
-    // } else {
-    //   setError("Wrong OTP");
-    // }
+    if (verifyOtp(userOtp)) {
+      try {
+        dispatch(
+          setAuthState({
+            authState: true,
+            userID: 12345, // Replace with actual user ID
+            userName: userSubmittedData.name,
+            email: userSubmittedData.email,
+            number: userSubmittedData.number,
+            gender: "", // Add logic to capture gender if needed
+            city: userSubmittedData.city,
+            interestedCourse: userSubmittedData.courseLevel,
+            token: "auth-token", // Replace with actual token
+          }),
+        );
+
+        closePopup();
+        router.push("/");
+      } catch (error) {
+        setError("Failed to verify OTP");
+      }
+    } else {
+      setError("Invalid OTP");
+    }
   }
 
-  const handleFormSubmit = async (data: any) => {
-    //   setuserSubmittedData(data);
-    //   isOtp ? handleSubmitSignup() : sendSignupOtp();
+  const handleFormSubmit = async (data: UserSubmittedData) => {
+    isOtp ? handleSubmitSignup() : sendSignUpOtp(data);
   };
 
   // Regular expressions for validation
@@ -160,7 +156,7 @@ export function SignUpContainer({
         {isOtp ? (
           <>
             <p className="mt-5">
-              <span>Enter OTP </span>
+              <span>Enter OTP sent to </span>
               <span className="text-xl font-bold text-orange-500">
                 {userSubmittedData.number}
               </span>
@@ -189,31 +185,34 @@ export function SignUpContainer({
         ) : (
           <>
             <Input
-              label="Name "
-              placeholder=" "
+              label="Name"
+              placeholder="Enter your name"
               {...register("name", {
                 required: "Name is required",
               })}
             />
-            {errors?.name && (
-              <p className="text-xs text-red-600">{errors?.name?.message}</p>
+            {errors.name && (
+              <p className="text-xs text-red-600">{errors.name.message}</p>
             )}
-            {/* Mobile No.  */}
+
             <Input
               label="Date of Birth"
               type="date"
-              placeholder=" "
-              // {...register("dob", {
-              //   required: "Date of Birth is required",
-              // })}
+              placeholder="Select your date of birth"
+              {...register("dob", {
+                required: "Date of Birth is required",
+              })}
             />
+            {errors.dob && (
+              <p className="text-xs text-red-600">{errors.dob.message}</p>
+            )}
+
             <Input
               label="Mobile Number"
-              type="Number"
-              placeholder=""
-              // maxLength={10}
+              type="number"
+              placeholder="Enter your mobile number"
               {...register("number", {
-                required: "Date of Birth No. is required",
+                required: "Mobile number is required",
                 pattern: {
                   value: mobileRegex,
                   message: "Please enter a valid 10-digit mobile number",
@@ -223,11 +222,11 @@ export function SignUpContainer({
             {errors.number && (
               <p className="text-xs text-red-600">{errors.number.message}</p>
             )}
-            {/* Email  */}
+
             <Input
-              label="Email ID "
+              label="Email ID"
               type="email"
-              placeholder=" "
+              placeholder="Enter your email"
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -239,88 +238,84 @@ export function SignUpContainer({
             {errors.email && (
               <p className="text-xs text-red-600">{errors.email.message}</p>
             )}
-            {/* Stream  */}
+
             <select
               className="mt-5 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300"
               {...register("stream", {
-                required: "Stream Selection is required",
+                required: "Stream selection is required",
               })}
             >
-              <option disabled={true} selected={true} value="">
-                Course
+              <option disabled={true} value="">
+                Select Stream
               </option>
-              {/* {streamsData?.streams?.data?.map(
-                    (stream: any, index: any) => {
-                      return (
-                        <option value={stream?.id} key={index}>
-                          {stream?.attributes?.streamName}
-                        </option>
-                      );
-                    },
-                  )} */}
+              {/* Map through streams data and render options here */}
+              {/* {streamsData?.streams?.data?.map((stream: any, index: any) => (
+                <option value={stream.id} key={index}>
+                  {stream.attributes.streamName}
+                </option>
+              ))} */}
             </select>
             {errors.stream && (
               <p className="text-xs text-red-600">{errors.stream.message}</p>
             )}
-            {/* courseLevel  */}
+
             <select
               className="mt-5 w-[48%] rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300"
               {...register("courseLevel", {
-                required: "course Level Selection is required",
+                required: "Course level selection is required",
               })}
             >
-              <option disabled={true} selected={true} value="">
-                State{" "}
+              <option disabled={true} value="">
+                Select Course Level
               </option>
-              {/* {courseLevelData?.courseLevels?.data?.map(
-                    (courseLevel: any, index: any) => {
-                      return (
-                        <option value={courseLevel?.id} key={index}>
-                          {courseLevel?.attributes?.levelName}
-                        </option>
-                      );
-                    },
-                  )} */}
-            </select>
-            <select
-              className="ml-[4%] mt-5 w-[48%] rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300"
-              {...register("courseLevel", {
-                required: "course Level Selection is required",
-              })}
-            >
-              <option disabled={true} selected={true} value="">
-                City
-              </option>
-              {/* {courseLevelData?.courseLevels?.data?.map(
-                    (courseLevel: any, index: any) => {
-                      return (
-                        <option value={courseLevel?.id} key={index}>
-                          {courseLevel?.attributes?.levelName}
-                        </option>
-                      );
-                    },
-                  )} */}
+              {/* Map through course level data and render options here */}
+              {/* {courseLevelData?.courseLevels?.data?.map((courseLevel: any, index: any) => (
+                <option value={courseLevel.id} key={index}>
+                  {courseLevel.attributes.levelName}
+                </option>
+              ))} */}
             </select>
             {errors.courseLevel && (
               <p className="text-xs text-red-600">
                 {errors.courseLevel.message}
               </p>
             )}
-            {/* Whatsapp No. Check  */}
-            {/* <div className="mt-5 flex items-center">
+
+            <select
+              className="ml-[4%] mt-5 w-[48%] rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300"
+              {...register("city", {
+                required: "City selection is required",
+              })}
+            >
+              <option disabled={true} value="">
+                Select City
+              </option>
+              {/* Map through city data and render options here */}
+              {/* {cityData?.map((city: any, index: any) => (
+                <option value={city.id} key={index}>
+                  {city.name}
+                </option>
+              ))} */}
+            </select>
+            {errors.courseLevel && (
+              <p className="text-xs text-red-600">
+                {errors.courseLevel.message}
+              </p>
+            )}
+
+            <div className="mt-5 flex items-center">
               <label className="relative inline-flex cursor-pointer items-center">
                 <input
                   type="checkbox"
-                  value=""
                   className="peer sr-only"
-                  {...register("isWhatsappNo", {})}
+                  {...register("isWhatsappNo")}
                 />
                 <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-blue-700 dark:peer-focus:ring-blue-800"></div>
               </label>
-              <span className="ml-3 font-sans text-sm leading-normal  text-inherit antialiased">
+              <span className="ml-3 font-sans text-sm leading-normal text-inherit antialiased">
                 Whatsapp number is the same as provided above
               </span>
-            </div> */}
+            </div>
           </>
         )}
         <button
@@ -329,7 +324,11 @@ export function SignUpContainer({
         >
           {isOtp ? "Sign Up" : "Send OTP"}
         </button>
-        <button className="mt-5 text-sm text-orange-600 hover:underline active:scale-95">
+        <button
+          className="mt-5 text-sm text-orange-600 hover:underline active:scale-95"
+          type="button"
+          onClick={() => sendSignUpOtp(userSubmittedData)}
+        >
           {isOtp && "Resend OTP"}
         </button>
       </form>
@@ -338,7 +337,6 @@ export function SignUpContainer({
         Your personal information is secured with us
       </p>
 
-      {/* Error Message */}
       {error && <p className="mt-5 text-center text-red-600">{error}</p>}
     </div>
   );

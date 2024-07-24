@@ -156,7 +156,7 @@ export default function ExamFilters({
 
   return (
     <aside
-      className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20  md:sticky md:top-2 md:h-screen ${mobileFilter ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll" : "max-md:hidden"}`}
+      className={`min-w-[300px] [flex:2] max-md:bg-orange-50 max-md:px-5 max-md:pt-20 md:sticky md:top-2 md:h-screen ${mobileFilter ? "slide-in fixed left-0 top-0 z-40 h-screen w-full overflow-y-scroll" : "max-md:hidden"}`}
     >
       <button
         className="!fixed !right-5 !top-24 !z-50 text-4xl text-black hover:text-orange-500 md:hidden"
@@ -164,9 +164,8 @@ export default function ExamFilters({
       >
         <IoIosCloseCircleOutline />
       </button>
-      <h1 className="mb-10 font-medium">Showing {totalResults} Results</h1>
-      <div className="w-full pb-0 max-md:bg-opacity-95">
-        <h2 className="mb-5 font-medium">Find Exam</h2>
+      <h1 className="mb-7 font-medium">Showing {totalResults} Results</h1>
+      <div className="w-full max-md:bg-opacity-95">
         {/* Selected filters display */}
         <div className="mb-3 flex flex-wrap items-center gap-1 max-md:text-black md:max-h-[9vh] md:overflow-hidden md:hover:overflow-y-auto">
           {Object.values(SelectedFilters).some(
@@ -197,31 +196,31 @@ export default function ExamFilters({
         {/* END shows filter by options */}
 
         {/* Filters  */}
-        <div className="md:max-h-[77vh] md:overflow-hidden md:hover:overflow-y-auto max-md:mb-20"> 
-        <Filter
-          title="SPECIALIZATION"
-          filterList={streamsFilteredFromQueryArray}
-          handleFilter={handleStreamFilter}
-          checked={StreamCheckedFilters}
-        />
-        <Filter
-          title="MODE"
-          filterList={examModesFilteredFromQueryArray}
-          handleFilter={handleModeFilter}
-          checked={ModeCheckedFilters}
-        />
-        <Filter
-          title="ELIGIBILITY LEVEL"
-          filterList={eligibilityLevelsFilteredFromQueryArray}
-          handleFilter={handleEligibilityLevelFilter}
-          checked={EligibilityLevelCheckedFilters}
-        />
-        <Filter
-          title="EXAMINATION LEVEL"
-          filterList={examinationLevelsFilteredFromQueryArray}
-          handleFilter={handleExaminationLevelFilter}
-          checked={ExaminationLevelCheckedFilters}
-        />
+        <div className="max-md:mb-20 md:max-h-[77vh] md:overflow-hidden md:hover:overflow-y-auto">
+          <Filter
+            title="SPECIALIZATION"
+            filterList={streamsFilteredFromQueryArray}
+            handleFilter={handleStreamFilter}
+            checked={StreamCheckedFilters}
+          />
+          <Filter
+            title="MODE"
+            filterList={examModesFilteredFromQueryArray}
+            handleFilter={handleModeFilter}
+            checked={ModeCheckedFilters}
+          />
+          <Filter
+            title="ELIGIBILITY LEVEL"
+            filterList={eligibilityLevelsFilteredFromQueryArray}
+            handleFilter={handleEligibilityLevelFilter}
+            checked={EligibilityLevelCheckedFilters}
+          />
+          <Filter
+            title="EXAMINATION LEVEL"
+            filterList={examinationLevelsFilteredFromQueryArray}
+            handleFilter={handleExaminationLevelFilter}
+            checked={ExaminationLevelCheckedFilters}
+          />
         </div>
       </div>
     </aside>
