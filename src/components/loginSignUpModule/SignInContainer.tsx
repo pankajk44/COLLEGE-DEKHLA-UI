@@ -2,21 +2,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useId, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
-// import useSignup from "@/query/hooks/useSignup";
-// import useUserMetaData from "@/query/hooks/useUserMetaData";
-// import { useAppDispatch } from "@/Redux";
-// import { useQuery } from "@apollo/client";
-// import { getStreams, getCourseLevels } from "@/query/schema";
-// import { restUrl } from "@/utils/network";
-// import { setAuthState } from "@/Redux/authSlice";
-// import { ID, UserSubmittedData } from "@/types/global";
 import OtpInput from "react-otp-input";
 import { Input } from "./Input";
 import { FaRegEdit } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
+import useUserSignUp from "@/customHook/useSignup";
+import { useAppDispatch } from "@/Redux";
+import { setAuthState } from "@/Redux/authSlice";
+
+type ID = number | null;
 
 export function SignInContainer({
   setIsLoginModule,
@@ -24,116 +20,75 @@ export function SignInContainer({
   closePopup,
 }: any) {
   const router = useRouter();
+  const { checkOTP, registerUser, generateOTP } = useUserSignUp();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  }: any = useForm();
+  } = useForm();
   const [error, setError] = useState("");
-  const [userSubmittedData, setuserSubmittedData] = useState<any>({
+  const [userSubmittedData, setUserSubmittedData] = useState<any>({
     number: "",
   });
-
   const [userOtp, setUserOtp] = useState("");
-  // const [userId, setUserId] = useState<ID>();
+  const [userId, setUserId] = useState<ID>();
   const [isOtp, setIsOtp] = useState(false);
-  // const { UserCheck, CheckOTP } = useSignup();
-  // const { userMetaCreate } = useUserMetaData();
-  // const dispatch = useAppDispatch();
-  // const { data: streamsData } = useQuery(getStreams);
-  // const { data: courseLevelData } = useQuery(getCourseLevels);
-  // const checkUser = UserCheck(
-  //   userSubmittedData?.number,
-  //   userSubmittedData?.email,
-  // );
-  // const otpchecker = CheckOTP(userId!, userSubmittedData?.number, userOtp);
+  const dispatch = useAppDispatch();
 
-  async function sendSignupOtp() {
-    // const currentDate = new Date();
-    // const publishedAt = currentDate.toISOString();
-    // if ((await checkUser) === false) {
-    //   try {
-    //     let data = JSON.stringify({
-    //       data: {
-    //         name: userSubmittedData.name,
-    //         email: userSubmittedData.email,
-    //         number: userSubmittedData.number,
-    //         stream: userSubmittedData.stream,
-    //         courseLevel: userSubmittedData.courseLevel,
-    //       },
-    //     });
-    //     let config = {
-    //       method: "post",
-    //       maxBodyLength: Infinity,
-    //       url: `${restUrl}/api/users-data`,
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       data: data,
-    //     };
-    //     axios
-    //       .request(config)
-    //       .then((response: any) => {
-    //         setUserId(response?.data?.data?.id);
-    //         setIsOtp(true);
-    //       })
-    //       .catch((error: any) => {
-    //         console.log(error);
-    //       });
-    //   } catch (error) {
-    //     console.error("Error adding user:", error);
-    //   }
-    // } else {
-    //   setError("User already exists");
-    // }
+  async function sendLogInOtp(data: any) {
+    setUserSubmittedData(data);
+    const registerResponse = await generateOTP({
+      variables: {
+        phoneNumber: data?.number,
+      },
+    });
+    if (registerResponse?.data === 200) {
+      setIsOtp(true);
+    } else {
+      setError(registerResponse?.data?.message);
+    }
   }
 
-  async function handleSubmitSignup() {
-    // const currentDate = new Date();
-    // const publishedAt = currentDate.toISOString();
-    // if (otpchecker != false) {
-    //   try {
-    //     dispatch(
-    //       setAuthState({
-    //         authState: true,
-    //         userID: otpchecker?.loggedInUser?.id,
-    //         userName: otpchecker?.loggedInUser?.attributes?.name,
-    //         email: otpchecker?.loggedInUser?.attributes?.email,
-    //         number: otpchecker?.loggedInUser?.attributes?.number,
-    //       }),
-    //     );
-    //     await userMetaCreate({
-    //       variables: {
-    //         name: userSubmittedData.name,
-    //         email: userSubmittedData.email,
-    //         number: userSubmittedData.number,
-    //         userDataId: userId,
-    //         publishedAt,
-    //       },
-    //     });
-    //     console.log("user signed up");
-    //     closePopup();
-    //     router.push("/");
-    //   } catch (error) {
-    //     console.error("Error publishing user:", error);
-    //   }
-    // } else {
-    //   setError("Wrong OTP");
-    // }
+  async function handleSubmitLogIn() {
+    try {
+      const otpChecker = await checkOTP({
+        variables: {
+          phoneNumber: userSubmittedData?.number,
+          otp: userOtp,
+        },
+      });
+
+      if (otpChecker?.data) {
+        const userData = otpChecker?.data?.verifyOTP?.data;
+        setIsLoginModule(false);
+        setUserId(userData?.id);
+        dispatch(
+          setAuthState({
+            authState: true,
+            userID: userData?.id,
+            userName: userData?.attributes?.username,
+            email: userData?.attributes?.email,
+            number: userData?.attributes?.phoneNumber,
+            token: userData?.attributes?.token,
+          }),
+        );
+        closePopup();
+        router.push("/");
+      } else if (
+        otpChecker?.data &&
+        otpChecker?.data?.verifyOTP?.__typename === "verifyOTPErrorEntity"
+      ) {
+        setError(otpChecker?.data?.verifyOTP?.message);
+      }
+    } catch (error) {
+      setError("Failed to verify OTP");
+    }
   }
 
   const handleFormSubmit = async (data: any) => {
-    //   setuserSubmittedData(data);
-    //   isOtp ? handleSubmitSignup() : sendSignupOtp();
-  };
-  const handleOverlayClick = (e: any) => {
-    //   // Check if the click occurred on the overlay (the background)
-    //   if (e.target === e.currentTarget) {
-    //     closePopup();
-    //   }
+    isOtp ? handleSubmitLogIn() : sendLogInOtp(data);
   };
 
-  // Regular expressions for validation
   const mobileRegex = /^[0-9]{10}$/;
 
   return (
@@ -161,7 +116,7 @@ export function SignInContainer({
               <span className="text-xl font-bold text-blue-500">
                 {userSubmittedData?.number || 999999999}
               </span>
-              <span onClick={() => setIsOtp((pre) => !pre)}>
+              <span onClick={() => setIsOtp((prev) => !prev)}>
                 <FaRegEdit className="text-blue-500" />
               </span>
             </p>
@@ -181,7 +136,6 @@ export function SignInContainer({
           </>
         ) : (
           <>
-            {/* Mobile No.  */}
             <Input
               label="Mobile No "
               type="phone"
@@ -207,7 +161,7 @@ export function SignInContainer({
               type="checkbox"
               value=""
               className="peer sr-only"
-              {...register("isWhatsappNo", {})}
+              {...register("isWhatsappNo")}
             />
             <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-orange-400 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-orange-300 dark:border-gray-600 dark:bg-orange-600 dark:peer-focus:ring-orange-800"></div>
           </label>
@@ -222,9 +176,11 @@ export function SignInContainer({
         >
           {isOtp ? "LogIn" : "Send OTP"}
         </button>
-        <button className="text-smbg-gradient-to-b mt-5 from-[#FF772B] to-[#fd6107] hover:underline active:scale-95">
-          {isOtp && "Resend OTP"}
-        </button>
+        {isOtp && (
+          <button className="text-smbg-gradient-to-b mt-5 from-[#FF772B] to-[#fd6107] hover:underline active:scale-95">
+            Resend OTP
+          </button>
+        )}
       </form>
 
       <p className="mt-2 text-center font-sans text-sm font-medium leading-normal text-inherit text-zinc-600 antialiased">
@@ -239,7 +195,6 @@ export function SignInContainer({
           SignUp Now!
         </span>
       </p>
-      {/* Error Message */}
       {error && <p className="mt-5 text-center text-red-600">{error}</p>}
     </div>
   );

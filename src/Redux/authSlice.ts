@@ -10,6 +10,7 @@ export interface IAuthState {
 	email: string;
 	number: string;
 	gender?: string;
+	state?: string;
 	city?: string;
 	interestedCourse?: string;
 	token: string;
@@ -22,6 +23,7 @@ const initialState: IAuthState = {
 	email: "",
 	number: "",
 	gender: "",
+	state: "",
 	city: "",
 	interestedCourse: "",
 	token: "",
@@ -40,6 +42,7 @@ export const authSlice = createSlice({
 			state.email = action.payload.email;
 			state.number = action.payload.number;
 			state.gender = action.payload.gender;
+			state.state = action.payload.state;
 			state.city = action.payload.city;
 			state.interestedCourse = action.payload.interestedCourse;
 			state.token = action.payload.token;
@@ -58,6 +61,7 @@ export const authSlice = createSlice({
 			state.email = "";
 			state.number = "";
 			state.interestedCourse = "";
+			state.state = "";
 			state.city = "";
 			state.gender = "";
 			state.token = "";
