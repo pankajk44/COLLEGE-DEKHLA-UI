@@ -1,27 +1,29 @@
 "use client";
-
+type ID = number | null;
+import {
+  allCityRelatedToStateSelected,
+  allCourses,
+  allStates,
+} from "@/graphql/authQuery/signup";
+import { useQuery } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import OtpInput from "react-otp-input";
-import CryptoJS from "crypto-js";
-import axios from "axios";
-// import { useAppDispatch } from "@/store/store";
-// import { setAuthState } from "@/store/slices/authSlice";
-import { Input } from "./Input";
 import { ImCross } from "react-icons/im";
-import { ID } from "@/types/global";
 import { useAppDispatch } from "@/Redux";
 import { setAuthState } from "@/Redux/authSlice";
+import { Input } from "./Input";
+import useUserSignUp from "@/customHook/useSignup";
 
 interface UserSubmittedData {
   name: string;
   email: string;
   number: string;
   dob: string;
-  stream: string;
-  courseLevel: string;
-  city: string;
+  course: ID | string;
+  state: ID | string;
+  city: ID | string;
   isWhatsappNo?: boolean;
 }
 
@@ -36,6 +38,7 @@ export function SignUpContainer({
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<UserSubmittedData>();
 
   const [error, setError] = useState("");
@@ -45,90 +48,106 @@ export function SignUpContainer({
       email: "",
       number: "",
       dob: "",
-      stream: "",
-      courseLevel: "",
+      course: "",
+      state: "",
       city: "",
-      isWhatsappNo: false,
     },
   );
-
   const [userOtp, setUserOtp] = useState("");
-  const [encryptedOtp, setEncryptedOtp] = useState("");
   const [isOtp, setIsOtp] = useState(false);
-
-  const secretKey = "PankajIsTheBest";
-
-  function generateOtp() {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-  }
-
-  async function sendSignUpOtp(data: UserSubmittedData) {
-    const otp = generateOtp();
-    const encrypted = CryptoJS.AES.encrypt(otp, secretKey).toString();
-    setEncryptedOtp(encrypted);
-
-    try {
-      const response = await axios.post(
-        "https://www.fast2sms.com/dev/bulkV2",
-        {
-          message: `Your OTP code is ${otp}`,
-          language: "english",
-          route: "q",
-          numbers: data.number,
-          flash: 0,
-        },
-        {
-          headers: {
-            authorization: "YOUR_FAST2SMS_API_KEY",
-          },
-        },
-      );
-
-      setUserSubmittedData(data);
+  const { checkOTP, registerUser } = useUserSignUp();
+  const [userId, setUserId] = useState<ID>();
+  const [selectedStateId, setSelectedStateId] = useState<any>();
+  //  ================================================================== //
+  const {
+    loading: allCoursesLoading,
+    error: allCoursesError,
+    data: allCoursesData,
+  } = useQuery(allCourses);
+  const {
+    loading: allStatesLoading,
+    error: allStatesError,
+    data: allStatesData,
+  } = useQuery(allStates);
+  const {
+    loading: cityRelatedLoading,
+    error: cityRelatedError,
+    data: cityRelatedData,
+  } = useQuery(allCityRelatedToStateSelected, {
+    variables: { stateId: selectedStateId },
+  });
+  //  ================================================================== //
+  const sendSignUpOtp = async (data: UserSubmittedData) => {
+    console.log(data);
+    setUserSubmittedData(data);
+    console.log(userSubmittedData);
+    const registerResponse = await registerUser({
+      variables: {
+        username: data?.name,
+        email: data?.email,
+        phoneNumber: data?.number,
+        dob: data?.dob,
+        course: data?.course ? Number(data?.course) : null,
+        state: data?.state ? Number(data?.state) : null,
+        city: data?.city ? Number(data?.city) : null,
+      },
+    });
+    if (registerResponse?.data?.registerUser?.status === 200) {
       setIsOtp(true);
-    } catch (error) {
-      setError("Failed to send OTP");
+    } else {
+      console.log(registerResponse?.data?.registerUser?.message);
+      setError(registerResponse?.data?.registerUser?.message);
     }
-  }
+  };
 
-  function verifyOtp(inputOtp: string) {
-    const bytes = CryptoJS.AES.decrypt(encryptedOtp, secretKey);
-    const originalOtp = bytes.toString(CryptoJS.enc.Utf8);
-    return inputOtp === originalOtp;
-  }
+  async function handleSubmitSignUp() {
+    try {
+      const otpChecker = await checkOTP({
+        variables: {
+          phoneNumber: userSubmittedData?.number,
+          otp: userOtp, // Ensure this matches the query variable
+        },
+      });
 
-  async function handleSubmitSignup() {
-    if (verifyOtp(userOtp)) {
-      try {
+      if (
+        otpChecker?.data &&
+        otpChecker?.data?.verifyOTP?.__typename === "UserProfileEntityResponse"
+      ) {
+        const userData = otpChecker?.data?.verifyOTP?.data;
+
+        setIsLoginModule(false);
+        setUserId(userData?.id);
         dispatch(
           setAuthState({
             authState: true,
-            userID: 12345, // Replace with actual user ID
-            userName: userSubmittedData.name,
-            email: userSubmittedData.email,
-            number: userSubmittedData.number,
-            gender: "", // Add logic to capture gender if needed
-            city: userSubmittedData.city,
-            interestedCourse: userSubmittedData.courseLevel,
-            token: "auth-token", // Replace with actual token
+            userID: userData?.id,
+            userName: userData?.attributes?.username,
+            email: userData?.attributes?.email,
+            number: userData?.attributes?.phoneNumber,
+            token: userData?.attributes?.token,
           }),
         );
-
+        console.log(
+          "user signed up successfully",
+          userData.attributes.username,
+        );
         closePopup();
         router.push("/");
-      } catch (error) {
-        setError("Failed to verify OTP");
+      } else if (
+        otpChecker?.data &&
+        otpChecker?.data?.verifyOTP?.__typename === "verifyOTPErrorEntity"
+      ) {
+        setError(otpChecker?.data?.verifyOTP?.message);
       }
-    } else {
-      setError("Invalid OTP");
+    } catch (error) {
+      setError("Failed to verify OTP");
     }
   }
 
   const handleFormSubmit = async (data: UserSubmittedData) => {
-    isOtp ? handleSubmitSignup() : sendSignUpOtp(data);
+    isOtp ? handleSubmitSignUp() : sendSignUpOtp(data);
   };
 
-  // Regular expressions for validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const mobileRegex = /^[0-9]{10}$/;
 
@@ -186,7 +205,7 @@ export function SignUpContainer({
           <>
             <Input
               label="Name"
-              placeholder="Enter your name"
+              placeholder=" "
               {...register("name", {
                 required: "Name is required",
               })}
@@ -194,11 +213,10 @@ export function SignUpContainer({
             {errors.name && (
               <p className="text-xs text-red-600">{errors.name.message}</p>
             )}
-
             <Input
               label="Date of Birth"
               type="date"
-              placeholder="Select your date of birth"
+              placeholder=" "
               {...register("dob", {
                 required: "Date of Birth is required",
               })}
@@ -206,11 +224,10 @@ export function SignUpContainer({
             {errors.dob && (
               <p className="text-xs text-red-600">{errors.dob.message}</p>
             )}
-
             <Input
               label="Mobile Number"
               type="number"
-              placeholder="Enter your mobile number"
+              placeholder=" "
               {...register("number", {
                 required: "Mobile number is required",
                 pattern: {
@@ -222,11 +239,10 @@ export function SignUpContainer({
             {errors.number && (
               <p className="text-xs text-red-600">{errors.number.message}</p>
             )}
-
             <Input
               label="Email ID"
               type="email"
-              placeholder="Enter your email"
+              placeholder=" "
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -238,83 +254,74 @@ export function SignUpContainer({
             {errors.email && (
               <p className="text-xs text-red-600">{errors.email.message}</p>
             )}
-
             <select
               className="mt-5 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300"
-              {...register("stream", {
-                required: "Stream selection is required",
+              {...register("course", {
+                required: "Course selection is required",
               })}
             >
-              <option disabled={true} value="">
-                Select Stream
-              </option>
-              {/* Map through streams data and render options here */}
-              {/* {streamsData?.streams?.data?.map((stream: any, index: any) => (
-                <option value={stream.id} key={index}>
-                  {stream.attributes.streamName}
+              <option value="">Select course you are interested in</option>
+              {allCoursesData?.courses?.data?.map((course: any, index: any) => (
+                <option value={course?.id} key={course?.id}>
+                  {course?.attributes?.breadCrumb}
                 </option>
-              ))} */}
+              ))}
             </select>
-            {errors.stream && (
-              <p className="text-xs text-red-600">{errors.stream.message}</p>
+            {errors?.course && (
+              <p className="text-xs text-red-600">{errors.course.message}</p>
             )}
-
-            <select
-              className="mt-5 w-[48%] rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300"
-              {...register("courseLevel", {
-                required: "Course level selection is required",
-              })}
-            >
-              <option disabled={true} value="">
-                Select Course Level
-              </option>
-              {/* Map through course level data and render options here */}
-              {/* {courseLevelData?.courseLevels?.data?.map((courseLevel: any, index: any) => (
-                <option value={courseLevel.id} key={index}>
-                  {courseLevel.attributes.levelName}
-                </option>
-              ))} */}
-            </select>
-            {errors.courseLevel && (
-              <p className="text-xs text-red-600">
-                {errors.courseLevel.message}
-              </p>
-            )}
-
-            <select
-              className="ml-[4%] mt-5 w-[48%] rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300"
-              {...register("city", {
-                required: "City selection is required",
-              })}
-            >
-              <option disabled={true} value="">
-                Select City
-              </option>
-              {/* Map through city data and render options here */}
-              {/* {cityData?.map((city: any, index: any) => (
-                <option value={city.id} key={index}>
-                  {city.name}
-                </option>
-              ))} */}
-            </select>
-            {errors.courseLevel && (
-              <p className="text-xs text-red-600">
-                {errors.courseLevel.message}
-              </p>
-            )}
-
-            <div className="mt-5 flex items-center">
-              <label className="relative inline-flex cursor-pointer items-center">
-                <input
-                  type="checkbox"
-                  className="peer sr-only"
-                  {...register("isWhatsappNo")}
-                />
-                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-blue-700 dark:peer-focus:ring-blue-800"></div>
-              </label>
-              <span className="ml-3 font-sans text-sm leading-normal text-inherit antialiased">
-                Whatsapp number is the same as provided above
-              </span>
+            <div className="mt-5 flex w-full gap-5 max-sm:flex-col">
+              <div className="w-full flex-[1]">
+                <select
+                  className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300"
+                  {...register("state", {
+                    required: "Selecting state is required",
+                  })}
+                  onChange={(e) => {
+                    const selectedState = allStatesData?.states?.data?.find(
+                      (state: any) => state?.id === e.target.value,
+                    );
+                    setSelectedStateId(selectedState?.id);
+                    setValue("state", e.target.value); // Update the form state
+                  }}
+                >
+                  <option value="">State</option>
+                  {allStatesData?.states?.data?.map(
+                    (state: any, index: any) => (
+                      <option value={state?.id} key={state?.id}>
+                        {state?.attributes?.state}
+                      </option>
+                    ),
+                  )}
+                </select>
+                {errors?.state && (
+                  <p className="text-xs text-red-600">
+                    {errors?.state.message}
+                  </p>
+                )}
+              </div>
+              <div className="w-full flex-[1]">
+                <select
+                  className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-zinc-300"
+                  {...register("city", {
+                    required: "City selection is required",
+                  })}
+                >
+                  <option value="">City</option>
+                  {cityRelatedData?.cities?.data?.map(
+                    (city: any, index: any) => (
+                      <option value={city?.id} key={city?.id}>
+                        {city?.attributes?.city}
+                      </option>
+                    ),
+                  )}
+                </select>
+                {errors.city && (
+                  <p className="text-xs text-red-600">
+                    {errors?.city?.message}
+                  </p>
+                )}
+              </div>
             </div>
           </>
         )}
@@ -332,11 +339,9 @@ export function SignUpContainer({
           {isOtp && "Resend OTP"}
         </button>
       </form>
-
       <p className="mt-2 text-center font-sans text-sm leading-normal text-inherit antialiased">
         Your personal information is secured with us
       </p>
-
       {error && <p className="mt-5 text-center text-red-600">{error}</p>}
     </div>
   );
