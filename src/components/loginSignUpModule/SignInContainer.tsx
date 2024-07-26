@@ -14,6 +14,10 @@ import { setAuthState } from "@/Redux/authSlice";
 
 type ID = number | null;
 
+interface UserSubmittedData {
+  number: string;
+}
+
 export function SignInContainer({
   setIsLoginModule,
   isLoginModule,
@@ -27,9 +31,11 @@ export function SignInContainer({
     formState: { errors },
   } = useForm();
   const [error, setError] = useState("");
-  const [userSubmittedData, setUserSubmittedData] = useState<any>({
-    number: "",
-  });
+  const [userSubmittedData, setUserSubmittedData] = useState<UserSubmittedData>(
+    {
+      number: "",
+    },
+  );
   const [userOtp, setUserOtp] = useState("");
   const [userId, setUserId] = useState<ID>();
   const [isOtp, setIsOtp] = useState(false);
@@ -42,10 +48,11 @@ export function SignInContainer({
         phoneNumber: data?.number,
       },
     });
-    if (registerResponse?.data === 200) {
+    // console.log(registerResponse);
+    if (registerResponse?.data?.generateOTP?.status === 200) {
       setIsOtp(true);
     } else {
-      setError(registerResponse?.data?.message);
+      setError(registerResponse?.data?.generateOTP?.message);
     }
   }
 
@@ -113,44 +120,50 @@ export function SignInContainer({
           <>
             <p className="mt-5 flex gap-x-2">
               <span>OTP will be sent to </span>
-              <span className="text-xl font-bold text-blue-500">
+              <span className="text-xl font-bold text-orange-500">
                 {userSubmittedData?.number || 999999999}
               </span>
               <span onClick={() => setIsOtp((prev) => !prev)}>
-                <FaRegEdit className="text-blue-500" />
+                <FaRegEdit className="text-orange-500" />
               </span>
             </p>
             <div className="otp mb-5">
               <OtpInput
-                inputStyle="OTPInputStyle"
-                inputType="number"
+                inputType="tel"
                 value={userOtp}
                 onChange={setUserOtp}
                 numInputs={6}
-                renderSeparator={<span>-</span>}
-                renderInput={(props) => <input {...props} />}
+                renderSeparator={<span className="mx-2">-</span>}
+                renderInput={(props) => (
+                  <input
+                    {...props}
+                    className="h-12 w-12 rounded-md border-2 border-gray-300 text-center text-xl focus:border-orange-500 focus:outline-none"
+                    style={{
+                      WebkitAppearance: "none",
+                      MozAppearance: "textfield",
+                    }}
+                  />
+                )}
                 shouldAutoFocus
-                placeholder={"______"}
               />
             </div>
           </>
         ) : (
           <>
             <Input
-              label="Mobile No "
-              type="phone"
+              label="Mobile Number"
+              type="number"
               placeholder=" "
-              maxLength={10}
               {...register("number", {
-                required: "Mobile No. is required",
+                required: "Mobile number is required",
                 pattern: {
                   value: mobileRegex,
                   message: "Please enter a valid 10-digit mobile number",
                 },
               })}
             />
-            {errors.number && (
-              <p className="text-xs text-red-600">{errors?.number?.message}</p>
+            {errors.number && typeof errors.number.message === "string" && (
+              <p className="text-xs text-red-600">{errors.number.message}</p>
             )}
           </>
         )}
@@ -187,7 +200,7 @@ export function SignInContainer({
         Your personal information is secured with us
       </p>
       <p className="mt-6 w-full text-left font-sans text-base font-bold leading-normal text-zinc-600 antialiased">
-        New on OnlinewalaCollege?
+        New on CollegeDakhla?
         <span
           onClick={() => setIsLoginModule(!isLoginModule)}
           className="ml-1 cursor-pointer text-orange-500 hover:underline"

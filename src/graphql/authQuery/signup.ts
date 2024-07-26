@@ -183,3 +183,12 @@ export const generateOTPQuery = gql`
 //     }
 //   }
 // }
+
+// {
+//   "data": {
+//     "generateOTP": {
+//       "status": 404,
+//       "message": "User does not exists."
+//     }
+//   }
+// }
