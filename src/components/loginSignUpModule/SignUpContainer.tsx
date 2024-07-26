@@ -185,7 +185,7 @@ export function SignUpContainer({
                 value={userOtp}
                 onChange={setUserOtp}
                 numInputs={6}
-                renderSeparator={<span className="mx-2"></span>}
+                renderSeparator={<span className="mx-2">-</span>}
                 renderInput={(props) => (
                   <input
                     {...props}
