@@ -614,7 +614,7 @@ function MetricsCard({ data }: any) {
 
 // package card
 function CounsellingPackages({ data }: any) {
-  console.log(data, "data");
+  // console.log(data, "data");
   const isMobile = useIsMobile(750);
 
   return (

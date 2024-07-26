@@ -41,12 +41,12 @@ export default function RelatedCourses({ data, breadCrumb, slug }: any) {
     },
   });
 
-  useEffect(() => {
-    console.log(
-      collegeCoursesData?.college?.data?.attributes?.courses,
-      "collegeCoursesData",
-    );
-  }, [collegeCoursesData]);
+  // useEffect(() => {
+  //   console.log(
+  //     collegeCoursesData?.college?.data?.attributes?.courses,
+  //     "collegeCoursesData",
+  //   );
+  // }, [collegeCoursesData]);
 
   useEffect(() => {
     if (courseData) {

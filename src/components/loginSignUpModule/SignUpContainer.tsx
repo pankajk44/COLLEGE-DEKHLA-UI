@@ -78,9 +78,9 @@ export function SignUpContainer({
   });
   //  ================================================================== //
   const sendSignUpOtp = async (data: UserSubmittedData) => {
-    console.log(data);
+    // console.log(data);
     setUserSubmittedData(data);
-    console.log(userSubmittedData);
+    // console.log(userSubmittedData);
     const registerResponse = await registerUser({
       variables: {
         username: data?.name,
@@ -95,7 +95,7 @@ export function SignUpContainer({
     if (registerResponse?.data?.registerUser?.status === 200) {
       setIsOtp(true);
     } else {
-      console.log(registerResponse?.data?.registerUser?.message);
+      // console.log(registerResponse?.data?.registerUser?.message);
       setError(registerResponse?.data?.registerUser?.message);
     }
   };
@@ -127,10 +127,10 @@ export function SignUpContainer({
             token: userData?.attributes?.token,
           }),
         );
-        console.log(
-          "user signed up successfully",
-          userData.attributes.username,
-        );
+        // console.log(
+        //   "user signed up successfully",
+        //   userData.attributes.username,
+        // );
         closePopup();
         router.push("/");
       } else if (
