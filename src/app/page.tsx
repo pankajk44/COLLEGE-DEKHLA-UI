@@ -233,17 +233,6 @@ function HomeBanner({
         </p>
       )}
       {/* Search Bar */}
-      {/* <div className="mx-auto mb-10 flex h-12 w-full max-w-screen-md items-center gap-4 overflow-hidden rounded-xl bg-white px-1.5 py-2 focus-within:border-orange-500 md:mb-14">
-        <input
-          className="w-full pl-5 focus:outline-none max-md:p-3"
-          type="text"
-          placeholder="Search for colleges, courses etc."
-          min={3}
-        />
-        <Button variant="black" className="text-sm">
-          Submit
-        </Button>
-      </div> */}
       <div className="relative mx-auto mb-10 flex h-min w-full max-w-screen-md items-center gap-2 rounded-xl bg-white px-2 py-2 focus-within:border-orange-500">
         <TypeHeadSearchBar />
         <Button variant="black" className="absolute right-2 top-1.5 text-sm">
@@ -326,7 +315,7 @@ const FeaturedCollegeSlider = ({ data }: any) => {
         {data?.map((college: any) => {
           return (
             <SwiperSlide
-              key={college.id}
+              key={college.id}     
               className="mb-12 w-full overflow-hidden rounded-2xl p-2"
             >
               <CollegeFilteredCard
@@ -407,7 +396,9 @@ function CollegesCardContent({ breadCrumb, bgImage, id }: any) {
           className="w-38 h-auto object-contain"
         />
         {/* <GiBookCover className="text-6xl" /> */}
-        <p className="text-center text-lg font-semibold">{breadCrumb}</p>
+        <p className="cursor-pointer text-center text-lg font-semibold">
+          {breadCrumb}
+        </p>
       </div>
     </Link>
   );
