@@ -24,7 +24,7 @@ export default function CollegesSlider() {
     if (topCollegeData) {
       setFilteredData(topCollegeData?.topColleges?.data);
     }
-    console.log(topCollegeData?.topColleges?.data, "colleges");
+    // console.log(topCollegeData?.topColleges?.data, "colleges");
   }, [topCollegeData]);
 
   const swiperOptions = {

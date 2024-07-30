@@ -15,6 +15,7 @@ import { clearAuthState } from "@/Redux/authSlice";
 import { useRouter, usePathname } from "next/navigation";
 import { LoginSignUpModule } from "../loginSignUpModule/LoginSignUpModule";
 import { Button } from "../Button";
+import { store } from "@/Redux";
 
 const Header = ({ header }: any) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
@@ -147,11 +148,19 @@ const Header = ({ header }: any) => {
 export default Header;
 
 const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
-  const isUserLoggedIn = useAppSelector((state) => state?.auth?.authState);
-  const dispatch = useAppDispatch();
+  const [isClient, setIsClient] = useState(false);
+  // const isUserLoggedIn = useAppSelector((state) => state.auth.authState);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [showPopUp, setShowPopUp] = useState(false);
-  const router = useRouter();
   const [isLoginModule, setIsLoginModule] = useState(true);
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setIsClient(true);
+    const state = store.getState();
+    setIsUserLoggedIn(!!state.auth.token);
+  }, []);
 
   const openLoginPopup = () => {
     setShowPopUp(true);
@@ -169,6 +178,10 @@ const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
     dispatch(clearAuthState());
   };
 
+  if (!isClient) {
+    return null; // Prevents server-side rendering issues
+  }
+
   if (buttonType === "LOG-IN") {
     return (
       <>
@@ -178,7 +191,7 @@ const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
               <div className="flex-center rounded-full border-2 border-orange-500 p-0.5">
                 <RxAvatar className="hover:text-primary group cursor-pointer text-3xl text-orange-500" />
               </div>
-              <div className="absolute right-0 top-6 z-10 hidden w-max rounded-md border border-gray-200 bg-white py-1 text-zinc-600 group-hover:block">
+              <div className="absolute right-0 top-9 z-10 hidden w-max rounded-md border border-gray-200 bg-white py-1 text-zinc-600 group-hover:block">
                 <Link
                   href={"/profile"}
                   className="item-center flex cursor-pointer gap-x-2 px-3 py-1 hover:bg-orange-500 hover:text-white"

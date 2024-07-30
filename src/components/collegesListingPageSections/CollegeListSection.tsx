@@ -115,7 +115,7 @@ export default function CollegeListSection({
     ExamCheckedFilters,
   ]);
 
-  console.log(filteredData, "filteredData");
+  // console.log(filteredData, "filteredData");
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
     const searchTerm = event?.target?.value?.toLowerCase()?.trim();
     if (searchTerm.length >= 3) {
@@ -136,7 +136,7 @@ export default function CollegeListSection({
   const handleLoadMore = () => {
     setPageNo((prev) => prev + 1);
   };
-  console.log(filteredData?.[0]?.attributes?.courses, "filteredData");
+  // console.log(filteredData?.[0]?.attributes?.courses, "filteredData");
   return (
     <section id="collegeList" className="my-5 w-full pb-5">
       <Wrapper

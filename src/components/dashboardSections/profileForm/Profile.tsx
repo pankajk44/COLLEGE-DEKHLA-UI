@@ -41,14 +41,6 @@ export default function Profile({}: any) {
   ];
   const [nextButtonState, setNextButtonState] = useState<boolean>(false);
 
-  // const { handleSubmit } = useForm();
-
-  // const handleFormSubmit = async (data: any) => {
-  //   setNextButtonState(true);
-  //   alert("Form submitted");
-  //   console.log("Form data:", data);
-  //   setNextButtonState(false);
-  // };
   return (
     <div className="w-full">
       <Stepper
@@ -84,13 +76,13 @@ export default function Profile({}: any) {
           <EducationDetails setNextButtonState={setNextButtonState} />
         </div>
         <div className="pt-10">
-        <DesiredCollege setNextButtonState={setNextButtonState} />
+          <DesiredCollege setNextButtonState={setNextButtonState} />
         </div>
         <div className="pt-10">
-        <ProfessionalExp setNextButtonState={setNextButtonState} />
+          <ProfessionalExp setNextButtonState={setNextButtonState} />
         </div>
         <div className="pt-10">
-        <AbroadCollege  />
+          <AbroadCollege />
         </div>
       </Stepper>
     </div>
