@@ -14,11 +14,6 @@ import { useQuery } from "@apollo/client";
 import React, { useEffect, useRef, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdClose } from "react-icons/md";
-import {
-  disableBodyScroll,
-  enableBodyScroll,
-  clearAllBodyScrollLocks,
-} from "body-scroll-lock";
 
 export default function CollegeFilters({
   filterBy,
