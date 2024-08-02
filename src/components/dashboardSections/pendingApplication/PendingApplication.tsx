@@ -26,10 +26,10 @@ export function PendingCollege({ }: any) {
   const handleFormSubmit = async (data: any) => {
     // setNextButtonState(true);
     try {
-      console.log(data);
+      // console.log(data);
     //   setNextButtonState(false);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     //   setNextButtonState(false);
     }
   };

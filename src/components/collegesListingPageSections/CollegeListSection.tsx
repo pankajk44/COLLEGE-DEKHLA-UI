@@ -136,7 +136,7 @@ export default function CollegeListSection({
   const handleLoadMore = () => {
     setPageNo((prev) => prev + 1);
   };
-  console.log(filteredData?.[0]?.attributes?.courses, "filteredData");
+  // console.log(filteredData?.[0]?.attributes?.courses, "filteredData");
   return (
     <section id="collegeList" className="my-5 w-full pb-5">
       <Wrapper
@@ -148,7 +148,7 @@ export default function CollegeListSection({
           filterBy={filterBy}
           SelectedFilters={SelectedFilters}
           setSelectedFilters={setSelectedFilters}
-          totalResults={data?.length}
+          totalResults={collegeData?.colleges?.meta?.pagination?.total}
           mobileFilter={MobileFilter}
           setMobileFilter={setMobileFilter}
           // filters
@@ -222,7 +222,7 @@ export default function CollegeListSection({
                 }
                 totalReviews={345}
                 avgFeePerYear={
-                  college?.attributes?.courses
+                  college?.attributes?.allCourses
                     .map((course: any) =>
                       convertToYearlyFee(
                         course?.courseFee,
@@ -250,9 +250,9 @@ export default function CollegeListSection({
                 avgPackage={college?.attributes?.avgPackage}
                 exam={Array.from(
                   new Set(
-                    college?.attributes?.courses?.map(
+                    college?.attributes?.allCourses?.map(
                       (item: any) =>
-                        item?.courseName?.data?.attributes?.breadCrumb,
+                        item?.examName?.data?.attributes?.breadCrumb,
                     ),
                   ),
                 )

@@ -24,7 +24,7 @@ export default function CollegesSlider() {
     if (topCollegeData) {
       setFilteredData(topCollegeData?.topColleges?.data);
     }
-    console.log(topCollegeData?.topColleges?.data, "colleges");
+    // console.log(topCollegeData?.topColleges?.data, "colleges");
   }, [topCollegeData]);
 
   const swiperOptions = {
@@ -140,19 +140,17 @@ export const CollegesCardContent = function CollegesCard({
   return (
     <React.Fragment>
       <div className="relative w-full">
-        {bgImage && (
-          <Image
-            src={bgImage}
-            alt={breadCrumb}
-            width={800}
-            height={800}
-            className="h-[200px] w-full rounded-t-2xl object-cover"
-          />
-        )}
+        <Image
+          src={bgImage}
+          alt={breadCrumb}
+          width={800}
+          height={800}
+          className="h-[200px] w-full rounded-t-2xl object-cover"
+        />
         <div className="absolute left-2 top-2 rounded-full bg-white p-1">
           {collegeLogo && (
             <Image
-              src={collegeLogo?.url}
+              src={collegeLogo}
               alt={breadCrumb}
               width={800}
               height={800}

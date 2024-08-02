@@ -198,17 +198,6 @@ export const getHomePage = gql`
               }
             }
           }
-          bgImage {
-            data {
-              id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
           collegeName
           description
           location {
@@ -261,7 +250,7 @@ export const getHomePage = gql`
               }
             }
           }
-          courses {
+          allCourses {
             courseFee
             courseFeeLabel
             examName {
@@ -382,14 +371,14 @@ export const getHomePage = gql`
               }
             }
           }
-          courses {
+          allCourses {
             courseFee
             courseFeeLabel
             examName {
               data {
                 id
                 attributes {
-                  examName
+                  breadCrumb
                 }
               }
             }
@@ -416,6 +405,103 @@ export const getHomePage = gql`
               }
             }
           }
+        }
+      }
+    }
+  }
+`;
+
+export const homePageSearch = gql`
+  query homePageSearch($globalSearch: String) {
+    colleges(
+      filters: {
+        or: [
+          { collegeName: { containsi: $globalSearch } }
+          { breadCrumb: { containsi: $globalSearch } }
+        ]
+      }
+    ) {
+      data {
+        id
+        attributes {
+          collegeName
+          collegeLogo {
+            data {
+              id
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+    courses(
+      filters: {
+        or: [
+          { courseName: { containsi: $globalSearch } }
+          { breadCrumb: { containsi: $globalSearch } }
+        ]
+      }
+    ) {
+      data {
+        id
+        attributes {
+          bgImage {
+            data {
+              id
+              attributes {
+                url
+              }
+            }
+          }
+          courseName
+        }
+      }
+    }
+    exams(
+      filters: {
+        or: [
+          { examName: { containsi: $globalSearch } }
+          { breadCrumb: { containsi: $globalSearch } }
+        ]
+      }
+    ) {
+      data {
+        id
+        attributes {
+          logo {
+            data {
+              id
+              attributes {
+                url
+              }
+            }
+          }
+          examName
+        }
+      }
+    }
+    news(
+      filters: {
+        or: [
+          { title: { containsi: $globalSearch } }
+          { excerpt: { containsi: $globalSearch } }
+        ]
+      }
+    ) {
+      data {
+        id
+        attributes {
+          icon {
+            data {
+              id
+              attributes {
+                url
+              }
+            }
+          }
+          title
         }
       }
     }

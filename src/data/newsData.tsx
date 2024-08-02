@@ -1,5 +1,4 @@
 import { book1, c1, c2, c3 } from "@/assets";
-import { timeStamp } from "console";
 
 export const newsPage = {
   notification: {

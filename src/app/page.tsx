@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Wrapper from "@/components/Wrappers";
 import { Button } from "@/components/Button";
-import { homePageData } from "@/data/homeData";
+// import { homePageData } from "@/data/homeData";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { animate, motion, useMotionValue } from "framer-motion";
 import { book1 } from "@/assets";
@@ -20,7 +20,7 @@ import CollegesSlider from "@/components/cardsAndSliders/CollegesSlider";
 import { colleges } from "@/data/collegeData";
 import {
   testimonials,
-  CounsellingPackages,
+  // CounsellingPackages,
   faqs,
   tabsSections,
   banner1,
@@ -35,15 +35,18 @@ import TextWithLineBreak, {
 import useIsMobile from "@/components/customHooks/useIsMobile";
 import { headerLogo } from "@/assets";
 import CollegeFilteredCard from "@/components/cardsAndSliders/CollegeFilteredCard";
-import formatFees, { formatRupee } from "@/utils/customText";
+import formatFees, {
+  convertToYearlyFee,
+  formatDate,
+  formatRupee,
+} from "@/utils/customText";
 import { GiBookCover } from "react-icons/gi";
 import { useQuery } from "@apollo/client";
 import { getHomePage } from "@/graphql/homePage/homePage";
+import TypeHeadSearchBar from "@/components/TypeHeadSearchBar/TypeHeadSearchBar";
 
 export default function Home() {
   const { data: homePageData, loading, error } = useQuery(getHomePage);
-
-  console.log("data", homePageData?.featuredColleges?.data);
   const popularCourses: any[] = homePageData?.popularCourses?.data?.map(
     (item: any) => {
       return {
@@ -55,7 +58,7 @@ export default function Home() {
   );
 
   return (
-    <section className="backgroundGradient relative !mt-0 w-full">
+    <section className="backgroundGradient relative !mt-0 w-full pb-16">
       <HomeBanner
         title={homePageData?.homePages?.data[0]?.attributes?.HeroSection?.title}
         text={homePageData?.homePages?.data[0]?.attributes?.HeroSection?.text}
@@ -124,7 +127,7 @@ export default function Home() {
         </h2>
         <NewsCardSlider data={homePageData?.news?.data} />
         <div className="flex-center my-6 w-full">
-          <Link href={"#"}>
+          <Link href="/news">
             <Button variant="white" className="!w-48 px-6 shadow-xl">
               View More
             </Button>
@@ -138,7 +141,7 @@ export default function Home() {
         containerClassName="py-14"
         className="bg-orange-200 p-4"
       >
-        <Link href={"/colleges/1"} className="max-w-min">
+        <Link href={"/colleges"} className="max-w-min">
           <Button variant="black" className="text-nowrap shadow-xl">
             Featured Colleges
           </Button>
@@ -156,22 +159,15 @@ export default function Home() {
           <FeaturedCollegeSlider data={homePageData?.featuredColleges?.data} />
         </div>
       </Wrapper>
-
-      {/* metric data */}
       <MetricsCard
         data={homePageData?.homePages?.data[0].attributes?.metricData}
       />
-
-      {/* packages part */}
-      <PackageCard
+      <CounsellingPackages
         data={homePageData?.homePages?.data[0].attributes?.counsellingPackages}
       />
-
-      {/* faqs */}
       <Faqs data={homePageData?.homePages?.data[0].attributes?.faqs} />
-
-      {/* final creative section */}
-      <LastSection />
+      <CollegesScrollSlideShow image={[headerLogo]} />
+      <Banner1 data={banner1} />
     </section>
   );
 }
@@ -237,15 +233,10 @@ function HomeBanner({
         </p>
       )}
       {/* Search Bar */}
-      <div className="mx-auto mb-10 flex h-12 w-full max-w-screen-md items-center gap-4 overflow-hidden rounded-xl bg-white px-1.5 py-2 focus-within:border-orange-500 md:mb-14">
-        <input
-          className="w-full pl-5 focus:outline-none max-md:p-3"
-          type="text"
-          placeholder="Search for colleges, courses etc."
-          min={3}
-        />
-        <Button variant="black" className="text-sm">
-          Submit
+      <div className="relative mx-auto mb-10 flex h-min w-full max-w-screen-md items-center gap-2 rounded-xl bg-white px-2 py-2 focus-within:border-orange-500">
+        <TypeHeadSearchBar />
+        <Button variant="black" className="absolute right-2 top-1.5 text-sm">
+          Search
         </Button>
       </div>
       {/* Cards */}
@@ -296,6 +287,7 @@ function PopularCoursesCard(data: any) {
   );
 }
 const FeaturedCollegeSlider = ({ data }: any) => {
+  // console.log(data, "data");
   const uniqueId = "featured123";
 
   const swiperOptions = {
@@ -320,38 +312,66 @@ const FeaturedCollegeSlider = ({ data }: any) => {
   return (
     <div className="CoursesSlider relative w-full">
       <Swiper {...swiperOptions} className={`relative w-full px-5 ${uniqueId}`}>
-        {data?.map((collegeEntity: any) => {
-          const college = collegeEntity.attributes;
-          const affiliation =
-            college?.affiliation?.data
-              ?.map((aff: any) => aff?.attributes?.organization || "")
-              .join(", ") || "";
+        {data?.map((college: any) => {
           return (
             <SwiperSlide
-              key={collegeEntity.id}
+              key={college.id}     
               className="mb-12 w-full overflow-hidden rounded-2xl p-2"
             >
               <CollegeFilteredCard
-                key={collegeEntity.id}
-                slug={college?.slug}
-                bgImage={college?.collegeLogo?.data?.attributes?.url}
-                city={college?.location?.city?.data?.attributes?.city}
-                state={college?.location?.state?.data?.attributes?.state}
-                // overallRating={college?.reviewsAndRatings?.overallRating}
-                // totalReviews={college?.reviewsAndRatings?.totalReviews}
-                // avgFeePerYear={college?.avgFeePerYear}
-                affiliation={affiliation}
-                hightestPackage={college?.hightestPackage}
-                brochureUrl={college?.brochureUrl}
-                collegeType={
-                  college?.college_type?.data?.attributes?.collegeType
+                id={college?.id}
+                slug={college?.attributes?.slug}
+                bgImage={college?.attributes?.bgImage?.data?.attributes?.url}
+                city={
+                  college?.attributes?.location?.city?.data?.attributes?.city
                 }
-                collegeName={college?.collegeName}
-                avgPackage={college?.avgPackage}
-                exam={college?.exam}
-                description={college?.description}
-                tabsSections={college?.navbars?.data?.map(
-                  (nav: any) => nav.attributes.navItem,
+                state={
+                  college?.attributes?.location?.state?.data?.attributes?.state
+                }
+                overallRating={
+                  college?.attributes?.reviewsAndRatings?.overallRating
+                }
+                totalReviews={345}
+                avgFeePerYear={
+                  college?.attributes?.allCourses
+                    .map((course: any) =>
+                      convertToYearlyFee(
+                        course?.courseFee,
+                        course?.courseFeeLabel,
+                      ),
+                    )
+                    ?.reduce(
+                      (total: any, fee: any, _: any, { length }: any) =>
+                        total + fee / length,
+                      0,
+                    ) || 0
+                }
+                affiliation={college?.attributes?.affiliation?.data?.map(
+                  (value: any) => value?.attributes?.organization,
+                )}
+                hightestPackage={college?.attributes?.hightestPackage}
+                brochureUrl={
+                  college?.attributes?.brochureFile?.data?.attributes?.url
+                }
+                collegeType={college?.attributes?.college_type?.data?.attributes?.collegeType?.slice(
+                  0,
+                  3,
+                )}
+                collegeName={college?.attributes?.collegeName}
+                avgPackage={college?.attributes?.avgPackage}
+                exam={Array.from(
+                  new Set(
+                    college?.attributes?.allCourses?.map(
+                      (item: any) =>
+                        item?.examName?.data?.attributes?.breadCrumb,
+                    ),
+                  ),
+                )
+                  .filter(Boolean)
+                  .join(", ")}
+                description={college?.attributes?.description}
+                tabsSections={college?.attributes?.navbars?.data?.map(
+                  (value: any) => value?.attributes?.navItem,
                 )}
               />
             </SwiperSlide>
@@ -376,7 +396,9 @@ function CollegesCardContent({ breadCrumb, bgImage, id }: any) {
           className="w-38 h-auto object-contain"
         />
         {/* <GiBookCover className="text-6xl" /> */}
-        <p className="text-center text-lg font-semibold">{breadCrumb}</p>
+        <p className="cursor-pointer text-center text-lg font-semibold">
+          {breadCrumb}
+        </p>
       </div>
     </Link>
   );
@@ -386,46 +408,22 @@ function CollegesCardContent({ breadCrumb, bgImage, id }: any) {
 function Events({ eventsAndWebinars }: { eventsAndWebinars: any[] }) {
   return (
     <Wrapper>
-      <div className="flex flex-wrap justify-around">
+      <div className="flex flex-wrap justify-around gap-10">
         {eventsAndWebinars?.slice(0, 3)?.map((event) => (
           <div
             key={event?.id}
-            className="w-[29%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
+            className="flex-[1] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
           >
             {/* Event content here */}
             <Image
               src={event?.image?.data?.attributes?.url}
               alt={"event"}
-              className="h-64 w-full object-cover"
+              className="h-64 max-h-64 w-full object-cover"
               height={800}
               width={800}
             />
             <div className="p-4">
-              <p className="mb-3 text-2xl">{event.text}</p>
-
-              <Link href={event?.href || "#"} className="w-full">
-                <Button variant="black" className="!w-full">
-                  Attend Now
-                </Button>
-              </Link>
-            </div>
-          </div>
-        ))}
-        {eventsAndWebinars?.slice(0, 1)?.map((event) => (
-          <div
-            key={event?.id}
-            className="w-[29%] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
-          >
-            {/* Event content here */}
-            <Image
-              src={event?.image}
-              alt={"event"}
-              className="h-auto w-full"
-              height={800}
-              width={800}
-            />
-            <div className="p-4">
-              <p className="mb-3 text-2xl">{event.text}</p>
+              <p className="mb-3 text-2xl">{event?.text}</p>
 
               <Link href={event?.href || "#"} className="w-full">
                 <Button variant="black" className="!w-full">
@@ -447,13 +445,13 @@ const TestimonialSlider = ({ data }: any) => {
   const swiperOptions = {
     slidesPerView: 1,
     spaceBetween: 30,
-    autoplay: { delay: 5000, disableOnInteraction: false },
-    loop: true,
+    // autoplay: { delay: 5000, disableOnInteraction: false },
+    // loop: true,
     navigation: {
       nextEl: `.${uniqueId}-next`,
       prevEl: `.${uniqueId}-prev`,
     },
-    modules: [Autoplay, Navigation],
+    // modules: [Autoplay, Navigation],
     breakpoints: {
       640: { slidesPerView: 1 },
       768: { slidesPerView: 2 },
@@ -484,7 +482,7 @@ const TestimonialSlider = ({ data }: any) => {
 
 function TestimonialCard({ testimonial }: any) {
   return (
-    <div className="w-full p-4 even:mb-10">
+    <div className="flex min-h-[19.2rem] w-full flex-col justify-between p-4">
       <div className="flex items-center">
         <Image
           src={testimonial?.userAvatar}
@@ -496,7 +494,7 @@ function TestimonialCard({ testimonial }: any) {
           <p>{testimonial?.college}</p>
         </div>
       </div>
-      <p className="my-2">{testimonial?.comment}</p>
+      <p className="my-2 line-clamp-4">{testimonial?.comment}</p>
       <div className="flex-center mb-3">
         {Array.from({ length: testimonial?.star }, (_, i) => (
           <FaStar key={i} className="mx-2 text-2xl text-orange-500" />
@@ -539,7 +537,7 @@ const NewsCardSlider = ({ data }: any) => {
         {...swiperOptions}
         className={`mySwiper topColleges !relative w-full max-w-fit px-5`}
       >
-        {data?.map((news: any, index: number) => (
+        {data?.slice(0, 3).map((news: any, index: number) => (
           <SwiperSlide
             key={news?.id}
             className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
@@ -566,11 +564,11 @@ function NewsCard({ image, text, timeStamp }: any) {
         width={800}
         height={800}
         alt="image"
-        className="w-full rounded-xl object-cover"
+        className="h-52 w-full rounded-xl object-cover"
       />
       <div className="px-4">
         <p className="my-2">{text}</p>
-        <p className="text-md text-zinc-700">{timeStamp}</p>
+        <p className="text-md text-zinc-700">{formatDate(timeStamp)}</p>
       </div>
     </div>
   );
@@ -613,37 +611,37 @@ function MetricsCard({ data }: any) {
 }
 
 // package card
-function PackageCard({ data }: any) {
+function CounsellingPackages({ data }: any) {
+  // console.log(data, "data");
   const isMobile = useIsMobile(750);
 
   return (
     <div className="w-full bg-zinc-200 p-4 pb-14">
-      <div className="w-full">
-        <h2 className="my-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
-          {data?.title}
-        </h2>
+      <h2 className="my-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
+        {data?.title}
+      </h2>
 
-        <p className="mb-11 text-center text-xl">
-          {isMobile ? (
-            <TextWithoutLineBreak text={data?.text} />
-          ) : (
-            <TextWithLineBreak text={data?.text} />
-          )}
-        </p>
-        <div className="flex flex-wrap items-stretch justify-center gap-4">
-          {data?.counsellingPackagesCards?.map((packageData: { id: any }) => (
-            <PackageContentCard key={packageData.id} data={packageData} />
-          ))}
-        </div>
+      <p className="mb-11 text-center text-xl">
+        {isMobile ? (
+          <TextWithoutLineBreak text={data?.text} />
+        ) : (
+          <TextWithLineBreak text={data?.text} />
+        )}
+      </p>
+      <div className="flex flex-wrap items-stretch justify-center gap-4">
+        {data?.counsellingPackagesCards?.map((packageData: { id: any }) => (
+          <PackageContentCard key={packageData.id} data={packageData} />
+        ))}
       </div>
     </div>
   );
 }
 
 function PackageContentCard({ data }: any) {
+  const isMobile = useIsMobile(750);
   return (
     <div
-      className={`relative w-full rounded-xl p-5 pt-6 shadow sm:w-[27%] md:pb-20 ${
+      className={`relative w-full rounded-xl p-5 pt-6 shadow duration-300 hover:scale-105 sm:w-[27%] md:pb-20 ${
         data?.isPopular ? "bg-orange-500 text-white" : "bg-white text-black"
       }`}
     >
@@ -651,7 +649,13 @@ function PackageContentCard({ data }: any) {
       <h3 className="text-4xl font-bold">
         ₹ {formatRupee(data?.price)} <span className="text-xl">/month</span>
       </h3>
-      <p className="my-2">{data?.text}</p>
+      <p className="my-2">
+        {isMobile ? (
+          <TextWithoutLineBreak text={data?.text} />
+        ) : (
+          <TextWithLineBreak text={data?.text} />
+        )}
+      </p>
       {data?.lists?.data?.map((list: any) => (
         <p key={list.id} className="flex items-center font-bold">
           {list?.attributes?.isInclude ? (
@@ -673,66 +677,15 @@ function PackageContentCard({ data }: any) {
     </div>
   );
 }
-function LastSection() {
-  return (
-    <div className="!relative flex flex-col items-center justify-center py-11 pt-0">
-      {/* <div className="z-20 mb-8 flex w-full max-w-screen-xl flex-col items-center justify-center rounded-2xl bg-white bg-opacity-35 p-5 text-center shadow backdrop-blur-lg backdrop-filter md:mb-28">
-        <h1 className="mb-4 text-center text-3xl font-bold max-sm:mb-2 max-sm:text-3xl">
-          More than 1000+ Colleges
-        </h1>
-        <p className="mb-9 text-center text-xl">
-          Start your college Discovery...
-        </p>
-
-        <div className="mb-5 flex w-full justify-between p-6 max-sm:mb-0 max-sm:p-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Image
-              key={i}
-              src={homePageData?.collegeLogos?.[0].image?.url}
-              alt={`College Logo ${i + 1}`}
-              className="h-11 w-11 max-sm:h-9 max-sm:w-9"
-            />
-          ))}
-        </div>
-
-        <div className="mb-5 flex w-[85%] justify-around p-6 max-sm:mb-0 max-sm:p-3">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Image
-              key={i}
-              src={homePageData?.collegeLogos?.[0].image?.url}
-              alt={`College Logo ${i + 1}`}
-              className="h-11 w-11 max-sm:h-9 max-sm:w-9"
-            />
-          ))}
-        </div>
-
-        <div className="mb-5 flex w-[70%] justify-around p-6 max-sm:mb-0 max-sm:p-3">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <Image
-              key={i}
-              src={homePageData?.collegeLogos?.[0].image?.url}
-              alt={`College Logo ${i + 1}`}
-              className="h-11 w-11 max-sm:h-9 max-sm:w-9"
-            />
-          ))}
-        </div>
-      </div> */}
-
-      <CompaniesScrollSlideShow image={[headerLogo]} />
-      <Banner1 data={banner1} />
-    </div>
-  );
-}
-
 // partner cards
-interface CompaniesScrollSlideShowProps {
+interface CollegesScrollSlideShowProps {
   image: string[];
 }
 
 const FAST_DURATION = 5;
 const SLOW_DURATION = 75;
 
-const CompaniesScrollSlideShow: React.FC<CompaniesScrollSlideShowProps> = ({
+const CollegesScrollSlideShow: React.FC<CollegesScrollSlideShowProps> = ({
   image,
 }) => {
   const [duration, setDuration] = useState(FAST_DURATION);
