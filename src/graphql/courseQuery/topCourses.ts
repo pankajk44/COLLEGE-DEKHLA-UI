@@ -27,6 +27,14 @@ export const getAllTopCourses = gql`
               }
             }
           }
+          courseType {
+            data {
+              id
+              attributes {
+                courseType
+              }
+            }
+          }
           description
           duration {
             data {
