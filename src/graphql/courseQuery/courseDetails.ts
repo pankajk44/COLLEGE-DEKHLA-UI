@@ -20,6 +20,14 @@ export const getCourseDetails = gql`
               }
             }
           }
+          courseType {
+            data {
+              id
+              attributes {
+                collegeType
+              }
+            }
+          }
           avgFees {
             from
             to
