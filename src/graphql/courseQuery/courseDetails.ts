@@ -11,14 +11,7 @@ export const getCourseDetails = gql`
           courseName
           titleAddition
           description
-          courseType {
-            data {
-              id
-              attributes {
-                collegeType
-              }
-            }
-          }
+
           duration {
             data {
               id
@@ -31,7 +24,7 @@ export const getCourseDetails = gql`
             from
             to
           }
-          courseMode {
+          course_mode {
             data {
               id
               attributes {
