@@ -37,11 +37,12 @@ export const getAllCourses = gql`
               }
             }
           }
+          
           courseType {
             data {
               id
               attributes {
-                collegeType
+                courseType
               }
             }
           }
