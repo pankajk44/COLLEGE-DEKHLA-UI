@@ -142,7 +142,7 @@ export default function CourseListSection({
               bgImage={course?.attributes?.bgImage?.data?.attributes?.url}
               courseName={course?.attributes?.courseName}
               courseType={
-                course?.attributes?.courseType?.data?.attributes?.collegeType
+                course?.attributes?.courseType?.data?.attributes?.courseType
               }
               totalColleges={course?.totalColleges}
               duration={
