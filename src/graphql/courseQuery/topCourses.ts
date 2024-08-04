@@ -27,14 +27,6 @@ export const getAllTopCourses = gql`
               }
             }
           }
-          courseType {
-            data {
-              id
-              attributes {
-                collegeType
-              }
-            }
-          }
           description
           duration {
             data {
