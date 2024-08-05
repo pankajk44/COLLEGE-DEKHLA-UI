@@ -63,6 +63,7 @@ export const registerUserQuery = gql`
     }
   }
 `;
+
 export const verifyOTPQuery = gql`
   query verifyOTP($phoneNumber: String, $otp: String) {
     verifyOTP(input: { phoneNumber: $phoneNumber, otp: $otp }) {
@@ -71,6 +72,7 @@ export const verifyOTPQuery = gql`
         data {
           id
           attributes {
+            name
             username
             email
             phoneNumber
@@ -138,6 +140,36 @@ export const generateOTPQuery = gql`
   }
 `;
 
+export const updateUser = gql`
+  mutation updateUser($id: ID!, $otp: Long!) {
+    updateUsersPermissionsUser(id: $id, data: { otp: $otp }) {
+      data {
+        id
+        attributes {
+          username
+          email
+        }
+      }
+    }
+  }
+`;
+
+export const checkUser = gql`
+  query UsersData($number: String, $email: String) {
+    usersData(
+      filters: { or: [{ number: { eq: $number } }, { email: { eq: $email } }] }
+    ) {
+      data {
+        id
+        attributes {
+          name
+          email
+          number
+        }
+      }
+    }
+  }
+`;
 // {
 //   "input":{
 //     "phoneNumber": "8318346886",
@@ -180,15 +212,6 @@ export const generateOTPQuery = gql`
 //     "registerUser": {
 //       "status": 200,
 //       "message": "User registered successfully"
-//     }
-//   }
-// }
-
-// {
-//   "data": {
-//     "generateOTP": {
-//       "status": 404,
-//       "message": "User does not exists."
 //     }
 //   }
 // }

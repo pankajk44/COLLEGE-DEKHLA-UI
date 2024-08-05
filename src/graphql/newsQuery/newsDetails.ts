@@ -7,21 +7,25 @@ export const getNewsDetails = gql`
         id
         attributes {
           title
-          article {
-            id
-            writerAvatar {
-              data {
-                id
-                attributes {
-                  url
+          author {
+            data {
+              id
+              attributes {
+                avatar {
+                  data {
+                    id
+                    attributes {
+                      url
+                    }
+                  }
                 }
+                name
+                designation
               }
             }
-            writerName
-            content
-            designation
-            }
-            updatedAt
+          }
+          content
+          updatedAt
         }
       }
     }
