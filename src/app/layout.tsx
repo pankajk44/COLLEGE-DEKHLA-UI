@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="relative bg-orange-50">
+      <body className="relative bg-orange-50 !antialiased">
         <ReduxProvider>
           <ApolloWrapper>
             <ScrollToTopButton />

@@ -123,7 +123,11 @@ export default function ExamFilteredCard({
               Apply Now
             </Button>
           </Link>
-          <Link href={brochureFile || "#"} className="max-md:w-full">
+          <Link
+            href={brochureFile || "#"}
+            target="_blank"
+            className="max-md:w-full"
+          >
             <Button variant="orange" className="!w-full">
               Download Brochure
             </Button>

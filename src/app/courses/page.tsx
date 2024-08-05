@@ -7,6 +7,7 @@ import { tabsSections } from "@/data/globalData";
 
 import { getCourseListingPageBanner } from "@/graphql/courseQuery/course";
 import { useQuery } from "@apollo/client";
+import { ListingBannerSkeleton } from "@/components/bannerSections/ListingBannerSkeleton";
 
 export default function Courses() {
   // Query
@@ -18,7 +19,7 @@ export default function Courses() {
 
   return (
     <>
-      {bannerData && (
+      {!loading ? (
         <CourseListingBanner
           title={bannerData?.courseListingPages?.data?.[0]?.attributes?.title}
           bgImg={
@@ -30,6 +31,8 @@ export default function Courses() {
           )}
           totalCoursesFound={bannerData?.courses?.meta?.pagination?.total}
         />
+      ) : (
+        <ListingBannerSkeleton />
       )}
       <CourseListSection
         data={courses}

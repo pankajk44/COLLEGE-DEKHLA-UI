@@ -1,5 +1,33 @@
 import { gql } from "@apollo/client";
 
+export const getCourseDetailsBanner = gql`
+  query getCourseDetailsBanner($ID: ID!) {
+    course(id: $ID) {
+      data {
+        id
+        attributes {
+          slug
+          breadCrumb
+          courseName
+          titleAddition
+          duration {
+            data {
+              id
+              attributes {
+                duration
+              }
+            }
+          }
+          avgFees {
+            from
+            to
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const getCourseDetails = gql`
   query getCourseDetails($ID: ID!) {
     course(id: $ID) {
@@ -9,18 +37,8 @@ export const getCourseDetails = gql`
           slug
           breadCrumb
           courseName
-          titleAddition
-          description
 
-          duration {
-            data {
-              id
-              attributes {
-                duration
-              }
-            }
-          }
-          
+          description
           courseType {
             data {
               id
@@ -28,10 +46,6 @@ export const getCourseDetails = gql`
                 courseType
               }
             }
-          }
-          avgFees {
-            from
-            to
           }
           course_mode {
             data {
@@ -150,23 +164,6 @@ export const getCourseDetails = gql`
                 t1
                 t2
                 t3
-              }
-              author {
-                data {
-                  id
-                  attributes {
-                    name
-                    avatar {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                    designation
-                    updatedAt
-                  }
-                }
               }
 
               editorText: text
@@ -437,33 +434,6 @@ export const getCourseDetails = gql`
                 }
               }
             }
-            ... on ComponentCommonQuoteComponent {
-              author {
-                data {
-                  attributes {
-                    avatar {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                    name
-                    designation
-                    updatedAt
-                  }
-                }
-              }
-              quote
-
-              navItem {
-                data {
-                  attributes {
-                    navItem
-                  }
-                }
-              }
-            }
           }
           bgImage {
             data {
@@ -473,6 +443,23 @@ export const getCourseDetails = gql`
                 width
                 height
                 url
+              }
+            }
+          }
+          author {
+            data {
+              id
+              attributes {
+                avatar {
+                  data {
+                    id
+                    attributes {
+                      url
+                    }
+                  }
+                }
+                name
+                designation
               }
             }
           }

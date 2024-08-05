@@ -37,7 +37,6 @@ export const getAllCourses = gql`
               }
             }
           }
-          
           courseType {
             data {
               id
@@ -46,6 +45,7 @@ export const getAllCourses = gql`
               }
             }
           }
+
           description
           duration {
             data {

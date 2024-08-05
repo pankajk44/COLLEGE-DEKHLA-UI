@@ -45,6 +45,17 @@ export const getAllExams = gql`
               }
             }
           }
+          logo {
+            data {
+              id
+              attributes {
+                alternativeText
+                width
+                height
+                url
+              }
+            }
+          }
           examDate {
             startDate
             endDate
