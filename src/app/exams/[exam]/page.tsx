@@ -113,6 +113,9 @@ export default function ExamDetailsPage({ params }: Props) {
         data={tabSelectionArray}
         asideData={asideSection}
         slug={examId}
+        author={examData?.exam?.data?.attributes?.author?.data?.attributes}
+        description={examData?.exam?.data?.attributes?.description}
+        updatedAt={examData?.exam?.data?.attributes?.updatedAt}
         tabUrlValue={"exams"}
       />
       <Banner1 data={banner1} />

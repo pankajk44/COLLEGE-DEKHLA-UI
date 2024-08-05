@@ -12,6 +12,7 @@ import ExamFilters from "./ExamFilters";
 
 import { useQuery } from "@apollo/client";
 import { getAllExams } from "@/graphql/examQuery/exams";
+import { FilteredCardSkeleton } from "../cardsAndSliders/FilteredCardSkeleton";
 export default function ExamListSection({ data, filterBy, tabsSections }: any) {
   const [MobileFilter, setMobileFilter] = useState(false);
   const [filteredData, setFilteredData] = useState<any>();
@@ -173,35 +174,39 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
             onSelect={handleSelect}
           /> */}
           {/* College List Section  */}
-          {filteredData?.map((exam: any) => (
-            <ExamFilteredCard
-              key={exam?.id}
-              id={exam?.id}
-              slug={exam?.attributes?.slug}
-              logo={exam?.attributes?.bg?.data?.attributes?.url}
-              examName={exam?.attributes?.examName}
-              examStartDate={exam?.attributes?.examDate?.startDate}
-              examEndDate={exam?.attributes?.examDate?.endDate}
-              applicationSubmissionStartDate={
-                exam?.attributes?.applicationSubmissionDates?.startDate
-              }
-              applicationSubmissionEndDate={
-                exam?.attributes?.applicationSubmissionDates?.endDate
-              }
-              mode={exam?.attributes?.mode?.data?.attributes?.examMode}
-              examinationLevel={
-                exam?.attributes?.ExaminationLevel?.data?.attributes
-                  ?.ExaminationLevel
-              }
-              description={exam?.attributes?.description}
-              brochureFile={
-                exam?.attributes?.brochureFile?.data?.[0]?.attributes?.url
-              }
-              tabsSections={exam?.attributes?.navbars?.data?.map(
-                (value: any) => value?.attributes?.navItem,
-              )}
-            />
-          ))}
+          {!loading
+            ? filteredData?.map((exam: any) => (
+                <ExamFilteredCard
+                  key={exam?.id}
+                  id={exam?.id}
+                  slug={exam?.attributes?.slug}
+                  logo={exam?.attributes?.logo?.data?.attributes?.url}
+                  examName={exam?.attributes?.examName}
+                  examStartDate={exam?.attributes?.examDate?.startDate}
+                  examEndDate={exam?.attributes?.examDate?.endDate}
+                  applicationSubmissionStartDate={
+                    exam?.attributes?.applicationSubmissionDates?.startDate
+                  }
+                  applicationSubmissionEndDate={
+                    exam?.attributes?.applicationSubmissionDates?.endDate
+                  }
+                  mode={exam?.attributes?.mode?.data?.attributes?.examMode}
+                  examinationLevel={
+                    exam?.attributes?.ExaminationLevel?.data?.attributes
+                      ?.ExaminationLevel
+                  }
+                  description={exam?.attributes?.description}
+                  brochureFile={
+                    exam?.attributes?.brochureFile?.data?.[0]?.attributes?.url
+                  }
+                  tabsSections={exam?.attributes?.navbars?.data?.map(
+                    (value: any) => value?.attributes?.navItem,
+                  )}
+                />
+              ))
+            : [1, 2, 3, 4, 5]?.map(() => (
+                <FilteredCardSkeleton key={Math.random()} />
+              ))}
           {examData?.exams?.meta?.pagination?.total > filteredData?.length && (
             <LoadingButton onClick={handleLoadMore} className="mx-auto">
               Load More

@@ -7,7 +7,10 @@ import { courses } from "@/data/courseData";
 import { banner1, tabsSections } from "@/data/globalData";
 
 import { useQuery } from "@apollo/client";
-import { getCourseDetails } from "@/graphql/courseQuery/courseDetails";
+import {
+  getCourseDetails,
+  getCourseDetailsBanner,
+} from "@/graphql/courseQuery/courseDetails";
 import { convertQueryDataToTabSections } from "@/utils/customText";
 import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
 import { getAllNews } from "@/graphql/newsQuery/news";
@@ -23,8 +26,16 @@ export default function CourseDetailPage({ params }: Props) {
   const courseId = params?.course;
   // Query
   const {
-    loading,
-    error,
+    loading: CourseDetailsBannerLoading,
+    error: CourseDetailsBannerError,
+    data: CourseDetailsBanner,
+  } = useQuery(getCourseDetailsBanner, {
+    variables: { ID: courseId },
+  });
+
+  const {
+    loading: courseDataLoading,
+    error: courseDataError,
     data: courseData,
   } = useQuery(getCourseDetails, {
     variables: { ID: courseId },
@@ -53,7 +64,10 @@ export default function CourseDetailPage({ params }: Props) {
   });
   // ========================================================= //
   useEffect(() => {
-    // console.log("Course Details: ", courseData?.course?.data?.attributes);
+    console.log(
+      "Course Details: ",
+      courseData?.course?.data?.attributes?.author?.data?.attributes,
+    );
     if (courseData?.course?.data?.attributes?.PageData) {
       const convertedData: any = convertQueryDataToTabSections(
         courseData?.course?.data?.attributes?.PageData,
@@ -101,20 +115,27 @@ export default function CourseDetailPage({ params }: Props) {
   return (
     <>
       <CourseDetailBanner
-        breadCrumb={courseData?.course?.data?.attributes?.breadCrumb}
-        courseName={courseData?.course?.data?.attributes?.courseName}
-        titleAddition={courseData?.course?.data?.attributes?.titleAddition}
-        duration={
-          courseData?.course?.data?.attributes?.duration?.data?.attributes
-            ?.duration
+        breadCrumb={CourseDetailsBanner?.course?.data?.attributes?.breadCrumb}
+        courseName={CourseDetailsBanner?.course?.data?.attributes?.courseName}
+        titleAddition={
+          CourseDetailsBanner?.course?.data?.attributes?.titleAddition
         }
-        avgFeesFrom={courseData?.course?.data?.attributes?.avgFees?.from}
-        avgFeesTo={courseData?.course?.data?.attributes?.avgFees?.to}
+        duration={
+          CourseDetailsBanner?.course?.data?.attributes?.duration?.data
+            ?.attributes?.duration
+        }
+        avgFeesFrom={
+          CourseDetailsBanner?.course?.data?.attributes?.avgFees?.from
+        }
+        avgFeesTo={CourseDetailsBanner?.course?.data?.attributes?.avgFees?.to}
       />
 
       <PageTabsWithDetail
         data={tabSelectionArray}
         asideData={asideSection}
+        author={courseData?.course?.data?.attributes?.author?.data?.attributes}
+        description={courseData?.course?.data?.attributes?.description}
+        updatedAt={courseData?.course?.data?.attributes?.updatedAt}
         slug={courseId}
         tabUrlValue={"courses"}
       />

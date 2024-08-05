@@ -7,6 +7,7 @@ import ExamListingBanner from "@/components/bannerSections/ExamListingBanner";
 import ExamListSection from "@/components/examsListingPageSections/ExamListSection";
 import { getExamListingPageBanner } from "@/graphql/examQuery/exams";
 import { useQuery } from "@apollo/client";
+import { ListingBannerSkeleton } from "@/components/bannerSections/ListingBannerSkeleton";
 
 export default function Exams() {
   // Query
@@ -17,18 +18,22 @@ export default function Exams() {
   } = useQuery(getExamListingPageBanner);
   return (
     <>
-      <ExamListingBanner
-        data={examsListingPage?.banner}
-        title={bannerData?.examListingPages?.data?.[0]?.attributes?.title}
-        bgImg={
-          bannerData?.examListingPages?.data?.[0]?.attributes?.bgImg?.data
-            ?.attributes?.url
-        }
-        imgArray={bannerData?.examListingPages?.data?.[0]?.attributes?.photos?.data?.map(
-          (img: any) => img?.attributes?.url,
-        )}
-        totalExamsFound={bannerData?.exams?.meta?.pagination?.total}
-      />
+      {!loading ? (
+        <ExamListingBanner
+          data={examsListingPage?.banner}
+          title={bannerData?.examListingPages?.data?.[0]?.attributes?.title}
+          bgImg={
+            bannerData?.examListingPages?.data?.[0]?.attributes?.bgImg?.data
+              ?.attributes?.url
+          }
+          imgArray={bannerData?.examListingPages?.data?.[0]?.attributes?.photos?.data?.map(
+            (img: any) => img?.attributes?.url,
+          )}
+          totalExamsFound={bannerData?.exams?.meta?.pagination?.total}
+        />
+      ) : (
+        <ListingBannerSkeleton />
+      )}
       <ExamListSection
         data={exams}
         filterBy={examsListingPage?.filterBy}

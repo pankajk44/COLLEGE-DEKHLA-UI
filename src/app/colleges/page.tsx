@@ -2,6 +2,7 @@
 import Wrapper from "@/components/Wrappers";
 import Banner1 from "@/components/bannerSections/Banner1";
 import CollegeListingBanner from "@/components/bannerSections/CollegeListingBanner";
+import { ListingBannerSkeleton } from "@/components/bannerSections/ListingBannerSkeleton";
 import CollegesSlider from "@/components/cardsAndSliders/CollegesSlider";
 import CollegeListSection from "@/components/collegesListingPageSections/CollegeListSection";
 import { collegePage, colleges } from "@/data/collegeData";
@@ -18,23 +19,27 @@ export default function Colleges() {
     loading,
     error,
   } = useQuery(getCollegeListingPageBanner);
-  useEffect(() => {
-    console.log(bannerData?.colleges?.meta?.pagination?.total, "bannerData");
-  }, [bannerData]);
+  // useEffect(() => {
+  //   console.log(bannerData?.colleges?.meta?.pagination?.total, "bannerData");
+  // }, [bannerData]);
 
   return (
     <>
-      <CollegeListingBanner
-        title={bannerData?.collegeListingPages?.data?.[0]?.attributes?.title}
-        bgImg={
-          bannerData?.collegeListingPages?.data?.[0]?.attributes?.bgImg?.data
-            ?.attributes?.url
-        }
-        imgArray={bannerData?.collegeListingPages?.data?.[0]?.attributes?.photos?.data?.map(
-          (img: any) => img?.attributes?.url,
-        )}
-        totalCollegesFound={bannerData?.colleges?.meta?.pagination?.total}
-      />
+      {!loading ? (
+        <CollegeListingBanner
+          title={bannerData?.collegeListingPages?.data?.[0]?.attributes?.title}
+          bgImg={
+            bannerData?.collegeListingPages?.data?.[0]?.attributes?.bgImg?.data
+              ?.attributes?.url
+          }
+          imgArray={bannerData?.collegeListingPages?.data?.[0]?.attributes?.photos?.data?.map(
+            (img: any) => img?.attributes?.url,
+          )}
+          totalCollegesFound={bannerData?.colleges?.meta?.pagination?.total}
+        />
+      ) : (
+        <ListingBannerSkeleton />
+      )}
       <TopColleges
         data={colleges}
         totalCollegesFound={bannerData?.colleges?.meta?.pagination?.total}

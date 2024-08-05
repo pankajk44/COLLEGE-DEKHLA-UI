@@ -9,6 +9,13 @@ body {
   box-sizing: border-box;
   margin: 0%;
   padding: 0%;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }
 
 @layer utilities {
@@ -507,4 +514,9 @@ table th:first-child {
   border-radius: 0 0 10px 10px;
   text-align: left !important;
   width: 100% !important;
+}
+
+/* To make all internal child bg-transparent  */
+.transparent-bg > * {
+  background-color: transparent !important;
 }
