@@ -13,7 +13,7 @@ export const getAllCourses = gql`
       sort: $sortingParameter
       filters: {
         courseName: { containsi: $searchByCourseName }
-        courseMode: { courseMode: { in: $modes } }
+        course_mode: { courseMode: { in: $modes } }
         duration: { duration: { lte: $duration } }
       }
       pagination: { page: $page, pageSize: $pageSize }
@@ -41,7 +41,7 @@ export const getAllCourses = gql`
             data {
               id
               attributes {
-                collegeType
+                courseType
               }
             }
           }

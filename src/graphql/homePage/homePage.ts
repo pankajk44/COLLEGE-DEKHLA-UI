@@ -142,7 +142,7 @@ export const getHomePage = gql`
             data {
               id
               attributes {
-                collegeType
+                courseType
               }
             }
           }

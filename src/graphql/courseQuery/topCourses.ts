@@ -31,7 +31,7 @@ export const getAllTopCourses = gql`
             data {
               id
               attributes {
-                collegeType
+                courseType
               }
             }
           }

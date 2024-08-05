@@ -1,5 +1,35 @@
 import { gql } from "@apollo/client";
 
+export const getExamDetailsBanner = gql`
+  query getExamDetailsBanner($ID: ID!) {
+    exam(id: $ID) {
+      data {
+        id
+        attributes {
+          breadCrumb
+          examName
+          titleAddition
+          brochureFile {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          logo {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+
 export const getExamDetails = gql`
   query getExamDetails($ID: ID!) {
     exam(id: $ID) {
@@ -154,23 +184,6 @@ export const getExamDetails = gql`
                 t1
                 t2
                 t3
-              }
-              author {
-                data {
-                  id
-                  attributes {
-                    name
-                    avatar {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                    designation
-                    updatedAt
-                  }
-                }
               }
 
               editorText: text
@@ -441,35 +454,24 @@ export const getExamDetails = gql`
                 }
               }
             }
-            ... on ComponentCommonQuoteComponent {
-              author {
-                data {
-                  attributes {
-                    avatar {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
+          }
+          author {
+            data {
+              id
+              attributes {
+                avatar {
+                  data {
+                    id
+                    attributes {
+                      url
                     }
-                    name
-                    designation
-                    updatedAt
                   }
                 }
-              }
-              quote
-
-              navItem {
-                data {
-                  attributes {
-                    navItem
-                  }
-                }
+                name
+                designation
               }
             }
           }
-
           navbars {
             data {
               id
