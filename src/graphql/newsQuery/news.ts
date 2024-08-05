@@ -60,7 +60,7 @@ export const getAllNews = gql`
 `;
 
 export const getAllNewsNotifications = gql`
-  query getALlNewsNofications {
+  query getAllNewsNotifications {
     news(filters: { isNotificationDisplay: { eq: true } }) {
       meta {
         pagination {
@@ -71,6 +71,14 @@ export const getAllNewsNotifications = gql`
         id
         attributes {
           icon {
+            data {
+              id
+              attributes {
+                url
+              }
+            }
+          }
+          bgImage {
             data {
               id
               attributes {

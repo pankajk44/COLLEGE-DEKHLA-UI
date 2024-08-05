@@ -5,7 +5,10 @@ import PageTabsWithDetail from "@/components/pageTabsWithDetail/PageTabsWithDeta
 import { exams } from "@/data/examData";
 import { asideSection, banner1, tabsSections } from "@/data/globalData";
 import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
-import { getExamDetails } from "@/graphql/examQuery/examDetails";
+import {
+  getExamDetails,
+  getExamDetailsBanner,
+} from "@/graphql/examQuery/examDetails";
 import { getAllNews } from "@/graphql/newsQuery/news";
 import { convertQueryDataToTabSections } from "@/utils/customText";
 import { useQuery } from "@apollo/client";
@@ -21,6 +24,13 @@ export default function ExamDetailsPage({ params }: Props) {
   const [tabSelectionArray, setTabSelectionArray] = React.useState<any>([]);
   const examId = params?.exam;
   // Query
+  const {
+    loading: examDetailsBannerLoading,
+    error: examDetailsBannerError,
+    data: examDetailsBanner,
+  } = useQuery(getExamDetailsBanner, {
+    variables: { ID: examId },
+  });
   const {
     loading,
     error,
@@ -100,14 +110,17 @@ export default function ExamDetailsPage({ params }: Props) {
   return (
     <>
       <ExamDetailBanner
-        breadCrumb={examData?.exam?.data?.attributes?.breadCrumb}
-        examName={examData?.exam?.data?.attributes?.examName}
-        titleAddition={examData?.exam?.data?.attributes?.titleAddition}
-        examLogo={examData?.exam?.data?.attributes?.logo?.data?.attributes?.url}
-        brochureUrl={
-          examData?.exam?.data?.attributes?.brochureFile?.data?.attributes?.url
+        breadCrumb={examDetailsBanner?.exam?.data?.attributes?.breadCrumb}
+        examName={examDetailsBanner?.exam?.data?.attributes?.examName}
+        titleAddition={examDetailsBanner?.exam?.data?.attributes?.titleAddition}
+        examLogo={
+          examDetailsBanner?.exam?.data?.attributes?.logo?.data?.attributes?.url
         }
-        lastUpdate={examData?.exam?.data?.attributes?.updatedAt}
+        brochureUrl={
+          examDetailsBanner?.exam?.data?.attributes?.brochureFile?.data
+            ?.attributes?.url
+        }
+        lastUpdate={examDetailsBanner?.exam?.data?.attributes?.updatedAt}
       />
       <PageTabsWithDetail
         data={tabSelectionArray}

@@ -39,6 +39,7 @@ export const getCourseDetails = gql`
           courseName
 
           description
+          updatedAt
           courseType {
             data {
               id

@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
-export const getHomePage = gql`
-  query getHomePage {
+export const getHomePage1 = gql`
+  query getHomePage1 {
     homePages {
       data {
         attributes {
@@ -40,48 +40,7 @@ export const getHomePage = gql`
             text
             href
           }
-          collegeLogos {
-            image {
-              data {
-                attributes {
-                  alternativeText
-                  width
-                  height
-                  url
-                }
-              }
-            }
-            href
-          }
-          counsellingPackages {
-            id
-            title
-            text
-            counsellingPackagesCards {
-              id
-              PackageName
-              isPopular
-              price
-              text
-              lists {
-                data {
-                  attributes {
-                    isInclude
-                    text
-                  }
-                }
-              }
-              button {
-                data {
-                  id
-                  attributes {
-                    text
-                    href
-                  }
-                }
-              }
-            }
-          }
+
           faqs {
             id
             question
@@ -116,292 +75,50 @@ export const getHomePage = gql`
         }
       }
     }
-    popularCourses: courses(
-      filters: { isPopular: { eq: true } }
-      sort: "popularSequence:asc"
-    ) {
-      data {
-        id
-        attributes {
-          slug
-          courseName
-          breadCrumb
-          isPopular
-          bgImage {
-            data {
-              id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
-          courseType {
-            data {
-              id
-              attributes {
-                courseType
-              }
-            }
-          }
-          description
-          duration {
-            data {
-              id
-              attributes {
-                duration
-              }
-            }
-          }
-          avgFees {
-            from
-            to
-          }
-          courseLevel {
-            data {
-              id
-              attributes {
-                courseLevel
-              }
-            }
-          }
-          navbars {
-            data {
-              id
-              attributes {
-                navItem
-              }
-            }
-          }
-        }
-      }
-    }
-    topColleges: colleges(
-      filters: { isTopCollege: { eq: true } }
-      sort: "topCollegeSequence:asc"
-    ) {
-      data {
-        id
-        attributes {
-          slug
-          breadCrumb
-          collegeLogo {
-            data {
-              id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
-          collegeName
-          description
-          location {
-            state {
-              data {
-                id
-                attributes {
-                  state
-                }
-              }
-            }
-            city {
-              data {
-                id
-                attributes {
-                  city
-                }
-              }
-            }
-            country {
-              data {
-                id
-                attributes {
-                  country
-                }
-              }
-            }
-          }
-          college_type {
-            data {
-              id
-              attributes {
-                collegeType
-              }
-            }
-          }
-          affiliation {
-            data {
-              id
-              attributes {
-                organization
-              }
-            }
-          }
-          navbars {
-            data {
-              id
-              attributes {
-                navItem
-              }
-            }
-          }
-          allCourses {
-            courseFee
-            courseFeeLabel
-            examName {
-              data {
-                id
-                attributes {
-                  examName
-                }
-              }
-            }
-          }
-          estYear
-          avgPackage
-          hightestPackage
-          topCollegeSequence
-        }
-      }
-    }
-    news: news(sort: "updatedAt:desc") {
-      data {
-        id
-        attributes {
-          icon {
-            data {
-              id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
-          title
-          excerpt
-          category {
-            data {
-              id
-              attributes {
-                category
-              }
-            }
-          }
+  }
+`;
 
-          slug
-          newsSequence
-          updatedAt
-        }
-      }
-    }
-    featuredColleges: colleges(filters: { isFeatured: { eq: true } }) {
+export const getHomePage2 = gql`
+  query getHomePage2 {
+    homePages {
       data {
-        id
         attributes {
-          slug
-          breadCrumb
-          isFeatured
-          collegeLogo {
-            data {
-              id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
-          collegeName
-          description
-          location {
-            state {
+          collegeLogos {
+            image {
               data {
-                id
                 attributes {
-                  state
+                  url
                 }
               }
             }
-            city {
-              data {
-                id
-                attributes {
-                  city
+            href
+          }
+          counsellingPackages {
+            id
+            title
+            text
+            counsellingPackagesCards {
+              id
+              PackageName
+              isPopular
+              price
+              text
+              lists {
+                data {
+                  attributes {
+                    isInclude
+                    text
+                  }
                 }
               }
-            }
-            country {
-              data {
-                id
-                attributes {
-                  country
+              button {
+                data {
+                  id
+                  attributes {
+                    text
+                    href
+                  }
                 }
-              }
-            }
-          }
-          college_type {
-            data {
-              id
-              attributes {
-                collegeType
-              }
-            }
-          }
-          affiliation {
-            data {
-              id
-              attributes {
-                organization
-              }
-            }
-          }
-          navbars {
-            data {
-              id
-              attributes {
-                navItem
-              }
-            }
-          }
-          allCourses {
-            courseFee
-            courseFeeLabel
-            examName {
-              data {
-                id
-                attributes {
-                  breadCrumb
-                }
-              }
-            }
-          }
-          estYear
-          avgPackage
-          hightestPackage
-          topCollegeSequence
-        }
-      }
-    }
-    allColleges: colleges {
-      data {
-        id
-        attributes {
-          slug
-          collegeLogo {
-            data {
-              attributes {
-                alternativeText
-                width
-                height
-                url
               }
             }
           }
@@ -502,6 +219,26 @@ export const homePageSearch = gql`
             }
           }
           title
+        }
+      }
+    }
+  }
+`;
+
+export const getCollegesLogo = gql`
+  query getCollegesLogo($page: Int, $pageSize: Int) {
+    colleges(pagination: { page: $page, pageSize: $pageSize }) {
+      data {
+        id
+        attributes {
+          collegeLogo {
+            data {
+              id
+              attributes {
+                url
+              }
+            }
+          }
         }
       }
     }
