@@ -64,10 +64,10 @@ export default function CourseDetailPage({ params }: Props) {
   });
   // ========================================================= //
   useEffect(() => {
-    console.log(
-      "Course Details: ",
-      courseData?.course?.data?.attributes?.author?.data?.attributes,
-    );
+    // console.log(
+    //   "Course Details: ",
+    //   courseData?.course?.data?.attributes?.updatedAt,
+    // );
     if (courseData?.course?.data?.attributes?.PageData) {
       const convertedData: any = convertQueryDataToTabSections(
         courseData?.course?.data?.attributes?.PageData,

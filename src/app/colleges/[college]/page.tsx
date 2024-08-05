@@ -7,7 +7,10 @@ import { collegePage, colleges } from "@/data/collegeData";
 import { banner1, tabsSections } from "@/data/globalData";
 
 import { useQuery } from "@apollo/client";
-import { getCollegeDetails } from "@/graphql/collegeQuery/collegeDetails";
+import {
+  getCollegeDetails,
+  getCollegeDetailsBanner,
+} from "@/graphql/collegeQuery/collegeDetails";
 import formatFees, { convertQueryDataToTabSections } from "@/utils/customText";
 import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
 
@@ -22,6 +25,14 @@ export default function CollegeDetailPage({ params }: Props) {
   const collegeId = params?.college;
 
   // Query
+  const {
+    loading: collegeDetailsBannerLoading,
+    error: collegeDetailsBannerError,
+    data: collegeDetailsBanner,
+  } = useQuery(getCollegeDetailsBanner, {
+    variables: { ID: collegeId },
+  });
+
   const {
     loading: collegeLoading,
     error: collegeError,
@@ -49,9 +60,6 @@ export default function CollegeDetailPage({ params }: Props) {
       setTabSelectionArray(convertedData);
     }
   }, [collegeData]);
-  // console.log(collegeData?.college?.data?.attributes, "collegeData");
-  // console.log(tabSelectionArray, "tabSelectionArray");
-  // console.log(collegeData?.college?.data?.attributes?.breadCrumb, "breadCrumb");
 
   const asideSection = [
     {
@@ -90,33 +98,36 @@ export default function CollegeDetailPage({ params }: Props) {
     <>
       <CollegeDetailBanner
         collegeLogo={
-          collegeData?.college?.data?.attributes?.data?.attributes?.url
+          collegeDetailsBanner?.college?.data?.attributes?.data?.attributes?.url
         }
         bgImage={
-          collegeData?.college?.data?.attributes?.bgImage?.data?.attributes?.url
+          collegeDetailsBanner?.college?.data?.attributes?.bgImage?.data
+            ?.attributes?.url
         }
         city={
-          collegeData?.college?.data?.attributes?.location?.city?.data
+          collegeDetailsBanner?.college?.data?.attributes?.location?.city?.data
             ?.attributes?.city
         }
         state={
-          collegeData?.college?.data?.attributes?.location?.state?.data
+          collegeDetailsBanner?.college?.data?.attributes?.location?.state?.data
             ?.attributes?.state
         }
         overallRating={3.5}
         totalReviews={100}
-        affiliation={collegeData?.college?.data?.attributes?.affiliation?.data?.map(
+        affiliation={collegeDetailsBanner?.college?.data?.attributes?.affiliation?.data?.map(
           (value: any) => value?.attributes?.organization,
         )}
         brochureUrl={
-          collegeData?.college?.data?.attributes?.brochureUrl?.data?.attributes
-            ?.url
+          collegeDetailsBanner?.college?.data?.attributes?.brochureUrl?.data
+            ?.attributes?.url
         }
-        collegeName={collegeData?.college?.data?.attributes?.collegeName}
-        estYear={collegeData?.college?.data?.attributes?.estYear}
+        collegeName={
+          collegeDetailsBanner?.college?.data?.attributes?.collegeName
+        }
+        estYear={collegeDetailsBanner?.college?.data?.attributes?.estYear}
         collegeCategory={
-          collegeData?.college?.data?.attributes?.college_type?.data?.attributes
-            ?.collegeType
+          collegeDetailsBanner?.college?.data?.attributes?.college_type?.data
+            ?.attributes?.collegeType
         }
       />
       <PageTabsWithDetail

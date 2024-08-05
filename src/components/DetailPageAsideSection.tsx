@@ -10,7 +10,7 @@ import { BsClipboardCheck } from "react-icons/bs";
 
 export default function DetailPageAsideSection({ data }: any) {
   return (
-    <aside className="mt-5 h-max min-w-[300px] space-y-5 [flex:2] max-md:hidden max-md:bg-opacity-80 md:sticky md:top-0">
+    <aside className="mt-5 h-max min-w-[300px] space-y-5 [flex:2] max-md:hidden max-md:bg-opacity-80 md:sticky md:top-28">
       {data?.map((item: any, index: number) => (
         <React.Fragment key={index}>
           {/* Banner  */}
@@ -85,7 +85,7 @@ function Banner({ data }: any) {
       <Button variant="white" className="mb-3 !w-full text-nowrap shadow-lg">
         Apply Now
       </Button>
-      <Link href={data?.brochureUrl || "#"} className="!w-full">
+      <Link href={data?.brochureUrl || "#"} target="_blank" className="!w-full">
         <Button variant="black" className="!w-full text-nowrap shadow-lg">
           <span>Download Brochure</span>
           <HiOutlineDownload />

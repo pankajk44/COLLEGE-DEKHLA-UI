@@ -33,16 +33,22 @@ export const getAllNews = gql`
               }
             }
           }
-          article {
-            writerAvatar {
-              data {
-                attributes {
-                  url
+          author {
+            data {
+              id
+              attributes {
+                avatar {
+                  data {
+                    id
+                    attributes {
+                      url
+                    }
+                  }
                 }
+                name
+                designation
               }
             }
-            writerName
-            content
           }
           slug
           newsSequence
@@ -54,7 +60,7 @@ export const getAllNews = gql`
 `;
 
 export const getAllNewsNotifications = gql`
-  query getALlNewsNofications {
+  query getAllNewsNotifications {
     news(filters: { isNotificationDisplay: { eq: true } }) {
       meta {
         pagination {
@@ -72,6 +78,14 @@ export const getAllNewsNotifications = gql`
               }
             }
           }
+          bgImage {
+            data {
+              id
+              attributes {
+                url
+              }
+            }
+          }
           title
           excerpt
           category {
@@ -82,16 +96,22 @@ export const getAllNewsNotifications = gql`
               }
             }
           }
-          article {
-            writerAvatar {
-              data {
-                attributes {
-                  url
+          author {
+            data {
+              id
+              attributes {
+                avatar {
+                  data {
+                    id
+                    attributes {
+                      url
+                    }
+                  }
                 }
+                name
+                designation
               }
             }
-            writerName
-            content
           }
           slug
           newsSequence

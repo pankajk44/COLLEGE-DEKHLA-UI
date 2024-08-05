@@ -42,12 +42,53 @@ import formatFees, {
 } from "@/utils/customText";
 import { GiBookCover } from "react-icons/gi";
 import { useQuery } from "@apollo/client";
-import { getHomePage } from "@/graphql/homePage/homePage";
+import {
+  getCollegesLogo,
+  getHomePage1,
+  getHomePage2,
+} from "@/graphql/homePage/homePage";
 import TypeHeadSearchBar from "@/components/TypeHeadSearchBar/TypeHeadSearchBar";
+import { getAllNewsNotifications } from "@/graphql/newsQuery/news";
+import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
 
 export default function Home() {
-  const { data: homePageData, loading, error } = useQuery(getHomePage);
-  const popularCourses: any[] = homePageData?.popularCourses?.data?.map(
+  // query
+  const {
+    data: homePageData1,
+    loading: homePageLoading,
+    error: homePageError,
+  } = useQuery(getHomePage1);
+  const {
+    data: homePageData2,
+    loading: homePageLoading2,
+    error: homePageError2,
+  } = useQuery(getHomePage2);
+  const {
+    data: recentNewsData,
+    loading: recentNewsLoading,
+    error: recentNewsError,
+  } = useQuery(getAllNewsNotifications);
+  const {
+    data: allTopCoursesData,
+    loading: allTopCoursesLoading,
+    error: allTopCoursesError,
+  } = useQuery(getAllTopCourses, {
+    variables: {
+      pageSize: 5,
+      page: 1,
+    },
+  });
+  const {
+    data: collegesLogoData,
+    loading: collegesLogoLoading,
+    error: collegesLogoError,
+  } = useQuery(getCollegesLogo, {
+    variables: {
+      pageSize: 30,
+      page: 1,
+    },
+  });
+  const popularCourses: any[] = allTopCoursesData?.courses?.data?.map(
     (item: any) => {
       return {
         id: item?.id,
@@ -57,18 +98,26 @@ export default function Home() {
     },
   );
 
+  // const collegeLogosArray = collegesLogoData?.colleges?.data;
+  // // ?.map((item: any) => item?.attributes?.logo?.data?.attributes?.url)
+  // // .filter((item: any) => item !== null);
+
+  // console.log(collegeLogosArray, "collegeLogosArray");
+  // ================================================== //
   return (
     <section className="backgroundGradient relative !mt-0 w-full pb-16">
       <HomeBanner
-        title={homePageData?.homePages?.data[0]?.attributes?.HeroSection?.title}
-        text={homePageData?.homePages?.data[0]?.attributes?.HeroSection?.text}
-        text1={homePageData?.homePages?.data[0]?.attributes?.text1}
-        text2={homePageData?.homePages?.data[0]?.attributes?.text2}
-        text3={homePageData?.homePages?.data[0]?.attributes?.text3}
-        text4={homePageData?.homePages?.data[0]?.attributes?.text4}
-        text5={homePageData?.homePages?.data[0]?.attributes?.text5}
+        title={
+          homePageData1?.homePages?.data[0]?.attributes?.HeroSection?.title
+        }
+        text={homePageData1?.homePages?.data[0]?.attributes?.HeroSection?.text}
+        text1={homePageData1?.homePages?.data[0]?.attributes?.text1}
+        text2={homePageData1?.homePages?.data[0]?.attributes?.text2}
+        text3={homePageData1?.homePages?.data[0]?.attributes?.text3}
+        text4={homePageData1?.homePages?.data[0]?.attributes?.text4}
+        text5={homePageData1?.homePages?.data[0]?.attributes?.text5}
         popularCourses={popularCourses}
-        data={homePageData}
+        data={homePageData1}
       />
 
       {/* Event & Webinars */}
@@ -78,7 +127,7 @@ export default function Home() {
         </h2>
         <Events
           eventsAndWebinars={
-            homePageData?.homePages?.data[0]?.attributes?.eventsAndWebinars
+            homePageData1?.homePages?.data[0]?.attributes?.eventsAndWebinars
           }
         />
       </Wrapper>
@@ -103,17 +152,20 @@ export default function Home() {
       {/* Testimonial */}
       <Wrapper bgColor="bg-zinc-200" containerClassName="relative py-14">
         <h2 className="mb-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
-          {homePageData?.homePages?.data[0].attributes?.testimonials?.title?.t1}{" "}
+          {
+            homePageData1?.homePages?.data[0].attributes?.testimonials?.title
+              ?.t1
+          }{" "}
           <span className="text-orange-500">
             {
-              homePageData?.homePages?.data[0].attributes?.testimonials?.title
+              homePageData1?.homePages?.data[0].attributes?.testimonials?.title
                 ?.t2
             }
           </span>
         </h2>
         <TestimonialSlider
           data={
-            homePageData?.homePages?.data[0].attributes?.testimonials
+            homePageData1?.homePages?.data[0].attributes?.testimonials
               ?.testimonialCards
           }
         />
@@ -125,7 +177,7 @@ export default function Home() {
         <h2 className="my-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
           We have been featured in the News!
         </h2>
-        <NewsCardSlider data={homePageData?.news?.data} />
+        <NewsCardSlider data={recentNewsData?.news?.data} />
         <div className="flex-center my-6 w-full">
           <Link href="/news">
             <Button variant="white" className="!w-48 px-6 shadow-xl">
@@ -156,16 +208,16 @@ export default function Home() {
             </Link>
           </p>
 
-          <FeaturedCollegeSlider data={homePageData?.featuredColleges?.data} />
+          <FeaturedCollegeSlider data={homePageData2?.featuredColleges?.data} />
         </div>
       </Wrapper>
       <MetricsCard
-        data={homePageData?.homePages?.data[0].attributes?.metricData}
+        data={homePageData1?.homePages?.data[0].attributes?.metricData}
       />
       <CounsellingPackages
-        data={homePageData?.homePages?.data[0].attributes?.counsellingPackages}
+        data={homePageData2?.homePages?.data[0].attributes?.counsellingPackages}
       />
-      <Faqs data={homePageData?.homePages?.data[0].attributes?.faqs} />
+      <Faqs data={homePageData1?.homePages?.data[0].attributes?.faqs} />
       <CollegesScrollSlideShow image={[headerLogo]} />
       <Banner1 data={banner1} />
     </section>
@@ -275,14 +327,16 @@ function Card({ data }: any) {
 function PopularCoursesCard(data: any) {
   return (
     <div className="mb-4 flex w-full flex-wrap justify-center gap-6 p-4 max-sm:gap-2">
-      {data?.data?.map((item: any, index: number) => (
-        <CollegesCardContent
-          key={index}
-          breadCrumb={item?.breadCrumb}
-          bgImage={item?.bgImage}
-          id={item?.id}
-        />
-      ))}
+      {data?.data
+        ?.slice(0, 4)
+        ?.map((item: any, index: number) => (
+          <CollegesCardContent
+            key={index}
+            breadCrumb={item?.breadCrumb}
+            bgImage={item?.bgImage}
+            id={item?.id}
+          />
+        ))}
     </div>
   );
 }
@@ -393,7 +447,7 @@ function CollegesCardContent({ breadCrumb, bgImage, id }: any) {
           alt="image"
           width={70}
           height={70}
-          className="w-38 h-auto object-contain"
+          className="h-40 w-full rounded-lg object-contain"
         />
         {/* <GiBookCover className="text-6xl" /> */}
         <p className="cursor-pointer text-center text-lg font-semibold">
@@ -423,7 +477,7 @@ function Events({ eventsAndWebinars }: { eventsAndWebinars: any[] }) {
               width={800}
             />
             <div className="p-4">
-              <p className="mb-3 text-2xl">{event?.text}</p>
+              <p className="mb-3 line-clamp-3 text-2xl">{event?.text}</p>
 
               <Link href={event?.href || "#"} className="w-full">
                 <Button variant="black" className="!w-full">
@@ -481,12 +535,15 @@ const TestimonialSlider = ({ data }: any) => {
 };
 
 function TestimonialCard({ testimonial }: any) {
+  // console.log(testimonial);
   return (
     <div className="flex min-h-[19.2rem] w-full flex-col justify-between p-4">
       <div className="flex items-center">
         <Image
-          src={testimonial?.userAvatar}
+          src={testimonial?.userAvatar?.data?.attributes?.url}
           alt="profile"
+          width={50}
+          height={50}
           className="h-14 w-14 rounded-full"
         />
         <div className="ml-5 p-3">
@@ -500,7 +557,7 @@ function TestimonialCard({ testimonial }: any) {
           <FaStar key={i} className="mx-2 text-2xl text-orange-500" />
         ))}
       </div>
-      <Link href={testimonial?.storyVideoLink} className="my-2">
+      <Link href={testimonial?.storyVideoLink} target="_blank" className="my-2">
         <Button variant="black" className="!w-full">
           View Story
         </Button>

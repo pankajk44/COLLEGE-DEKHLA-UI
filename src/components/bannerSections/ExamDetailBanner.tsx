@@ -45,7 +45,7 @@ export default function ExamDetailBanner({
         </div>
         {/* Right Side  */}
         <div className="flex h-auto w-full flex-[2] items-center justify-center md:justify-end">
-          <div className="w-min rounded-2xl bg-white p-2">
+          <div className="w-max min-w-40 rounded-2xl bg-white p-2">
             <Image
               src={examLogo}
               alt="banner"
@@ -74,6 +74,7 @@ export default function ExamDetailBanner({
           <div className="flex flex-wrap gap-5 max-md:!w-full">
             <Link
               href={brochureUrl || "#"}
+              target="_blank"
               className="max-md:w-[48%] max-sm:!w-full"
             >
               <Button

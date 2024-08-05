@@ -1,5 +1,16 @@
 import { gql } from "@apollo/client";
 
+export const getCollegeDetailsBanner = gql`
+  query getCollegeDetailsBanner($ID: ID!) {
+    college(id: $ID) {
+      data {
+        id
+        attributes {
+          PageData
+        }
+      }
+    }
+  }`;
 export const getCollegeDetails = gql`
   query getCollegeDetails($ID: ID!) {
     college(id: $ID) {
