@@ -64,14 +64,14 @@ export function Search() {
         <input
           className="w-full pl-5 focus:outline-none max-md:p-3"
           type="text"
-          placeholder="Search for colleges, courses etc."
+          placeholder="Search for colleges, courses news etc."
           value={searchTerm}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           min={3}
         />
         <Button variant="black" className="text-sm" onClick={handleSubmit}>
-          Submit
+          Search
         </Button>
       </Wrapper>
       {searchTerm && newsSearch?.length > 0 && (

@@ -123,6 +123,11 @@ export default function CollegeDetailPage({ params }: Props) {
         data={tabSelectionArray}
         asideData={asideSection}
         slug={collegeId}
+        author={
+          collegeData?.college?.data?.attributes?.author?.data?.attributes
+        }
+        description={collegeData?.college?.data?.attributes?.description}
+        updatedAt={collegeData?.college?.data?.attributes?.updatedAt}
         tabUrlValue="colleges"
         breadCrumb={collegeData?.college?.data?.attributes?.breadCrumb}
       />

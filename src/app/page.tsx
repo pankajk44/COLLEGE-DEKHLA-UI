@@ -315,7 +315,7 @@ const FeaturedCollegeSlider = ({ data }: any) => {
         {data?.map((college: any) => {
           return (
             <SwiperSlide
-              key={college.id}     
+              key={college.id}
               className="mb-12 w-full overflow-hidden rounded-2xl p-2"
             >
               <CollegeFilteredCard
@@ -408,11 +408,11 @@ function CollegesCardContent({ breadCrumb, bgImage, id }: any) {
 function Events({ eventsAndWebinars }: { eventsAndWebinars: any[] }) {
   return (
     <Wrapper>
-      <div className="flex flex-wrap justify-around gap-10">
+      <div className="flex flex-wrap justify-center gap-16">
         {eventsAndWebinars?.slice(0, 3)?.map((event) => (
           <div
             key={event?.id}
-            className="flex-[1] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
+            className="min-w-[350px] flex-[1] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
           >
             {/* Event content here */}
             <Image
@@ -537,7 +537,7 @@ const NewsCardSlider = ({ data }: any) => {
         {...swiperOptions}
         className={`mySwiper topColleges !relative w-full max-w-fit px-5`}
       >
-        {data?.slice(0, 3).map((news: any, index: number) => (
+        {data?.map((news: any, index: number) => (
           <SwiperSlide
             key={news?.id}
             className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
@@ -723,8 +723,6 @@ const CollegesScrollSlideShow: React.FC<CollegesScrollSlideShowProps> = ({
   return (
     <section className="mx-auto w-full">
       <div className="relative overflow-x-hidden">
-        {/* <div className="absolute left-0 top-0 z-10 h-full w-20 bg-gradient-to-r from-gray-100 to-transparent"></div>
-        <div className="absolute right-0 top-0 z-10 h-full w-20 bg-gradient-to-r from-transparent to-gray-100"></div> */}
         <motion.div
           className="mx-auto flex max-w-[1440px] gap-8"
           style={{ x: xTranslation }}

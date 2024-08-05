@@ -30,7 +30,7 @@ export default function Notification({ data }: any) {
           {NotificationsData?.news?.data?.map((data: any) => (
             <li key={data?.id} className="flex w-full justify-center">
               <Link
-                href={`news/${data?.id} || #`}
+                href={data?.id ? `/news/${data?.id}` : `#`}
                 target="_blank"
                 className="flex w-max justify-center gap-1 capitalize underline"
               >

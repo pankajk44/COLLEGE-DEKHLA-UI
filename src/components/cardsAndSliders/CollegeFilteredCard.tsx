@@ -162,7 +162,11 @@ export default function CollegeFilteredCard({
               Apply Now
             </Button>
           </Link>
-          <Link href={brochureUrl || "#"} className="max-md:w-full">
+          <Link
+            href={brochureUrl || "#"}
+            target="_blank"
+            className="max-md:w-full"
+          >
             <Button variant="orange" className="!w-full">
               Download Brochure
             </Button>

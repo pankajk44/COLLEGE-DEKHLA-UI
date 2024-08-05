@@ -10,6 +10,7 @@ import CourseFilteredCard from "../cardsAndSliders/CourseFilteredCard";
 
 import { getAllCourses } from "@/graphql/courseQuery/course";
 import { useQuery } from "@apollo/client";
+import { FilteredCardSkeleton } from "../cardsAndSliders/FilteredCardSkeleton";
 export default function CourseListSection({
   data,
   // filterBy,
@@ -134,32 +135,36 @@ export default function CourseListSection({
             </div>
           </div>
           {/* College List Section  */}
-          {filteredData?.map((course: any) => (
-            <CourseFilteredCard
-              key={course?.id}
-              id={course?.id}
-              slug={course?.attributes?.slug}
-              bgImage={course?.attributes?.bgImage?.data?.attributes?.url}
-              courseName={course?.attributes?.courseName}
-              courseType={
-                course?.attributes?.courseType?.data?.attributes?.collegeType
-              }
-              totalColleges={course?.totalColleges}
-              duration={
-                course?.attributes?.duration?.data?.attributes?.duration ||
-                "N/A"
-              }
-              description={course?.attributes?.description}
-              avgFeesFrom={course?.attributes?.avgFees?.from}
-              avgFeesTo={course?.attributes?.avgFees?.to}
-              courseLevel={course?.attributes?.courseLevel?.data?.map(
-                (value: any) => value?.attributes?.courseLevel,
-              )}
-              tabsSections={course?.attributes?.navbars?.data?.map( 
-                (value: any) => value?.attributes?.navItem,
-              )}
-            />
-          ))}
+          {!loading
+            ? filteredData?.map((course: any) => (
+                <CourseFilteredCard
+                  key={course?.id}
+                  id={course?.id}
+                  slug={course?.attributes?.slug}
+                  bgImage={course?.attributes?.bgImage?.data?.attributes?.url}
+                  courseName={course?.attributes?.courseName}
+                  courseType={
+                    course?.attributes?.courseType?.data?.attributes?.courseType
+                  }
+                  totalColleges={course?.totalColleges}
+                  duration={
+                    course?.attributes?.duration?.data?.attributes?.duration ||
+                    "N/A"
+                  }
+                  description={course?.attributes?.description}
+                  avgFeesFrom={course?.attributes?.avgFees?.from}
+                  avgFeesTo={course?.attributes?.avgFees?.to}
+                  courseLevel={course?.attributes?.courseLevel?.data?.map(
+                    (value: any) => value?.attributes?.courseLevel,
+                  )}
+                  tabsSections={course?.attributes?.navbars?.data?.map(
+                    (value: any) => value?.attributes?.navItem,
+                  )}
+                />
+              ))
+            : [1, 2, 3, 4, 5]?.map(() => (
+                <FilteredCardSkeleton key={Math.random()} />
+              ))}
           {courseData?.courses?.meta?.pagination?.total >
             filteredData?.length && (
             <LoadingButton onClick={handleLoadMore} className="mx-auto">

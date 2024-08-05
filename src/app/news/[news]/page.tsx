@@ -27,9 +27,6 @@ export default function NewsPage({ params }: Props) {
   } = useQuery(getNewsDetails, {
     variables: { ID: newsId },
   });
-  useEffect(() => {
-    console.log(newsDetailData, "newsDetailData");
-  }, [newsDetailData]);
   return (
     <section className="w-full pt-32 max-md:pt-28">
       <Notification data={newsPage?.notification?.list} />
@@ -88,7 +85,7 @@ function Content({
         {/* EditorText */}
         {content && (
           <div
-            className={`dangerouslySetInnerHTMLStyle mb-5 text-justify`}
+            className={`dangerouslySetInnerHTMLStyle transparent-bg mb-5 text-justify`}
             dangerouslySetInnerHTML={{ __html: content }}
           />
         )}

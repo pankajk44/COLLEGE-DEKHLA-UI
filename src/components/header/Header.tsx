@@ -149,18 +149,19 @@ export default Header;
 
 const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
   const [isClient, setIsClient] = useState(false);
-  // const isUserLoggedIn = useAppSelector((state) => state.auth.authState);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [showPopUp, setShowPopUp] = useState(false);
   const [isLoginModule, setIsLoginModule] = useState(true);
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const isUserLoggedIn = useAppSelector((state) => !!state.auth.token); // Use selector to get auth state
 
   useEffect(() => {
     setIsClient(true);
-    const state = store.getState();
-    setIsUserLoggedIn(!!state.auth.token);
   }, []);
+
+  useEffect(() => {
+    // This will run when isUserLoggedIn changes
+  }, [isUserLoggedIn]);
 
   const openLoginPopup = () => {
     setShowPopUp(true);
@@ -174,8 +175,8 @@ const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
   };
 
   const handleLogout = () => {
-    router.push("/");
     dispatch(clearAuthState());
+    router.push("/"); // Navigate after logout
   };
 
   if (!isClient) {
@@ -227,5 +228,6 @@ const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
       </>
     );
   }
+
   return null;
 };
