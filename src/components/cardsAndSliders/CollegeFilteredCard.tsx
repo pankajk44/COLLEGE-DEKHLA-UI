@@ -130,7 +130,7 @@ export default function CollegeFilteredCard({
       <div className="flex flex-wrap justify-between gap-y-2 border-t border-zinc-600 p-5">
         {/* Navbar Items  */}
         <ul className="flex flex-wrap items-center gap-x-4 rounded-md bg-orange-100 px-4 py-1 text-sm text-orange-600">
-          {tabsSections?.slice(0, 5)?.map((item: any, index: number) => (
+          {tabsSections?.slice(0, 4)?.map((item: any, index: number) => (
             <React.Fragment key={index}>
               <Link
                 href={
@@ -147,7 +147,7 @@ export default function CollegeFilteredCard({
               {index !== tabsSections?.length - 1 && <li>|</li>}
             </React.Fragment>
           ))}
-          {tabsSections?.length > 5 && (
+          {tabsSections?.length > 4 && (
             <Link href={id ? `/colleges/${id}` : `#`}>
               <li className="cursor-pointer capitalize hover:underline">
                 more

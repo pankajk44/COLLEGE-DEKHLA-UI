@@ -146,7 +146,7 @@ export default function CourseListSection({
                   courseType={
                     course?.attributes?.courseType?.data?.attributes?.courseType
                   }
-                  totalColleges={course?.totalColleges}
+                  totalColleges={course?.attributes?.colleges?.data?.length}
                   duration={
                     course?.attributes?.duration?.data?.attributes?.duration ||
                     "N/A"
