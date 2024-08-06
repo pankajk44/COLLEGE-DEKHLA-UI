@@ -14,6 +14,8 @@ import {
 import { convertQueryDataToTabSections } from "@/utils/customText";
 import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
 import { getAllNews } from "@/graphql/newsQuery/news";
+import PageDetailBannerSkeleton from "@/components/bannerSections/PageDetailBannerSkeleton";
+import PageTabsWithDetailSkeleton from "@/components/pageTabsWithDetail/PageTabsWithDetailSkeleton";
 
 type Props = {
   params: {
@@ -110,35 +112,43 @@ export default function CourseDetailPage({ params }: Props) {
     },
   ];
   // =========================================================== //
-  // console.log(latestNewsData?.news?.data, "courseData");
-  // console.log("tabSelectionArray", tabSelectionArray);
   return (
     <>
-      <CourseDetailBanner
-        breadCrumb={CourseDetailsBanner?.course?.data?.attributes?.breadCrumb}
-        courseName={CourseDetailsBanner?.course?.data?.attributes?.courseName}
-        titleAddition={
-          CourseDetailsBanner?.course?.data?.attributes?.titleAddition
-        }
-        duration={
-          CourseDetailsBanner?.course?.data?.attributes?.duration?.data
-            ?.attributes?.duration
-        }
-        avgFeesFrom={
-          CourseDetailsBanner?.course?.data?.attributes?.avgFees?.from
-        }
-        avgFeesTo={CourseDetailsBanner?.course?.data?.attributes?.avgFees?.to}
-      />
+      {!CourseDetailsBannerLoading ? (
+        <CourseDetailBanner
+          breadCrumb={CourseDetailsBanner?.course?.data?.attributes?.breadCrumb}
+          courseName={CourseDetailsBanner?.course?.data?.attributes?.courseName}
+          titleAddition={
+            CourseDetailsBanner?.course?.data?.attributes?.titleAddition
+          }
+          duration={
+            CourseDetailsBanner?.course?.data?.attributes?.duration?.data
+              ?.attributes?.duration
+          }
+          avgFeesFrom={
+            CourseDetailsBanner?.course?.data?.attributes?.avgFees?.from
+          }
+          avgFeesTo={CourseDetailsBanner?.course?.data?.attributes?.avgFees?.to}
+        />
+      ) : (
+        <PageDetailBannerSkeleton />
+      )}
 
-      <PageTabsWithDetail
-        data={tabSelectionArray}
-        asideData={asideSection}
-        author={courseData?.course?.data?.attributes?.author?.data?.attributes}
-        description={courseData?.course?.data?.attributes?.description}
-        updatedAt={courseData?.course?.data?.attributes?.updatedAt}
-        slug={courseId}
-        tabUrlValue={"courses"}
-      />
+      {!courseDataLoading ? (
+        <PageTabsWithDetail
+          data={tabSelectionArray}
+          asideData={asideSection}
+          author={
+            courseData?.course?.data?.attributes?.author?.data?.attributes
+          }
+          description={courseData?.course?.data?.attributes?.description}
+          updatedAt={courseData?.course?.data?.attributes?.updatedAt}
+          slug={courseId}
+          tabUrlValue={"courses"}
+        />
+      ) : (
+        <PageTabsWithDetailSkeleton />
+      )}
       <Banner1 data={banner1} />
     </>
   );

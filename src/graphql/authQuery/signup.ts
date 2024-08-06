@@ -72,7 +72,6 @@ export const verifyOTPQuery = gql`
         data {
           id
           attributes {
-            name
             username
             email
             phoneNumber

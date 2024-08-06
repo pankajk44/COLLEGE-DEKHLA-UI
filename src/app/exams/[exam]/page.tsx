@@ -1,7 +1,9 @@
 "use client";
 import Banner1 from "@/components/bannerSections/Banner1";
 import ExamDetailBanner from "@/components/bannerSections/ExamDetailBanner";
+import PageDetailBannerSkeleton from "@/components/bannerSections/PageDetailBannerSkeleton";
 import PageTabsWithDetail from "@/components/pageTabsWithDetail/PageTabsWithDetail";
+import PageTabsWithDetailSkeleton from "@/components/pageTabsWithDetail/PageTabsWithDetailSkeleton";
 import { exams } from "@/data/examData";
 import { asideSection, banner1, tabsSections } from "@/data/globalData";
 import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
@@ -109,28 +111,39 @@ export default function ExamDetailsPage({ params }: Props) {
 
   return (
     <>
-      <ExamDetailBanner
-        breadCrumb={examDetailsBanner?.exam?.data?.attributes?.breadCrumb}
-        examName={examDetailsBanner?.exam?.data?.attributes?.examName}
-        titleAddition={examDetailsBanner?.exam?.data?.attributes?.titleAddition}
-        examLogo={
-          examDetailsBanner?.exam?.data?.attributes?.logo?.data?.attributes?.url
-        }
-        brochureUrl={
-          examDetailsBanner?.exam?.data?.attributes?.brochureFile?.data
-            ?.attributes?.url
-        }
-        lastUpdate={examDetailsBanner?.exam?.data?.attributes?.updatedAt}
-      />
-      <PageTabsWithDetail
-        data={tabSelectionArray}
-        asideData={asideSection}
-        slug={examId}
-        author={examData?.exam?.data?.attributes?.author?.data?.attributes}
-        description={examData?.exam?.data?.attributes?.description}
-        updatedAt={examData?.exam?.data?.attributes?.updatedAt}
-        tabUrlValue={"exams"}
-      />
+      {!examDetailsBannerLoading ? (
+        <ExamDetailBanner
+          breadCrumb={examDetailsBanner?.exam?.data?.attributes?.breadCrumb}
+          examName={examDetailsBanner?.exam?.data?.attributes?.examName}
+          titleAddition={
+            examDetailsBanner?.exam?.data?.attributes?.titleAddition
+          }
+          examLogo={
+            examDetailsBanner?.exam?.data?.attributes?.logo?.data?.attributes
+              ?.url
+          }
+          brochureUrl={
+            examDetailsBanner?.exam?.data?.attributes?.brochureFile?.data
+              ?.attributes?.url
+          }
+          lastUpdate={examDetailsBanner?.exam?.data?.attributes?.updatedAt}
+        />
+      ) : (
+        <PageDetailBannerSkeleton />
+      )}
+      {!loading ? (
+        <PageTabsWithDetail
+          data={tabSelectionArray}
+          asideData={asideSection}
+          slug={examId}
+          author={examData?.exam?.data?.attributes?.author?.data?.attributes}
+          description={examData?.exam?.data?.attributes?.description}
+          updatedAt={examData?.exam?.data?.attributes?.updatedAt}
+          tabUrlValue={"exams"}
+        />
+      ) : (
+        <PageTabsWithDetailSkeleton />
+      )}
       <Banner1 data={banner1} />
     </>
   );
