@@ -25,6 +25,14 @@ export const getAllTopColleges = gql`
               }
             }
           }
+          bgImage {
+            data {
+              id
+              attributes {
+                url
+              }
+            }
+          }
           collegeName
           description
           location {

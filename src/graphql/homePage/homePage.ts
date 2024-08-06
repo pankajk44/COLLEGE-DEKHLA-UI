@@ -84,15 +84,23 @@ export const getHomePage2 = gql`
       data {
         attributes {
           collegeLogos {
-            image {
+            college {
               data {
+                id
                 attributes {
-                  url
+                  collegeLogo {
+                    data {
+                      id
+                      attributes {
+                        url
+                      }
+                    }
+                  }
                 }
               }
             }
-            href
           }
+
           counsellingPackages {
             id
             title
@@ -219,26 +227,6 @@ export const homePageSearch = gql`
             }
           }
           title
-        }
-      }
-    }
-  }
-`;
-
-export const getCollegesLogo = gql`
-  query getCollegesLogo($page: Int, $pageSize: Int) {
-    colleges(pagination: { page: $page, pageSize: $pageSize }) {
-      data {
-        id
-        attributes {
-          collegeLogo {
-            data {
-              id
-              attributes {
-                url
-              }
-            }
-          }
         }
       }
     }

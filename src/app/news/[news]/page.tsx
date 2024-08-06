@@ -27,20 +27,27 @@ export default function NewsPage({ params }: Props) {
   } = useQuery(getNewsDetails, {
     variables: { ID: newsId },
   });
+  // useEffect(() => {
+  //   console.log(newsDetailData, "first");
+  // }, [newsDetailData]);
+
   return (
     <section className="w-full pt-32 max-md:pt-28">
       <Notification data={newsPage?.notification?.list} />
       <Search />
       <Content
         avatar={
-          newsDetailData?.new?.data?.attributes?.article?.writerAvatar?.data
-            ?.attributes?.url
+          newsDetailData?.new?.data?.attributes?.author?.data?.attributes
+            ?.avatar?.data?.attributes?.url
         }
-        writerName={newsDetailData?.new?.data?.attributes?.article?.writerName}
+        writerName={
+          newsDetailData?.new?.data?.attributes?.author?.data?.attributes?.name
+        }
         designation={
-          newsDetailData?.new?.data?.attributes?.article?.designation
+          newsDetailData?.new?.data?.attributes?.author?.data?.attributes
+            ?.designation
         }
-        content={newsDetailData?.new?.data?.attributes?.article?.content}
+        content={newsDetailData?.new?.data?.attributes?.content}
         title={newsDetailData?.new?.data?.attributes?.title}
         date={newsDetailData?.new?.data?.attributes?.updatedAt}
       />

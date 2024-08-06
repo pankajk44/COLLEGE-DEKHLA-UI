@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { TiChevronLeft, TiChevronRight } from "react-icons/ti";
 import { CollegesCardContent } from "./CollegesSlider";
 import { useQuery } from "@apollo/client";
-import { getAllColleges } from "@/graphql/collegeQuery/colleges";
+import { getAllTopColleges } from "@/graphql/collegeQuery/topColleges";
 
 export default function TopCollegesScroll({ data }: any) {
   const [filteredData, setFilteredData] = useState<any>([]);
@@ -11,7 +11,16 @@ export default function TopCollegesScroll({ data }: any) {
   const [showRightButton, setShowRightButton] = useState(true);
 
   // Query
-  const { data: topCollegeData, loading, error } = useQuery(getAllColleges(""));
+  const {
+    data: topCollegeData,
+    loading,
+    error,
+  } = useQuery(getAllTopColleges, {
+    variables: {
+      page: 1,
+      pageSize: 10,
+    },
+  });
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -78,7 +87,9 @@ export default function TopCollegesScroll({ data }: any) {
                 id={college?.id}
                 slug={college?.attributes?.slug}
                 bgImage={college?.attributes?.bgImage?.data?.attributes?.url}
-                collegeLogo={college?.collegeLogo}
+                collegeLogo={
+                  college?.attributes?.collegeLogo?.data?.attributes?.url
+                }
                 breadCrumb={college?.attributes?.breadCrumb}
                 city={
                   college?.attributes?.location?.city?.data?.attributes?.city
