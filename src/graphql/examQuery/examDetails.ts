@@ -472,6 +472,7 @@ export const getExamDetails = gql`
               }
             }
           }
+            description
           navbars {
             data {
               id

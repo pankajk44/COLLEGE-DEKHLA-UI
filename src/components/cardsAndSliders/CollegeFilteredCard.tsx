@@ -38,7 +38,7 @@ export default function CollegeFilteredCard({
           alt="collage"
           width={500}
           height={500}
-          className="h-[175px] w-[220px] rounded-md max-lg:w-full"
+          className="h-[175px] w-[220px] rounded-md object-cover max-lg:w-full"
         />
         <div className="md:px-5">
           {/* Line 1  */}

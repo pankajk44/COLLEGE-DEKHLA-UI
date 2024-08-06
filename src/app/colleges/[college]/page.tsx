@@ -13,6 +13,8 @@ import {
 } from "@/graphql/collegeQuery/collegeDetails";
 import formatFees, { convertQueryDataToTabSections } from "@/utils/customText";
 import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
+import PageDetailBannerSkeleton from "@/components/bannerSections/PageDetailBannerSkeleton";
+import PageTabsWithDetailSkeleton from "@/components/pageTabsWithDetail/PageTabsWithDetailSkeleton";
 
 type Props = {
   params: {
@@ -51,7 +53,7 @@ export default function CollegeDetailPage({ params }: Props) {
       pageSize: 3,
     },
   });
-
+  // console.log(collegeDetailsBanner?.college?.data?.attributes, "ddddddd");
   useEffect(() => {
     if (collegeData?.college?.data?.attributes?.PageData) {
       const convertedData = convertQueryDataToTabSections(
@@ -96,52 +98,61 @@ export default function CollegeDetailPage({ params }: Props) {
 
   return (
     <>
-      <CollegeDetailBanner
-        collegeLogo={
-          collegeDetailsBanner?.college?.data?.attributes?.data?.attributes?.url
-        }
-        bgImage={
-          collegeDetailsBanner?.college?.data?.attributes?.bgImage?.data
-            ?.attributes?.url
-        }
-        city={
-          collegeDetailsBanner?.college?.data?.attributes?.location?.city?.data
-            ?.attributes?.city
-        }
-        state={
-          collegeDetailsBanner?.college?.data?.attributes?.location?.state?.data
-            ?.attributes?.state
-        }
-        overallRating={3.5}
-        totalReviews={100}
-        affiliation={collegeDetailsBanner?.college?.data?.attributes?.affiliation?.data?.map(
-          (value: any) => value?.attributes?.organization,
-        )}
-        brochureUrl={
-          collegeDetailsBanner?.college?.data?.attributes?.brochureUrl?.data
-            ?.attributes?.url
-        }
-        collegeName={
-          collegeDetailsBanner?.college?.data?.attributes?.collegeName
-        }
-        estYear={collegeDetailsBanner?.college?.data?.attributes?.estYear}
-        collegeCategory={
-          collegeDetailsBanner?.college?.data?.attributes?.college_type?.data
-            ?.attributes?.collegeType
-        }
-      />
-      <PageTabsWithDetail
-        data={tabSelectionArray}
-        asideData={asideSection}
-        slug={collegeId}
-        author={
-          collegeData?.college?.data?.attributes?.author?.data?.attributes
-        }
-        description={collegeData?.college?.data?.attributes?.description}
-        updatedAt={collegeData?.college?.data?.attributes?.updatedAt}
-        tabUrlValue="colleges"
-        breadCrumb={collegeData?.college?.data?.attributes?.breadCrumb}
-      />
+      {!collegeDetailsBannerLoading ? (
+        <CollegeDetailBanner
+          collegeLogo={
+            collegeDetailsBanner?.college?.data?.attributes?.collegeLogo?.data
+              ?.attributes?.url
+          }
+          bgImage={
+            collegeDetailsBanner?.college?.data?.attributes?.bgImage?.data
+              ?.attributes?.url
+          }
+          city={
+            collegeDetailsBanner?.college?.data?.attributes?.location?.city
+              ?.data?.attributes?.city
+          }
+          state={
+            collegeDetailsBanner?.college?.data?.attributes?.location?.state
+              ?.data?.attributes?.state
+          }
+          overallRating={3.5}
+          totalReviews={100}
+          affiliation={collegeDetailsBanner?.college?.data?.attributes?.affiliation?.data?.map(
+            (value: any) => value?.attributes?.organization,
+          )}
+          brochureUrl={
+            collegeDetailsBanner?.college?.data?.attributes?.brochureUrl?.data
+              ?.attributes?.url
+          }
+          collegeName={
+            collegeDetailsBanner?.college?.data?.attributes?.collegeName
+          }
+          estYear={collegeDetailsBanner?.college?.data?.attributes?.estYear}
+          collegeCategory={
+            collegeDetailsBanner?.college?.data?.attributes?.college_type?.data
+              ?.attributes?.collegeType
+          }
+        />
+      ) : (
+        <PageDetailBannerSkeleton />
+      )}
+      {!collegeLoading ? (
+        <PageTabsWithDetail
+          data={tabSelectionArray}
+          asideData={asideSection}
+          slug={collegeId}
+          author={
+            collegeData?.college?.data?.attributes?.author?.data?.attributes
+          }
+          description={collegeData?.college?.data?.attributes?.description}
+          updatedAt={collegeData?.college?.data?.attributes?.updatedAt}
+          tabUrlValue="colleges"
+          breadCrumb={collegeData?.college?.data?.attributes?.breadCrumb}
+        />
+      ) : (
+        <PageTabsWithDetailSkeleton />
+      )}
       <Banner1 data={banner1} />
     </>
   );
