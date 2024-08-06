@@ -42,14 +42,11 @@ import formatFees, {
 } from "@/utils/customText";
 import { GiBookCover } from "react-icons/gi";
 import { useQuery } from "@apollo/client";
-import {
-  getCollegesLogo,
-  getHomePage1,
-  getHomePage2,
-} from "@/graphql/homePage/homePage";
+import { getHomePage1, getHomePage2 } from "@/graphql/homePage/homePage";
 import TypeHeadSearchBar from "@/components/TypeHeadSearchBar/TypeHeadSearchBar";
 import { getAllNewsNotifications } from "@/graphql/newsQuery/news";
 import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
+import { getAllFeaturedColleges } from "@/graphql/collegeQuery/featuredColleges";
 
 export default function Home() {
   // query
@@ -79,12 +76,12 @@ export default function Home() {
     },
   });
   const {
-    data: collegesLogoData,
-    loading: collegesLogoLoading,
-    error: collegesLogoError,
-  } = useQuery(getCollegesLogo, {
+    data: allFeaturedCollegesData,
+    loading: allFeaturedCollegesLoading,
+    error: allFeaturedCollegesError,
+  } = useQuery(getAllFeaturedColleges, {
     variables: {
-      pageSize: 30,
+      pageSize: 5,
       page: 1,
     },
   });
@@ -98,11 +95,23 @@ export default function Home() {
     },
   );
 
-  // const collegeLogosArray = collegesLogoData?.colleges?.data;
-  // // ?.map((item: any) => item?.attributes?.logo?.data?.attributes?.url)
-  // // .filter((item: any) => item !== null);
+  // Extracting college logos and IDs
+  const collegeLogos =
+    homePageData2?.homePages?.data[0]?.attributes?.collegeLogos?.map(
+      (college: any) => ({
+        id: college?.college?.data?.attributes?.collegeLogo.data?.id,
+        url: college?.college?.data?.attributes?.collegeLogo?.data?.attributes
+          ?.url,
+      }),
+    ) || [];
 
-  // console.log(collegeLogosArray, "collegeLogosArray");
+  // useEffect(() => {
+  //   console.log(
+  //     homePageData2?.homePages?.data[0]?.attributes?.collegeLogos,
+  //     "collegeLogosArray",
+  //   );
+  // }, [homePageData2]);
+
   // ================================================== //
   return (
     <section className="backgroundGradient relative !mt-0 w-full pb-16">
@@ -208,7 +217,9 @@ export default function Home() {
             </Link>
           </p>
 
-          <FeaturedCollegeSlider data={homePageData2?.featuredColleges?.data} />
+          <FeaturedCollegeSlider
+            data={allFeaturedCollegesData?.colleges?.data}
+          />
         </div>
       </Wrapper>
       <MetricsCard
@@ -218,7 +229,7 @@ export default function Home() {
         data={homePageData2?.homePages?.data[0].attributes?.counsellingPackages}
       />
       <Faqs data={homePageData1?.homePages?.data[0].attributes?.faqs} />
-      <CollegesScrollSlideShow image={[headerLogo]} />
+      <CollegesScrollSlideShow image={collegeLogos} />
       <Banner1 data={banner1} />
     </section>
   );
@@ -375,7 +386,9 @@ const FeaturedCollegeSlider = ({ data }: any) => {
               <CollegeFilteredCard
                 id={college?.id}
                 slug={college?.attributes?.slug}
-                bgImage={college?.attributes?.bgImage?.data?.attributes?.url}
+                collegeLogo={
+                  college?.attributes?.collegeLogo?.data?.attributes?.url
+                }
                 city={
                   college?.attributes?.location?.city?.data?.attributes?.city
                 }
@@ -600,7 +613,7 @@ const NewsCardSlider = ({ data }: any) => {
             className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
           >
             <NewsCard
-              image={news?.attributes?.icon?.data?.attributes?.url}
+              image={news?.attributes?.bgImage?.data?.attributes?.url}
               text={news?.attributes?.excerpt}
               timeStamp={news?.attributes?.updatedAt}
             />
@@ -793,11 +806,20 @@ const CollegesScrollSlideShow: React.FC<CollegesScrollSlideShowProps> = ({
             setDuration(FAST_DURATION);
           }}
         >
-          {[...image, ...image, ...image, ...image, ...image, ...image].map(
-            (item, idx) => (
-              <PartnersCard image={item} key={idx} />
-            ),
-          )}
+          {[
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+          ].map((item, idx) => (
+            <PartnersCard image={item} key={idx} />
+          ))}
         </motion.div>
       </div>
     </section>
@@ -809,7 +831,7 @@ interface CardProps {
   image: string;
 }
 
-const PartnersCard: React.FC<CardProps> = ({ image }) => {
+const PartnersCard: React.FC<CardProps> = ({ image }: any) => {
   const [showOverlay, setShowOverlay] = useState(false);
 
   return (
@@ -839,14 +861,16 @@ const PartnersCard: React.FC<CardProps> = ({ image }) => {
           </motion.div>
         )}
       </AnimatePresence> */}
-      {image && (
-        <Image
-          src={image}
-          alt="image"
-          width={250}
-          height={250}
-          className="h-full max-h-16 w-full object-contain"
-        />
+      {image.url && (
+        <Link href={image?.id ? `/colleges/${image?.id}` : `#`}>
+          <Image
+            src={image?.url}
+            alt="image"
+            width={250}
+            height={250}
+            className="h-full max-h-36 w-full object-contain"
+          />
+        </Link>
       )}
     </motion.div>
   );

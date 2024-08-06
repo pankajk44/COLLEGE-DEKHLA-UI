@@ -29,9 +29,9 @@ export default function CollegesSlider() {
     },
   });
 
-  useEffect(() => {
-    console.log(topCollegeData);
-  }, [topCollegeData]);
+  // useEffect(() => {
+  //   console.log(topCollegeData);
+  // }, [topCollegeData]);
 
   const swiperOptions = {
     slidesPerView: 1,
@@ -116,8 +116,6 @@ export default function CollegesSlider() {
                   {slide}
                   {slide}
                   {slide}
-                  {slide}
-                  {slide}
                 </>
               );
             },
@@ -125,10 +123,10 @@ export default function CollegesSlider() {
         </Swiper>
       )}
       {/* Add navigation buttons */}
-      {topCollegeData?.topColleges?.data && (
+      {topCollegeData?.colleges?.data && (
         <div className={`${uniqueId}-next swiper-button-next !top-[34%]`}></div>
       )}
-      {topCollegeData?.topColleges?.data && (
+      {topCollegeData?.colleges?.data && (
         <div className={`${uniqueId}-prev swiper-button-prev !top-[34%]`}></div>
       )}
     </>
