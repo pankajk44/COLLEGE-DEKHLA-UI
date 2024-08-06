@@ -61,7 +61,7 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
   });
 
   useEffect(() => {
-    console.log(examData?.exams?.data, "examData");
+    // console.log(examData?.exams?.data, "examData");
     if (examData) {
       if (pageNo === 1) {
         setFilteredData(examData?.exams?.data);
