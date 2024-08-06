@@ -93,7 +93,7 @@ export default function CollegeDetailBanner({
             rating={overallRating}
           />
           <p className="text-xl">({totalReviews} reviews)</p>
-          <Link href={brochureUrl || "#"}>
+          <Link href={brochureUrl || "#"} target="_blank">
             <Button variant="white" className="text-nowrap">
               <span>Download Brochure</span>
               <HiOutlineDownload />

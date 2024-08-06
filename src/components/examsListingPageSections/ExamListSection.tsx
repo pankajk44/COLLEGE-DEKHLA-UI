@@ -197,7 +197,7 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
                   }
                   description={exam?.attributes?.description}
                   brochureFile={
-                    exam?.attributes?.brochureFile?.data?.[0]?.attributes?.url
+                    exam?.attributes?.brochureFile?.data?.attributes?.url
                   }
                   tabsSections={exam?.attributes?.navbars?.data?.map(
                     (value: any) => value?.attributes?.navItem,

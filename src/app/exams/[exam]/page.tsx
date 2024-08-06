@@ -64,7 +64,10 @@ export default function ExamDetailsPage({ params }: Props) {
   });
 
   useEffect(() => {
-    // console.log("Exam Details: ", examData);
+    console.log(
+      "Exam Details: ",
+      examData?.exam?.data?.attributes?.brochureFile?.data,
+    );
 
     if (examData?.exam?.data?.attributes?.PageData) {
       const convertedData: any = convertQueryDataToTabSections(
