@@ -122,7 +122,7 @@ export default function CollegeDetailPage({ params }: Props) {
             (value: any) => value?.attributes?.organization,
           )}
           brochureUrl={
-            collegeDetailsBanner?.college?.data?.attributes?.brochureUrl?.data
+            collegeDetailsBanner?.college?.data?.attributes?.brochureFile?.data
               ?.attributes?.url
           }
           collegeName={

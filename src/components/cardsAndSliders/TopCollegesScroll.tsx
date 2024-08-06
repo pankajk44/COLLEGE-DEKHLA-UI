@@ -79,8 +79,10 @@ export default function TopCollegesScroll({ data }: any) {
                 slug={college?.attributes?.slug}
                 bgImage={college?.attributes?.bgImage?.data?.attributes?.url}
                 collegeLogo={college?.collegeLogo}
-                breadCrumb={college?.breadCrumb}
-                city={ college?.attributes?.location?.city?.data?.attributes?.city }
+                breadCrumb={college?.attributes?.breadCrumb}
+                city={
+                  college?.attributes?.location?.city?.data?.attributes?.city
+                }
                 state={
                   college?.attributes?.location?.state?.data?.attributes?.state
                 }
