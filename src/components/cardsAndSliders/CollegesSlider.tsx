@@ -175,7 +175,7 @@ export const CollegesCardContent = function CollegesCard({
           {/* College Name & Location  */}
           <div className="flex items-center justify-between">
             <Link href={id ? `/colleges/${id}` : `#`}>
-              <h4 className="text-2xl font-bold hover:text-orange-500">
+              <h4 className="cursor-pointer text-2xl font-bold hover:text-orange-500">
                 {breadCrumb}
               </h4>
             </Link>
