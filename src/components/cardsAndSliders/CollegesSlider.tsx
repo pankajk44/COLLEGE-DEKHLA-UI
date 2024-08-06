@@ -29,6 +29,10 @@ export default function CollegesSlider() {
     },
   });
 
+  useEffect(() => {
+    console.log(topCollegeData);
+  }, [topCollegeData]);
+
   const swiperOptions = {
     slidesPerView: 1,
     spaceBetween: 10,
@@ -64,12 +68,12 @@ export default function CollegesSlider() {
 
   return (
     <>
-      {topCollegeData?.topColleges?.data && (
+      {topCollegeData?.colleges?.data && (
         <Swiper
           {...swiperOptions}
           className={`mySwiper w-full max-w-fit px-5 ${uniqueId}`}
         >
-          {topCollegeData?.topColleges?.data?.map(
+          {topCollegeData?.colleges?.data?.map(
             (college: any, index: number) => {
               const slide = (
                 <SwiperSlide
@@ -84,7 +88,9 @@ export default function CollegesSlider() {
                     bgImage={
                       college?.attributes?.bgImage?.data?.attributes?.url
                     }
-                    collegeLogo={college?.collegeLogo?.data?.attributes?.url}
+                    collegeLogo={
+                      college?.attributes?.collegeLogo?.data?.attributes?.url
+                    }
                     breadCrumb={college?.attributes?.breadCrumb}
                     city={
                       college?.attributes?.location?.city?.data?.attributes
@@ -154,14 +160,14 @@ export const CollegesCardContent = function CollegesCard({
           height={800}
           className="h-[200px] w-full rounded-t-2xl object-cover"
         />
-        <div className="absolute left-2 top-2 rounded-full bg-white p-1">
+        <div className="absolute left-2 top-2 rounded-lg bg-white p-1">
           {collegeLogo && (
             <Image
               src={collegeLogo}
               alt={breadCrumb}
               width={800}
               height={800}
-              className="h-10 w-10 object-contain"
+              className="h-12 w-12 rounded-lg object-contain"
             />
           )}
         </div>
