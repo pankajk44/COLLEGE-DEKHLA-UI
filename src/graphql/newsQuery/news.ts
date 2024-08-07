@@ -33,6 +33,14 @@ export const getAllNews = gql`
               }
             }
           }
+          bgImage {
+            data {
+              id
+              attributes {
+                url
+              }
+            }
+          }
           author {
             data {
               id

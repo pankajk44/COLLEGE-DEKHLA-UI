@@ -47,6 +47,7 @@ import TypeHeadSearchBar from "@/components/TypeHeadSearchBar/TypeHeadSearchBar"
 import { getAllNewsNotifications } from "@/graphql/newsQuery/news";
 import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
 import { getAllFeaturedColleges } from "@/graphql/collegeQuery/featuredColleges";
+import Loader from "@/components/Loader";
 
 export default function Home() {
   // query
@@ -104,134 +105,146 @@ export default function Home() {
           ?.url,
       }),
     ) || [];
-
-  // useEffect(() => {
-  //   console.log(
-  //     homePageData2?.homePages?.data[0]?.attributes?.collegeLogos,
-  //     "collegeLogosArray",
-  //   );
-  // }, [homePageData2]);
-
   // ================================================== //
+  // Page Loader
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Check if all data is loaded
+  useEffect(() => {
+    if (
+      !homePageLoading &&
+      homePageData1?.homePages?.data[0]?.attributes?.HeroSection?.title
+    ) {
+      setIsLoading(false);
+    }
+  }, [homePageLoading]);
+
   return (
-    <section className="backgroundGradient relative !mt-0 w-full pb-16">
-      <HomeBanner
-        title={
-          homePageData1?.homePages?.data[0]?.attributes?.HeroSection?.title
-        }
-        text={homePageData1?.homePages?.data[0]?.attributes?.HeroSection?.text}
-        text1={homePageData1?.homePages?.data[0]?.attributes?.text1}
-        text2={homePageData1?.homePages?.data[0]?.attributes?.text2}
-        text3={homePageData1?.homePages?.data[0]?.attributes?.text3}
-        text4={homePageData1?.homePages?.data[0]?.attributes?.text4}
-        text5={homePageData1?.homePages?.data[0]?.attributes?.text5}
-        popularCourses={popularCourses}
-        data={homePageData1}
-      />
-
-      {/* Event & Webinars */}
-      <Wrapper bgColor="bg-zinc-200" containerClassName="py-14">
-        <h2 className="mb-5 text-center text-4xl font-bold sm:text-5xl md:mb-14">
-          Events and Webinars
-        </h2>
-        <Events
-          eventsAndWebinars={
-            homePageData1?.homePages?.data[0]?.attributes?.eventsAndWebinars
+    <>
+      {isLoading && <Loader />}
+      <section className="backgroundGradient relative !mt-0 w-full pb-16">
+        <HomeBanner
+          title={
+            homePageData1?.homePages?.data[0]?.attributes?.HeroSection?.title
           }
+          text={
+            homePageData1?.homePages?.data[0]?.attributes?.HeroSection?.text
+          }
+          text1={homePageData1?.homePages?.data[0]?.attributes?.text1}
+          text2={homePageData1?.homePages?.data[0]?.attributes?.text2}
+          text3={homePageData1?.homePages?.data[0]?.attributes?.text3}
+          text4={homePageData1?.homePages?.data[0]?.attributes?.text4}
+          text5={homePageData1?.homePages?.data[0]?.attributes?.text5}
+          popularCourses={popularCourses}
+          data={homePageData1}
         />
-      </Wrapper>
 
-      {/* Top Colleges */}
-      <Wrapper containerClassName="py-14">
-        <h2 className="mb-5 text-center text-4xl font-bold sm:text-5xl md:mb-14">
-          Top Colleges
-        </h2>
-        <div className="topColleges relative mb-5">
-          <CollegesSlider />
-        </div>
-        <div className="flex-center w-full">
-          <Link href="/colleges">
-            <Button variant="white" className="text-nowrap shadow-xl">
-              View More
-            </Button>
-          </Link>
-        </div>
-      </Wrapper>
+        {/* Event & Webinars */}
+        <Wrapper bgColor="bg-zinc-200" containerClassName="py-14">
+          <h2 className="mb-5 text-center text-4xl font-bold sm:text-5xl md:mb-14">
+            Events and Webinars
+          </h2>
+          <Events
+            eventsAndWebinars={
+              homePageData1?.homePages?.data[0]?.attributes?.eventsAndWebinars
+            }
+          />
+        </Wrapper>
 
-      {/* Testimonial */}
-      <Wrapper bgColor="bg-zinc-200" containerClassName="relative py-14">
-        <h2 className="mb-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
-          {
-            homePageData1?.homePages?.data[0].attributes?.testimonials?.title
-              ?.t1
-          }{" "}
-          <span className="text-orange-500">
+        {/* Top Colleges */}
+        <Wrapper containerClassName="py-14">
+          <h2 className="mb-5 text-center text-4xl font-bold sm:text-5xl md:mb-14">
+            Top Colleges
+          </h2>
+          <div className="topColleges relative mb-5">
+            <CollegesSlider />
+          </div>
+          <div className="flex-center w-full">
+            <Link href="/colleges">
+              <Button variant="white" className="text-nowrap shadow-xl">
+                View More
+              </Button>
+            </Link>
+          </div>
+        </Wrapper>
+
+        {/* Testimonial */}
+        <Wrapper bgColor="bg-zinc-200" containerClassName="relative py-14">
+          <h2 className="mb-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
             {
               homePageData1?.homePages?.data[0].attributes?.testimonials?.title
-                ?.t2
+                ?.t1
+            }{" "}
+            <span className="text-orange-500">
+              {
+                homePageData1?.homePages?.data[0].attributes?.testimonials
+                  ?.title?.t2
+              }
+            </span>
+          </h2>
+          <TestimonialSlider
+            data={
+              homePageData1?.homePages?.data[0].attributes?.testimonials
+                ?.testimonialCards
             }
-          </span>
-        </h2>
-        <TestimonialSlider
-          data={
-            homePageData1?.homePages?.data[0].attributes?.testimonials
-              ?.testimonialCards
-          }
-        />
-        <div className="mx-auto -mt-60 h-64 w-full rounded-2xl bg-orange-500"></div>
-      </Wrapper>
+          />
+          <div className="mx-auto -mt-60 h-64 w-full rounded-2xl bg-orange-500"></div>
+        </Wrapper>
 
-      {/* News section */}
-      <div className="!relative p-3 pb-14 md:px-52">
-        <h2 className="my-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
-          We have been featured in the News!
-        </h2>
-        <NewsCardSlider data={recentNewsData?.news?.data} />
-        <div className="flex-center my-6 w-full">
-          <Link href="/news">
-            <Button variant="white" className="!w-48 px-6 shadow-xl">
-              View More
+        {/* News section */}
+        <div className="!relative p-3 pb-14 md:px-52">
+          <h2 className="my-14 text-center text-4xl font-bold max-sm:my-9 sm:text-5xl">
+            We have been featured in the News!
+          </h2>
+          <NewsCardSlider data={recentNewsData?.news?.data} />
+          <div className="flex-center my-6 w-full">
+            <Link href="/news">
+              <Button variant="white" className="!w-48 px-6 shadow-xl">
+                View More
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Explore college */}
+        <Wrapper
+          bgColor="bg-zinc-200"
+          containerClassName="py-14"
+          className="bg-orange-200 p-4"
+        >
+          <Link href={"/colleges"} className="max-w-min">
+            <Button variant="black" className="text-nowrap shadow-xl">
+              Featured Colleges
             </Button>
           </Link>
-        </div>
-      </div>
+          <div className="flex-center flex-col py-5 md:px-14">
+            <p className="mb-1 flex w-full justify-end">
+              <Link
+                href={"/colleges"}
+                className="max-w-min font-bold text-orange-500 hover:text-blue-500 hover:underline"
+              >
+                <span className="mr-2 text-nowrap">See All</span>
+              </Link>
+            </p>
 
-      {/* Explore college */}
-      <Wrapper
-        bgColor="bg-zinc-200"
-        containerClassName="py-14"
-        className="bg-orange-200 p-4"
-      >
-        <Link href={"/colleges"} className="max-w-min">
-          <Button variant="black" className="text-nowrap shadow-xl">
-            Featured Colleges
-          </Button>
-        </Link>
-        <div className="flex-center flex-col py-5 md:px-14">
-          <p className="mb-1 flex w-full justify-end">
-            <Link
-              href={"/colleges"}
-              className="max-w-min font-bold text-orange-500 hover:text-blue-500 hover:underline"
-            >
-              <span className="mr-2 text-nowrap">See All</span>
-            </Link>
-          </p>
-
-          <FeaturedCollegeSlider
-            data={allFeaturedCollegesData?.colleges?.data}
-          />
-        </div>
-      </Wrapper>
-      <MetricsCard
-        data={homePageData1?.homePages?.data[0].attributes?.metricData}
-      />
-      <CounsellingPackages
-        data={homePageData2?.homePages?.data[0].attributes?.counsellingPackages}
-      />
-      <Faqs data={homePageData1?.homePages?.data[0].attributes?.faqs} />
-      <CollegesScrollSlideShow image={collegeLogos} />
-      <Banner1 data={banner1} />
-    </section>
+            <FeaturedCollegeSlider
+              data={allFeaturedCollegesData?.colleges?.data}
+            />
+          </div>
+        </Wrapper>
+        <MetricsCard
+          data={homePageData1?.homePages?.data[0].attributes?.metricData}
+        />
+        <CounsellingPackages
+          data={
+            homePageData2?.homePages?.data[0].attributes?.counsellingPackages
+          }
+        />
+        <Faqs data={homePageData1?.homePages?.data[0].attributes?.faqs} />
+        <CollegesScrollSlideShow image={collegeLogos} />
+        <Banner1 data={banner1} />
+      </section>
+    </>
   );
 }
 
@@ -249,7 +262,7 @@ function HomeBanner({
   return (
     <Wrapper
       as="div"
-      containerClassName="pt-[11rem] pb-5 md:pt-[9rem] px-5"
+      containerClassName="pb-5 pt-[9rem] px-5"
       bgColor=""
       className="text-center text-black"
     >
@@ -454,13 +467,13 @@ const FeaturedCollegeSlider = ({ data }: any) => {
 function CollegesCardContent({ breadCrumb, bgImage, id }: any) {
   return (
     <Link href={id ? `/courses/${id}` : `#`}>
-      <div className="flex-center hover:mix-blend-color-saturation hover:!border-3 h-full w-[200px] flex-col gap-5 rounded-2xl border-white bg-white p-5 text-center shadow-xl transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
+      <div className="flex-center hover:!border-3 w-[200px] flex-col gap-5 rounded-2xl border-white bg-white p-5 text-center shadow-xl transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
         <Image
           src={bgImage}
           alt="image"
           width={70}
           height={70}
-          className="h-40 w-full rounded-lg object-contain"
+          className="h-40 w-full rounded-lg object-contain max-sm:h-24"
         />
         {/* <GiBookCover className="text-6xl" /> */}
         <p className="cursor-pointer text-center text-lg font-semibold">
