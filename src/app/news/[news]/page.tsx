@@ -105,7 +105,7 @@ function Content({
     </Wrapper>
   );
 }
-export function ContentSkeleton() {
+function ContentSkeleton() {
   return (
     <Wrapper>
       <div className="mt-5 w-full p-5 md:min-w-[550px]">
