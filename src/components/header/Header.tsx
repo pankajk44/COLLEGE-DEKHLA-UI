@@ -92,7 +92,7 @@ const Header = ({ header }: any) => {
     >
       <Wrapper1 className="hidden h-20 items-center justify-between rounded-lg bg-white md:flex">
         {/* Logo with Link */}
-        <Link href={header?.href || "/"}>
+        <Link href="/">
           <Image
             src={header?.logo}
             alt="logo"
@@ -119,7 +119,7 @@ const Header = ({ header }: any) => {
           )}
         </div>
         {/* Logo with Link */}
-        <Link href={header?.href || "/"}>
+        <Link href="/">
           <Image
             src={header?.logo}
             alt="logo"
@@ -187,7 +187,7 @@ const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
     return (
       <>
         <div className="flex items-center gap-4">
-          {isUserLoggedIn ? (
+          {!isUserLoggedIn ? (
             <div className="group relative">
               <div className="flex-center rounded-full border-2 border-orange-500 p-0.5">
                 <RxAvatar className="hover:text-primary group cursor-pointer text-3xl text-orange-500" />
