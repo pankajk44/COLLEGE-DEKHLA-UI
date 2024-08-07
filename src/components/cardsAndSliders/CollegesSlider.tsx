@@ -10,7 +10,7 @@ import Image from "next/image";
 import { Button } from "../Button";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa";
-import { addCommas } from "@/utils/customText";
+import { addCommas, convertToYearlyFee } from "@/utils/customText";
 import { useQuery } from "@apollo/client";
 import { getAllColleges } from "@/graphql/collegeQuery/colleges";
 import { getAllTopColleges } from "@/graphql/collegeQuery/topColleges";
@@ -86,7 +86,8 @@ export default function CollegesSlider() {
                     id={college?.id}
                     slug={college?.attributes?.slug}
                     bgImage={
-                      college?.attributes?.bgImage?.data?.attributes?.url
+                      college?.attributes?.imageGallery?.[0]?.images?.data?.[0]
+                        ?.attributes?.url
                     }
                     collegeLogo={
                       college?.attributes?.collegeLogo?.data?.attributes?.url
@@ -102,7 +103,20 @@ export default function CollegesSlider() {
                     }
                     overallRating={4}
                     totalReviews={345}
-                    avgFeePerYear={180000}
+                    avgFeePerYear={
+                      college?.attributes?.allCourses
+                        .map((course: any) =>
+                          convertToYearlyFee(
+                            course?.courseFee,
+                            course?.courseFeeLabel,
+                          ),
+                        )
+                        .reduce(
+                          (total: any, fee: any, _: any, { length }: any) =>
+                            total + fee / length,
+                          0,
+                        ) || 0
+                    }
                     affiliation={college?.attributes?.affiliation?.data?.map(
                       (value: any) => value?.attributes?.organization,
                     )}
@@ -111,13 +125,7 @@ export default function CollegesSlider() {
                   />{" "}
                 </SwiperSlide>
               );
-              return (
-                <>
-                  {slide}
-                  {slide}
-                  {slide}
-                </>
-              );
+              return <>{slide}</>;
             },
           )}
         </Swiper>
