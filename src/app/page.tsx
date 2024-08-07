@@ -99,7 +99,7 @@ export default function Home() {
   const collegeLogos =
     homePageData2?.homePages?.data[0]?.attributes?.collegeLogos?.map(
       (college: any) => ({
-        id: college?.college?.data?.attributes?.collegeLogo.data?.id,
+        id: college?.college?.data?.id,
         url: college?.college?.data?.attributes?.collegeLogo?.data?.attributes
           ?.url,
       }),
@@ -512,13 +512,13 @@ const TestimonialSlider = ({ data }: any) => {
   const swiperOptions = {
     slidesPerView: 1,
     spaceBetween: 30,
-    // autoplay: { delay: 5000, disableOnInteraction: false },
-    // loop: true,
+    autoplay: { delay: 5000, disableOnInteraction: false },
+    loop: true,
     navigation: {
       nextEl: `.${uniqueId}-next`,
       prevEl: `.${uniqueId}-prev`,
     },
-    // modules: [Autoplay, Navigation],
+    modules: [Autoplay, Navigation],
     breakpoints: {
       640: { slidesPerView: 1 },
       768: { slidesPerView: 2 },
@@ -862,7 +862,7 @@ const PartnersCard: React.FC<CardProps> = ({ image }: any) => {
         )}
       </AnimatePresence> */}
       {image.url && (
-        <Link href={image?.id ? `/colleges/${image?.id}` : `#`}>
+        <Link target="_blank" href={image?.id ? `/colleges/${image?.id}` : `#`}>
           <Image
             src={image?.url}
             alt="image"
