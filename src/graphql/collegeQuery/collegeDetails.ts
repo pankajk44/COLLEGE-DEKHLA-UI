@@ -1,5 +1,94 @@
 import { gql } from "@apollo/client";
 
+export const getCollegeDetailsBanner = gql`
+  query getCollegeDetailsBanner($ID: ID!) {
+    college(id: $ID) {
+      data {
+        id
+        attributes {
+          collegeName
+          estYear
+          collegeLogo {
+            data {
+              id
+              attributes {
+                alternativeText
+                width
+                height
+                url
+              }
+            }
+          }
+          bgImage {
+            data {
+              id
+              attributes {
+                alternativeText
+                width
+                height
+                url
+              }
+            }
+          }
+          location {
+            state {
+              data {
+                id
+                attributes {
+                  state
+                }
+              }
+            }
+            city {
+              data {
+                id
+                attributes {
+                  city
+                }
+              }
+            }
+            country {
+              data {
+                id
+                attributes {
+                  country
+                }
+              }
+            }
+          }
+          affiliation {
+            data {
+              id
+              attributes {
+                organization
+              }
+            }
+          }
+          brochureFile {
+            data {
+              id
+              attributes {
+                alternativeText
+                width
+                height
+                url
+              }
+            }
+          }
+          college_type {
+            data {
+              id
+              attributes {
+                collegeType
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const getCollegeDetails = gql`
   query getCollegeDetails($ID: ID!) {
     college(id: $ID) {
@@ -211,23 +300,6 @@ export const getCollegeDetails = gql`
                 t1
                 t2
                 t3
-              }
-              author {
-                data {
-                  id
-                  attributes {
-                    name
-                    avatar {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                    designation
-                    updatedAt
-                  }
-                }
               }
 
               editorText: text
@@ -520,33 +592,7 @@ export const getCollegeDetails = gql`
                 }
               }
             }
-            ... on ComponentCommonQuoteComponent {
-              author {
-                data {
-                  attributes {
-                    avatar {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                    name
-                    designation
-                    updatedAt
-                  }
-                }
-              }
-              quote
 
-              navItem {
-                data {
-                  attributes {
-                    navItem
-                  }
-                }
-              }
-            }
             ... on ComponentCommonFacilitiesComponent {
               title {
                 t1
@@ -617,6 +663,23 @@ export const getCollegeDetails = gql`
               description
             }
           }
+          author {
+            data {
+              id
+              attributes {
+                avatar {
+                  data {
+                    id
+                    attributes {
+                      url
+                    }
+                  }
+                }
+                name
+                designation
+              }
+            }
+          }
         }
       }
     }
@@ -670,7 +733,7 @@ export const getAllCoursesOfACollege = gql`
                   courseType {
                     data {
                       attributes {
-                        collegeType
+                        courseType
                       }
                     }
                   }
@@ -685,7 +748,7 @@ export const getAllCoursesOfACollege = gql`
                     from
                     to
                   }
-                  courseMode {
+                  course_mode {
                     data {
                       attributes {
                         courseMode

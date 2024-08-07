@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
-export const getHomePage = gql`
-  query getHomePage {
+export const getHomePage1 = gql`
+  query getHomePage1 {
     homePages {
       data {
         attributes {
@@ -40,48 +40,7 @@ export const getHomePage = gql`
             text
             href
           }
-          collegeLogos {
-            image {
-              data {
-                attributes {
-                  alternativeText
-                  width
-                  height
-                  url
-                }
-              }
-            }
-            href
-          }
-          counsellingPackages {
-            id
-            title
-            text
-            counsellingPackagesCards {
-              id
-              PackageName
-              isPopular
-              price
-              text
-              lists {
-                data {
-                  attributes {
-                    isInclude
-                    text
-                  }
-                }
-              }
-              button {
-                data {
-                  id
-                  attributes {
-                    text
-                    href
-                  }
-                }
-              }
-            }
-          }
+
           faqs {
             id
             question
@@ -116,292 +75,58 @@ export const getHomePage = gql`
         }
       }
     }
-    popularCourses: courses(
-      filters: { isPopular: { eq: true } }
-      sort: "popularSequence:asc"
-    ) {
+  }
+`;
+
+export const getHomePage2 = gql`
+  query getHomePage2 {
+    homePages {
       data {
-        id
         attributes {
-          slug
-          courseName
-          breadCrumb
-          isPopular
-          bgImage {
-            data {
-              id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
-          courseType {
-            data {
-              id
-              attributes {
-                courseType
-              }
-            }
-          }
-          description
-          duration {
-            data {
-              id
-              attributes {
-                duration
-              }
-            }
-          }
-          avgFees {
-            from
-            to
-          }
-          courseLevel {
-            data {
-              id
-              attributes {
-                courseLevel
-              }
-            }
-          }
-          navbars {
-            data {
-              id
-              attributes {
-                navItem
-              }
-            }
-          }
-        }
-      }
-    }
-    topColleges: colleges(
-      filters: { isTopCollege: { eq: true } }
-      sort: "topCollegeSequence:asc"
-    ) {
-      data {
-        id
-        attributes {
-          slug
-          breadCrumb
-          collegeLogo {
-            data {
-              id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
-          collegeName
-          description
-          location {
-            state {
+          collegeLogos {
+            college {
               data {
                 id
                 attributes {
-                  state
+                  collegeLogo {
+                    data {
+                      id
+                      attributes {
+                        url
+                      }
+                    }
+                  }
                 }
-              }
-            }
-            city {
-              data {
-                id
-                attributes {
-                  city
-                }
-              }
-            }
-            country {
-              data {
-                id
-                attributes {
-                  country
-                }
-              }
-            }
-          }
-          college_type {
-            data {
-              id
-              attributes {
-                collegeType
-              }
-            }
-          }
-          affiliation {
-            data {
-              id
-              attributes {
-                organization
-              }
-            }
-          }
-          navbars {
-            data {
-              id
-              attributes {
-                navItem
-              }
-            }
-          }
-          allCourses {
-            courseFee
-            courseFeeLabel
-            examName {
-              data {
-                id
-                attributes {
-                  examName
-                }
-              }
-            }
-          }
-          estYear
-          avgPackage
-          hightestPackage
-          topCollegeSequence
-        }
-      }
-    }
-    news: news(sort: "updatedAt:desc") {
-      data {
-        id
-        attributes {
-          icon {
-            data {
-              id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
-          title
-          excerpt
-          category {
-            data {
-              id
-              attributes {
-                category
               }
             }
           }
 
-          slug
-          newsSequence
-          updatedAt
-        }
-      }
-    }
-    featuredColleges: colleges(filters: { isFeatured: { eq: true } }) {
-      data {
-        id
-        attributes {
-          slug
-          breadCrumb
-          isFeatured
-          collegeLogo {
-            data {
+          counsellingPackages {
+            id
+            title
+            text
+            counsellingPackagesCards {
               id
-              attributes {
-                alternativeText
-                width
-                height
-                url
-              }
-            }
-          }
-          collegeName
-          description
-          location {
-            state {
-              data {
-                id
-                attributes {
-                  state
+              PackageName
+              isPopular
+              price
+              text
+              lists {
+                data {
+                  attributes {
+                    isInclude
+                    text
+                  }
                 }
               }
-            }
-            city {
-              data {
-                id
-                attributes {
-                  city
+              button {
+                data {
+                  id
+                  attributes {
+                    text
+                    href
+                  }
                 }
-              }
-            }
-            country {
-              data {
-                id
-                attributes {
-                  country
-                }
-              }
-            }
-          }
-          college_type {
-            data {
-              id
-              attributes {
-                collegeType
-              }
-            }
-          }
-          affiliation {
-            data {
-              id
-              attributes {
-                organization
-              }
-            }
-          }
-          navbars {
-            data {
-              id
-              attributes {
-                navItem
-              }
-            }
-          }
-          allCourses {
-            courseFee
-            courseFeeLabel
-            examName {
-              data {
-                id
-                attributes {
-                  breadCrumb
-                }
-              }
-            }
-          }
-          estYear
-          avgPackage
-          hightestPackage
-          topCollegeSequence
-        }
-      }
-    }
-    allColleges: colleges {
-      data {
-        id
-        attributes {
-          slug
-          collegeLogo {
-            data {
-              attributes {
-                alternativeText
-                width
-                height
-                url
               }
             }
           }
