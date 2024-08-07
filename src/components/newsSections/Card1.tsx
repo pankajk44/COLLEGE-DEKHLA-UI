@@ -5,8 +5,14 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 
 export function Card1({ item }: any) {
   return (
-    <div className="flex items-center gap-5 rounded-lg bg-white p-5 shadow-xl">
-      <Image src={item?.icon} alt="CD" width={100} height={100} />
+    <div className="flex items-center gap-5 rounded-lg bg-white p-5 shadow-xl max-md:flex-col">
+      <Image
+        src={item?.icon}
+        alt="CD"
+        width={100}
+        height={100}
+        className="h-32 min-w-32 rounded-lg object-contain"
+      />
       <div className="flex flex-col gap-3">
         <Link
           href={item?.id ? `/news/${item?.id}` : `#`}
@@ -26,7 +32,7 @@ export function Card1({ item }: any) {
             {item?.category}
           </p>
         </div>
-        <p>
+        <p className="line-clamp-3">
           {item?.text}{" "}
           <span className="relative right-0 text-orange-500 underline">
             <Link href={item?.id ? `/news/${item?.id}` : `#`}>Read More</Link>

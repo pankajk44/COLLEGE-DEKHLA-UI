@@ -176,11 +176,11 @@ const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
 
   const handleLogout = () => {
     dispatch(clearAuthState());
-    router.push("/"); // Navigate after logout
+    router.push("/");
   };
 
   if (!isClient) {
-    return null; // Prevents server-side rendering issues
+    return null;
   }
 
   if (buttonType === "LOG-IN") {

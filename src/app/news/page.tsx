@@ -31,35 +31,6 @@ export default function Page() {
   );
 }
 
-function Card2({ item }: any) {
-  return (
-    <div className="mb-4 flex items-center gap-5 border-b-2 border-orange-500 pb-3">
-      <div className="flex flex-col gap-1">
-        <Link
-          href={`news/${item?.id}|| #`}
-          className="cursor-pointer font-bold"
-        >
-          <h6 className="cursor-pointer hover:text-orange-500">
-            {item?.title}
-          </h6>
-        </Link>
-        <div className="flex gap-5 text-xs capitalize text-orange-500">
-          <p className="flex items-center gap-2">
-            <FaRegCalendarAlt className="text-black" />
-            {formatDate(item?.timeStamp)}
-          </p>
-          <p className="flex items-center gap-2">
-            <BsClipboardCheck className="text-black" />
-            {item?.category}
-          </p>
-        </div>
-        <p className="line-clamp-2 text-sm">{item?.text}</p>
-      </div>
-      <Image src={item?.icon?.url} alt="CD" width={100} height={100} />
-    </div>
-  );
-}
-
 function LatestNewsAndArticles() {
   const [pageNo, SetPageNo] = useState(1);
   // query
@@ -87,7 +58,7 @@ function LatestNewsAndArticles() {
   });
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  const categories = ["all", "exam", "college"];
+  const categories = ["all", "exam", "college", "course"];
 
   const filteredData =
     selectedCategory === "all"
@@ -97,11 +68,15 @@ function LatestNewsAndArticles() {
   const handleLoadMore = () => {
     SetPageNo((prev: number) => prev + 1);
   };
+
+  if (latestNewsDataLoading) {
+    return <LatestNewsAndArticlesSkeleton />;
+  }
   return (
     <Wrapper as="main" className="my-10">
       <h2 className="mb-5 text-2xl font-bold">Latest News and Articles</h2>
       {/* filter buttons  */}
-      <div className="mb-5 flex gap-6">
+      <div className="mb-5 flex flex-wrap gap-6 max-sm:gap-2">
         {categories.map((category) => (
           <button
             key={category}
@@ -201,5 +176,124 @@ function AsideTopCourses() {
         </Button>
       </Link>
     </div>
+  );
+}
+
+function Card2({ item }: any) {
+  return (
+    <div className="mb-4 flex items-center gap-5 border-b-2 border-orange-500 pb-3">
+      <div className="flex flex-col gap-1">
+        <Link
+          href={item?.id ? `/news/${item?.id}` : `#`}
+          className="cursor-pointer font-bold"
+        >
+          <h6 className="line-clamp-2 cursor-pointer hover:text-orange-500">
+            {item?.title}
+          </h6>
+        </Link>
+        <div className="flex gap-3 text-xs capitalize text-orange-500">
+          <p className="flex items-center gap-2">
+            <FaRegCalendarAlt className="text-black" />
+            {formatDate(item?.timeStamp)}
+          </p>
+          <p className="flex items-center gap-2">
+            <BsClipboardCheck className="text-black" />
+            {item?.category}
+          </p>
+        </div>
+        <p className="line-clamp-2 text-sm">{item?.text}</p>
+      </div>
+      <Image
+        src={item?.icon}
+        alt="CD"
+        width={100}
+        height={100}
+        className="h-28 min-w-28 rounded-lg object-contain"
+      />
+    </div>
+  );
+}
+
+// Skelton loading
+function LatestNewsAndArticlesSkeleton() {
+  return (
+    <Wrapper as="main" className="my-10">
+      <h2 className="mb-5 h-8 w-1/2 animate-pulse rounded-lg bg-orange-300 text-2xl font-bold"></h2>
+
+      {/* Filter Buttons */}
+      <div className="mb-5 flex gap-2 md:gap-6">
+        {[...Array(4)].map((_, index) => (
+          <div
+            key={index}
+            className="h-10 w-24 animate-pulse rounded-full bg-orange-300"
+          ></div>
+        ))}
+      </div>
+
+      <section className="grid grid-cols-12 gap-4">
+        <article className="col-span-12 lg:col-span-9">
+          <ul className="mb-5 flex flex-col gap-4">
+            {[...Array(5)].map((_, index) => (
+              <li
+                key={index}
+                className="flex animate-pulse items-center gap-5 rounded-lg bg-white p-5 shadow-xl max-md:flex-col max-md:items-center"
+              >
+                <div className="h-32 min-w-32 rounded-lg bg-orange-300"></div>
+                <div className="flex w-full flex-col gap-3 max-md:items-center">
+                  <div className="h-6 w-3/4 rounded-md bg-orange-300"></div>
+                  <div className="flex gap-5 text-xs capitalize text-orange-500">
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-24 rounded-md bg-orange-300"></div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-24 rounded-md bg-orange-300"></div>
+                    </div>
+                  </div>
+                  <div className="mt-2 h-12 w-full rounded-md bg-orange-300"></div>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <div className="mx-auto h-10 w-40 animate-pulse rounded-full bg-orange-300"></div>
+        </article>
+        {/* Aside Section */}
+        <aside className="col-span-3 flex flex-col gap-4 max-lg:hidden">
+          {/* Notification */}
+          <div className="animate-pulse rounded-lg bg-white px-5 py-5 shadow-lg">
+            <h2 className="mb-4 h-8 w-1/2 rounded-lg border-b-2 border-orange-500 bg-orange-300 pb-3 text-xl font-bold"></h2>
+            {[...Array(3)].map((_, index) => (
+              <div
+                key={index}
+                className="mb-4 grid w-full animate-pulse grid-cols-3 items-center gap-5 rounded-lg bg-white p-5 shadow-xl"
+              >
+                <div className="col-span-2 flex flex-col gap-3">
+                  <div className="h-6 w-full rounded-md bg-orange-300"></div>
+                  <div className="flex gap-5 text-xs capitalize text-orange-500">
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-16 rounded-md bg-orange-300"></div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-16 rounded-md bg-orange-300"></div>
+                    </div>
+                  </div>
+                  <div className="mt-2 h-14 w-full rounded-md bg-orange-300"></div>
+                </div>
+                <div className="col-span-1 h-32 w-full rounded-lg bg-orange-300"></div>
+              </div>
+            ))}
+          </div>
+          {/* Top Courses */}
+          <div className="animate-pulse rounded-lg bg-white px-5 py-5 shadow-lg">
+            <div className="mb-4 h-8 w-1/2 bg-orange-300"></div>
+            {[...Array(3)].map((_, index) => (
+              <div
+                key={index}
+                className="mb-3 h-20 rounded-md bg-orange-300"
+              ></div>
+            ))}
+          </div>
+        </aside>
+      </section>
+    </Wrapper>
   );
 }

@@ -638,7 +638,6 @@ export const getCollegeDetails = gql`
 
           CollegeReviewsAndRatings {
             id
-            userName
             overall {
               id
               description
