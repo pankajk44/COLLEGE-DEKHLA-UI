@@ -35,22 +35,27 @@ export default function NewsPage({ params }: Props) {
     <section className="w-full pt-32 max-md:pt-28">
       <Notification data={newsPage?.notification?.list} />
       <Search />
-      <Content
-        avatar={
-          newsDetailData?.new?.data?.attributes?.author?.data?.attributes
-            ?.avatar?.data?.attributes?.url
-        }
-        writerName={
-          newsDetailData?.new?.data?.attributes?.author?.data?.attributes?.name
-        }
-        designation={
-          newsDetailData?.new?.data?.attributes?.author?.data?.attributes
-            ?.designation
-        }
-        content={newsDetailData?.new?.data?.attributes?.content}
-        title={newsDetailData?.new?.data?.attributes?.title}
-        date={newsDetailData?.new?.data?.attributes?.updatedAt}
-      />
+      {!loading ? (
+        <Content
+          avatar={
+            newsDetailData?.new?.data?.attributes?.author?.data?.attributes
+              ?.avatar?.data?.attributes?.url
+          }
+          writerName={
+            newsDetailData?.new?.data?.attributes?.author?.data?.attributes
+              ?.name
+          }
+          designation={
+            newsDetailData?.new?.data?.attributes?.author?.data?.attributes
+              ?.designation
+          }
+          content={newsDetailData?.new?.data?.attributes?.content}
+          title={newsDetailData?.new?.data?.attributes?.title}
+          date={newsDetailData?.new?.data?.attributes?.updatedAt}
+        />
+      ) : (
+        <ContentSkeleton />
+      )}
       <Banner1 data={banner1} />
     </section>
   );
@@ -96,6 +101,35 @@ function Content({
             dangerouslySetInnerHTML={{ __html: content }}
           />
         )}
+      </div>
+    </Wrapper>
+  );
+}
+export function ContentSkeleton() {
+  return (
+    <Wrapper>
+      <div className="mt-5 w-full p-5 md:min-w-[550px]">
+        {/* Author */}
+        <div className="mb-8 flex animate-pulse items-center gap-x-2">
+          <div className="h-16 w-16 rounded-full bg-orange-300"></div>
+          <div className="flex flex-col gap-2">
+            <div className="h-6 w-36 rounded-md bg-orange-300"></div>
+            <div className="flex items-center gap-2 text-zinc-500">
+              <div className="h-4 w-24 rounded-md bg-orange-300"></div>
+              <div className="h-4 w-24 rounded-md bg-orange-300"></div>
+            </div>
+          </div>
+        </div>
+        {/* Title */}
+        <div className="mb-5 h-8 w-3/4 animate-pulse rounded-md bg-orange-300"></div>
+        {/* Content */}
+        <div className="mb-5 h-4 animate-pulse rounded-md bg-orange-300"></div>
+        <div className="mb-5 h-4 animate-pulse rounded-md bg-orange-300"></div>
+        <div className="mb-5 h-4 animate-pulse rounded-md bg-orange-300"></div>
+        <div className="mb-5 h-4 w-1/2 animate-pulse rounded-md bg-orange-300"></div>
+        <div className="mb-5 h-4 animate-pulse rounded-md bg-orange-300"></div>
+        <div className="mb-5 h-4 animate-pulse rounded-md bg-orange-300"></div>
+        <div className="mb-5 h-4 w-1/2 animate-pulse rounded-md bg-orange-300"></div>
       </div>
     </Wrapper>
   );
