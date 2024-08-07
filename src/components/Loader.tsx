@@ -11,7 +11,7 @@ const loaderVariants = {
 export default function Loader() {
   return (
     <motion.div
-      className="flex-center z-[999999999] h-screen w-screen items-center justify-center bg-orange-300"
+      className="flex-center z-[999999999] h-screen w-screen items-center justify-center overscroll-none bg-orange-300"
       variants={loaderVariants}
       initial="visible"
       animate="hidden"
