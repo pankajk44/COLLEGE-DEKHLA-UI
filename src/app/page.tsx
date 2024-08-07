@@ -262,7 +262,7 @@ function HomeBanner({
   return (
     <Wrapper
       as="div"
-      containerClassName="pt-[11rem] pb-5 md:pt-[9rem] px-5"
+      containerClassName="pb-5 pt-[9rem] px-5"
       bgColor=""
       className="text-center text-black"
     >
@@ -467,13 +467,13 @@ const FeaturedCollegeSlider = ({ data }: any) => {
 function CollegesCardContent({ breadCrumb, bgImage, id }: any) {
   return (
     <Link href={id ? `/courses/${id}` : `#`}>
-      <div className="flex-center hover:mix-blend-color-saturation hover:!border-3 h-full w-[200px] flex-col gap-5 rounded-2xl border-white bg-white p-5 text-center shadow-xl transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
+      <div className="flex-center hover:!border-3 w-[200px] flex-col gap-5 rounded-2xl border-white bg-white p-5 text-center shadow-xl transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
         <Image
           src={bgImage}
           alt="image"
           width={70}
           height={70}
-          className="h-40 w-full rounded-lg object-contain"
+          className="h-40 w-full rounded-lg object-contain max-sm:h-24"
         />
         {/* <GiBookCover className="text-6xl" /> */}
         <p className="cursor-pointer text-center text-lg font-semibold">
