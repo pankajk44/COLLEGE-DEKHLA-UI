@@ -10,7 +10,7 @@ import { BsClipboardCheck } from "react-icons/bs";
 
 export default function DetailPageAsideSection({ data }: any) {
   return (
-    <aside className="mt-5 h-max min-w-[300px] space-y-5 [flex:2] max-md:hidden max-md:bg-opacity-80 md:sticky md:top-0">
+    <aside className="mt-5 h-max min-w-[300px] space-y-5 pb-10 [flex:2] hover:h-[85vh] hover:overflow-y-auto max-md:hidden max-md:bg-opacity-80 md:sticky md:top-28">
       {data?.map((item: any, index: number) => (
         <React.Fragment key={index}>
           {/* Banner  */}
@@ -39,19 +39,21 @@ function VideoGallery({ data }: any) {
   return (
     <div className="h-max w-full rounded-2xl bg-white p-5 pb-0">
       <h2 className="mb-5 text-xl">Videos</h2>
-      {data
-        ?.slice(0, 3)
-        ?.map((item: any, index: number) =>
-          item ? (
-            <YoutubeVideo
-              key={index}
-              videoId={item || ""}
-              width={"100%"}
-              height={"200px"}
-              className="mb-5 rounded-xl"
-            />
-          ) : null,
-        )}
+      <div className="flex flex-col gap-4">
+        {data
+          ?.slice(0, 3)
+          ?.map((item: any, index: number) =>
+            item ? (
+              <YoutubeVideo
+                key={index}
+                videoId={item || ""}
+                width={"100%"}
+                height={"200px"}
+                className="rounded-xl"
+              />
+            ) : null,
+          )}
+      </div>
     </div>
   );
 }
@@ -60,7 +62,7 @@ function PhotoGallery({ data }: any) {
   return (
     <div className="w-full rounded-2xl bg-white p-5 pb-0">
       <h2 className="mb-5 text-xl">Images</h2>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="flex flex-wrap gap-2">
         {data
           ?.slice(0, 3)
           ?.map((image: any, index: number) => (
@@ -70,7 +72,7 @@ function PhotoGallery({ data }: any) {
               width={800}
               height={800}
               alt={`image`}
-              className="col-span-1 mb-5 h-full max-h-48 w-full rounded-lg object-cover"
+              className="mb-5 h-full min-h-48 w-[48%] flex-[1] rounded-lg object-cover"
             />
           ))}
       </div>
@@ -85,7 +87,7 @@ function Banner({ data }: any) {
       <Button variant="white" className="mb-3 !w-full text-nowrap shadow-lg">
         Apply Now
       </Button>
-      <Link href={data?.brochureUrl || "#"} className="!w-full">
+      <Link href={data?.brochureUrl || "#"} target="_blank" className="!w-full">
         <Button variant="black" className="!w-full text-nowrap shadow-lg">
           <span>Download Brochure</span>
           <HiOutlineDownload />

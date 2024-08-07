@@ -14,6 +14,8 @@ import {
 import { convertQueryDataToTabSections } from "@/utils/customText";
 import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
 import { getAllNews } from "@/graphql/newsQuery/news";
+import PageDetailBannerSkeleton from "@/components/bannerSections/PageDetailBannerSkeleton";
+import PageTabsWithDetailSkeleton from "@/components/pageTabsWithDetail/PageTabsWithDetailSkeleton";
 
 type Props = {
   params: {
@@ -64,10 +66,10 @@ export default function CourseDetailPage({ params }: Props) {
   });
   // ========================================================= //
   useEffect(() => {
-    console.log(
-      "Course Details: ",
-      courseData?.course?.data?.attributes?.author?.data?.attributes,
-    );
+    // console.log(
+    //   "Course Details: ",
+    //   courseData?.course?.data?.attributes?.updatedAt,
+    // );
     if (courseData?.course?.data?.attributes?.PageData) {
       const convertedData: any = convertQueryDataToTabSections(
         courseData?.course?.data?.attributes?.PageData,
@@ -78,12 +80,12 @@ export default function CourseDetailPage({ params }: Props) {
   // =========================================================== //
   const asideSection = [
     {
-      banner: {
-        title: "Are You Interested in this course?",
-        brochureUrl:
-          courseData?.course?.data?.attributes?.brochureFile?.data?.attributes
-            ?.url,
-      },
+      // banner: {
+      //   title: "Are You Interested in this course?",
+      //   brochureUrl:
+      //     courseData?.course?.data?.attributes?.brochureFile?.data?.attributes
+      //       ?.url,
+      // },
       // videoGallery: [],
       // imageGallery: [],
       topCourses: topCourseData?.courses?.data?.map((item: any) => {
@@ -110,35 +112,43 @@ export default function CourseDetailPage({ params }: Props) {
     },
   ];
   // =========================================================== //
-  // console.log(latestNewsData?.news?.data, "courseData");
-  // console.log("tabSelectionArray", tabSelectionArray);
   return (
     <>
-      <CourseDetailBanner
-        breadCrumb={CourseDetailsBanner?.course?.data?.attributes?.breadCrumb}
-        courseName={CourseDetailsBanner?.course?.data?.attributes?.courseName}
-        titleAddition={
-          CourseDetailsBanner?.course?.data?.attributes?.titleAddition
-        }
-        duration={
-          CourseDetailsBanner?.course?.data?.attributes?.duration?.data
-            ?.attributes?.duration
-        }
-        avgFeesFrom={
-          CourseDetailsBanner?.course?.data?.attributes?.avgFees?.from
-        }
-        avgFeesTo={CourseDetailsBanner?.course?.data?.attributes?.avgFees?.to}
-      />
+      {!CourseDetailsBannerLoading ? (
+        <CourseDetailBanner
+          breadCrumb={CourseDetailsBanner?.course?.data?.attributes?.breadCrumb}
+          courseName={CourseDetailsBanner?.course?.data?.attributes?.courseName}
+          titleAddition={
+            CourseDetailsBanner?.course?.data?.attributes?.titleAddition
+          }
+          duration={
+            CourseDetailsBanner?.course?.data?.attributes?.duration?.data
+              ?.attributes?.duration
+          }
+          avgFeesFrom={
+            CourseDetailsBanner?.course?.data?.attributes?.avgFees?.from
+          }
+          avgFeesTo={CourseDetailsBanner?.course?.data?.attributes?.avgFees?.to}
+        />
+      ) : (
+        <PageDetailBannerSkeleton />
+      )}
 
-      <PageTabsWithDetail
-        data={tabSelectionArray}
-        asideData={asideSection}
-        author={courseData?.course?.data?.attributes?.author?.data?.attributes}
-        description={courseData?.course?.data?.attributes?.description}
-        updatedAt={courseData?.course?.data?.attributes?.updatedAt}
-        slug={courseId}
-        tabUrlValue={"courses"}
-      />
+      {!courseDataLoading ? (
+        <PageTabsWithDetail
+          data={tabSelectionArray}
+          asideData={asideSection}
+          author={
+            courseData?.course?.data?.attributes?.author?.data?.attributes
+          }
+          description={courseData?.course?.data?.attributes?.description}
+          updatedAt={courseData?.course?.data?.attributes?.updatedAt}
+          slug={courseId}
+          tabUrlValue={"courses"}
+        />
+      ) : (
+        <PageTabsWithDetailSkeleton />
+      )}
       <Banner1 data={banner1} />
     </>
   );

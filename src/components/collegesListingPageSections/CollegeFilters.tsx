@@ -310,7 +310,6 @@ export default function CollegeFilters({
         </button>
         <h1 className="mb-7 font-medium">Showing {totalResults} Colleges</h1>
         <div className="w-full pb-0 max-md:bg-opacity-95">
-          <h2 className="mb-5 font-bold">Search by filters</h2>
           {/* Selected filters display */}
           <div className="md:max-h-[6vh]md:overflow-hidden mb-3 flex flex-wrap items-center gap-1 max-md:text-black md:hover:overflow-y-auto">
             {Object.values(SelectedFilters).some(

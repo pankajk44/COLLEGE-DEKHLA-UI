@@ -121,6 +121,7 @@ export const getCollegeDetails = gql`
           }
           collegeName
           description
+          updatedAt
           location {
             state {
               data {

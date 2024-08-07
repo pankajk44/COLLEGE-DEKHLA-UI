@@ -1,11 +1,16 @@
 "use client";
 import Banner1 from "@/components/bannerSections/Banner1";
 import ExamDetailBanner from "@/components/bannerSections/ExamDetailBanner";
+import PageDetailBannerSkeleton from "@/components/bannerSections/PageDetailBannerSkeleton";
 import PageTabsWithDetail from "@/components/pageTabsWithDetail/PageTabsWithDetail";
+import PageTabsWithDetailSkeleton from "@/components/pageTabsWithDetail/PageTabsWithDetailSkeleton";
 import { exams } from "@/data/examData";
 import { asideSection, banner1, tabsSections } from "@/data/globalData";
 import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
-import { getExamDetails } from "@/graphql/examQuery/examDetails";
+import {
+  getExamDetails,
+  getExamDetailsBanner,
+} from "@/graphql/examQuery/examDetails";
 import { getAllNews } from "@/graphql/newsQuery/news";
 import { convertQueryDataToTabSections } from "@/utils/customText";
 import { useQuery } from "@apollo/client";
@@ -21,6 +26,13 @@ export default function ExamDetailsPage({ params }: Props) {
   const [tabSelectionArray, setTabSelectionArray] = React.useState<any>([]);
   const examId = params?.exam;
   // Query
+  const {
+    loading: examDetailsBannerLoading,
+    error: examDetailsBannerError,
+    data: examDetailsBanner,
+  } = useQuery(getExamDetailsBanner, {
+    variables: { ID: examId },
+  });
   const {
     loading,
     error,
@@ -52,7 +64,10 @@ export default function ExamDetailsPage({ params }: Props) {
   });
 
   useEffect(() => {
-    // console.log("Exam Details: ", examData);
+    // console.log(
+    //   "Exam Details: ",
+    //   examData?.exam?.data?.attributes?.brochureFile?.data,
+    // );
 
     if (examData?.exam?.data?.attributes?.PageData) {
       const convertedData: any = convertQueryDataToTabSections(
@@ -99,25 +114,39 @@ export default function ExamDetailsPage({ params }: Props) {
 
   return (
     <>
-      <ExamDetailBanner
-        breadCrumb={examData?.exam?.data?.attributes?.breadCrumb}
-        examName={examData?.exam?.data?.attributes?.examName}
-        titleAddition={examData?.exam?.data?.attributes?.titleAddition}
-        examLogo={examData?.exam?.data?.attributes?.logo?.data?.attributes?.url}
-        brochureUrl={
-          examData?.exam?.data?.attributes?.brochureFile?.data?.attributes?.url
-        }
-        lastUpdate={examData?.exam?.data?.attributes?.updatedAt}
-      />
-      <PageTabsWithDetail
-        data={tabSelectionArray}
-        asideData={asideSection}
-        slug={examId}
-        author={examData?.exam?.data?.attributes?.author?.data?.attributes}
-        description={examData?.exam?.data?.attributes?.description}
-        updatedAt={examData?.exam?.data?.attributes?.updatedAt}
-        tabUrlValue={"exams"}
-      />
+      {!examDetailsBannerLoading ? (
+        <ExamDetailBanner
+          breadCrumb={examDetailsBanner?.exam?.data?.attributes?.breadCrumb}
+          examName={examDetailsBanner?.exam?.data?.attributes?.examName}
+          titleAddition={
+            examDetailsBanner?.exam?.data?.attributes?.titleAddition
+          }
+          examLogo={
+            examDetailsBanner?.exam?.data?.attributes?.logo?.data?.attributes
+              ?.url
+          }
+          brochureUrl={
+            examDetailsBanner?.exam?.data?.attributes?.brochureFile?.data
+              ?.attributes?.url
+          }
+          lastUpdate={examDetailsBanner?.exam?.data?.attributes?.updatedAt}
+        />
+      ) : (
+        <PageDetailBannerSkeleton />
+      )}
+      {!loading ? (
+        <PageTabsWithDetail
+          data={tabSelectionArray}
+          asideData={asideSection}
+          slug={examId}
+          author={examData?.exam?.data?.attributes?.author?.data?.attributes}
+          description={examData?.exam?.data?.attributes?.description}
+          updatedAt={examData?.exam?.data?.attributes?.updatedAt}
+          tabUrlValue={"exams"}
+        />
+      ) : (
+        <PageTabsWithDetailSkeleton />
+      )}
       <Banner1 data={banner1} />
     </>
   );

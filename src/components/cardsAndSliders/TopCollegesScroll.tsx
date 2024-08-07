@@ -2,7 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import { TiChevronLeft, TiChevronRight } from "react-icons/ti";
 import { CollegesCardContent } from "./CollegesSlider";
 import { useQuery } from "@apollo/client";
-import { getAllColleges } from "@/graphql/collegeQuery/colleges";
+import { getAllTopColleges } from "@/graphql/collegeQuery/topColleges";
+import { convertToYearlyFee } from "@/utils/customText";
 
 export default function TopCollegesScroll({ data }: any) {
   const [filteredData, setFilteredData] = useState<any>([]);
@@ -11,7 +12,16 @@ export default function TopCollegesScroll({ data }: any) {
   const [showRightButton, setShowRightButton] = useState(true);
 
   // Query
-  const { data: topCollegeData, loading, error } = useQuery(getAllColleges(""));
+  const {
+    data: topCollegeData,
+    loading,
+    error,
+  } = useQuery(getAllTopColleges, {
+    variables: {
+      page: 1,
+      pageSize: 10,
+    },
+  });
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -77,10 +87,17 @@ export default function TopCollegesScroll({ data }: any) {
                 key={college?.id}
                 id={college?.id}
                 slug={college?.attributes?.slug}
-                bgImage={college?.attributes?.bgImage?.data?.attributes?.url}
-                collegeLogo={college?.collegeLogo}
-                breadCrumb={college?.breadCrumb}
-                city={ college?.attributes?.location?.city?.data?.attributes?.city }
+                bgImage={
+                  college?.attributes?.imageGallery?.[0]?.images?.data?.[0]
+                    ?.attributes?.url
+                }
+                collegeLogo={
+                  college?.attributes?.collegeLogo?.data?.attributes?.url
+                }
+                breadCrumb={college?.attributes?.breadCrumb}
+                city={
+                  college?.attributes?.location?.city?.data?.attributes?.city
+                }
                 state={
                   college?.attributes?.location?.state?.data?.attributes?.state
                 }
@@ -88,7 +105,20 @@ export default function TopCollegesScroll({ data }: any) {
                   college?.attributes?.reviewsAndRatings?.overallRating
                 }
                 totalReviews={345}
-                avgFeePerYear={180000}
+                avgFeePerYear={
+                  college?.attributes?.allCourses
+                    .map((course: any) =>
+                      convertToYearlyFee(
+                        course?.courseFee,
+                        course?.courseFeeLabel,
+                      ),
+                    )
+                    .reduce(
+                      (total: any, fee: any, _: any, { length }: any) =>
+                        total + fee / length,
+                      0,
+                    ) || 0
+                }
                 affiliation={college?.attributes?.affiliation?.data?.map(
                   (value: any) => value?.attributes?.organization,
                 )}
@@ -97,14 +127,7 @@ export default function TopCollegesScroll({ data }: any) {
               />
             </div>
           );
-          return (
-            <>
-              {slide}
-              {slide}
-              {slide}
-              {slide}
-            </>
-          );
+          return <>{slide}</>;
         })}
       </div>
       {/* {showLeftButton && (

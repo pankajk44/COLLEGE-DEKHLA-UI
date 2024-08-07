@@ -48,7 +48,9 @@ export default function CourseDetailBanner({
         <div className="flex flex-wrap gap-5">
           <p className="flex items-center gap-2">
             <FaClockRotateLeft className="text-xl text-orange-500" />
-            <span>Total Duration - {`${duration / 12}`} Years</span>
+            <span>
+              Total Duration - {`${(duration / 12).toFixed(2)}`} Years
+            </span>
           </p>
           <p className="flex items-center gap-2">
             <MdOutlineMoney className="text-xl text-orange-500" />

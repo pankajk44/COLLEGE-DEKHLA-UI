@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import SortButton from "@/components/SortButton";
 import { MdOutlineSort } from "react-icons/md";
@@ -12,6 +12,7 @@ import { useQuery } from "@apollo/client";
 import { getAllColleges } from "@/graphql/collegeQuery/colleges";
 import { convertToYearlyFee } from "@/utils/customText";
 import { FilteredCardSkeleton } from "../cardsAndSliders/FilteredCardSkeleton";
+
 export default function CollegeListSection({
   data,
   filterBy,
@@ -33,8 +34,6 @@ export default function CollegeListSection({
     examAccepted: [] as string[],
   });
 
-  // ============================================================== //
-  // used for Query
   const [StreamCheckedFilters, setStreamCheckedFilters] = useState<string[]>(
     [],
   );
@@ -56,45 +55,44 @@ export default function CollegeListSection({
   const [RankingCheckedFilters, setRankingCheckedFilters] =
     useState<string>("");
   const [ExamCheckedFilters, setExamCheckedFilters] = useState<string[]>([]);
-  // ============================================================== //
   const [searchValue, setSearchValue] = useState("");
   const [pageNo, setPageNo] = useState(1);
   const [sortingParameterName, setSortingParameterName] =
     useState("collegeSequence");
 
-  // Query
   const {
     data: collegeData,
     loading,
     error,
   } = useQuery(getAllColleges(""), {
     variables: {
-      streams: StreamCheckedFilters?.length ? StreamCheckedFilters : undefined,
-      states: StateCheckedFilters?.length ? StateCheckedFilters : undefined,
-      cities: CityCheckedFilters?.length ? CityCheckedFilters : undefined,
-      collegeTypes: CollegeTypeCheckedFilters?.length
+      streams: StreamCheckedFilters.length ? StreamCheckedFilters : undefined,
+      states: StateCheckedFilters.length ? StateCheckedFilters : undefined,
+      cities: CityCheckedFilters.length ? CityCheckedFilters : undefined,
+      collegeTypes: CollegeTypeCheckedFilters.length
         ? CollegeTypeCheckedFilters
         : undefined,
-      affiliations: AffiliationCheckedFilters?.length
+      affiliations: AffiliationCheckedFilters.length
         ? AffiliationCheckedFilters
         : undefined,
       gender: GenderCheckedFilters ? GenderCheckedFilters : undefined,
-      examAccepted: ExamCheckedFilters?.length ? ExamCheckedFilters : undefined,
-      courses: CourseCheckedFilters?.length ? CourseCheckedFilters : undefined,
+      examAccepted: ExamCheckedFilters.length ? ExamCheckedFilters : undefined,
+      courses: CourseCheckedFilters.length ? CourseCheckedFilters : undefined,
       searchByCollegeName: searchValue,
       collegeSortingParameter: sortingParameterName,
       page: pageNo,
       pageSize: 10,
     },
   });
+
   useEffect(() => {
     if (collegeData) {
       if (pageNo === 1) {
-        setFilteredData(collegeData?.colleges?.data);
+        setFilteredData(collegeData.colleges.data);
       } else {
         setFilteredData((prevData: any) => [
           ...prevData,
-          ...collegeData?.colleges?.data,
+          ...collegeData.colleges.data,
         ]);
       }
     }
@@ -103,7 +101,6 @@ export default function CollegeListSection({
     searchValue,
     sortingParameterName,
     pageNo,
-
     StreamCheckedFilters,
     StateCheckedFilters,
     CityCheckedFilters,
@@ -116,9 +113,8 @@ export default function CollegeListSection({
     ExamCheckedFilters,
   ]);
 
-  // console.log(filteredData, "filteredData");
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
-    const searchTerm = event?.target?.value?.toLowerCase()?.trim();
+    const searchTerm = event.target.value.toLowerCase().trim();
     if (searchTerm.length >= 3) {
       setSearchValue(searchTerm);
     } else {
@@ -137,14 +133,14 @@ export default function CollegeListSection({
   const handleLoadMore = () => {
     setPageNo((prev) => prev + 1);
   };
-  // console.log(filteredData?.[0]?.attributes?.courses, "filteredData");
+
   return (
     <section id="collegeList" className="my-5 w-full pb-5">
       <Wrapper
         as="div"
         className="flex flex-col justify-between gap-5 md:flex-row"
       >
-        {/* Aside College Filter Section  */}
+        {/* Aside College Filter Section */}
         <CollegeFilters
           filterBy={filterBy}
           SelectedFilters={SelectedFilters}
@@ -174,9 +170,9 @@ export default function CollegeListSection({
           ExamCheckedFilters={ExamCheckedFilters}
           setExamCheckedFilters={setExamCheckedFilters}
         />
-        {/* main College Search and List Section  */}
+        {/* Main College Search and List Section */}
         <main className="flex w-full flex-col py-5 pt-0 md:min-w-[550px] md:[flex:8]">
-          {/* Search and Sort Section  */}
+          {/* Search and Sort Section */}
           <div className="relative mb-4 flex items-stretch gap-4 max-sm:flex-col">
             <div className="text-primary-text focus-within:border-secondary-text flex h-12 flex-1 items-center rounded-xl border border-zinc-200 bg-white px-2 shadow-md">
               <RiSearchLine className="text-orange-500" />
@@ -188,9 +184,9 @@ export default function CollegeListSection({
               />
             </div>
             <div className="bottom-0 left-0 right-0 flex justify-end gap-4 border-orange-300 max-md:fixed max-md:z-40 max-md:w-full max-md:justify-between max-md:border-t max-md:bg-white max-md:p-2">
-              {/* Sort button  */}
+              {/* Sort button */}
               <SortButton handleFilterOptionClick={handleFilterOptionClick} />
-              {/* Filter Button  */}
+              {/* Filter Button */}
               <div
                 className="hidden max-md:block max-md:w-full max-md:flex-[1]"
                 onClick={() => setMobileFilter((prev) => !prev)}
@@ -207,13 +203,13 @@ export default function CollegeListSection({
           </div>
           {/* College List Section */}
           {!loading
-            ? filteredData?.map((college: any, index: number) => (
+            ? filteredData.map((college: any, index: number) => (
                 <React.Fragment key={college?.id}>
                   <CollegeFilteredCard
                     id={college?.id}
                     slug={college?.attributes?.slug}
-                    bgImage={
-                      college?.attributes?.bgImage?.data?.attributes?.url
+                    collegeLogo={
+                      college?.attributes?.collegeLogo?.data?.attributes?.url
                     }
                     city={
                       college?.attributes?.location?.city?.data?.attributes
@@ -235,7 +231,7 @@ export default function CollegeListSection({
                             course?.courseFeeLabel,
                           ),
                         )
-                        ?.reduce(
+                        .reduce(
                           (total: any, fee: any, _: any, { length }: any) =>
                             total + fee / length,
                           0,
@@ -269,7 +265,7 @@ export default function CollegeListSection({
                       (value: any) => value?.attributes?.navItem,
                     )}
                   />
-                  {(index + 1) % 4 === 0 &&
+                  {(index + 1) % 3 === 0 &&
                     index !== filteredData?.length - 1 && (
                       <TopCollegesScroll
                         data={topColleges}
@@ -278,17 +274,15 @@ export default function CollegeListSection({
                     )}
                 </React.Fragment>
               ))
-            : [1, 2, 3, 4, 5]?.map(() => (
-                <FilteredCardSkeleton key={Math.random()} />
-              ))}
+            : [1, 2, 3, 4, 5].map((_, i) => <FilteredCardSkeleton key={i} />)}
 
           {/* Top Colleges Section */}
-          {filteredData?.length % 4 !== 0 && (
+          {filteredData.length % 4 !== 0 && (
             <TopCollegesScroll data={topColleges} />
           )}
 
-          {collegeData?.courses?.meta?.pagination?.total >
-            filteredData?.length && (
+          {collegeData?.colleges?.meta?.pagination?.total >
+            filteredData.length && (
             <LoadingButton onClick={handleLoadMore} className="mx-auto">
               Load More
             </LoadingButton>

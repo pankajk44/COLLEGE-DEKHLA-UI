@@ -52,18 +52,18 @@ export default function Navbar({ navItems, onSelect, selectedIndex }: any) {
       >
         {navItems.map((item: any, index: number) => (
           <>
-          <li key={index}>
-            <button
-              className={`text-nowrap py-5 capitalize ${
-                selectedIndex === index
-                  ? "border-b-4 border-black text-orange-500 text-lg duration-100"
-                  : ""
-              }`}
-              onClick={() => onSelect(index)}
-            >
-              {item.navItem}
-            </button>
-          </li>
+            <li key={index}>
+              <button
+                className={`text-nowrap py-5 capitalize ${
+                  selectedIndex === index
+                    ? "border-b-4 border-black text-lg text-orange-500 duration-100"
+                    : ""
+                }`}
+                onClick={() => onSelect(index)}
+              >
+                {item.navItem}
+              </button>
+            </li>
           </>
         ))}
       </ul>

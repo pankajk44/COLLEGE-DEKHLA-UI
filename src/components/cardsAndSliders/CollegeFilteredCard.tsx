@@ -14,7 +14,7 @@ import formatFees from "@/utils/customText";
 export default function CollegeFilteredCard({
   id,
   slug,
-  bgImage,
+  collegeLogo,
   city,
   state,
   overallRating,
@@ -34,11 +34,11 @@ export default function CollegeFilteredCard({
       {/* Div 1 */}
       <div className="flex gap-y-2 p-5 max-lg:flex-wrap">
         <Image
-          src={bgImage}
+          src={collegeLogo}
           alt="collage"
           width={500}
           height={500}
-          className="h-[175px] w-[220px] rounded-md max-lg:w-full"
+          className="h-[175px] w-[220px] rounded-md object-contain max-lg:w-full"
         />
         <div className="md:px-5">
           {/* Line 1  */}
@@ -130,7 +130,7 @@ export default function CollegeFilteredCard({
       <div className="flex flex-wrap justify-between gap-y-2 border-t border-zinc-600 p-5">
         {/* Navbar Items  */}
         <ul className="flex flex-wrap items-center gap-x-4 rounded-md bg-orange-100 px-4 py-1 text-sm text-orange-600">
-          {tabsSections?.slice(0, 5)?.map((item: any, index: number) => (
+          {tabsSections?.slice(0, 4)?.map((item: any, index: number) => (
             <React.Fragment key={index}>
               <Link
                 href={
@@ -147,7 +147,7 @@ export default function CollegeFilteredCard({
               {index !== tabsSections?.length - 1 && <li>|</li>}
             </React.Fragment>
           ))}
-          {tabsSections?.length > 5 && (
+          {tabsSections?.length > 4 && (
             <Link href={id ? `/colleges/${id}` : `#`}>
               <li className="cursor-pointer capitalize hover:underline">
                 more

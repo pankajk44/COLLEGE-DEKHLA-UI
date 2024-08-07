@@ -35,21 +35,21 @@ export default function CollegeDetailBanner({
         alt="banner"
         width={1200}
         height={500}
-        className="h-60 w-full object-cover"
+        className="absolute inset-0 -z-10 h-full w-full object-cover"
       />
-      <div className="absolute left-0 top-0 flex h-full w-full items-center justify-between bg-black bg-opacity-50 p-8 px-8">
+      <div className="z-10 flex h-full w-full flex-wrap items-center justify-between bg-black bg-opacity-50 p-5 max-md:flex-col max-md:space-y-5 md:p-8">
         {/* Left Side  */}
-        <div className="flex flex-[8] justify-center gap-5">
-          <div className="w-min rounded-2xl bg-white p-2">
+        <div className="flex flex-[8] gap-5 max-md:flex-col">
+          <div className="w-min rounded-2xl bg-white p-2 max-md:mx-auto">
             <Image
               src={collegeLogo}
               alt="banner"
               width={500}
               height={500}
-              className="min-h-40 min-w-40 object-contain"
+              className="min-h-40 min-w-40 rounded-lg object-contain"
             />
           </div>
-          <div className="flex flex-col justify-center gap-3">
+          <div className="flex flex-col justify-between gap-3">
             <h2 className="text-3xl font-bold md:text-4xl">
               {collegeName}
               <span className="text-sm">
@@ -61,7 +61,7 @@ export default function CollegeDetailBanner({
               Admission {`${new Date().getFullYear()}`}, Cutoff, Courses, Fees,
               Placement, Ranking
             </p>
-            <ul className="flex gap-x-5 gap-y-2">
+            <ul className="flex flex-wrap gap-x-5 gap-y-2">
               <li className="flex items-center gap-2">
                 <LuBadgeCheck className="text-2xl text-orange-500" />
                 <span>
@@ -86,14 +86,14 @@ export default function CollegeDetailBanner({
           </div>
         </div>
         {/* Right Side  */}
-        <div className="flex-center flex-[2] flex-col gap-4 max-md:hidden">
+        <div className="md:flex-center flex flex-[2] flex-wrap justify-center gap-2 md:flex-col md:gap-4">
           <h2 className="text-4xl font-bold">{overallRating}</h2>
           <StarRating
-            className="gap-2 text-3xl font-bold text-white"
+            className="gap-x-2 text-3xl font-bold text-white"
             rating={overallRating}
           />
           <p className="text-xl">({totalReviews} reviews)</p>
-          <Link href={brochureUrl || "#"}>
+          <Link href={brochureUrl || "#"} target="_blank">
             <Button variant="white" className="text-nowrap">
               <span>Download Brochure</span>
               <HiOutlineDownload />

@@ -45,13 +45,17 @@ export function PageTabsWithDetailWrapperContent({
   };
 
   return (
-    <Wrapper containerClassName="my-5 " className="flex w-full flex-col pt-0">
+    <Wrapper containerClassName="my-5" className="flex w-full flex-col pt-0">
       <Navbar
         navItems={data}
         onSelect={handleSelect}
         selectedIndex={selectedIndex}
       />
-      <AboutAuthor author={author} description={description} />
+      <AboutAuthor
+        author={author}
+        description={description}
+        updatedAt={updatedAt}
+      />
       <main className="flex gap-5 md:flex-row">
         <Content
           selectedContent={data?.[selectedIndex]}
@@ -66,9 +70,13 @@ export function PageTabsWithDetailWrapperContent({
 
 function AboutAuthor({ author, description, updatedAt }: any) {
   return (
-    <Wrapper as="section" className="w-full rounded-lg bg-white">
+    <Wrapper
+      as="section"
+      containerClassName="mt-5 !px-0"
+      className="w-full rounded-lg bg-white p-5"
+    >
       {/* Author */}
-      {author && author?.author?.data?.attributes?.name && (
+      {author && author?.name && (
         <div className="mb-8 flex items-center gap-x-2">
           {author?.avatar?.data?.attributes?.url && (
             <Image
@@ -116,12 +124,18 @@ export default function PageTabsWithDetail({
   slug,
   tabUrlValue,
   breadCrumb,
+  author,
+  description,
+  updatedAt,
 }: any) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <PageTabsWithDetailWrapperContent
         data={data}
         asideData={asideData}
+        author={author}
+        description={description}
+        updatedAt={updatedAt}
         slug={slug}
         tabUrlValue={tabUrlValue}
         breadCrumb={breadCrumb}

@@ -61,7 +61,7 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
   });
 
   useEffect(() => {
-    console.log(examData?.exams?.data, "examData");
+    // console.log(examData?.exams?.data, "examData");
     if (examData) {
       if (pageNo === 1) {
         setFilteredData(examData?.exams?.data);
@@ -197,7 +197,7 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
                   }
                   description={exam?.attributes?.description}
                   brochureFile={
-                    exam?.attributes?.brochureFile?.data?.[0]?.attributes?.url
+                    exam?.attributes?.brochureFile?.data?.attributes?.url
                   }
                   tabsSections={exam?.attributes?.navbars?.data?.map(
                     (value: any) => value?.attributes?.navItem,

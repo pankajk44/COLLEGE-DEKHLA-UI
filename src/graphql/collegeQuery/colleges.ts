@@ -79,14 +79,17 @@ export function getAllColleges(range: any): DocumentNode {
       attributes {
         slug
         breadCrumb
-        collegeLogo {
-            data {
-              id
-                attributes {
-                  url
-                }
+        collegeLogo  {
+          data {
+          id
+            attributes {
+              width
+              height
+              url
             }
+          }
         }
+          
         collegeName
         description
         location {

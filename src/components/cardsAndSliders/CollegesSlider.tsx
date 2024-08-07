@@ -10,22 +10,28 @@ import Image from "next/image";
 import { Button } from "../Button";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa";
-import { addCommas } from "@/utils/customText";
+import { addCommas, convertToYearlyFee } from "@/utils/customText";
 import { useQuery } from "@apollo/client";
 import { getAllColleges } from "@/graphql/collegeQuery/colleges";
-import { getHomePage } from "@/graphql/homePage/homePage";
+import { getAllTopColleges } from "@/graphql/collegeQuery/topColleges";
 
 export default function CollegesSlider() {
-  const [filteredData, setFilteredData] = useState<any>([]);
   const uniqueId = "college123";
   // Query
-  const { data: topCollegeData, loading, error } = useQuery(getHomePage);
-  useEffect(() => {
-    if (topCollegeData) {
-      setFilteredData(topCollegeData?.topColleges?.data);
-    }
-    // console.log(topCollegeData?.topColleges?.data, "colleges");
-  }, [topCollegeData]);
+  const {
+    data: topCollegeData,
+    loading,
+    error,
+  } = useQuery(getAllTopColleges, {
+    variables: {
+      page: 1,
+      pageSize: 10,
+    },
+  });
+
+  // useEffect(() => {
+  //   console.log(topCollegeData);
+  // }, [topCollegeData]);
 
   const swiperOptions = {
     slidesPerView: 1,
@@ -62,60 +68,73 @@ export default function CollegesSlider() {
 
   return (
     <>
-      {filteredData && (
+      {topCollegeData?.colleges?.data && (
         <Swiper
           {...swiperOptions}
           className={`mySwiper w-full max-w-fit px-5 ${uniqueId}`}
         >
-          {filteredData?.map((college: any, index: number) => {
-            const slide = (
-              <SwiperSlide
-                key={index}
-                className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
-              >
-                {" "}
-                <CollegesCardContent
-                  key={college?.id}
-                  id={college?.id}
-                  slug={college?.attributes?.slug}
-                  bgImage={college?.attributes?.bgImage?.data?.attributes?.url}
-                  collegeLogo={college?.collegeLogo?.data?.attributes?.url}
-                  breadCrumb={college?.attributes?.breadCrumb}
-                  city={
-                    college?.attributes?.location?.city?.data?.attributes?.city
-                  }
-                  state={
-                    college?.attributes?.location?.state?.data?.attributes
-                      ?.state
-                  }
-                  overallRating={4}
-                  totalReviews={345}
-                  avgFeePerYear={180000}
-                  affiliation={college?.attributes?.affiliation?.data?.map(
-                    (value: any) => value?.attributes?.organization,
-                  )}
-                  hightestPackage={college?.attributes?.hightestPackage}
-                  brochureUrl={college?.attributes?.brochureFile}
-                />{" "}
-              </SwiperSlide>
-            );
-            return (
-              <>
-                {slide}
-                {slide}
-                {slide}
-                {slide}
-                {slide}
-              </>
-            );
-          })}
+          {topCollegeData?.colleges?.data?.map(
+            (college: any, index: number) => {
+              const slide = (
+                <SwiperSlide
+                  key={index}
+                  className="mb-12 w-full overflow-hidden rounded-2xl border border-zinc-300 bg-white shadow-lg"
+                >
+                  {" "}
+                  <CollegesCardContent
+                    key={college?.id}
+                    id={college?.id}
+                    slug={college?.attributes?.slug}
+                    bgImage={
+                      college?.attributes?.imageGallery?.[0]?.images?.data?.[0]
+                        ?.attributes?.url
+                    }
+                    collegeLogo={
+                      college?.attributes?.collegeLogo?.data?.attributes?.url
+                    }
+                    breadCrumb={college?.attributes?.breadCrumb}
+                    city={
+                      college?.attributes?.location?.city?.data?.attributes
+                        ?.city
+                    }
+                    state={
+                      college?.attributes?.location?.state?.data?.attributes
+                        ?.state
+                    }
+                    overallRating={4}
+                    totalReviews={345}
+                    avgFeePerYear={
+                      college?.attributes?.allCourses
+                        .map((course: any) =>
+                          convertToYearlyFee(
+                            course?.courseFee,
+                            course?.courseFeeLabel,
+                          ),
+                        )
+                        .reduce(
+                          (total: any, fee: any, _: any, { length }: any) =>
+                            total + fee / length,
+                          0,
+                        ) || 0
+                    }
+                    affiliation={college?.attributes?.affiliation?.data?.map(
+                      (value: any) => value?.attributes?.organization,
+                    )}
+                    hightestPackage={college?.attributes?.hightestPackage}
+                    brochureUrl={college?.attributes?.brochureFile}
+                  />{" "}
+                </SwiperSlide>
+              );
+              return <>{slide}</>;
+            },
+          )}
         </Swiper>
       )}
       {/* Add navigation buttons */}
-      {filteredData && (
+      {topCollegeData?.colleges?.data && (
         <div className={`${uniqueId}-next swiper-button-next !top-[34%]`}></div>
       )}
-      {filteredData && (
+      {topCollegeData?.colleges?.data && (
         <div className={`${uniqueId}-prev swiper-button-prev !top-[34%]`}></div>
       )}
     </>
@@ -147,14 +166,14 @@ export const CollegesCardContent = function CollegesCard({
           height={800}
           className="h-[200px] w-full rounded-t-2xl object-cover"
         />
-        <div className="absolute left-2 top-2 rounded-full bg-white p-1">
+        <div className="absolute left-2 top-2 rounded-lg bg-white p-1">
           {collegeLogo && (
             <Image
               src={collegeLogo}
               alt={breadCrumb}
               width={800}
               height={800}
-              className="h-10 w-10 object-contain"
+              className="h-12 w-12 rounded-lg object-contain"
             />
           )}
         </div>
@@ -164,7 +183,7 @@ export const CollegesCardContent = function CollegesCard({
           {/* College Name & Location  */}
           <div className="flex items-center justify-between">
             <Link href={id ? `/colleges/${id}` : `#`}>
-              <h4 className="text-2xl font-bold hover:text-orange-500">
+              <h4 className="cursor-pointer text-2xl font-bold hover:text-orange-500">
                 {breadCrumb}
               </h4>
             </Link>
@@ -198,12 +217,12 @@ export const CollegesCardContent = function CollegesCard({
         </div>
         {/* Buttons  */}
         <div className="mt-5 flex justify-between gap-2 border-t border-orange-500 pt-5 max-md:flex-col">
-          <Link href={`/colleges/${slug} || #`} className="w-full">
+          <Link href={id ? `/colleges/${id}` : `#`} className="w-full">
             <Button variant="black" className="!w-full text-nowrap !px-2">
               See More
             </Button>
           </Link>
-          <Link href={brochureUrl || "#"} className="w-full">
+          <Link href={brochureUrl || "#"} target="_blank" className="w-full">
             <Button variant="orange" className="!w-full text-nowrap !px-2">
               Download Brochure
             </Button>

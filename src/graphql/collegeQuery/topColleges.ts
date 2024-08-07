@@ -19,6 +19,24 @@ query getAllTopColleges($page: Int, $pageSize: Int) {
         breadCrumb
         imageGallery {
           images {
+query getAllTopColleges($page: Int, $pageSize: Int) {
+  colleges(
+    filters: { isTopCollege: { eq: true } }
+    pagination: { page: $page, pageSize: $pageSize }
+    sort: "topCollegeSequence:asc"
+  ) {
+    meta {
+      pagination {
+        total
+      }
+    }
+    data {
+      id
+      attributes {
+        slug
+        breadCrumb
+        imageGallery {
+          images {
             data {
               attributes {
                 url
