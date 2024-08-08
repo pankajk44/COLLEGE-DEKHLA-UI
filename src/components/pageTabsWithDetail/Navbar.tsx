@@ -46,7 +46,7 @@ export default function Navbar({ navItems, onSelect, selectedIndex }: any) {
   return (
     <nav className="relative w-full border-b border-zinc-400 text-black">
       <ul
-        className="flex gap-x-8 overflow-x-hidden pt-1"
+        className="no-scrollbar flex gap-x-8 overflow-x-auto pt-1"
         ref={scrollContainerRef}
         onScroll={handleScroll}
       >

@@ -354,7 +354,7 @@ function PopularCoursesCard(data: any) {
       {data?.data
         ?.slice(0, 4)
         ?.map((item: any, index: number) => (
-          <CollegesCardContent
+          <CourseCardContent
             key={index}
             breadCrumb={item?.breadCrumb}
             bgImage={item?.bgImage}
@@ -464,18 +464,17 @@ const FeaturedCollegeSlider = ({ data }: any) => {
   );
 };
 
-function CollegesCardContent({ breadCrumb, bgImage, id }: any) {
+function CourseCardContent({ breadCrumb, bgImage, id }: any) {
   return (
     <Link href={id ? `/courses/${id}` : `#`}>
-      <div className="flex-center hover:!border-3 w-[200px] flex-col gap-5 rounded-2xl border-white bg-white p-5 text-center shadow-xl transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
+      <div className="flex-center hover:!border-3 w-[200px] flex-col gap-3 rounded-2xl border-white bg-white p-3 text-center shadow-xl transition-all duration-300 hover:bg-orange-500 hover:!text-white max-sm:w-[140px]">
         <Image
           src={bgImage}
           alt="image"
           width={70}
           height={70}
-          className="h-40 w-full rounded-lg object-contain max-sm:h-24"
+          className="h-40 w-full rounded-lg object-cover max-sm:h-24"
         />
-        {/* <GiBookCover className="text-6xl" /> */}
         <p className="cursor-pointer text-center text-lg font-semibold">
           {breadCrumb}
         </p>
@@ -610,7 +609,7 @@ const NewsCardSlider = ({ data }: any) => {
     breakpoints: {
       640: { slidesPerView: 1 },
       768: { slidesPerView: 2 },
-      1024: { slidesPerView: 2 },
+      1024: { slidesPerView: 3 },
     },
   };
 
@@ -650,7 +649,7 @@ function NewsCard({ image, text, timeStamp }: any) {
         className="h-52 w-full rounded-xl object-cover"
       />
       <div className="px-4">
-        <p className="my-2">{text}</p>
+        <p className="my-2 line-clamp-3">{text}</p>
         <p className="text-md text-zinc-700">{formatDate(timeStamp)}</p>
       </div>
     </div>
@@ -820,6 +819,56 @@ const CollegesScrollSlideShow: React.FC<CollegesScrollSlideShowProps> = ({
           }}
         >
           {[
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
+            ...image,
             ...image,
             ...image,
             ...image,
