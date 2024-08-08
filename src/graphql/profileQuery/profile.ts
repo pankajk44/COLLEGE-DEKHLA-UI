@@ -51,7 +51,7 @@ export const getUserData = gql`
             data {
               id
               attributes {
-                courseName
+                breadCrumb
               }
             }
           }

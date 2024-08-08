@@ -1,28 +1,29 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import OtpInput from "react-otp-input";
 import { Input } from "@/components/FormInput";
-import { FaEdit, FaTransgenderAlt } from "react-icons/fa";
-import { MdOutlineAttachEmail } from "react-icons/md";
-import { CiMobile4 } from "react-icons/ci";
-import { FiBook } from "react-icons/fi";
-import { LiaCitySolid } from "react-icons/lia";
+import { FaEdit } from "react-icons/fa";
 import { Button } from "@/components/Button";
 import { useQuery } from "@apollo/client";
 import {
   allCityRelatedToStateSelected,
+  allCourses,
   allStates,
 } from "@/graphql/authQuery/signup";
-import { getUserData } from "@/graphql/profileQuery/profile";
+import useUserData from "@/customHook/useProfile";
+import { MdOutlineAttachEmail } from "react-icons/md";
+import { CiMobile4 } from "react-icons/ci";
 
 export function YourDetails({ setNextButtonState }: any) {
+  const [error, setError] = useState("");
+  const [selectedStateId, setSelectedStateId] = useState<string | undefined>();
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
-  }: any = useForm({
+    reset,
+  } = useForm({
     defaultValues: {
       name: "",
       email: "",
@@ -33,43 +34,74 @@ export function YourDetails({ setNextButtonState }: any) {
       gender: "",
     },
   });
-  const [error, setError] = useState("");
-  const [selectedStateId, setSelectedStateId] = useState<any>();
+
+  const {
+    data: userProfileData,
+    loading: userProfileLoading,
+    error: userProfileError,
+  } = useUserData();
+
+  const {
+    loading: allCoursesLoading,
+    error: allCoursesError,
+    data: allCoursesData,
+  } = useQuery(allCourses);
 
   const {
     loading: allStatesLoading,
     error: allStatesError,
     data: allStatesData,
   } = useQuery(allStates);
+
   const {
     loading: cityRelatedLoading,
     error: cityRelatedError,
     data: cityRelatedData,
   } = useQuery(allCityRelatedToStateSelected, {
     variables: { stateId: selectedStateId },
-  });
-  const {
-    loading: UserDataLoading,
-    error: UserDataError,
-    data: UserDataData,
-  } = useQuery(getUserData, {
-    variables: { ID: selectedStateId },
+    skip: !selectedStateId,
   });
 
-  // ============================================================= //
+  useEffect(() => {
+    if (userProfileData) {
+      const userStateId = userProfileData?.attributes?.state?.data?.id || "";
+      setSelectedStateId(userStateId);
+      reset({
+        name: userProfileData?.attributes?.username || "",
+        email: userProfileData?.attributes?.email || "",
+        number: userProfileData?.attributes?.phoneNumber || "",
+        courses: userProfileData?.attributes?.course?.data?.id || "",
+        state: userStateId,
+        city: userProfileData?.attributes?.city?.data?.id || "",
+        gender: userProfileData?.attributes?.gender || "",
+      });
+    }
+  }, [userProfileData, reset]);
+
+  // Set city value based on selected state
+  useEffect(() => {
+    if (selectedStateId && cityRelatedData?.cities?.data) {
+      setValue("city", userProfileData?.attributes?.city?.data?.id || "");
+    }
+  }, [
+    selectedStateId,
+    cityRelatedData?.cities?.data,
+    userProfileData?.attributes?.city?.data?.id,
+  ]);
 
   const handleFormSubmit = async (data: any) => {
     setNextButtonState(true);
     try {
       console.log(data);
-      setNextButtonState(false);
+      // Handle the form data
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      setError("An error occurred while saving your details.");
+    } finally {
       setNextButtonState(false);
     }
   };
 
-  // Regular expressions for validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const mobileRegex = /^[0-9]{10}$/;
 
@@ -79,12 +111,12 @@ export function YourDetails({ setNextButtonState }: any) {
         onSubmit={handleSubmit(handleFormSubmit)}
         className="grid grid-cols-1 gap-5 md:grid-cols-2"
       >
-        {/* Full Name  */}
+        {/* Full Name */}
         <div className="space-y-2">
           <Input
             label="Full Name"
             type="text"
-            readyOnly={true}
+            readOnly
             icon={<FaEdit />}
             {...register("name", {
               required: "Name is required",
@@ -94,10 +126,10 @@ export function YourDetails({ setNextButtonState }: any) {
             <p className="text-xs text-red-600">{errors?.name?.message}</p>
           )}
         </div>
-        {/* Email  */}
+        {/* Email */}
         <div className="space-y-2">
           <Input
-            label="Email ID "
+            label="Email ID"
             type="email"
             icon={<MdOutlineAttachEmail />}
             {...register("email", {
@@ -113,15 +145,15 @@ export function YourDetails({ setNextButtonState }: any) {
             <p className="text-xs text-red-600">{errors.email.message}</p>
           )}
         </div>
+        {/* Mobile No. */}
         <div className="space-y-2">
-          {/* Mobile No.  */}
           <Input
             label="Mobile Number"
-            type="Number"
+            type="text"
             icon={<CiMobile4 />}
             {...register("number", {
               disabled: true,
-              required: "Date of Birth No. is required",
+              required: "Mobile number is required",
               pattern: {
                 value: mobileRegex,
                 message: "Please enter a valid 10-digit mobile number",
@@ -132,26 +164,24 @@ export function YourDetails({ setNextButtonState }: any) {
             <p className="text-xs text-red-600">{errors?.number?.message}</p>
           )}
         </div>
-        {/* Course  */}
+        {/* Course */}
         <div className="space-y-2">
           <select
             className="mt-5 h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-orange-500"
-            {...register("course")}
+            {...register("courses")}
           >
-            <option value="" className="capitalize">
-              Course
-            </option>
-            {["FBD", "HRD", "SHF"]?.map((item) => (
-              <option key={item} value={item} className="capitalize">
-                {item}
+            <option value="">Select course you are interested in</option>
+            {allCoursesData?.courses?.data?.map((course: any) => (
+              <option value={course?.id} key={course?.id}>
+                {course?.attributes?.breadCrumb}
               </option>
             ))}
           </select>
-          {errors.number && (
-            <p className="text-xs text-red-600">{errors?.number?.message}</p>
+          {errors.courses && (
+            <p className="text-xs text-red-600">{errors?.courses?.message}</p>
           )}
         </div>
-        {/* State  */}
+        {/* State */}
         <div className="space-y-2">
           <select
             className="mt-5 h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-orange-500"
@@ -159,27 +189,24 @@ export function YourDetails({ setNextButtonState }: any) {
               required: "Selecting state is required",
             })}
             onChange={(e) => {
-              const selectedState = allStatesData?.states?.data?.find(
-                (state: any) => state?.id === e.target.value,
-              );
-              setSelectedStateId(selectedState?.id);
-              setValue("state", e.target.value);
+              const stateId = e.target.value;
+              setSelectedStateId(stateId);
+              setValue("state", stateId);
+              setValue("city", ""); // Reset city when state changes
             }}
           >
-            <option value="" className="capitalize">
-              State
-            </option>
-            {allStatesData?.states?.data?.map((state: any, index: any) => (
+            <option value="">State</option>
+            {allStatesData?.states?.data?.map((state: any) => (
               <option value={state?.id} key={state?.id}>
                 {state?.attributes?.state}
               </option>
             ))}
           </select>
-          {errors.number && (
+          {errors.state && (
             <p className="text-xs text-red-600">{errors?.state?.message}</p>
           )}
         </div>
-        {/* City  */}
+        {/* City */}
         <div className="space-y-2">
           <select
             className="mt-5 h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-orange-500"
@@ -187,35 +214,31 @@ export function YourDetails({ setNextButtonState }: any) {
               required: "City selection is required",
             })}
           >
-            <option value="" className="capitalize">
-              City
-            </option>
-            {cityRelatedData?.cities?.data?.map((city: any, index: any) => (
+            <option value="">City</option>
+            {cityRelatedData?.cities?.data?.map((city: any) => (
               <option value={city?.id} key={city?.id}>
                 {city?.attributes?.city}
               </option>
             ))}
           </select>
-          {errors.number && (
+          {errors.city && (
             <p className="text-xs text-red-600">{errors?.city?.message}</p>
           )}
         </div>
-        {/* Gender  */}
+        {/* Gender */}
         <div className="space-y-2">
           <select
             className="mt-5 h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-orange-500"
             {...register("gender")}
           >
-            <option value="" className="capitalize">
-              Gender
-            </option>
-            {["female", "male", "other"]?.map((item) => (
+            <option value="">Gender</option>
+            {["female", "male", "other"].map((item) => (
               <option key={item} value={item} className="capitalize">
                 {item}
               </option>
             ))}
           </select>
-          {errors.number && (
+          {errors.gender && (
             <p className="text-xs text-red-600">{errors?.gender?.message}</p>
           )}
         </div>
@@ -224,7 +247,6 @@ export function YourDetails({ setNextButtonState }: any) {
           Save
         </Button>
       </form>
-      {/* Error Message */}
       {error && <p className="mt-5 text-center text-red-600">{error}</p>}
     </div>
   );
