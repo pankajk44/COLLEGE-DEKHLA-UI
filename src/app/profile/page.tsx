@@ -3,7 +3,9 @@ import { user1 } from "@/assets";
 import Tab from "@/components/dashboardSections/Tab";
 import TabContent from "@/components/dashboardSections/TabContent";
 import Wrapper from "@/components/Wrappers";
+import useUserData from "@/customHook/useProfile";
 import { dashboard } from "@/data/dashboard";
+import { useAppSelector } from "@/Redux";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useState } from "react";
@@ -17,6 +19,13 @@ function Profile() {
 
   const [mobileMenu, setMobileMenu] = useState(false);
   const [activeTab, setActiveTab] = useState(tab || "Profile");
+
+  const { data: userProfileData, loading, error } = useUserData();
+  // ================================================================ //
+  useEffect(() => {
+    console.log(userProfileData, "userProfileData");
+    console.log(error, "userProfileData");
+  }, [userProfileData, error]);
 
   useEffect(() => {
     if (
@@ -39,7 +48,10 @@ function Profile() {
   return (
     <section className="backgroundGradient max-md:mp-28 w-full pt-32">
       {/* Banner  */}
-      <ProfileBanner userName={"Pankaj Prajapati"} avatar={user1} />
+      <ProfileBanner
+        userName={userProfileData?.attributes?.username}
+        avatar={user1}
+      />
       {/* Tab Section  */}
       <Wrapper
         as="div"

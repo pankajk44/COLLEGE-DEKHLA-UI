@@ -24,7 +24,7 @@ export function SignInContainer({
   closePopup,
 }: any) {
   const router = useRouter();
-  const { checkOTP, registerUser, generateOTP } = useUserSignUp();
+  const { checkOTP, generateOTP } = useUserSignUp();
   const {
     register,
     handleSubmit,
@@ -32,9 +32,7 @@ export function SignInContainer({
   } = useForm();
   const [error, setError] = useState("");
   const [userSubmittedData, setUserSubmittedData] = useState<UserSubmittedData>(
-    {
-      number: "",
-    },
+    { number: "" },
   );
   const [userOtp, setUserOtp] = useState("");
   const [userId, setUserId] = useState<ID>();
