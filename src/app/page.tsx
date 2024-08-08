@@ -121,7 +121,7 @@ export default function Home() {
 
   return (
     <>
-      {isLoading && <Loader />}
+      {isLoading && <Loader isLoading={isLoading} />}
       <section className="backgroundGradient relative !mt-0 w-full pb-16">
         <HomeBanner
           title={
