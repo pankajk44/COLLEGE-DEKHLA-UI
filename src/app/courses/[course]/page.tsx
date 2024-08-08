@@ -80,14 +80,6 @@ export default function CourseDetailPage({ params }: Props) {
   // =========================================================== //
   const asideSection = [
     {
-      // banner: {
-      //   title: "Are You Interested in this course?",
-      //   brochureUrl:
-      //     courseData?.course?.data?.attributes?.brochureFile?.data?.attributes
-      //       ?.url,
-      // },
-      // videoGallery: [],
-      // imageGallery: [],
       topCourses: topCourseData?.courses?.data?.map((item: any) => {
         return {
           id: item?.id,

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { headerLogo } from "@/assets";
@@ -17,7 +17,10 @@ export default function Loader() {
       initial="visible"
       animate="hidden"
       exit="hidden"
-      transition={{ duration: 0.5 }}
+      transition={{
+        duration: 0.5, // Duration of the visible state
+        delay: 0.7, // Delay before the exit animation starts
+      }}
     >
       <div className="backgroundGradient flex-center h-full w-full">
         <Image

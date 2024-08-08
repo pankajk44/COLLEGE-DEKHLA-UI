@@ -51,7 +51,7 @@ export default function ExamDetailBanner({
               alt="banner"
               width={500}
               height={500}
-              className="h-40 w-40 object-contain"
+              className="h-40 w-40 rounded-lg object-contain"
             />
           </div>
         </div>
