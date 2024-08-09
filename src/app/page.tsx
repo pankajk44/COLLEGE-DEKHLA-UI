@@ -226,7 +226,6 @@ export default function Home() {
                 <span className="mr-2 text-nowrap">See All</span>
               </Link>
             </p>
-
             <FeaturedCollegeSlider
               data={allFeaturedCollegesData?.colleges?.data}
             />
@@ -487,11 +486,11 @@ function CourseCardContent({ breadCrumb, bgImage, id }: any) {
 function Events({ eventsAndWebinars }: { eventsAndWebinars: any[] }) {
   return (
     <Wrapper>
-      <div className="flex flex-wrap justify-center gap-16">
+      <div className="flex flex-wrap justify-between gap-6">
         {eventsAndWebinars?.slice(0, 3)?.map((event) => (
           <div
             key={event?.id}
-            className="min-w-[350px] flex-[1] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:my-4 max-sm:w-full"
+            className="min-w-[350px] flex-[1] overflow-hidden rounded-xl border-8 border-white bg-white max-sm:w-full"
           >
             {/* Event content here */}
             <Image

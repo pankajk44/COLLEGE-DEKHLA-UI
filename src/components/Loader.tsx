@@ -35,11 +35,11 @@ export default function Loader({ isLoading }: any) {
       animate={isVisible ? "visible" : "hidden"}
       exit="hidden"
       transition={{
-        duration: 0.3, // Duration of the visible state
-        delay: 0.5, // Delay before the exit animation starts
+        duration: 0.5, // Duration of the visible state
+        // delay: 0.3, // Delay before the exit animation starts
       }}
     >
-      <div className="backgroundGradient flex-center h-full w-full">
+      <div className="backgroundGradient flex-center h-full w-full px-10">
         <Image
           src={headerLogo}
           alt="loader"
