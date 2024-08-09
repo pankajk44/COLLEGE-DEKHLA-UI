@@ -16,21 +16,21 @@ export function EducationDetails({ setNextButtonState }: any) {
     defaultValues: {
       graduationInstitutionName: "",
       graduationPassingYear: "",
-      graduationCourse: "Course",
+      graduationCourse: "",
       graduationGradingSystem: "",
       graduationPercentageGrades: "",
 
       twelfthSchoolName: "",
       twelfthCity: "",
       twelfthPassingYear: "",
-      twelfthStream: "Stream",
+      twelfthStream: "",
       twelfthGradingSystem: "",
       twelfthPercentageGrades: "",
 
       tenthSchoolName: "",
       tenthCity: "",
       tenthPassingYear: "",
-      tenthStream: "Stream",
+      tenthStream: "",
       tenthGradingSystem: "",
       tenthPercentageGrades: "",
 
@@ -97,19 +97,13 @@ export function EducationDetails({ setNextButtonState }: any) {
           )}
         </div>
         <div className="space-y-2">
-          <select
-            className="mt-5 h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-orange-500"
-            {...register("graduationCourse")}
-          >
-            {["B.tech", "M.tech", "other"].map((item) => (
-              <>
-                <option className="capitalize">Course</option>
-                <option key={item} value={item} className="capitalize">
-                  {item}
-                </option>
-              </>
-            ))}
-          </select>
+          <Input
+            label="Course Name"
+            type="text"
+            {...register("graduationCourse", {
+              required: "Course is required",
+            })}
+          />
           {errors.graduationCourse && (
             <p className="text-xs text-red-600">
               {errors.graduationCourse.message}
@@ -118,13 +112,19 @@ export function EducationDetails({ setNextButtonState }: any) {
         </div>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           <div className="space-y-2">
-            <Input
-              label="Grading System"
-              type="text"
+            <select
+              className="mt-5 h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-orange-500"
               {...register("graduationGradingSystem", {
                 required: "Grading System is required",
               })}
-            />
+            >
+              <option value="">Grading System</option>
+              {["GPA", "Percentage"].map((item) => (
+                <option key={item} value={item} className="capitalize">
+                  {item}
+                </option>
+              ))}
+            </select>
             {errors.graduationGradingSystem && (
               <p className="text-xs text-red-600">
                 {errors.graduationGradingSystem.message}
@@ -192,19 +192,13 @@ export function EducationDetails({ setNextButtonState }: any) {
           )}
         </div>
         <div className="space-y-2">
-          <select
-            className="mt-5 h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-orange-500"
-            {...register("twelfthStream")}
-          >
-            {["Science", "Commerce", "Arts"].map((item) => (
-              <>
-                <option className="capitalize">Stream</option>
-                <option key={item} value={item} className="capitalize">
-                  {item}
-                </option>
-              </>
-            ))}
-          </select>
+          <Input
+            label="Stream Name"
+            type="text"
+            {...register("twelfthStream", {
+              required: "Stream is required",
+            })}
+          />
           {errors.twelfthStream && (
             <p className="text-xs text-red-600">
               {errors.twelfthStream.message}
@@ -213,13 +207,19 @@ export function EducationDetails({ setNextButtonState }: any) {
         </div>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           <div className="space-y-2">
-            <Input
-              label="Grading System"
-              type="text"
+            <select
+              className="mt-5 h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-orange-500"
               {...register("twelfthGradingSystem", {
                 required: "Grading System is required",
               })}
-            />
+            >
+              <option value="">Grading System</option>
+              {["GPA", "Percentage"].map((item) => (
+                <option key={item} value={item} className="capitalize">
+                  {item}
+                </option>
+              ))}
+            </select>
             {errors.twelfthGradingSystem && (
               <p className="text-xs text-red-600">
                 {errors.twelfthGradingSystem.message}
@@ -287,32 +287,32 @@ export function EducationDetails({ setNextButtonState }: any) {
           )}
         </div>
         <div className="space-y-2">
-          <select
-            className="mt-5 h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-orange-500"
-            {...register("tenthStream")}
-          >
-            {["Science", "Commerce", "Arts"].map((item) => (
-              <>
-                <option className="capitalize">Stream</option>
-                <option key={item} value={item} className="capitalize">
-                  {item}
-                </option>
-              </>
-            ))}
-          </select>
+          <Input
+            label="Stream Name"
+            type="text"
+            {...register("tenthStream", {
+              required: "Stream is required",
+            })}
+          />
           {errors.tenthStream && (
             <p className="text-xs text-red-600">{errors.tenthStream.message}</p>
           )}
         </div>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           <div className="space-y-2">
-            <Input
-              label="Grading System"
-              type="text"
+            <select
+              className="mt-5 h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-orange-500"
               {...register("tenthGradingSystem", {
                 required: "Grading System is required",
               })}
-            />
+            >
+              <option value="">Grading System</option>
+              {["GPA", "Percentage"].map((item) => (
+                <option key={item} value={item} className="capitalize">
+                  {item}
+                </option>
+              ))}
+            </select>
             {errors.tenthGradingSystem && (
               <p className="text-xs text-red-600">
                 {errors.tenthGradingSystem.message}

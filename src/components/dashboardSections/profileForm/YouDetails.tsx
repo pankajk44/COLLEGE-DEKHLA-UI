@@ -13,9 +13,11 @@ import {
 import useUserData from "@/customHook/useProfile";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { CiMobile4 } from "react-icons/ci";
+import useUpdateUserData from "@/customHook/useUpdateUserData";
 
 export function YourDetails({ setNextButtonState }: any) {
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [selectedStateId, setSelectedStateId] = useState<string | undefined>();
   const {
     register,
@@ -34,25 +36,28 @@ export function YourDetails({ setNextButtonState }: any) {
       gender: "",
     },
   });
-
+  // ============================================================= //
   const {
     data: userProfileData,
     loading: userProfileLoading,
     error: userProfileError,
   } = useUserData();
-
+  const {
+    updateUserData,
+    loading: updateProfileLoading,
+    error: updateProfileError,
+  } = useUpdateUserData();
+  // =============================================================== //
   const {
     loading: allCoursesLoading,
     error: allCoursesError,
     data: allCoursesData,
   } = useQuery(allCourses);
-
   const {
     loading: allStatesLoading,
     error: allStatesError,
     data: allStatesData,
   } = useQuery(allStates);
-
   const {
     loading: cityRelatedLoading,
     error: cityRelatedError,
@@ -61,7 +66,7 @@ export function YourDetails({ setNextButtonState }: any) {
     variables: { stateId: selectedStateId },
     skip: !selectedStateId,
   });
-
+  // ============================================================= //
   useEffect(() => {
     if (userProfileData) {
       const userStateId = userProfileData?.attributes?.state?.data?.id || "";
@@ -89,13 +94,42 @@ export function YourDetails({ setNextButtonState }: any) {
     userProfileData?.attributes?.city?.data?.id,
   ]);
 
+  useEffect(() => {
+    reset({
+      name: userProfileData?.attributes?.username || "",
+      email: userProfileData?.attributes?.email || "",
+      number: userProfileData?.attributes?.phoneNumber || "",
+      courses: userProfileData?.attributes?.course?.data?.id || "",
+      state: userProfileData?.attributes?.state?.data?.id,
+      city: userProfileData?.attributes?.city?.data?.id || "",
+      gender: userProfileData?.attributes?.gender || "",
+    });
+  }, [
+    userProfileData?.attributes?.username,
+    userProfileData?.attributes?.email,
+    userProfileData?.attributes?.phoneNumber,
+    userProfileData?.attributes?.course?.data?.id,
+    userProfileData?.attributes?.state?.data?.id,
+    userProfileData?.attributes?.city?.data?.id,
+    userProfileData?.attributes?.gender,
+  ]);
+  // ============================================================= //
   const handleFormSubmit = async (data: any) => {
     setNextButtonState(true);
     try {
-      console.log(data);
-      // Handle the form data
+      await updateUserData({
+        username: data.name,
+        gender: data.gender,
+        dob: data.dob,
+        state: data.state,
+        city: data.city,
+        course: data.courses,
+      });
+      setSuccess("Your details have been saved successfully.");
+      // console.log("Form Data:", data);
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      // console.log(updateProfileError, "updateProfileError");
       setError("An error occurred while saving your details.");
     } finally {
       setNextButtonState(false);
@@ -116,7 +150,6 @@ export function YourDetails({ setNextButtonState }: any) {
           <Input
             label="Full Name"
             type="text"
-            readOnly
             icon={<FaEdit />}
             {...register("name", {
               required: "Name is required",
@@ -131,6 +164,7 @@ export function YourDetails({ setNextButtonState }: any) {
           <Input
             label="Email ID"
             type="email"
+            readOnly
             icon={<MdOutlineAttachEmail />}
             {...register("email", {
               disabled: true,
@@ -150,6 +184,7 @@ export function YourDetails({ setNextButtonState }: any) {
           <Input
             label="Mobile Number"
             type="text"
+            readOnly
             icon={<CiMobile4 />}
             {...register("number", {
               disabled: true,
@@ -243,11 +278,16 @@ export function YourDetails({ setNextButtonState }: any) {
           )}
         </div>
         <div className="space-y-2"></div>
-        <Button variant="orangeMain" type="submit">
-          Save
+        <Button
+          variant="orangeMain"
+          disabled={updateProfileLoading ? true : false}
+          type="submit"
+        >
+          {updateProfileLoading ? "Saving..." : "Save"}
         </Button>
       </form>
-      {error && <p className="mt-5 text-center text-red-600">{error}</p>}
+      {error && <p className="mt-5 text-red-600">{error}</p>}
+      {success && <p className="mt-5 text-green-600">{success}</p>}
     </div>
   );
 }
