@@ -3,15 +3,13 @@ import React, { useEffect, useState } from "react";
 import Banner1 from "@/components/bannerSections/Banner1";
 import CollegeDetailBanner from "@/components/bannerSections/CollegeDetailBanner";
 import PageTabsWithDetail from "@/components/pageTabsWithDetail/PageTabsWithDetail";
-import { collegePage, colleges } from "@/data/collegeData";
-import { banner1, tabsSections } from "@/data/globalData";
-
+import { banner1 } from "@/data/globalData";
 import { useQuery } from "@apollo/client";
 import {
   getCollegeDetails,
   getCollegeDetailsBanner,
 } from "@/graphql/collegeQuery/collegeDetails";
-import formatFees, { convertQueryDataToTabSections } from "@/utils/customText";
+import { convertQueryDataToTabSections } from "@/utils/customText";
 import { getAllTopCourses } from "@/graphql/courseQuery/topCourses";
 import PageDetailBannerSkeleton from "@/components/bannerSections/PageDetailBannerSkeleton";
 import PageTabsWithDetailSkeleton from "@/components/pageTabsWithDetail/PageTabsWithDetailSkeleton";
@@ -27,33 +25,25 @@ export default function CollegeDetailPage({ params }: Props) {
   const collegeId = params?.college;
 
   // Query
-  const {
-    loading: collegeDetailsBannerLoading,
-    error: collegeDetailsBannerError,
-    data: collegeDetailsBanner,
-  } = useQuery(getCollegeDetailsBanner, {
-    variables: { ID: collegeId },
-  });
+  const { loading: collegeDetailsBannerLoading, data: collegeDetailsBanner } =
+    useQuery(getCollegeDetailsBanner, {
+      variables: { ID: collegeId },
+    });
 
   const {
     loading: collegeLoading,
-    error: collegeError,
     data: collegeData,
+    refetch,
   } = useQuery(getCollegeDetails, {
     variables: { ID: collegeId },
+    skip: !collegeId,
   });
 
-  const {
-    loading: topCourseLoading,
-    error: topCourseError,
-    data: topCourseData,
-  } = useQuery(getAllTopCourses, {
-    variables: {
-      page: 1,
-      pageSize: 3,
-    },
-  });
-  // console.log(collegeDetailsBanner?.college?.data?.attributes, "ddddddd");
+  const { loading: topCourseLoading, data: topCourseData } = useQuery(
+    getAllTopCourses,
+    { variables: { page: 1, pageSize: 3 } },
+  );
+
   useEffect(() => {
     if (collegeData?.college?.data?.attributes?.PageData) {
       const convertedData = convertQueryDataToTabSections(
@@ -62,6 +52,12 @@ export default function CollegeDetailPage({ params }: Props) {
       setTabSelectionArray(convertedData);
     }
   }, [collegeData]);
+
+  useEffect(() => {
+    if (!collegeLoading && !collegeData?.college?.data?.attributes?.PageData) {
+      refetch();
+    }
+  }, [collegeData, refetch, collegeLoading]);
 
   const asideSection = [
     {
@@ -137,7 +133,9 @@ export default function CollegeDetailPage({ params }: Props) {
       ) : (
         <PageDetailBannerSkeleton />
       )}
-      {!collegeLoading ? (
+      {collegeLoading && !collegeData ? (
+        <PageTabsWithDetailSkeleton />
+      ) : (
         <PageTabsWithDetail
           data={tabSelectionArray}
           asideData={asideSection}
@@ -150,9 +148,8 @@ export default function CollegeDetailPage({ params }: Props) {
           tabUrlValue="colleges"
           breadCrumb={collegeData?.college?.data?.attributes?.breadCrumb}
         />
-      ) : (
-        <PageTabsWithDetailSkeleton />
       )}
+
       <Banner1 data={banner1} />
     </>
   );
