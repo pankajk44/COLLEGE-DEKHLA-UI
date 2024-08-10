@@ -37,6 +37,7 @@ export default function ExamDetailsPage({ params }: Props) {
     loading,
     error,
     data: examData,
+    refetch,
   } = useQuery(getExamDetails, {
     variables: { ID: examId },
   });
@@ -62,7 +63,7 @@ export default function ExamDetailsPage({ params }: Props) {
       pageSize: 3,
     },
   });
-
+  // ================================================================================== //
   useEffect(() => {
     // console.log(
     //   "Exam Details: ",
@@ -76,8 +77,14 @@ export default function ExamDetailsPage({ params }: Props) {
       setTabSelectionArray(convertedData);
     }
   }, [examData]);
-  // console.log(examData?.exam?.data?.attributes, "examData");
-  // console.log("tabSelectionArray", tabSelectionArray);
+
+  useEffect(() => {
+    if (!loading && !examData?.exam?.data?.attributes?.PageData) {
+      refetch();
+    }
+  }, [examData, refetch, loading]);
+
+  // ====================================================================== //
 
   const asideSection = [
     {
@@ -134,7 +141,7 @@ export default function ExamDetailsPage({ params }: Props) {
       ) : (
         <PageDetailBannerSkeleton />
       )}
-      {!loading ? (
+      {!loading && examData ? (
         <PageTabsWithDetail
           data={tabSelectionArray}
           asideData={asideSection}

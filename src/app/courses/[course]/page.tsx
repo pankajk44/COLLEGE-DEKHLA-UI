@@ -39,6 +39,7 @@ export default function CourseDetailPage({ params }: Props) {
     loading: courseDataLoading,
     error: courseDataError,
     data: courseData,
+    refetch,
   } = useQuery(getCourseDetails, {
     variables: { ID: courseId },
   });
@@ -47,6 +48,7 @@ export default function CourseDetailPage({ params }: Props) {
     loading: topCourseLoading,
     error: topCourseError,
     data: topCourseData,
+    refetch: topCourseRefetch,
   } = useQuery(getAllTopCourses, {
     variables: {
       page: 1,
@@ -58,6 +60,7 @@ export default function CourseDetailPage({ params }: Props) {
     data: latestNewsData,
     loading: latestNewsDataLoading,
     error: latestNewsDataError,
+    refetch: latestNewsDataRefetch,
   } = useQuery(getAllNews, {
     variables: {
       page: 1,
@@ -77,6 +80,12 @@ export default function CourseDetailPage({ params }: Props) {
       setTabSelectionArray(convertedData);
     }
   }, [courseData]);
+
+  useEffect(() => {
+    if (!courseDataLoading && !courseData?.course?.data?.attributes?.PageData) {
+      refetch();
+    }
+  }, [courseData, refetch, courseDataLoading]);
   // =========================================================== //
   const asideSection = [
     {
@@ -126,7 +135,7 @@ export default function CourseDetailPage({ params }: Props) {
         <PageDetailBannerSkeleton />
       )}
 
-      {!courseDataLoading ? (
+      {!courseDataLoading && courseData ? (
         <PageTabsWithDetail
           data={tabSelectionArray}
           asideData={asideSection}
