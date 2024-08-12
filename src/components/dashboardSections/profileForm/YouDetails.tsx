@@ -127,7 +127,9 @@ export function YourDetails({ setNextButtonState }: any) {
         city: data.city,
         course: data.courses,
       });
-      setSuccess("Your details have been saved successfully.");
+      if (!updateProfileError && !updateProfileLoading) {
+        setSuccess("Your details have been saved successfully.");
+      }
       // console.log("Form Data:", data);
     } catch (err) {
       // console.error(err);
