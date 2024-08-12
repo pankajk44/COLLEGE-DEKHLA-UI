@@ -112,6 +112,8 @@ export function YourDetails({ setNextButtonState }: any) {
     userProfileData?.attributes?.state?.data?.id,
     userProfileData?.attributes?.city?.data?.id,
     userProfileData?.attributes?.gender,
+    reset,
+    userProfileLoading,
   ]);
   // ============================================================= //
   const handleFormSubmit = async (data: any) => {

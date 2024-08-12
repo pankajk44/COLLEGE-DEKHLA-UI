@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const updateUserProfileData = gql`
- mutation updateUserData(
+mutation updateUserData(
   $id: ID!
   $username: String
   $gender: String
@@ -11,7 +11,10 @@ export const updateUserProfileData = gql`
   $city: ID
   $GraduationEducationalDetails: ComponentCommonGraduationEducationalDetailsInput
   $twelfthEducationalDetails: ComponentCommon12ThEducationalDetailsInput
-  $appearingEntranceExam: String
+  $tenthEducationalDetails: ComponentCommonTenthEducationalDetailsInput
+  $appearingEntranceExam: ENUM_USERSPERMISSIONSUSER_APPEARINGENTRANCEEXAM
+  $entranceExamName:String
+  $entranceExamScore:Float
   $collegesApplying: [ComponentCommonCollegesApplyingInput]
   $workExperience: [ComponentCommonWorkExperienceInput]
   $studyAbroad: [ComponentCommonCollegesApplyingInput]
@@ -27,7 +30,10 @@ export const updateUserProfileData = gql`
       city: $city
       GraduationEducationalDetails: $GraduationEducationalDetails
       twelfthEducationalDetails: $twelfthEducationalDetails
+      tenthEducationalDetails: $tenthEducationalDetails
       appearingEntranceExam: $appearingEntranceExam
+      entranceExamName: $entranceExamName
+      entranceExamScore: $entranceExamScore
       collegesApplying: $collegesApplying
       workExperience: $workExperience
       studyAbroad: $studyAbroad
@@ -43,7 +49,7 @@ export const updateUserProfileData = gql`
 `;
 
 export const getUserData = gql`
-  query getUserData($ID: ID!) {
+query getUserData($ID: ID!) {
     usersPermissionsUser(id: $ID) {
       data {
         id
@@ -55,7 +61,7 @@ export const getUserData = gql`
             data {
               id
               attributes {
-                breadCrumb
+                courseName
               }
             }
           }
@@ -77,6 +83,14 @@ export const getUserData = gql`
           }
           phoneNumber
           gender
+          avatar{
+            data{
+              id
+              attributes{
+                url
+              }
+            }
+          }
           GraduationEducationalDetails {
             id
             institutionName
@@ -86,6 +100,7 @@ export const getUserData = gql`
             percentageOrGrades
             location
           }
+          
           twelfthEducationalDetails {
             id
             schoolName
@@ -95,7 +110,17 @@ export const getUserData = gql`
             gradingSystem
             percentageOrGrades
           }
+          tenthEducationalDetails{
+            institutionName
+            passingYear
+            location
+            stream
+            gradingSystem
+            percentageOrGrades
+          }
           appearingEntranceExam
+          entranceExamName
+          entranceExamScore
           collegesApplying {
             id
             collegeApplied {
@@ -131,4 +156,4 @@ export const getUserData = gql`
       }
     }
   }
-`;
+    `;

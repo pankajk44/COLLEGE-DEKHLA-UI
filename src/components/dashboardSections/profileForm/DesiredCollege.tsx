@@ -12,7 +12,7 @@ export function DesiredCollege({ setNextButtonState }: any) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      colleges: [{ college: "", status: "" }],
+      colleges: [{ college: "", status: "", priority: 0 }],
     },
   });
 
@@ -43,7 +43,7 @@ export function DesiredCollege({ setNextButtonState }: any) {
         <h2 className="text-xl font-bold">Colleges You Applied/Applying To:</h2>
 
         {fields.map((field, index) => (
-          <div key={field.id} className="flex items-center gap-2 flex-wrap">
+          <div key={field.id} className="flex flex-wrap items-center gap-2">
             <div className="flex-grow space-y-2">
               <select
                 className="mt-5 h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-zinc-500 outline-none duration-200 focus:outline-orange-500"
@@ -82,7 +82,7 @@ export function DesiredCollege({ setNextButtonState }: any) {
               <Button
                 type="button"
                 variant="orange"
-                className="sm:ml-3 max-sm:mt-4 text-xl sm:!rounded-full !p-3 max-sm:w-full"
+                className="!p-3 text-xl max-sm:mt-4 max-sm:w-full sm:ml-3 sm:!rounded-full"
                 onClick={() => remove(index)}
               >
                 <FaTrash />
@@ -94,8 +94,8 @@ export function DesiredCollege({ setNextButtonState }: any) {
         <div className="flex justify-between">
           <Button
             variant="orange"
-            className="px-6 min-w-max"
-            onClick={() => append({ college: "", status: "" })}
+            className="min-w-max px-6"
+            onClick={() => append({ college: "", status: "", priority: 0 })}
             type="button"
           >
             Add more

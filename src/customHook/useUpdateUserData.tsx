@@ -12,7 +12,10 @@ type UserDataInput = {
   city?: any;
   GraduationEducationalDetails?: any;
   twelfthEducationalDetails?: any;
+  tenthEducationalDetails?: any;
   appearingEntranceExam?: string;
+  entranceExamName?: string;
+  entranceExamScore?: number;
   collegesApplying?: any[];
   workExperience?: any[];
   studyAbroad?: any[];
