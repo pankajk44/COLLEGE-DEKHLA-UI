@@ -112,6 +112,8 @@ export function YourDetails({ setNextButtonState }: any) {
     userProfileData?.attributes?.state?.data?.id,
     userProfileData?.attributes?.city?.data?.id,
     userProfileData?.attributes?.gender,
+    reset,
+    userProfileLoading,
   ]);
   // ============================================================= //
   const handleFormSubmit = async (data: any) => {
@@ -125,7 +127,9 @@ export function YourDetails({ setNextButtonState }: any) {
         city: data.city,
         course: data.courses,
       });
-      setSuccess("Your details have been saved successfully.");
+      if (!updateProfileError && !updateProfileLoading) {
+        setSuccess("Your details have been saved successfully.");
+      }
       // console.log("Form Data:", data);
     } catch (err) {
       // console.error(err);

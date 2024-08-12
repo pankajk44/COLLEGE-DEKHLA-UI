@@ -9,7 +9,7 @@ const useUserData = () => {
   const jwt = useAppSelector((state) => state.auth.token);
 
   // Use Apollo's useQuery hook
-  const { data, loading, error } = useQuery(getUserData, {
+  const { data, loading, error, refetch } = useQuery(getUserData, {
     variables: { ID: userId },
     context: {
       headers: {
@@ -23,6 +23,7 @@ const useUserData = () => {
     data: data?.usersPermissionsUser?.data,
     loading,
     error,
+    refetch,
   };
 };
 

@@ -55,21 +55,25 @@ export default function Home() {
     data: homePageData1,
     loading: homePageLoading,
     error: homePageError,
+    refetch,
   } = useQuery(getHomePage1);
   const {
     data: homePageData2,
     loading: homePageLoading2,
     error: homePageError2,
+    refetch: homePageRefetch2,
   } = useQuery(getHomePage2);
   const {
     data: recentNewsData,
     loading: recentNewsLoading,
     error: recentNewsError,
+    refetch: recentNewsRefetch,
   } = useQuery(getAllNewsNotifications);
   const {
     data: allTopCoursesData,
     loading: allTopCoursesLoading,
     error: allTopCoursesError,
+    refetch: allTopCoursesRefetch,
   } = useQuery(getAllTopCourses, {
     variables: {
       pageSize: 5,
@@ -80,12 +84,44 @@ export default function Home() {
     data: allFeaturedCollegesData,
     loading: allFeaturedCollegesLoading,
     error: allFeaturedCollegesError,
+    refetch: allFeaturedCollegesRefetch,
   } = useQuery(getAllFeaturedColleges, {
     variables: {
       pageSize: 5,
       page: 1,
     },
   });
+  // ================================================================== //
+  useEffect(() => {
+    if (!homePageLoading && !homePageData1) {
+      refetch();
+    }
+  }, [homePageData1, refetch, homePageLoading]);
+  useEffect(() => {
+    if (!homePageLoading2 && !homePageData2) {
+      homePageRefetch2();
+    }
+  }, [homePageData2, homePageRefetch2, homePageLoading2]);
+  useEffect(() => {
+    if (!recentNewsLoading && !recentNewsData) {
+      recentNewsRefetch();
+    }
+  }, [recentNewsData, recentNewsRefetch, recentNewsLoading]);
+  useEffect(() => {
+    if (!allTopCoursesLoading && !allTopCoursesData) {
+      allTopCoursesRefetch();
+    }
+  }, [allTopCoursesData, allTopCoursesRefetch, allTopCoursesLoading]);
+  useEffect(() => {
+    if (!allFeaturedCollegesLoading && !allFeaturedCollegesData) {
+      allFeaturedCollegesRefetch();
+    }
+  }, [
+    allFeaturedCollegesData,
+    allFeaturedCollegesRefetch,
+    allFeaturedCollegesLoading,
+  ]);
+  // ================================================================== //
   const popularCourses: any[] = allTopCoursesData?.courses?.data?.map(
     (item: any) => {
       return {

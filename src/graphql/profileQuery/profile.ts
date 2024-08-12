@@ -1,49 +1,45 @@
 import { gql } from "@apollo/client";
 
 export const updateUserProfileData = gql`
- mutation updateUserData(
-  $id: ID!
-  $username: String
-  $gender: String
-  $dob: Date
-  $course: ID
-  $state: ID
-  $city: ID
-  $GraduationEducationalDetails: ComponentCommonGraduationEducationalDetailsInput
-  $twelfthEducationalDetails: ComponentCommon12ThEducationalDetailsInput
-  $appearingEntranceExam: String
-  $collegesApplying: [ComponentCommonCollegesApplyingInput]
-  $workExperience: [ComponentCommonWorkExperienceInput]
-  $studyAbroad: [ComponentCommonCollegesApplyingInput]
-) {
-  updateUsersPermissionsUser(
-    id: $id
-    data: {
-      username: $username
-      gender: $gender
-      dob: $dob
-      course: $course
-      state: $state
-      city: $city
-      GraduationEducationalDetails: $GraduationEducationalDetails
-      twelfthEducationalDetails: $twelfthEducationalDetails
-      appearingEntranceExam: $appearingEntranceExam
-      collegesApplying: $collegesApplying
-      workExperience: $workExperience
-      studyAbroad: $studyAbroad
-    }
+  mutation updateUserData(
+    $id: ID!
+    $username: String
+    $gender: String
+    $dob: Date
+    $course: ID
+    $GraduationEducationalDetails: ComponentCommonGraduationEducationalDetailsInput
+    $twelfthEducationalDetails: ComponentCommon12ThEducationalDetailsInput
+    $appearingEntranceExam: String
+    $collegesApplying: [ComponentCommonCollegesApplyingInput]
+    $workExperience: [ComponentCommonWorkExperienceInput]
+    $studyAbroad: [ComponentCommonCollegesApplyingInput]
   ) {
-    data {
-      attributes {
-        username
+    updateUsersPermissionsUser(
+      id: $id
+      data: {
+        username: $username
+        gender: $gender
+        dob: $dob
+        course: $course
+        GraduationEducationalDetails: $GraduationEducationalDetails
+        twelfthEducationalDetails: $twelfthEducationalDetails
+        appearingEntranceExam: $appearingEntranceExam
+        collegesApplying: $collegesApplying
+        workExperience: $workExperience
+        studyAbroad: $studyAbroad
+      }
+    ) {
+      data {
+        attributes {
+          username
+        }
       }
     }
   }
-}
 `;
 
 export const getUserData = gql`
-  query getUserData($ID: ID!) {
+query getUserData($ID: ID!) {
     usersPermissionsUser(id: $ID) {
       data {
         id
@@ -106,7 +102,8 @@ export const getUserData = gql`
                 }
               }
             }
-            Status
+            status
+            priority
           }
           workExperience {
             id
@@ -125,8 +122,22 @@ export const getUserData = gql`
                 }
               }
             }
-            Status
+            status
+            priority
           }
+        }
+      }
+    }
+  }
+`;
+
+export const getAllCollegesByName = gql`
+  query getAllCollegesByName {
+    colleges {
+      data {
+        id
+        attributes {
+          collegeName
         }
       }
     }
