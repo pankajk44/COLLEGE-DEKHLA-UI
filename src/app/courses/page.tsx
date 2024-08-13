@@ -15,7 +15,15 @@ export default function Courses() {
     data: bannerData,
     loading,
     error,
+    refetch,
   } = useQuery(getCourseListingPageBanner);
+  // ============================================== //
+  useEffect(() => {
+    if (!loading && !bannerData) {
+      refetch();
+    }
+  }, [bannerData, refetch, loading]);
+  // ============================================== //
 
   return (
     <>

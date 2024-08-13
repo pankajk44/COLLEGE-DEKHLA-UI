@@ -31,6 +31,7 @@ export default function CourseDetailPage({ params }: Props) {
     loading: CourseDetailsBannerLoading,
     error: CourseDetailsBannerError,
     data: CourseDetailsBanner,
+    refetch: CourseDetailsBannerRefetch,
   } = useQuery(getCourseDetailsBanner, {
     variables: { ID: courseId },
   });
@@ -80,12 +81,31 @@ export default function CourseDetailPage({ params }: Props) {
       setTabSelectionArray(convertedData);
     }
   }, [courseData]);
-
+  // ==================================================== //
+  useEffect(() => {
+    if (!CourseDetailsBannerLoading && !CourseDetailsBanner) {
+      CourseDetailsBannerRefetch();
+    }
+  }, [
+    CourseDetailsBanner,
+    CourseDetailsBannerRefetch,
+    CourseDetailsBannerLoading,
+  ]);
+  useEffect(() => {
+    if (!topCourseLoading && !topCourseData) {
+      topCourseRefetch();
+    }
+  }, [topCourseData, topCourseRefetch, topCourseLoading]);
   useEffect(() => {
     if (!courseDataLoading && !courseData?.course?.data?.attributes?.PageData) {
       refetch();
     }
   }, [courseData, refetch, courseDataLoading]);
+  useEffect(() => {
+    if (!latestNewsDataLoading && !latestNewsData) {
+      latestNewsDataRefetch();
+    }
+  }, [latestNewsData, latestNewsDataRefetch, latestNewsDataLoading]);
   // =========================================================== //
   const asideSection = [
     {

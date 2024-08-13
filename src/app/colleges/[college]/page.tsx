@@ -25,10 +25,13 @@ export default function CollegeDetailPage({ params }: Props) {
   const collegeId = params?.college;
 
   // Query
-  const { loading: collegeDetailsBannerLoading, data: collegeDetailsBanner } =
-    useQuery(getCollegeDetailsBanner, {
-      variables: { ID: collegeId },
-    });
+  const {
+    loading: collegeDetailsBannerLoading,
+    data: collegeDetailsBanner,
+    refetch: collegeDetailsBannerRefetch,
+  } = useQuery(getCollegeDetailsBanner, {
+    variables: { ID: collegeId },
+  });
 
   const {
     loading: collegeLoading,
@@ -39,11 +42,13 @@ export default function CollegeDetailPage({ params }: Props) {
     skip: !collegeId,
   });
 
-  const { loading: topCourseLoading, data: topCourseData } = useQuery(
-    getAllTopCourses,
-    { variables: { page: 1, pageSize: 3 } },
-  );
-
+  const {
+    data: topCourseData,
+    loading: topCourseLoading,
+    refetch: topCourseRefetch,
+    error,
+  } = useQuery(getAllTopCourses, { variables: { page: 1, pageSize: 3 } });
+  // ========================================================== //
   useEffect(() => {
     if (collegeData?.college?.data?.attributes?.PageData) {
       const convertedData = convertQueryDataToTabSections(
@@ -52,12 +57,27 @@ export default function CollegeDetailPage({ params }: Props) {
       setTabSelectionArray(convertedData);
     }
   }, [collegeData]);
-
+  // ========================================================= //
+  useEffect(() => {
+    if (!collegeDetailsBannerLoading && !collegeDetailsBanner) {
+      collegeDetailsBannerRefetch();
+    }
+  }, [
+    collegeDetailsBanner,
+    collegeDetailsBannerRefetch,
+    collegeDetailsBannerLoading,
+  ]);
   useEffect(() => {
     if (!collegeLoading && !collegeData?.college?.data?.attributes?.PageData) {
       refetch();
     }
   }, [collegeData, refetch, collegeLoading]);
+  useEffect(() => {
+    if (!topCourseLoading && !topCourseData) {
+      topCourseRefetch();
+    }
+  }, [topCourseData, topCourseRefetch, topCourseLoading]);
+  // =========================================== //
 
   const asideSection = [
     {

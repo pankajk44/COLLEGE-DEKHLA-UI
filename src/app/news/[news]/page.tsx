@@ -24,13 +24,20 @@ export default function NewsPage({ params }: Props) {
     loading,
     error,
     data: newsDetailData,
+    refetch,
   } = useQuery(getNewsDetails, {
     variables: { ID: newsId },
   });
   // useEffect(() => {
   //   console.log(newsDetailData, "first");
   // }, [newsDetailData]);
-
+  // ==================================================== //
+  useEffect(() => {
+    if (!loading && !newsDetailData) {
+      refetch();
+    }
+  }, [newsDetailData, refetch, loading]);
+  // ==================================================== //
   return (
     <section className="w-full pt-32 max-md:pt-28">
       <Notification data={newsPage?.notification?.list} />

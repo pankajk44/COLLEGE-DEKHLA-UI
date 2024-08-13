@@ -520,3 +520,9 @@ table th:first-child {
 .transparent-bg > * {
   background-color: transparent !important;
 }
+
+.borderedText {
+  color: #f9741662;
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke: 3px #f9741665;
+}
