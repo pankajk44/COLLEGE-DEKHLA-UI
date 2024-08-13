@@ -41,6 +41,7 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
     data: examData,
     loading,
     error,
+    refetch,
   } = useQuery(getAllExams, {
     variables: {
       searchByExamName: searchValue,
@@ -82,6 +83,13 @@ export default function ExamListSection({ data, filterBy, tabsSections }: any) {
     sortingParameterName,
     pageNo,
   ]);
+  // ======================================================== //
+  useEffect(() => {
+    if (!loading && !examData) {
+      refetch();
+    }
+  }, [examData, refetch, loading]);
+  // ======================================================== //
 
   // console.log(filteredData, "filteredData");
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {

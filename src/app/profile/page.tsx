@@ -20,13 +20,13 @@ function Profile() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [activeTab, setActiveTab] = useState(tab || "Profile");
 
-  const { data: userProfileData, loading, error } = useUserData();
+  const { data: userProfileData, loading, error, refetch } = useUserData();
   // ================================================================ //
   useEffect(() => {
-    console.log(userProfileData, "userProfileData");
-    console.log(error, "userProfileData");
-  }, [userProfileData, error]);
-
+    if (!loading && !userProfileData) {
+      refetch();
+    }
+  }, [userProfileData, refetch, loading]);
   useEffect(() => {
     if (
       tab &&
@@ -36,7 +36,11 @@ function Profile() {
       setActiveTab(tab);
     }
   }, [tab, activeTab]);
-
+  // useEffect(() => {
+  //   console.log(userProfileData, "userProfileData");
+  //   console.log(error, "userProfileData");
+  // }, [userProfileData, error]);
+  // ================================================================ //
   const handleTabClick = (tabLabel: string) => {
     const selectedTab = dashboard.tabs.find((t) => t.label === tabLabel);
     if (selectedTab) {
@@ -44,13 +48,13 @@ function Profile() {
       router.push(`?tab=${encodeURIComponent(tabLabel)}`);
     }
   };
-
+  // ================================================================ //
   return (
     <section className="backgroundGradient max-md:mp-28 w-full pt-32">
       {/* Banner  */}
       <ProfileBanner
         userName={userProfileData?.attributes?.username}
-        avatar={user1}
+        avatar={userProfileData?.attributes?.avatar?.data?.attributes?.url}
       />
       {/* Tab Section  */}
       <Wrapper

@@ -55,12 +55,9 @@ const useUpdateUserData = () => {
     } catch (err) {
       console.error("Update Failed:", err);
       if (err instanceof ApolloError) {
-        console.error(
-          "ApolloError details:",
-          err.message,
-          err.graphQLErrors,
-          err.networkError,
-        );
+        console.error("Update Error:", err.message);
+        console.error("GraphQL Errors:", err.graphQLErrors);
+        console.error("Network Error:", err.networkError);
       }
     }
   };

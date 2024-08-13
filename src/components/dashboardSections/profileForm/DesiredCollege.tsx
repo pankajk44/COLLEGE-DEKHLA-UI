@@ -39,7 +39,7 @@ export function DesiredCollege({ setNextButtonState }: any) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      colleges: [{ college: "", status: "", priority: 0 }],
+      colleges: [{ college: "", status: "applying", priority: 0 }],
     },
   });
   const [active, setActive] = useState(0);
@@ -83,18 +83,14 @@ export function DesiredCollege({ setNextButtonState }: any) {
         }),
       );
 
-      // Prepare the variables for the mutation
-      const variables = {
-        collegesApplying: updatedColleges.map((college: any) => ({
-          id: college.college,
-          status: college.status,
-          priority: college.priority,
-        })),
-      };
-
       // Call the mutation to update user data
-      await updateUserData(variables);
-      // console.log(variables, "variables");
+      await updateUserData({
+        collegesApplying: updatedColleges.map((college: any) => ({
+          collegeApplied: Number(college.college),
+          status: college.status,
+          priority: Number(college.priority),
+        })),
+      });
       // console.log(data, "form data");
       setSuccess("Your details have been saved successfully.");
     } catch (err) {
@@ -138,7 +134,10 @@ export function DesiredCollege({ setNextButtonState }: any) {
               onDragStart={() => setActive(index)}
               className="flex items-center gap-2 max-md:flex-wrap"
             >
-              <div className="flex w-full items-center gap-2">
+              <div className="relative flex w-full items-center gap-2">
+                <h6 className="borderedText absolute left-5 top-0 select-none text-5xl font-bold">
+                  {index + 1}
+                </h6>
                 <RxDragHandleDots1 className="text-4xl text-orange-500" />
                 <div className="flex-grow space-y-2">
                   <select
@@ -194,8 +193,12 @@ export function DesiredCollege({ setNextButtonState }: any) {
           >
             Add more
           </Button>
-          <Button variant="orangeMain" type="submit">
-            Save
+          <Button
+            variant="orangeMain"
+            type="submit"
+            disabled={updateProfileLoading}
+          >
+            {updateProfileLoading ? "Saving..." : "Save"}
           </Button>
         </div>
       </form>

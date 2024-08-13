@@ -39,7 +39,7 @@ export const updateUserProfileData = gql`
 `;
 
 export const getUserData = gql`
-query getUserData($ID: ID!) {
+  query getUserData($ID: ID!) {
     usersPermissionsUser(id: $ID) {
       data {
         id
@@ -47,6 +47,14 @@ query getUserData($ID: ID!) {
           username
           email
           dob
+          avatar{
+            data{
+              id
+              attributes{
+                url
+              }
+            }
+          }
           course {
             data {
               id
@@ -92,7 +100,7 @@ query getUserData($ID: ID!) {
             percentageOrGrades
           }
           appearingEntranceExam
-          collegesApplying {
+          collegesApplying(sort: "priority:asc") {
             id
             collegeApplied {
               data {
@@ -112,7 +120,7 @@ query getUserData($ID: ID!) {
             from
             to
           }
-          studyAbroad {
+          studyAbroad(sort: "priority:asc") {
             id
             collegeApplied {
               data {

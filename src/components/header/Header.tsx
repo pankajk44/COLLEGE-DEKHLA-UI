@@ -16,6 +16,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { LoginSignUpModule } from "../loginSignUpModule/LoginSignUpModule";
 import { Button } from "../Button";
 import { store } from "@/Redux";
+import useUserData from "@/customHook/useProfile";
 
 const Header = ({ header }: any) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
@@ -154,7 +155,13 @@ const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const isUserLoggedIn = useAppSelector((state) => !!state.auth.token); // Use selector to get auth state
-
+  const { data: userProfileData, loading, error, refetch } = useUserData();
+  // ================================================================ //
+  useEffect(() => {
+    if (!loading && !userProfileData) {
+      refetch();
+    }
+  }, [userProfileData, refetch, loading]);
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -190,9 +197,20 @@ const LoginSignUpQASection = ({ buttonType = "LOG-IN" }: any) => {
           {isUserLoggedIn ? (
             <div className="group relative">
               <div className="flex-center rounded-full border-2 border-orange-500 p-0.5">
-                <RxAvatar className="hover:text-primary group cursor-pointer text-3xl text-orange-500" />
+                <Image
+                  src={
+                    userProfileData?.attributes?.avatar?.data?.attributes?.url
+                  }
+                  alt="avatar"
+                  width={100}
+                  height={100}
+                  className="hover:text-primary group h-8 w-8 cursor-pointer rounded-full object-cover text-orange-500"
+                />
               </div>
-              <div className="absolute right-0 top-9 z-10 hidden w-max rounded-md border border-gray-200 bg-white py-1 text-zinc-600 group-hover:block">
+              <div className="absolute right-0 top-10 z-10 hidden w-max rounded-md border border-gray-200 bg-white py-1 text-zinc-600 group-hover:block">
+                <p className="text-center text-xs text-orange-500">
+                  Hello, {userProfileData?.attributes?.username?.split(" ")[0]}
+                </p>
                 <Link
                   href={"/profile"}
                   className="item-center flex cursor-pointer gap-x-2 px-3 py-1 hover:bg-orange-500 hover:text-white"

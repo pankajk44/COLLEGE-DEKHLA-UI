@@ -30,6 +30,7 @@ export default function ExamDetailsPage({ params }: Props) {
     loading: examDetailsBannerLoading,
     error: examDetailsBannerError,
     data: examDetailsBanner,
+    refetch: examDetailsBannerRefetch,
   } = useQuery(getExamDetailsBanner, {
     variables: { ID: examId },
   });
@@ -46,6 +47,7 @@ export default function ExamDetailsPage({ params }: Props) {
     loading: topCourseLoading,
     error: topCourseError,
     data: topCourseData,
+    refetch: topCourseRefetch,
   } = useQuery(getAllTopCourses, {
     variables: {
       page: 1,
@@ -57,6 +59,7 @@ export default function ExamDetailsPage({ params }: Props) {
     data: latestNewsData,
     loading: latestNewsDataLoading,
     error: latestNewsDataError,
+    refetch: latestNewsDataRefetch,
   } = useQuery(getAllNews, {
     variables: {
       page: 1,
@@ -78,11 +81,27 @@ export default function ExamDetailsPage({ params }: Props) {
     }
   }, [examData]);
 
+  // ======================================================================= //
+  useEffect(() => {
+    if (!examDetailsBannerLoading && !examDetailsBanner) {
+      examDetailsBannerRefetch();
+    }
+  }, [examDetailsBanner, examDetailsBannerRefetch, examDetailsBannerLoading]);
+  useEffect(() => {
+    if (!topCourseLoading && !topCourseData) {
+      topCourseRefetch();
+    }
+  }, [topCourseData, topCourseRefetch, topCourseLoading]);
   useEffect(() => {
     if (!loading && !examData?.exam?.data?.attributes?.PageData) {
       refetch();
     }
   }, [examData, refetch, loading]);
+  useEffect(() => {
+    if (!latestNewsDataLoading && !latestNewsData) {
+      latestNewsDataRefetch();
+    }
+  }, [latestNewsData, latestNewsDataRefetch, latestNewsDataLoading]);
 
   // ====================================================================== //
 

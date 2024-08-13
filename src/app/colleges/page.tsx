@@ -18,11 +18,16 @@ export default function Colleges() {
     data: bannerData,
     loading,
     error,
+    refetch,
   } = useQuery(getCollegeListingPageBanner);
   // useEffect(() => {
   //   console.log(bannerData?.colleges?.meta?.pagination?.total, "bannerData");
   // }, [bannerData]);
-
+  useEffect(() => {
+    if (!loading && !bannerData) {
+      refetch();
+    }
+  }, [bannerData, refetch, loading]);
   return (
     <>
       {!loading ? (

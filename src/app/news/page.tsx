@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, LoadingButton } from "@/components/Button";
 import Notification from "@/components/notification/Notification";
 import { newsPage } from "@/data/newsData";
@@ -38,12 +38,20 @@ function LatestNewsAndArticles() {
     data: latestNewsData,
     loading: latestNewsDataLoading,
     error: latestNewsDataError,
+    refetch: latestNewsDataRefetch,
   } = useQuery(getAllNews, {
     variables: {
       page: pageNo,
       pageSize: 10,
     },
   });
+  // ================================== //
+  useEffect(() => {
+    if (!latestNewsDataLoading && !latestNewsData) {
+      latestNewsDataRefetch();
+    }
+  }, [latestNewsData, latestNewsDataRefetch, latestNewsDataLoading]);
+  // ================================== //
   // console.log(latestNewsData?.news?.data, "latestNewsData");
   const latestNews = latestNewsData?.news?.data?.map((item: any) => {
     return {

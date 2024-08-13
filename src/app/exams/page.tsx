@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { examsListingPage, exams } from "@/data/examData";
 import Banner1 from "@/components/bannerSections/Banner1";
 import { banner1, tabsSections } from "@/data/globalData";
@@ -15,7 +15,14 @@ export default function Exams() {
     data: bannerData,
     loading,
     error,
+    refetch,
   } = useQuery(getExamListingPageBanner);
+  // ========================================= //
+  useEffect(() => {
+    if (!loading && !bannerData) {
+      refetch();
+    }
+  }, [bannerData, refetch, loading]);
   return (
     <>
       {!loading ? (

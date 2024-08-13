@@ -22,16 +22,20 @@ export default function CollegesSlider() {
     data: topCollegeData,
     loading,
     error,
+    refetch,
   } = useQuery(getAllTopColleges, {
     variables: {
       page: 1,
       pageSize: 10,
     },
   });
-
-  // useEffect(() => {
-  //   console.log(topCollegeData);
-  // }, [topCollegeData]);
+  // =========================================== //
+  useEffect(() => {
+    if (!loading && !topCollegeData) {
+      refetch();
+    }
+  }, [topCollegeData, refetch, loading]);
+  // =========================================== //
 
   const swiperOptions = {
     slidesPerView: 1,

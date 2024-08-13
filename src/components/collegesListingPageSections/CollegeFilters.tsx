@@ -363,7 +363,7 @@ export default function CollegeFilters({
             })}
           </div>
           {/*END  shows filter by options  */}
-          <div className="w-full max-md:mb-20 md:h-[76vh] md:overflow-hidden md:hover:overflow-y-auto">
+          <div className="w-full max-md:mb-20 md:h-[86vh] md:overflow-hidden md:hover:overflow-y-auto">
             {/* Filters  */}
             <Filter
               title="SPECIALIZATION"

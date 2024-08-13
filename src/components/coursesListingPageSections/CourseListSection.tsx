@@ -36,6 +36,7 @@ export default function CourseListSection({
     data: courseData,
     loading,
     error,
+    refetch,
   } = useQuery(getAllCourses, {
     variables: {
       searchByCourseName: searchValue,
@@ -64,7 +65,13 @@ export default function CourseListSection({
     sortingParameterName,
     pageNo,
   ]);
-
+  // ========================================================== //
+  useEffect(() => {
+    if (!loading && !courseData) {
+      refetch();
+    }
+  }, [courseData, refetch, loading]);
+  // ========================================================== //
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
     const searchTerm = event?.target?.value?.toLowerCase()?.trim();
     if (searchTerm.length >= 3) {

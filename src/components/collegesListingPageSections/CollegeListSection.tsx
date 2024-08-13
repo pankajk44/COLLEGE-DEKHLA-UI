@@ -64,6 +64,7 @@ export default function CollegeListSection({
     data: collegeData,
     loading,
     error,
+    refetch,
   } = useQuery(getAllColleges(""), {
     variables: {
       streams: StreamCheckedFilters.length ? StreamCheckedFilters : undefined,
@@ -112,7 +113,13 @@ export default function CollegeListSection({
     RankingCheckedFilters,
     ExamCheckedFilters,
   ]);
-
+  // ==================================================== //
+  useEffect(() => {
+    if (!loading && !collegeData) {
+      refetch();
+    }
+  }, [collegeData, refetch, loading]);
+  // ==================================================== //
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
     const searchTerm = event.target.value.toLowerCase().trim();
     if (searchTerm.length >= 3) {

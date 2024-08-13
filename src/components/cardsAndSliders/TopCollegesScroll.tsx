@@ -16,13 +16,20 @@ export default function TopCollegesScroll({ data }: any) {
     data: topCollegeData,
     loading,
     error,
+    refetch,
   } = useQuery(getAllTopColleges, {
     variables: {
       page: 1,
       pageSize: 10,
     },
   });
-
+  // =========================================== //
+  useEffect(() => {
+    if (!loading && !topCollegeData) {
+      refetch();
+    }
+  }, [topCollegeData, refetch, loading]);
+  // =========================================== //
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } =

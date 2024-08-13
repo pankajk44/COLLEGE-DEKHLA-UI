@@ -6,7 +6,7 @@ import { Card1 } from "./Card1";
 export function SearchResult({ data, searchTerm }: any) {
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  const categories = ["all", "exam", "college"];
+  const categories = ["all", "exam", "college", "course"];
 
   const filteredData =
     selectedCategory === "all"
