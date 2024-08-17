@@ -51,7 +51,7 @@ export const getUserData = gql`
             data {
               id
               attributes {
-                courseName
+                breadCrumb
               }
             }
           }
@@ -92,7 +92,7 @@ export const getUserData = gql`
             percentageOrGrades
           }
           appearingEntranceExam
-          collegesApplying {
+          collegesApplying(sort: "priority:asc") {
             id
             collegeApplied {
               data {
@@ -102,7 +102,8 @@ export const getUserData = gql`
                 }
               }
             }
-            Status
+            status
+            priority
           }
           workExperience {
             id
@@ -111,7 +112,7 @@ export const getUserData = gql`
             from
             to
           }
-          studyAbroad {
+          studyAbroad(sort: "priority:asc") {
             id
             collegeApplied {
               data {
@@ -121,8 +122,22 @@ export const getUserData = gql`
                 }
               }
             }
-            Status
+            status
+            priority
           }
+        }
+      }
+    }
+  }
+`;
+
+export const getAllCollegesByName = gql`
+  query getAllCollegesByName {
+    colleges {
+      data {
+        id
+        attributes {
+          collegeName
         }
       }
     }

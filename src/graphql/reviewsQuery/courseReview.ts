@@ -1,30 +1,30 @@
 import { gql } from "@apollo/client";
 
-export const createCollegeReviewsAndRating = gql`
-  mutation createCollegeReviewsAndRating($data: CollegeReviewsAndRatingInput!) {
-    createCollegeReviewsAndRating(data: $data) {
+export const createCourseReviewsAndRating = gql`
+  mutation createCourseReviewsAndRating($data: CourseReviewsAndRatingInput!) {
+    createCourseReviewsAndRating(data: $data) {
       data {
         attributes {
           overall {
             description
           }
-          Academics {
+          CourseContent {
             rating
             description
           }
-          Faculty {
+          TeachingQuality {
             rating
             description
           }
-          Infrastructure {
+          LearningResources {
             rating
             description
           }
-          SocialLife {
+          IndustryRelevance {
             rating
             description
           }
-          Placement {
+          CareerProspects {
             rating
             description
           }
@@ -35,7 +35,7 @@ export const createCollegeReviewsAndRating = gql`
               }
             }
           }
-          college {
+          course {
             data {
               attributes {
                 breadCrumb
@@ -50,34 +50,34 @@ export const createCollegeReviewsAndRating = gql`
   }
 `;
 
-export const updateCollegeReviewsAndRating = gql`
-  mutation updateCollegeReviewsAndRating(
+export const updateCourseReviewsAndRating = gql`
+  mutation updateCourseReviewsAndRating(
     $id: ID!
-    $data: CollegeReviewsAndRatingInput!
+    $data: CourseReviewsAndRatingInput!
   ) {
-    updateCollegeReviewsAndRating(id: $id, data: $data) {
+    updateCourseReviewsAndRating(id: $id, data: $data) {
       data {
         attributes {
           overall {
             description
           }
-          Academics {
+          CourseContent {
             rating
             description
           }
-          Faculty {
+          TeachingQuality {
             rating
             description
           }
-          Infrastructure {
+          LearningResources {
             rating
             description
           }
-          SocialLife {
+          IndustryRelevance {
             rating
             description
           }
-          Placement {
+          CareerProspects {
             rating
             description
           }
@@ -88,7 +88,7 @@ export const updateCollegeReviewsAndRating = gql`
               }
             }
           }
-          college {
+          course {
             data {
               attributes {
                 breadCrumb
@@ -100,31 +100,31 @@ export const updateCollegeReviewsAndRating = gql`
     }
   }
 `;
-export const deleteCollegeReviewsAndRating = gql`
-  mutation deleteCollegeReviewsAndRating($id: ID!) {
-    deleteCollegeReviewsAndRating(id: $id) {
+export const deleteCourseReviewsAndRating = gql`
+  mutation deleteCourseReviewsAndRating($id: ID!) {
+    deleteCourseReviewsAndRating(id: $id) {
       data {
         attributes {
           overall {
             description
           }
-          Academics {
+          CourseContent {
             rating
             description
           }
-          Faculty {
+          TeachingQuality {
             rating
             description
           }
-          Infrastructure {
+          LearningResources {
             rating
             description
           }
-          SocialLife {
+          IndustryRelevance {
             rating
             description
           }
-          Placement {
+          CareerProspects {
             rating
             description
           }
@@ -135,55 +135,7 @@ export const deleteCollegeReviewsAndRating = gql`
               }
             }
           }
-          college {
-            data {
-              attributes {
-                breadCrumb
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const getCollegeReviewsAndRatingByID = gql`
-  query getCollegeReviewsAndRating($id: ID!) {
-    collegeReviewsAndRating(id: $id) {
-      data {
-        attributes {
-          overall {
-            description
-          }
-          Academics {
-            rating
-            description
-          }
-          Faculty {
-            rating
-            description
-          }
-          Infrastructure {
-            rating
-            description
-          }
-          SocialLife {
-            rating
-            description
-          }
-          Placement {
-            rating
-            description
-          }
-          user {
-            data {
-              attributes {
-                username
-              }
-            }
-          }
-          college {
+          course {
             data {
               attributes {
                 breadCrumb
@@ -196,31 +148,31 @@ export const getCollegeReviewsAndRatingByID = gql`
   }
 `;
 
-export const getAllCollegeReviewsAndRating = gql`
-  query getAllCollegeReviewsAndRating {
-    collegeReviewsAndRatings {
+export const getCourseReviewsAndRatingByID = gql`
+  query getCourseReviewsAndRating($id: ID!) {
+    courseReviewsAndRating(id: $id) {
       data {
         attributes {
           overall {
             description
           }
-          Academics {
+          CourseContent {
             rating
             description
           }
-          Faculty {
+          TeachingQuality {
             rating
             description
           }
-          Infrastructure {
+          LearningResources {
             rating
             description
           }
-          SocialLife {
+          IndustryRelevance {
             rating
             description
           }
-          Placement {
+          CareerProspects {
             rating
             description
           }
@@ -231,48 +183,66 @@ export const getAllCollegeReviewsAndRating = gql`
               }
             }
           }
-          college {
+          course {
             data {
               attributes {
                 breadCrumb
               }
             }
           }
+          publishedAt
         }
       }
     }
   }
 `;
 
-// {
-//     "data": {
-//       "CollegeReviewsAndRatings": {
-//         "overall": {
-//           "description": "Good"
-//         },
-//         "Academics": {
-//           "rating": "4",
-//           "description": "Strong academic curriculum"
-//         },
-//         "Faculty": {
-//           "rating": "5",
-//           "description": "Highly qualified faculty"
-//         },
-//         "Infrastructure": {
-//           "rating": "4",
-//           "description": "Modern infrastructure"
-//         },
-//         "SocialLife": {
-//           "rating": "3",
-//           "description": "Active social scene"
-//         },
-//         "Placement": {
-//           "rating": "5",
-//           "description": "Excellent placement opportunities"
-//         },
-//         "user": 2,
-//         "college": 1
-//       },
-//       "publishedAt": "2024-08-07T08:32:28.000Z"
-//     }
-//   }
+export const getAllCourseReviewsAndRating = gql`
+  query getAllCourseReviewsAndRating {
+    courseReviewsAndRatings {
+      data {
+        attributes {
+          overall {
+            description
+          }
+          CourseContent {
+            rating
+            description
+          }
+          TeachingQuality {
+            rating
+            description
+          }
+          LearningResources {
+            rating
+            description
+          }
+          IndustryRelevance {
+            rating
+            description
+          }
+          CareerProspects {
+            rating
+            description
+          }
+          user {
+            data {
+              attributes {
+                username
+              }
+            }
+          }
+          course {
+            data {
+              attributes {
+                breadCrumb
+              }
+            }
+          }
+
+          publishedAt
+        }
+      }
+    }
+  }
+`;

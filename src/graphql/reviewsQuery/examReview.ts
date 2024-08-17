@@ -1,30 +1,30 @@
 import { gql } from "@apollo/client";
 
-export const createCollegeReviewsAndRating = gql`
-  mutation createCollegeReviewsAndRating($data: CollegeReviewsAndRatingInput!) {
-    createCollegeReviewsAndRating(data: $data) {
+export const createExamReviewsAndRating = gql`
+  mutation createExamReviewsAndRating($data: ExamReviewsAndRatingInput!) {
+    createExamReviewsAndRating(data: $data) {
       data {
         attributes {
           overall {
             description
           }
-          Academics {
+          DifficultyLevel {
             rating
             description
           }
-          Faculty {
+          SyllabusCoverage {
             rating
             description
           }
-          Infrastructure {
+          ExamPattern {
             rating
             description
           }
-          SocialLife {
+          PreparationResources {
             rating
             description
           }
-          Placement {
+          FairnessandTransparency {
             rating
             description
           }
@@ -35,14 +35,13 @@ export const createCollegeReviewsAndRating = gql`
               }
             }
           }
-          college {
+          exam {
             data {
               attributes {
                 breadCrumb
               }
             }
           }
-
           publishedAt
         }
       }
@@ -50,34 +49,34 @@ export const createCollegeReviewsAndRating = gql`
   }
 `;
 
-export const updateCollegeReviewsAndRating = gql`
-  mutation updateCollegeReviewsAndRating(
+export const updateExamReviewsAndRating = gql`
+  mutation updateExamReviewsAndRating(
     $id: ID!
-    $data: CollegeReviewsAndRatingInput!
+    $data: ExamReviewsAndRatingInput!
   ) {
-    updateCollegeReviewsAndRating(id: $id, data: $data) {
+    updateExamReviewsAndRating(id: $id, data: $data) {
       data {
         attributes {
           overall {
             description
           }
-          Academics {
+          DifficultyLevel {
             rating
             description
           }
-          Faculty {
+          SyllabusCoverage {
             rating
             description
           }
-          Infrastructure {
+          ExamPattern {
             rating
             description
           }
-          SocialLife {
+          PreparationResources {
             rating
             description
           }
-          Placement {
+          FairnessandTransparency {
             rating
             description
           }
@@ -88,7 +87,7 @@ export const updateCollegeReviewsAndRating = gql`
               }
             }
           }
-          college {
+          exam {
             data {
               attributes {
                 breadCrumb
@@ -100,31 +99,31 @@ export const updateCollegeReviewsAndRating = gql`
     }
   }
 `;
-export const deleteCollegeReviewsAndRating = gql`
-  mutation deleteCollegeReviewsAndRating($id: ID!) {
-    deleteCollegeReviewsAndRating(id: $id) {
+export const deleteExamReviewsAndRating = gql`
+  mutation deleteExamReviewsAndRating($id: ID!) {
+    deleteExamReviewsAndRating(id: $id) {
       data {
         attributes {
           overall {
             description
           }
-          Academics {
+          DifficultyLevel {
             rating
             description
           }
-          Faculty {
+          SyllabusCoverage {
             rating
             description
           }
-          Infrastructure {
+          ExamPattern {
             rating
             description
           }
-          SocialLife {
+          PreparationResources {
             rating
             description
           }
-          Placement {
+          FairnessandTransparency {
             rating
             description
           }
@@ -135,55 +134,7 @@ export const deleteCollegeReviewsAndRating = gql`
               }
             }
           }
-          college {
-            data {
-              attributes {
-                breadCrumb
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const getCollegeReviewsAndRatingByID = gql`
-  query getCollegeReviewsAndRating($id: ID!) {
-    collegeReviewsAndRating(id: $id) {
-      data {
-        attributes {
-          overall {
-            description
-          }
-          Academics {
-            rating
-            description
-          }
-          Faculty {
-            rating
-            description
-          }
-          Infrastructure {
-            rating
-            description
-          }
-          SocialLife {
-            rating
-            description
-          }
-          Placement {
-            rating
-            description
-          }
-          user {
-            data {
-              attributes {
-                username
-              }
-            }
-          }
-          college {
+          exam {
             data {
               attributes {
                 breadCrumb
@@ -196,31 +147,31 @@ export const getCollegeReviewsAndRatingByID = gql`
   }
 `;
 
-export const getAllCollegeReviewsAndRating = gql`
-  query getAllCollegeReviewsAndRating {
-    collegeReviewsAndRatings {
+export const getExamReviewsAndRatingByID = gql`
+  query getExamReviewsAndRating($id: ID!) {
+    examReviewsAndRating(id: $id) {
       data {
         attributes {
           overall {
             description
           }
-          Academics {
+          DifficultyLevel {
             rating
             description
           }
-          Faculty {
+          SyllabusCoverage {
             rating
             description
           }
-          Infrastructure {
+          ExamPattern {
             rating
             description
           }
-          SocialLife {
+          PreparationResources {
             rating
             description
           }
-          Placement {
+          FairnessandTransparency {
             rating
             description
           }
@@ -231,48 +182,65 @@ export const getAllCollegeReviewsAndRating = gql`
               }
             }
           }
-          college {
+          exam {
             data {
               attributes {
                 breadCrumb
               }
             }
           }
+          publishedAt
         }
       }
     }
   }
 `;
 
-// {
-//     "data": {
-//       "CollegeReviewsAndRatings": {
-//         "overall": {
-//           "description": "Good"
-//         },
-//         "Academics": {
-//           "rating": "4",
-//           "description": "Strong academic curriculum"
-//         },
-//         "Faculty": {
-//           "rating": "5",
-//           "description": "Highly qualified faculty"
-//         },
-//         "Infrastructure": {
-//           "rating": "4",
-//           "description": "Modern infrastructure"
-//         },
-//         "SocialLife": {
-//           "rating": "3",
-//           "description": "Active social scene"
-//         },
-//         "Placement": {
-//           "rating": "5",
-//           "description": "Excellent placement opportunities"
-//         },
-//         "user": 2,
-//         "college": 1
-//       },
-//       "publishedAt": "2024-08-07T08:32:28.000Z"
-//     }
-//   }
+export const getAllExamReviewsAndRating = gql`
+  query getAllExamReviewsAndRating {
+    examReviewsAndRatings {
+      data {
+        attributes {
+          overall {
+            description
+          }
+          DifficultyLevel {
+            rating
+            description
+          }
+          SyllabusCoverage {
+            rating
+            description
+          }
+          ExamPattern {
+            rating
+            description
+          }
+          PreparationResources {
+            rating
+            description
+          }
+          FairnessandTransparency {
+            rating
+            description
+          }
+          user {
+            data {
+              attributes {
+                username
+              }
+            }
+          }
+          exam {
+            data {
+              attributes {
+                breadCrumb
+              }
+            }
+          }
+          publishedAt
+        }
+      }
+    }
+  }
+`;
