@@ -1,41 +1,51 @@
 import { gql } from "@apollo/client";
 
 export const updateUserProfileData = gql`
-  mutation updateUserData(
-    $id: ID!
-    $username: String
-    $gender: String
-    $dob: Date
-    $course: ID
-    $GraduationEducationalDetails: ComponentCommonGraduationEducationalDetailsInput
-    $twelfthEducationalDetails: ComponentCommon12ThEducationalDetailsInput
-    $appearingEntranceExam: String
-    $collegesApplying: [ComponentCommonCollegesApplyingInput]
-    $workExperience: [ComponentCommonWorkExperienceInput]
-    $studyAbroad: [ComponentCommonCollegesApplyingInput]
+ mutation updateUserData(
+  $id: ID!
+  $username: String
+  $gender: String
+  $dob: Date
+  $course: ID
+  $state: ID
+  $city: ID
+  $GraduationEducationalDetails: ComponentCommonGraduationEducationalDetailsInput
+  $twelfthEducationalDetails: ComponentCommon12ThEducationalDetailsInput
+  $tenthEducationalDetails: ComponentCommonTenthEducationalDetailsInput
+  $appearingEntranceExam: ENUM_USERSPERMISSIONSUSER_APPEARINGENTRANCEEXAM
+  $entranceExamName:String
+  $entranceExamScore: Float
+  $collegesApplying: [ComponentCommonCollegesApplyingInput]
+  $workExperience: [ComponentCommonWorkExperienceInput]
+  $studyAbroad: [ComponentCommonCollegesApplyingInput]
+) {
+  updateUsersPermissionsUser(
+    id: $id
+    data: {
+      username: $username
+      gender: $gender
+      dob: $dob
+      course: $course
+      state: $state
+      city: $city
+      GraduationEducationalDetails: $GraduationEducationalDetails
+      twelfthEducationalDetails: $twelfthEducationalDetails
+      tenthEducationalDetails: $tenthEducationalDetails
+      appearingEntranceExam: $appearingEntranceExam
+      entranceExamName: $entranceExamName
+      entranceExamScore: $entranceExamScore
+      collegesApplying: $collegesApplying
+      workExperience: $workExperience
+      studyAbroad: $studyAbroad
+    }
   ) {
-    updateUsersPermissionsUser(
-      id: $id
-      data: {
-        username: $username
-        gender: $gender
-        dob: $dob
-        course: $course
-        GraduationEducationalDetails: $GraduationEducationalDetails
-        twelfthEducationalDetails: $twelfthEducationalDetails
-        appearingEntranceExam: $appearingEntranceExam
-        collegesApplying: $collegesApplying
-        workExperience: $workExperience
-        studyAbroad: $studyAbroad
-      }
-    ) {
-      data {
-        attributes {
-          username
-        }
+    data {
+      attributes {
+        username
       }
     }
   }
+}
 `;
 
 export const getUserData = gql`
